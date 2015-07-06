@@ -1,0 +1,534 @@
+$border: 1px solid #99C1CF;
+$lightblue: #C2E3ED;
+$darkblue: #99C1CF;
+
+
+body
+{
+	margin: 			0px;
+	color: 			black;
+	font-family: 	Calibri, sans-serif;
+
+	#main
+	{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+
+		background: #ffffff;
+		background: -moz-linear-gradient(top,  #ffffff 0%, #c3dde5 70%, #add8e6 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(70%,#c3dde5), color-stop(100%,#add8e6));
+		background: -webkit-linear-gradient(top,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
+		background: -o-linear-gradient(top,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
+		background: -ms-linear-gradient(top,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
+		background: linear-gradient(to bottom,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#add8e6',GradientType=0 );
+	}
+
+	h1
+	{
+		margin-top: 0px;
+		background-color: $darkblue;
+		border: $border;
+		color: white;
+		padding-left: 5px;
+	}
+
+	h2
+	{
+		border-top: $border;
+		border-bottom: $border;
+		color: #82A6B3;
+		margin-bottom: 0;
+	}
+
+	.not_on_mobile_column
+	{
+		position: relative;
+		margin: 10px;
+		float: left;
+
+		@media screen and (max-device-width:800px)
+		{
+			display: none;
+		}
+
+		@media screen and (max-width:1200px)
+		{
+			display: none;
+		}
+
+		#banner
+		{
+			margin: 0 auto;
+			margin-bottom: 30px;
+			max-width: 420px;
+
+			img
+			{
+				width: 100%;
+				border: $border;
+			}
+		}
+
+		.fb-like
+		{
+			float: right;
+		}
+
+		#fb-challenge-container
+		{
+			display: inline-block;
+			margin-bottom: 10px;
+		}
+	}
+
+	.column_left
+	{
+		width: 33%;
+	}
+
+	.column
+	{
+		position: relative;
+		float: left;
+		margin: 10px;
+		width: 33%;
+
+		@media screen and (max-device-width:800px)
+		{
+			margin: 0;
+			width: 100%;
+		}
+
+		@media screen and (max-width:1200px)
+		{
+			width: 100%;
+		}
+	}
+
+	.column_right
+	{
+		width: 25%;
+	}
+
+	// benötigt, damit die Spieler im Liederbord
+	// korrekt untereinander angeordnet werden
+	.img_container
+	{
+		height:	100%;
+	}
+
+	.withoutFriendsPermission
+	{
+		display: none;
+	}
+
+	.withFriendsPermission
+	{
+		display: none;
+		overflow: auto;
+	}
+
+	.logged_in
+	{
+		display: none;
+	}
+
+	.fb-login
+	{
+		position: absolute;
+		top: 35%;
+		width: 70%;
+		left: 10%;
+		z-index: 5;
+		background-color: white;
+		text-align: center;
+		padding: 5%;
+
+		.login_info
+		{
+			margin-bottom: 20px;
+			font-size: 24px;
+
+			@media screen and (max-device-width:800px)
+			{
+				margin-bottom: 50px;
+				font-size: 40px;
+			}
+		}
+
+		.no-login-button
+		{
+			margin-top: 20px;
+
+			@media screen and (max-device-width:800px)
+			{
+				margin-top: 50px;
+				font-size: 36px;
+			}
+		}
+	}
+
+	.control-infos-row
+	{
+		position: 	absolute;
+		font-size: 	22px;
+		color: 		#333;
+		text-align: center;
+		width: 		100%;
+
+		@media only screen and (max-device-width:800px)
+		{
+			display: none;
+		}
+
+		.control-info-text
+		{
+			position: absolute;
+			float: left;
+
+			&.fire
+			{
+				text-align: center;
+				width: 100%;
+			}
+
+			&.left
+			{
+				text-align: right;
+				padding-right: 10px;
+				left: 0;
+				right: 50%;
+				top: 60px;
+			}
+
+			&.right
+			{
+				text-align: left;
+				padding-left: 10px;
+				left: 50%;
+				right: 0;
+				top: 60px;
+			}
+		}
+	}
+
+	.cockpit-row
+	{
+		margin-bottom: 30px;
+		margin-left: 0px;
+
+		.player-infos
+		{
+			height: 90px;
+			margin-bottom: 20px;
+
+			.img_container
+			{
+				float: left;
+				margin-right: 10px;
+				height: 100% !important;
+
+				img
+				{
+					height: 100% !important;
+				}
+			}
+
+			.name
+			{
+				font-size: 22px;
+			}
+		}
+
+		.cockpit-item
+		{
+			border: $border;
+			color: #99C1CF;
+			font-size: 2.4em;
+			width: 65px;
+			height: 65px;
+			line-height: 65px;
+			text-align: center;
+			cursor: pointer;
+			margin-top: 15px;
+
+			&.active
+			{
+				background-color: #99C1CF;
+				color: white;
+
+				&:hover, &.open
+				{
+					background-color: $lightblue;
+				}
+			}
+
+			.fa-check
+			{
+				color: #2bc253;
+				margin-top: 15px;
+				margin-left: 15px;
+			}
+
+			.locked
+			{
+				color: #666;
+				margin-top: 15px;
+				margin-left: 15px;
+			}
+
+			.under_construction
+			{
+				color: orange;
+			}
+
+			.timer
+			{
+				canvas
+				{
+					margin-top: 8px;
+				}
+			}
+		}
+
+		#workbench
+		{
+			display: none;
+		}
+
+		#lab
+		{
+			display: none;
+		}
+	}
+
+	.item-container
+	{
+		padding-left: 0;
+
+		li
+		{
+			display: inline-block;
+			list-style: none;
+		}
+
+		#canon, #canon-upgrades
+		{
+			cursor: help;
+
+			&.active
+			{
+				background-color: $darkblue;
+				color: white;
+
+				&:hover, &.open, &.under_construction
+				{
+					background-color: $darkblue;
+				}
+			}
+		}
+	}
+
+	#canon-infos, #canon-upgrades-infos
+	{
+		visibility: hidden;
+		line-height: 65px;
+		margin: 15px 0 0 15px;
+		font-size: 1.5em;
+		color: orange;
+		text-shadow: #c0c0c0 3px 3px 5px;
+		cursor: default;
+
+		i
+		{
+			&.inactive
+			{
+				color: #666;
+			}
+
+			&.buyable
+			{
+				cursor: pointer;
+				color: #7BAABA;
+			}
+		}
+	}
+
+	#leaderboard_container
+	{
+		.fb-publish-actions-not-granted
+		{
+			margin-bottom: 20px;
+		}
+
+		.leaderboard_list
+		{
+			position: relative;
+			height: 350px;
+			min-width: 300px;
+			overflow: auto;
+
+			font-size: 18px;
+
+
+			.list-item
+			{
+				height: 	60px;
+				margin-left: 0px !important;
+			}
+
+			.name
+			{
+				font-size: 22px;
+			}
+
+			.rank_container
+			{
+				float: left;
+				margin-right: 10px;
+				line-height: 50px;
+				font-size: 22px;
+			}
+
+			.img_container
+			{
+				float: left;
+				margin-right: 10px;
+				line-height: 50px;
+			}
+
+			img
+			{
+				width: 50px;
+			}
+		}
+	}
+
+	#game_container
+	{
+		canvas
+		{
+			background-color:	#ADD8E6;
+			border: $border;
+		}
+	}
+
+	#loading
+	{
+		position:   	absolute;
+		left: 			25%;
+		top:				45%;
+		width:      	50%;
+		height:     	50px;
+		text-align: 	center;
+		z-index: 		2;
+
+		#loading_container
+		{
+			position:    relative;
+			margin:      0 auto;
+			width:       100%;
+			height:      50px;
+			background:  #A5C6D1;
+			-moz-border-radius: 25px;
+			-webkit-border-radius: 25px;
+			border-radius: 25px;
+			padding:     10px;
+			-webkit-box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+			-moz-box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+			box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+
+			#loading_progress
+		  	{
+				display: block;
+				height: 100%;
+				width: 0;
+				color: white;
+				-webkit-border-top-right-radius: 20px;
+				-webkit-border-bottom-right-radius: 20px;
+				-moz-border-radius-topright: 20px;
+				-moz-border-radius-bottomright: 20px;
+				border-top-right-radius: 20px;
+				border-bottom-right-radius: 20px;
+				-webkit-border-top-left-radius: 20px;
+				-webkit-border-bottom-left-radius: 20px;
+				-moz-border-radius-topleft: 20px;
+				-moz-border-radius-bottomleft: 20px;
+				border-top-left-radius: 20px;
+				border-bottom-left-radius: 20px;
+				background-color: #2bc253;
+				background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #2bc253), color-stop(1, #54f054));
+				background-image: -webkit-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
+				background-image: -moz-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
+				background-image: -ms-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
+				background-image: -o-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
+				-webkit-box-shadow: inset 0 2px 9px rgba(255, 255, 255, 0.3), inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+				-moz-box-shadow: inset 0 2px 9px rgba(255, 255, 255, 0.3), inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+				position: relative;
+				overflow: hidden;
+
+				span
+				{
+			 		position: absolute;
+					left: 0;
+					height: 100%;
+					width: 100%;
+					top: 25%;
+					display: block;
+					font-family: sans-serif;
+				}
+			}
+		}
+	}
+
+	#clouds_left
+	{
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		// background-image: url(assets/images/clouds_600x113.png);
+		width: 600px;
+		height: 113px;
+
+		@media only screen and (max-device-width:800px)
+		{
+			display: none;
+		}
+	}
+
+	#clouds_right
+	{
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		// background-image: url(assets/images/clouds_600x113.png);
+		width: 600px;
+		height: 113px;
+
+		@media only screen and (max-device-width:800px)
+		{
+			display: none;
+		}
+	}
+}
+
+#top_banner
+{
+	position: fixed;
+	left: 50%;
+	margin-left: -380px;
+	top: 750px;
+	z-index: 2;
+
+	@media screen and (max-device-width:800px)
+	{
+		display: none;
+	}
+
+	@media screen and (max-width:1200px)
+	{
+		display: none;
+	}
+}

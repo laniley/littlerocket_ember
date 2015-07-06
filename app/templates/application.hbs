@@ -1,3 +1,266 @@
-<h2 id="title">Welcome to Ember.js</h2>
+<div id="main">
 
-{{outlet}}
+			<div id="fb-root"></div>
+
+			<div class="not_on_mobile_column" id="clouds_left"><img src="assets/images/clouds_600x113.png" /></div>
+			<div class="not_on_mobile_column" id="clouds_right"><img src="assets/images/clouds_600x113.png" /></div>
+
+			<div class="not_on_mobile_column column_left">
+				<div id="banner">
+					<img src="assets/images/store_images/banner_420x120.png"/>
+				</div>
+				<!-- like -->
+				<div id="fb-like" class="fb-like"
+          data-href="https://www.facebook.com/pages/Little-Rocket/1505447519673452"
+          data-layout="button_count"
+          data-action="like"
+          data-show-faces="true"
+          data-share="true"
+          data-with="300">
+        </div>
+				<!-- invite -->
+				<div id="fb-challenge-container">
+					<button id="fb-challenge" class="uibutton confirm">Invite your friends</button>
+				</div>
+				<!-- comments -->
+		      <div class="fb-comments" data-href="https://www.facebook.com/pages/Little-Rocket/1505447519673452" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
+			</div>
+
+			<div class="column">
+
+				<canvas id='game' width='420' height='600'></canvas>
+
+				<div id='loading'>
+			 		<div id='loading_container'>
+						<div id='loading_progress'>
+							<span>loading...</span>
+						</div>
+			 		</div>
+				</div>
+
+				<div class="control-infos-row">
+
+					<div class="control-info-text fire">
+        				<div><i class="fa fa-arrow-up"></i></div>
+        				<div>fire</div>
+        			</div>
+
+        			<div class="control-info-text left">
+        				<i class="fa fa-arrow-left"></i> move left
+        			</div>
+        			<div class="control-info-text right">
+        				move right <i class="fa fa-arrow-right"></i>
+        			</div>
+
+				</div>
+
+			</div>
+
+			<div class="not_on_mobile_column column_right">
+
+				<div class="logged_in">
+
+					<div class="cockpit">
+
+						<h1>Cockpit</h1>
+
+						<div class="cockpit-row">
+							<div class="player-infos">
+					         <div class="img_container">
+					         	<img src="" class="cockpit_img profile small" />
+					         </div>
+					         <div class="cockpit_name name"></div>
+					         <div><i class="fa fa-star"></i> <span class="stars">0</span></div>
+					         <div class="score_container">
+					         	<span class="cockpit_score score">0</span> Points
+					       	</div>
+					       	<div class="rank_container">
+					        		<span class="cockpit_rank rank">0</span>. in the leaderboard
+					         </div>
+					      </div>
+
+					      <div class="fb-publish-actions-not-granted fb-relative-container">
+								<fb:login-button scope="public_profile,publish_actions,user_friends" onlogin="checkLoginState();">post your score to facebook</fb:login-button>
+							</div>
+
+					      <div class="cockpit-item-container item-container">
+					         <div class="workbench fa-stack cockpit-item locked">
+					         	<i class="fa fa-wrench fa-stack-1x" title="Use 1000 stars to build the workbench!"></i>
+					         	<i class="fa fa-lock fa-stack-1x locked" title="You need 1000 stars to unlock the workbench!"></i>
+					         </div>
+					         <div class="lab fa-stack cockpit-item locked">
+					         	<i class="fa fa-flask fa-stack-1x" title="Use 1000 stars to build the lab!"></i>
+					         	<i class="fa fa-lock fa-stack-1x locked" title="You need 1000 stars to unlock the lab!"></i>
+					         </div>
+					   	</div>
+					   	<div id="workbench">
+					   		<h2>Workbench</h2>
+					   		<ul id="workbench-item-container" class="item-container">
+					   			<li id="canon" class="fa-stack cockpit-item locked">
+								   	<i class="fa fa-bullseye fa-stack-1x" title="Use 500 stars to build the canon!"></i>
+								   	<i class="fa fa-lock fa-stack-1x locked" title="You need 500 stars to unlock the canon!"></i>
+								   </li>
+								   <li id="canon-infos" title="capacity"></li>
+					   		</ul>
+					   	</div>
+					   	<div id="lab">
+					   		<h2>Lab</h2>
+					   		<ul id="lab-item-container" class="item-container">
+					   			<li id="canon-upgrades" class="fa-stack cockpit-item locked">
+								   	<i class="fa fa-bullseye fa-stack-1x" title="The available canon upgrades."></i>
+								   	<i class="fa fa-lock fa-stack-1x locked" title="You need to buy the canon at the workbench first, to unlock the canon upgrades!"></i>
+								   </li>
+								   <li id="canon-upgrades-infos"></li>
+					   		</ul>
+					   	</div>
+					   </div>
+					</div>
+
+					<div class="row" id="leaderboard_container">
+
+						<h1>Leaderboard</h1>
+
+						<div class="leaderboard_list scrollable_list leaderboard"></div>
+
+				 	</div>
+
+				</div> <!-- end of logged_in -->
+
+				<div class="fb-login">
+					<!-- facebook login -->
+					<div class="login_info">You have to be logged in to save your progress and to use great social features like the leaderboard.</div>
+					<div class="login-button"><fb:login-button scope="public_profile,publish_actions,user_friends" onlogin="checkLoginState();"></fb:login-button></div>
+
+					<!-- <div>or</div> -->
+					<!-- little rocket login -->
+					<!-- <div><input type="text" id="username" placeholder="username" /></div>
+					<div><input type="password" id="password" placeholder="password" /></div>
+					<div><button>Login</button></div> -->
+
+					<!-- registry -->
+					<!-- <div class="registry-button">Create a new account!</div> -->
+
+					<div class="no-login-button">No thanks!</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	   <script src='lib/GoogleAnalytics.js'></script>
+
+	   <script src='apps/little_rocket/js/little_rocket.js'></script>
+	   <script src='little_rocket/scenes/Level_Selection.js'></script>
+
+	   <script src='little_rocket/lib/Cockpit.js'></script>
+	   <script src='little_rocket/lib/Workbench.js'></script>
+	   <script src='little_rocket/lib/Lab.js'></script>
+	   <script src='little_rocket/lib/Canon.js'></script>
+	   <script src='little_rocket/lib/CanonCapacityUpgrade.js'></script>
+		<script src='little_rocket/lib/TransformableSprite.js'></script>
+		<script src='little_rocket/lib/Rocket.js'></script>
+		<script src='little_rocket/lib/Bullet.js'></script>
+		<script src='little_rocket/lib/Asteroid.js'></script>
+		<script src='little_rocket/lib/Star.js'></script>
+		<script src='little_rocket/lib/Ufo.js'></script>
+
+		<script>
+
+			if(cockpit == undefined)
+				cockpit = new Cockpit();
+
+			$( document ).on( 'click', '.workbench', function()
+			{
+				if(cockpit.hasWorkbench() && !cockpit.workbench.isOpen)
+				{
+					cockpit.workbench.open();
+				}
+				else if(cockpit.hasWorkbench() && cockpit.workbench.isOpen)
+				{
+					cockpit.workbench.close();
+				}
+				else if(cockpit.workbench.status == 'under_construction')
+				{
+					console.log('still under construction');
+				}
+				else if(cockpit.workbench.status == 'construction_complete')
+				{
+					cockpit.setWorkbenchStatus('active');
+					sendWorkbenchStatus('active');
+				}
+				else if(!cockpit.hasWorkbench())
+				{
+					console.log('buy workbench');
+					cockpit.buyWorkbench();
+				}
+			});
+
+			$( document ).on( 'click', '.lab', function()
+			{
+				if(cockpit.hasLab() && !cockpit.lab.isOpen)
+				{
+					cockpit.lab.open();
+				}
+				else if(cockpit.hasLab() && cockpit.lab.isOpen)
+				{
+					cockpit.lab.close();
+				}
+				else if(cockpit.lab.status == 'under_construction')
+				{
+					console.log('still under construction');
+				}
+				else if(cockpit.lab.status == 'construction_complete')
+				{
+					cockpit.lab.setStatus('active');
+					sendLabStatus('active');
+				}
+				else if(!cockpit.hasLab())
+				{
+					console.log('buy lab');
+					cockpit.lab.buy();
+				}
+			});
+
+			$( document ).on( 'click', '#canon', function()
+			{
+				if(cockpit.canon.status == 'under_construction')
+				{
+					console.log('still under construction');
+				}
+				else if(cockpit.canon.status == 'construction_complete')
+				{
+					cockpit.setCanonStatus('active');
+					sendCanon('active', cockpit.canon.capacity);
+				}
+				else if(!cockpit.hasCanon())
+				{
+					console.log('buy canon');
+					cockpit.buyCanon();
+				}
+			});
+
+			var canon_capacity_upgrade = null;
+
+			$( document ).on( 'click', '#canon-upgrades-infos > .buyable', function()
+			{
+				console.log('click on canon capacity upgrade', canon_capacity_upgrade);
+
+				if(canon_capacity_upgrade == null)
+				{
+					canon_capacity_upgrade = cockpit.lab.canon_capacity_upgrades.shift();
+
+					if(canon_capacity_upgrade != undefined)
+						canon_capacity_upgrade.buy();
+				}
+				else if(canon_capacity_upgrade.status == 'under_construction')
+				{
+					console.log('still under construction');
+				}
+				else if(canon_capacity_upgrade.status == 'construction_complete')
+				{
+					// canon_capaciy_upgrade wird wieder auf null gesetzt und es kann das nächste upgrade gekauft werden
+				}
+			});
+
+		</script>
