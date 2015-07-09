@@ -1,5 +1,14 @@
 /* jshint node: true */
 
+// production
+// var app_id = 759505040738218;
+//
+// if(mode == 'debug')
+// {
+// 	// test
+// 	app_id = 761604617194927;
+// }
+
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'littlerocket',
