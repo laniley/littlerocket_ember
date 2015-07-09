@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg6428"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="stars.svg">
+  <defs
+     id="defs6430">
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4979"
+       id="linearGradient4985"
+       x1="152.28294"
+       y1="136.50583"
+       x2="89.529045"
+       y2="143.84879"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient4979">
+      <stop
+         style="stop-color:#ffff00;stop-opacity:1;"
+         offset="0"
+         id="stop4981" />
+      <stop
+         style="stop-color:#ff9e00;stop-opacity:1;"
+         offset="1"
+         id="stop4983" />
+    </linearGradient>
+    <linearGradient
+       y2="143.84879"
+       x2="89.529045"
+       y1="136.50583"
+       x1="152.28294"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient5002"
+       xlink:href="#linearGradient4979-4"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient4979-4">
+      <stop
+         style="stop-color:#ffff00;stop-opacity:1;"
+         offset="0"
+         id="stop4981-5" />
+      <stop
+         style="stop-color:#ff9e00;stop-opacity:1;"
+         offset="1"
+         id="stop4983-4" />
+    </linearGradient>
+    <linearGradient
+       y2="143.84879"
+       x2="89.529045"
+       y1="136.50583"
+       x1="152.28294"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient6426"
+       xlink:href="#linearGradient4979"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="143.84879"
+       x2="89.529045"
+       y1="136.50583"
+       x1="152.28294"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient5002-0"
+       xlink:href="#linearGradient4979-4-3"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient4979-4-3">
+      <stop
+         style="stop-color:#cdcdbb;stop-opacity:1;"
+         offset="0"
+         id="stop4981-5-5" />
+      <stop
+         style="stop-color:#726c62;stop-opacity:1;"
+         offset="1"
+         id="stop4983-4-2" />
+    </linearGradient>
+    <linearGradient
+       y2="143.84879"
+       x2="89.529045"
+       y1="136.50583"
+       x1="152.28294"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient6478"
+       xlink:href="#linearGradient4979-4-3"
+       inkscape:collect="always" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="209.82972"
+     inkscape:cy="766.36302"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata6433">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\xampp\htdocs\LittleRocket\images\store_images\banner_1200x627.png"
+       inkscape:transform-center-y="-30.684338"
+       inkscape:transform-center-x="2.8334579"
+       transform="matrix(1.6051554,-1.0863082,1.0343302,1.6858189,86.29035,263.50464)"
+       d="m 202.07729,154.1734 -35.2602,6.81331 -13.99543,33.07311 -17.37584,-31.42901 -35.779229,-3.09029 24.521339,-26.23751 -8.11735,-34.983022 32.53087,15.213342 30.76243,-18.530403 -4.41616,35.639873 z"
+       inkscape:randomized="0"
+       inkscape:rounded="0"
+       inkscape:flatsided="false"
+       sodipodi:arg2="0.89011792"
+       sodipodi:arg1="0.26179939"
+       sodipodi:r2="26.722624"
+       sodipodi:r1="53.914379"
+       sodipodi:cy="140.21933"
+       sodipodi:cx="150"
+       sodipodi:sides="5"
+       id="path3959-0"
+       style="fill:url(#linearGradient6426);fill-opacity:1;stroke:#ffc100;stroke-opacity:1"
+       sodipodi:type="star" />
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\xampp\htdocs\LittleRocket\images\store_images\banner_1200x627.png"
+       inkscape:transform-center-y="-9.3085338"
+       inkscape:transform-center-x="0.85961512"
+       transform="matrix(0.48694702,-0.32954722,0.31377895,0.51141744,161.11111,253.18273)"
+       d="m 202.07729,154.1734 -35.2602,6.81331 -13.99543,33.07311 -17.37584,-31.42901 -35.779229,-3.09029 24.521339,-26.23751 -8.11735,-34.983022 32.53087,15.213342 30.76243,-18.530403 -4.41616,35.639873 z"
+       inkscape:randomized="0"
+       inkscape:rounded="0"
+       inkscape:flatsided="false"
+       sodipodi:arg2="0.89011792"
+       sodipodi:arg1="0.26179939"
+       sodipodi:r2="26.722624"
+       sodipodi:r1="53.914379"
+       sodipodi:cy="140.21933"
+       sodipodi:cx="150"
+       sodipodi:sides="5"
+       id="path3959-0-9"
+       style="fill:url(#linearGradient5002);fill-opacity:1;stroke:#ffc800;stroke-opacity:1"
+       sodipodi:type="star" />
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\xampp\htdocs\LittleRocket\images\star_locked.png"
+       inkscape:transform-center-y="-9.3085338"
+       inkscape:transform-center-x="0.85961512"
+       transform="matrix(0.48694702,-0.32954722,0.31377895,0.51141744,-7.7884195,249.6103)"
+       d="m 202.07729,154.1734 -35.2602,6.81331 -13.99543,33.07311 -17.37584,-31.42901 -35.779229,-3.09029 24.521339,-26.23751 -8.11735,-34.983022 32.53087,15.213342 30.76243,-18.530403 -4.41616,35.639873 z"
+       inkscape:randomized="0"
+       inkscape:rounded="0"
+       inkscape:flatsided="false"
+       sodipodi:arg2="0.89011792"
+       sodipodi:arg1="0.26179939"
+       sodipodi:r2="26.722624"
+       sodipodi:r1="53.914379"
+       sodipodi:cy="140.21933"
+       sodipodi:cx="150"
+       sodipodi:sides="5"
+       id="path3959-0-9-8"
+       style="fill:url(#linearGradient6478);fill-opacity:1;stroke:#908f8b;stroke-opacity:1"
+       sodipodi:type="star" />
+    <path
+       style="fill:#ffff00;fill-rule:evenodd;fill-opacity:1;stroke:#c9991b;stroke-opacity:1"
+       inkscape:connector-curvature="0"
+       clip-rule="evenodd"
+       d="m 108.8535,277.60096 v 4.84798 h -2.07772 c -1.53062,0 -2.77042,1.23973 -2.77042,2.77034 v 13.85178 c 0,1.53054 1.2398,2.77019 2.77042,2.77019 h 22.16257 c 1.53054,0 2.77057,-1.23965 2.77057,-2.77019 v -13.85178 c 0,-1.53061 -1.24003,-2.77034 -2.77057,-2.77034 h -2.07757 v -4.84798 c 0,-4.97262 -4.03118,-9.00357 -9.00364,-9.00357 -4.97246,0 -9.00364,4.03088 -9.00364,9.00357 z m 3.46296,4.84798 v -4.84798 c 0,-3.06116 2.47937,-5.54076 5.5406,-5.54076 3.06124,0 5.54076,2.4796 5.54076,5.54076 v 4.84798 h -11.08136 z m 2.77026,7.61848 c 0,-1.53054 1.23973,-2.77027 2.77034,-2.77027 1.53062,0 2.77027,1.23973 2.77027,2.77027 0,0.97665 -0.50571,1.83553 -1.26732,2.32721 0,0 0.27061,1.63483 0.57492,3.55985 0,0.57462 -0.46401,1.03863 -1.03893,1.03863 h -2.07787 c -0.57485,0 -1.03878,-0.46401 -1.03878,-1.03863 l 0.57492,-3.55985 c -0.76169,-0.49168 -1.26755,-1.35064 -1.26755,-2.32721 z"
+       id="path3"
+       inkscape:export-filename="C:\xampp\htdocs\LittleRocket\images\star_locked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
+</svg>
