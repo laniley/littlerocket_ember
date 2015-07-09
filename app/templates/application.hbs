@@ -1,34 +1,32 @@
 <div class="fixed">
-  <nav class="top-bar" data-topbar role="navigation">
-		<nav class="top-bar" data-topbar role="navigation">
-		  <ul class="title-area">
-		    <li class="name">
-		      <h1><a href="#">My Site</a></h1>
-		    </li>
-		     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-		    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-		  </ul>
+	<nav class="top-bar" data-topbar role="navigation">
+	  <ul class="title-area">
+	    <li class="name">
+	      <h1><a href="#">My Site</a></h1>
+	    </li>
+	     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+	    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+	  </ul>
 
-		  <section class="top-bar-section">
-		    <!-- Right Nav Section -->
-		    <ul class="right">
-		      <li class="active"><a href="#">Right Button Active</a></li>
-		      <li class="has-dropdown">
-		        <a href="#">Right Button Dropdown</a>
-		        <ul class="dropdown">
-		          <li><a href="#">First link in dropdown</a></li>
-		          <li class="active"><a href="#">Active link in dropdown</a></li>
-		        </ul>
-		      </li>
-		    </ul>
+	  <section class="top-bar-section">
+	    <!-- Right Nav Section -->
+	    <ul class="right">
+	      <li class="active"><a href="#">Right Button Active</a></li>
+	      <li class="has-dropdown">
+	        <a href="#">Right Button Dropdown</a>
+	        <ul class="dropdown">
+	          <li><a href="#">First link in dropdown</a></li>
+	          <li class="active"><a href="#">Active link in dropdown</a></li>
+	        </ul>
+	      </li>
+	    </ul>
 
-		    <!-- Left Nav Section -->
-		    <ul class="left">
-		      <li><a href="#">Left Nav Button</a></li>
-		    </ul>
-		  </section>
-		</nav>
-  </nav>
+	    <!-- Left Nav Section -->
+	    <ul class="left">
+	      <li><a href="#">Left Nav Button</a></li>
+	    </ul>
+	  </section>
+	</nav>
 </div>
 
 <div id="main">
@@ -38,29 +36,94 @@
 			<div class="not_on_mobile_column" id="clouds_left"><img src="assets/images/clouds_600x113.png" /></div>
 			<div class="not_on_mobile_column" id="clouds_right"><img src="assets/images/clouds_600x113.png" /></div>
 
-			<div class="not_on_mobile_column column_left">
+			<div class="column not_on_mobile_column column_right">
 
-				<!-- like -->
-				<div id="fb-like" class="fb-like"
-          data-href="https://www.facebook.com/pages/Little-Rocket/1505447519673452"
-          data-layout="button_count"
-          data-action="like"
-          data-show-faces="true"
-          data-share="true"
-          data-with="300">
-        </div>
-				<!-- invite -->
-				<div id="fb-challenge-container">
-					<button id="fb-challenge" class="fb-button confirm">Invite your friends</button>
+				<div class="logged_in">
+
+					<div class="cockpit">
+
+						<h1>Cockpit</h1>
+
+						<div class="cockpit-row">
+							<div class="player-infos">
+									<div class="img_container">
+										<img src="" class="cockpit_img profile small" />
+									</div>
+									<div class="cockpit_name name"></div>
+									<div><i class="fa fa-star"></i> <span class="stars">0</span></div>
+									<div class="score_container">
+										<span class="cockpit_score score">0</span> Points
+									</div>
+									<div class="rank_container">
+											<span class="cockpit_rank rank">0</span>. in the leaderboard
+									</div>
+								</div>
+
+								<div class="fb-publish-actions-not-granted fb-relative-container">
+								<fb:login-button scope="public_profile,publish_actions,user_friends" onlogin="checkLoginState();">post your score to facebook</fb:login-button>
+							</div>
+
+								<div class="cockpit-item-container item-container">
+									<div class="workbench fa-stack cockpit-item locked">
+										<i class="fa fa-wrench fa-stack-1x" title="Use 1000 stars to build the workbench!"></i>
+										<i class="fa fa-lock fa-stack-1x locked" title="You need 1000 stars to unlock the workbench!"></i>
+									</div>
+									<div class="lab fa-stack cockpit-item locked">
+										<i class="fa fa-flask fa-stack-1x" title="Use 1000 stars to build the lab!"></i>
+										<i class="fa fa-lock fa-stack-1x locked" title="You need 1000 stars to unlock the lab!"></i>
+									</div>
+							</div>
+							<div id="workbench">
+								<h2>Workbench</h2>
+								<ul id="workbench-item-container" class="item-container">
+									<li id="canon" class="fa-stack cockpit-item locked">
+										<i class="fa fa-bullseye fa-stack-1x" title="Use 500 stars to build the canon!"></i>
+										<i class="fa fa-lock fa-stack-1x locked" title="You need 500 stars to unlock the canon!"></i>
+									</li>
+									<li id="canon-infos" title="capacity"></li>
+								</ul>
+							</div>
+							<div id="lab">
+								<h2>Lab</h2>
+								<ul id="lab-item-container" class="item-container">
+									<li id="canon-upgrades" class="fa-stack cockpit-item locked">
+										<i class="fa fa-bullseye fa-stack-1x" title="The available canon upgrades."></i>
+										<i class="fa fa-lock fa-stack-1x locked" title="You need to buy the canon at the workbench first, to unlock the canon upgrades!"></i>
+									</li>
+									<li id="canon-upgrades-infos"></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" id="leaderboard_container">
+
+						<h1>Leaderboard</h1>
+
+						<div class="leaderboard_list scrollable_list leaderboard"></div>
+
+					</div>
+
+				</div> <!-- end of logged_in -->
+
+				<div class="fb-login">
+					<!-- facebook login -->
+					<div class="login_info">You have to be logged in to save your progress and to use great social features like the leaderboard.</div>
+					<div class="login-button"><fb:login-button scope="public_profile,publish_actions,user_friends" onlogin="checkLoginState();"></fb:login-button></div>
+
+					<!-- <div>or</div> -->
+					<!-- little rocket login -->
+					<!-- <div><input type="text" id="username" placeholder="username" /></div>
+					<div><input type="password" id="password" placeholder="password" /></div>
+					<div><button>Login</button></div> -->
+
+					<!-- registry -->
+					<!-- <div class="registry-button">Create a new account!</div> -->
+
+					<div class="no-login-button">No thanks!</div>
+
 				</div>
-				<!-- comments -->
-		    <div 	class="fb-comments"
-							data-href="https://www.facebook.com/pages/Little-Rocket/1505447519673452"
-							data-width="100%"
-							data-numposts="5"
-							data-colorscheme="light"
-							data-order-by="reverse_time">
-				</div>
+
 			</div>
 
 			<div class="column">
@@ -93,97 +156,32 @@
 
 			</div>
 
-			<div class="not_on_mobile_column column_right">
+			<div class="column not_on_mobile_column column_left">
 
-				<div class="logged_in">
-
-					<div class="cockpit">
-
-						<h1>Cockpit</h1>
-
-						<div class="cockpit-row">
-							<div class="player-infos">
-					         <div class="img_container">
-					         	<img src="" class="cockpit_img profile small" />
-					         </div>
-					         <div class="cockpit_name name"></div>
-					         <div><i class="fa fa-star"></i> <span class="stars">0</span></div>
-					         <div class="score_container">
-					         	<span class="cockpit_score score">0</span> Points
-					       	</div>
-					       	<div class="rank_container">
-					        		<span class="cockpit_rank rank">0</span>. in the leaderboard
-					         </div>
-					      </div>
-
-					      <div class="fb-publish-actions-not-granted fb-relative-container">
-								<fb:login-button scope="public_profile,publish_actions,user_friends" onlogin="checkLoginState();">post your score to facebook</fb:login-button>
-							</div>
-
-					      <div class="cockpit-item-container item-container">
-					         <div class="workbench fa-stack cockpit-item locked">
-					         	<i class="fa fa-wrench fa-stack-1x" title="Use 1000 stars to build the workbench!"></i>
-					         	<i class="fa fa-lock fa-stack-1x locked" title="You need 1000 stars to unlock the workbench!"></i>
-					         </div>
-					         <div class="lab fa-stack cockpit-item locked">
-					         	<i class="fa fa-flask fa-stack-1x" title="Use 1000 stars to build the lab!"></i>
-					         	<i class="fa fa-lock fa-stack-1x locked" title="You need 1000 stars to unlock the lab!"></i>
-					         </div>
-					   	</div>
-					   	<div id="workbench">
-					   		<h2>Workbench</h2>
-					   		<ul id="workbench-item-container" class="item-container">
-					   			<li id="canon" class="fa-stack cockpit-item locked">
-								   	<i class="fa fa-bullseye fa-stack-1x" title="Use 500 stars to build the canon!"></i>
-								   	<i class="fa fa-lock fa-stack-1x locked" title="You need 500 stars to unlock the canon!"></i>
-								   </li>
-								   <li id="canon-infos" title="capacity"></li>
-					   		</ul>
-					   	</div>
-					   	<div id="lab">
-					   		<h2>Lab</h2>
-					   		<ul id="lab-item-container" class="item-container">
-					   			<li id="canon-upgrades" class="fa-stack cockpit-item locked">
-								   	<i class="fa fa-bullseye fa-stack-1x" title="The available canon upgrades."></i>
-								   	<i class="fa fa-lock fa-stack-1x locked" title="You need to buy the canon at the workbench first, to unlock the canon upgrades!"></i>
-								   </li>
-								   <li id="canon-upgrades-infos"></li>
-					   		</ul>
-					   	</div>
-					   </div>
-					</div>
-
-					<div class="row" id="leaderboard_container">
-
-						<h1>Leaderboard</h1>
-
-						<div class="leaderboard_list scrollable_list leaderboard"></div>
-
-				 	</div>
-
-				</div> <!-- end of logged_in -->
-
-				<div class="fb-login">
-					<!-- facebook login -->
-					<div class="login_info">You have to be logged in to save your progress and to use great social features like the leaderboard.</div>
-					<div class="login-button"><fb:login-button scope="public_profile,publish_actions,user_friends" onlogin="checkLoginState();"></fb:login-button></div>
-
-					<!-- <div>or</div> -->
-					<!-- little rocket login -->
-					<!-- <div><input type="text" id="username" placeholder="username" /></div>
-					<div><input type="password" id="password" placeholder="password" /></div>
-					<div><button>Login</button></div> -->
-
-					<!-- registry -->
-					<!-- <div class="registry-button">Create a new account!</div> -->
-
-					<div class="no-login-button">No thanks!</div>
-
+				<!-- like -->
+				<div id="fb-like" class="fb-like"
+          data-href="https://www.facebook.com/pages/Little-Rocket/1505447519673452"
+          data-layout="button_count"
+          data-action="like"
+          data-show-faces="true"
+          data-share="true"
+          data-with="300">
+        </div>
+				<!-- invite -->
+				<div id="fb-challenge-container">
+					<button id="fb-challenge" class="fb-button confirm">Invite your friends</button>
 				</div>
-
+				<!-- comments -->
+		    <!-- <div 	class="fb-comments"
+							data-href="https://www.facebook.com/pages/Little-Rocket/1505447519673452"
+							data-width="100%"
+							data-numposts="5"
+							data-colorscheme="light"
+							data-order-by="reverse_time">
+				</div> -->
 			</div>
 
-			<iframe id="top_banner" src="//admin.appnext.com/htmlBar/index.html?id=b445fb17-2013-43a4-b3a7-c759eb86c7ec"
+			<iframe id="app_next_banner" src="//admin.appnext.com/htmlBar/index.html?id=b445fb17-2013-43a4-b3a7-c759eb86c7ec"
 				align="center" width="760" height="72" marginwidth="0" marginheight="O" hspace="0" vspace="0" style="border:solid 1px;border-radius: 1opx" scrolling="no"></iframe>
 
 		</div>
