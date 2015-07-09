@@ -521,6 +521,27 @@ body
 	}
 }
 
+.fb-button {
+	background: -webkit-linear-gradient(#4c69ba, #3b55a0);
+	border: none;
+	-webkit-border-radius: 2px;
+	color: #fff;
+	cursor: pointer;
+	font-weight: bold;
+	height: 20px;
+	line-height: 20px;
+	padding: 0;
+	text-shadow: 0 -1px 0 #354c8c;
+	white-space: nowrap;
+	font-family: helvetica, arial, sans-serif;
+	font-size: 11px;
+	padding: 0 5px;
+
+	&:hover {
+		background: -webkit-linear-gradient(#4c69ba, #4c69ba);
+	}
+}
+
 #top_banner
 {
 	position: fixed;
