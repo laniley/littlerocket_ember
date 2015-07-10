@@ -13,25 +13,6 @@ body
 	color: 			black;
 	font-family: 	Calibri, sans-serif;
 
-	#main
-	{
-		position: absolute;
-
-		top: 45px;
-		bottom: 0;
-
-		width: 100%;
-
-		background: #ffffff;
-		background: -moz-linear-gradient(top,  #ffffff 0%, #c3dde5 70%, #add8e6 100%);
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(70%,#c3dde5), color-stop(100%,#add8e6));
-		background: -webkit-linear-gradient(top,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
-		background: -o-linear-gradient(top,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
-		background: -ms-linear-gradient(top,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
-		background: linear-gradient(to bottom,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
-		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#add8e6',GradientType=0 );
-	}
-
 	// h1
 	// {
 	// 	margin-top: 0px;
@@ -489,36 +470,26 @@ body
 			}
 		}
 	}
+}
 
-	#clouds_left
-	{
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		// background-image: url(assets/images/clouds_600x113.png);
-		width: 600px;
-		height: 113px;
+#main {
+	position: absolute;
 
-		@media only screen and (max-device-width:800px)
-		{
-			display: none;
-		}
-	}
+	top: 45px;
+	bottom: 0;
 
-	#clouds_right
-	{
-		position: absolute;
-		right: 0;
-		bottom: 0;
-		// background-image: url(assets/images/clouds_600x113.png);
-		width: 600px;
-		height: 113px;
+	width: 100%;
 
-		@media only screen and (max-device-width:800px)
-		{
-			display: none;
-		}
-	}
+	overflow-y: auto;
+
+	background: #ffffff;
+	background: -moz-linear-gradient(top,  #ffffff 0%, #c3dde5 70%, #add8e6 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(70%,#c3dde5), color-stop(100%,#add8e6));
+	background: -webkit-linear-gradient(top,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
+	background: -o-linear-gradient(top,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
+	background: -ms-linear-gradient(top,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
+	background: linear-gradient(to bottom,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#add8e6',GradientType=0 );
 }
 
 .fb-button {
@@ -542,11 +513,34 @@ body
 	}
 }
 
-#app_next_banner
+.clouds {
+	position: absolute;
+	top: 750px;
+	width: 600px;
+	height: 113px;
+	margin: 10px;
+
+	@media only screen and (max-device-width:800px)
+	{
+		display: none;
+	}
+}
+
+.clouds_left
 {
+	left: 0;
+}
+
+.clouds_right
+{
+	right: 0;
+}
+
+#app_next_banner {
 	position: absolute;
 	left: 50%;
 	margin-left: -380px;
+	// margin-bottom: 50px;
 	top: 750px;
 	z-index: 2;
 
