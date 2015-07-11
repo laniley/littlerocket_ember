@@ -4,16 +4,14 @@
 	    <li class="name">
 	      <h1>{{#link-to 'index'}}<img src="assets/images/top_nav_logo_64x64.png" width="42px" /> little rocket{{/link-to}}</h1>
 	    </li>
-	     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
 	    <li class="toggle-topbar menu-icon">{{#link-to 'index'}}<span></span>{{/link-to}}</li>
 	  </ul>
 
 	  <section class="top-bar-section">
 	    <!-- Right Nav Section -->
 	    <ul class="right">
-	      <li><a href="#">
+	      <li {{action 'checkLoginState'}}><a href="#">
 					{{unbound fa-icon "facebook-square"}} login
-					{{!-- <fb:login-button scope="public_profile,publish_actions,user_friends" onlogin="checkLoginState();"></fb:login-button> --}}
 				</a></li>
 	      {{!-- <li class="has-dropdown">
 	        <a href="#">Right Button Dropdown</a>
