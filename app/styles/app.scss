@@ -6,6 +6,11 @@ $border: 1px solid #99C1CF;
 $lightblue: #C2E3ED;
 $darkblue: #99C1CF;
 
+@font-face
+{
+  font-family: Agency_FB;
+  src:  url('/assets/fonts/agency_fb.ttf') format('truetype') /* Safari, Android, iOS, Chrome, Firefox */
+}
 
 body
 {
@@ -44,19 +49,6 @@ body
 		@media screen and (max-width:1200px)
 		{
 			display: none;
-		}
-
-		#banner
-		{
-			margin: 0 auto;
-			margin-bottom: 30px;
-			max-width: 420px;
-
-			img
-			{
-				width: 100%;
-				border: $border;
-			}
 		}
 
 		.fb-like
@@ -467,6 +459,21 @@ body
 					display: block;
 					font-family: sans-serif;
 				}
+			}
+		}
+	}
+}
+
+.top-bar {
+	.name {
+		h1 {
+			font-family: Agency_FB;
+			font-style: italic;
+			font-size: 1.6em;
+			img {
+				width:35px;
+				margin-top: -7px;
+				margin-right: 7px;
 			}
 		}
 	}

@@ -2,10 +2,10 @@
 	<nav class="top-bar" data-topbar role="navigation">
 	  <ul class="title-area">
 	    <li class="name">
-	      <h1><a href="#"><img src="assets/images/top_nav_logo_64x64.png" width="45px" /> Little Rocket</a></h1>
+	      <h1>{{#link-to 'index'}}<img src="assets/images/top_nav_logo_64x64.png" width="42px" /> little rocket{{/link-to}}</h1>
 	    </li>
 	     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-	    <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+	    <li class="toggle-topbar menu-icon">{{#link-to 'index'}}<span></span>{{/link-to}}</li>
 	  </ul>
 
 	  <section class="top-bar-section">
@@ -22,9 +22,9 @@
 	    </ul>
 
 	    <!-- Left Nav Section -->
-	    <ul class="left">
+	    {{!-- <ul class="left">
 	      <li><a href="#">Left Nav Button</a></li>
-	    </ul>
+	    </ul> --}}
 	  </section>
 	</nav>
 </div>
