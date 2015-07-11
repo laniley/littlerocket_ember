@@ -1,4 +1,6 @@
+/* global FB */
 import Ember from 'ember';
+import ENV from '../config/environment';
 
 export default Ember.Component.extend({
 
@@ -85,7 +87,9 @@ export default Ember.Component.extend({
   },
 
   checkLoginState: function() {
+    console.log('test');
     FB.getLoginStatus(response => {
+          console.log('test2', response);
         this.statusChangeCallback(response);
     });
   },

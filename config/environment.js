@@ -38,7 +38,7 @@ module.exports = function(environment) {
     ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
 
-    ENV.fb_app_id = 964330650255655;
+    ENV.fb_app_id = '964330650255655';
   }
 
   if (environment === 'test') {
@@ -52,11 +52,11 @@ module.exports = function(environment) {
 
     ENV.APP.rootElement = '#ember-testing';
 
-    ENV.fb_app_id = 964330650255655;
+    ENV.fb_app_id = '964330650255655';
   }
 
   if (environment === 'production') {
-    ENV.fb_app_id = 759505040738218;
+    ENV.fb_app_id = '759505040738218';
   }
 
   return ENV;
