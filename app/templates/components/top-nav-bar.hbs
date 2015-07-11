@@ -11,7 +11,7 @@
 	    <!-- Right Nav Section -->
 	    <ul class="right">
 				{{#unless me.isLoggedIn}}
-		      <li {{action 'checkLoginState'}}><a href="#">
+		      <li {{action 'login'}}><a href="#">
 						{{unbound fa-icon "facebook-square"}} login
 					</a></li>
 				{{/unless}}

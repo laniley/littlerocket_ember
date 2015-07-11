@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
   me: null,
+  scope: 'public_profile,publish_actions,user_friends',
 
   didInsertElement: function() {
     Ember.$(document).foundation();
@@ -83,11 +84,18 @@ export default Ember.Component.extend({
   	});
   },
 
+  checkLoginState: function() {
+    FB.getLoginStatus(response => {
+        this.statusChangeCallback(response);
+    });
+  },
+
   actions: {
-    checkLoginState: function() {
-      FB.getLoginStatus(response => {
-    			this.statusChangeCallback(response);
-    	});
+    login: function() {
+      var self = this;
+      FB.login(function() {
+        self.checkLoginState();
+      }, { scope: self.get('scope') });
     }
   }
 });
