@@ -79,9 +79,8 @@ export default Ember.Component.extend({
 
   actions: {
     checkLoginState: function() {
-      FB.getLoginStatus(function(response)
-    	{
-    			statusChangeCallback(response);
+      FB.getLoginStatus(response => {
+    			this.statusChangeCallback(response);
     	});
     }
   }
