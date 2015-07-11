@@ -479,6 +479,17 @@ body
 	}
 }
 
+.top-bar-section {
+  ul {
+    li {
+      a {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
 #main {
 	position: absolute;
 
