@@ -10,9 +10,11 @@
 	  <section class="top-bar-section">
 	    <!-- Right Nav Section -->
 	    <ul class="right">
-	      <li {{action 'checkLoginState'}}><a href="#">
-					{{unbound fa-icon "facebook-square"}} login
-				</a></li>
+				{{#unless me.isLoggedIn}}
+		      <li {{action 'checkLoginState'}}><a href="#">
+						{{unbound fa-icon "facebook-square"}} login
+					</a></li>
+				{{/unless}}
 	      {{!-- <li class="has-dropdown">
 	        <a href="#">Right Button Dropdown</a>
 	        <ul class="dropdown">
