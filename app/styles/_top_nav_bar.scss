@@ -24,7 +24,11 @@
 			margin: 0 15px;
       background-color: $topbar-bg-color;
 		}
-
+  }
+  .donate-button {
+    input[type="image"] {
+      height: 2rem;
+    }
   }
   .user-img {
     width: 35px;

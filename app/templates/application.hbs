@@ -8,13 +8,8 @@
 			<div class="clouds clouds_right"><img src="assets/images/clouds_600x113.png" /></div>
 
 			<div class="column not_on_mobile_column column_right">
-
-				<div class="logged_in">
-
 					<div class="cockpit">
-
 						<h1>Cockpit</h1>
-
 						<div class="cockpit-row">
 							<div class="player-infos">
 									<div class="img_container">
@@ -66,17 +61,6 @@
 							</div>
 						</div>
 					</div>
-
-					<div class="row" id="leaderboard_container">
-
-						<h1>Leaderboard</h1>
-
-						<div class="leaderboard_list scrollable_list leaderboard"></div>
-
-					</div>
-
-				</div> <!-- end of logged_in -->
-
 			</div>
 
 			<div class="column">
@@ -110,18 +94,16 @@
 			</div>
 
 			<div class="column not_on_mobile_column column_left">
-				<!-- invite -->
-				<div id="fb-challenge-container">
-					<button id="fb-challenge" class="fb-button confirm">Invite your friends</button>
+				<div class="row" id="leaderboard_container">
+					<h1>Leaderboard</h1>
+					<!-- invite -->
+					<div id="fb-challenge-container">
+						<button id="fb-challenge" class="fb-button confirm">
+							{{unbound fa-icon "facebook-square"}} Invite your friends
+						</button>
+					</div>
+					<div class="leaderboard_list scrollable_list leaderboard"></div>
 				</div>
-				<!-- comments -->
-		    <!-- <div 	class="fb-comments"
-							data-href="https://www.facebook.com/pages/Little-Rocket/1505447519673452"
-							data-width="100%"
-							data-numposts="5"
-							data-colorscheme="light"
-							data-order-by="reverse_time">
-				</div> -->
 			</div>
 
 			<iframe id="app_next_banner" src="//admin.appnext.com/htmlBar/index.html?id=b445fb17-2013-43a4-b3a7-c759eb86c7ec"
