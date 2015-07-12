@@ -1,6 +1,5 @@
 /* global FB */
 import Ember from 'ember';
-import ENV from '../config/environment';
 
 export default Ember.Component.extend({
 
@@ -21,24 +20,35 @@ export default Ember.Component.extend({
   	if (response.status === 'connected')
   	{
   			// Logged into your app and Facebook.
-        this.get('me').set('isLoggedIn', true);
-  			// $(".fb-login").hide();
-  			// $(".cockpit").show();
+        if(Ember.isEmpty(this.me)) {
+          this.store.createRecord('me', { id: 1, isLoggedIn: true });
+        }
+        else {
+          this.me.set('isLoggedIn', true);
+        }
 
   			this.testAPI();
   	}
   	else if (response.status === 'not_authorized')
   	{
   			// The person is logged into Facebook, but not your app.
-        this.get('me').set('isLoggedIn', false);
-  			// $(".fb-login").show();
+        if(Ember.isEmpty(this.me)) {
+          this.store.createRecord('me', { id: 1, isLoggedIn: false });
+        }
+        else {
+          this.me.set('isLoggedIn', false);
+        }
   	}
   	else
   	{
   			// The person is not logged into Facebook, so we're not sure if
   			// they are logged into this app or not.
-        this.get('me').set('isLoggedIn', false);
-  			// $(".fb-login").show();
+        if(Ember.isEmpty(this.me)) {
+          this.store.createRecord('me', { id: 1, isLoggedIn: false });
+        }
+        else {
+          this.me.set('isLoggedIn', false);
+        }
   	}
   },
 
@@ -48,48 +58,40 @@ export default Ember.Component.extend({
   {
   	console.log('Welcome!  Fetching your information.... ');
 
-  	FB.api('/me', {fields: 'id,name,first_name,picture.width(120).height(120)'}, function(response)
+    var self = this;
+
+  	FB.api('/me', {fields: 'id,first_name,last_name,picture.width(120).height(120)'}, function(response)
   	{
   		if( !response.error )
-  			{
-  				console.log(response);
+  		{
+        console.log('Successful login for: ' + response.first_name + " " + response.last_name);
+        self.me.set('first_name', response.first_name);
+        self.me.set('last_name', response.last_name);
+        self.me.set('img_url', response.picture.data.url);
 
-  			user_id = response.id;
-  			user_name = response.name;
-  			user_img_url = response.picture.data.url;
+  			// getPermissions(function(){});
 
-  			$(".cockpit_img").attr("src", user_img_url);
+  			// getScores(function()
+  			// {
+  			// 	renderScores();
+  			// });
 
-  			console.log('Successful login for: ' + user_name);
-
-  			$(".logged_in").show();
-  			$(".fb-login").hide();
-
-  			getPermissions(function(){});
-
-  			getScores(function()
-  			{
-  				renderScores();
-  			});
-
-  			getLeaderboardRankFromDB();
-  			getLevel();
-  			getStars();
-  			getWorkbenchStatus();
-  			getLabStatus();
-  			getCanonStatus();
+  			// getLeaderboardRankFromDB();
+  			// getLevel();
+  			// getStars();
+  			// getWorkbenchStatus();
+  			// getLabStatus();
+  			// getCanonStatus();
   		}
   		else
   		{
-  			conole.log(response.error);
+  			console.log(response.error);
   		}
   	});
   },
 
   checkLoginState: function() {
-    console.log('test');
     FB.getLoginStatus(response => {
-          console.log('test2', response);
         this.statusChangeCallback(response);
     });
   },

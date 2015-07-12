@@ -10,19 +10,38 @@
 	  <section class="top-bar-section">
 	    <!-- Right Nav Section -->
 	    <ul class="right">
-				<li class="donate-button"><a href="#">
+				<!-- like -->
+				<li class="like-button">
+					{{!-- <a href="#"> --}}
+						<div id="fb-like" class="fb-like"
+		          data-href="https://www.facebook.com/pages/Little-Rocket/1505447519673452"
+		          data-layout="button_count"
+		          data-action="like"
+		          data-show-faces="true"
+		          data-share="true"
+		          data-with="300">
+		        </div>
+					{{!-- </a> --}}
+				</li>
+				<!-- donate -->
+				<li class="donate-button">
+					{{!-- <a href="#"> --}}
 					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 						<input type="hidden" name="cmd" value="_s-xclick">
 						<input type="hidden" name="hosted_button_id" value="J29L63ZSAF48G">
 						<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
 						<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
 					</form>
-				</a></li>
-				{{#unless me.isLoggedIn}}
+				{{!-- </a> --}}
+				</li>
+				<!-- login -->
+				{{#if me.isLoggedIn}}
+					<img {{bind-attr src=me.img_url}} class="user-img" />
+				{{else}}
 		      <li {{action 'login'}}><a href="#">
 						{{unbound fa-icon "facebook-square"}} login
 					</a></li>
-				{{/unless}}
+				{{/if}}
 	      {{!-- <li class="has-dropdown">
 	        <a href="#">Right Button Dropdown</a>
 	        <ul class="dropdown">

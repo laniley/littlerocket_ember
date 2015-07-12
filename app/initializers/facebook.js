@@ -1,7 +1,8 @@
 /* global FB */
+import Ember from 'ember';
 import ENV from '../config/environment';
 
-export function initialize(container, application) {
+export function initialize(container /* , application */) {
 
   var fbAsyncInit = function() {
     FB.init({
@@ -31,15 +32,18 @@ export function initialize(container, application) {
 
         console.log('Welcome!  Fetching your information.... ');
 
-        FB.api('/me', {fields: 'id,name,first_name,picture.width(120).height(120)'}, function(response)
+        FB.api('/me', {fields: 'id,first_name,last_name,picture.width(120).height(120)'}, function(response)
         {
           if( !response.error )
           {
-          	console.log('Successful login for: ' + response.name);
+          	console.log('Successful login for: ' + response.first_name + " " + response.last_name);
+            me.set('first_name', response.first_name);
+            me.set('last_name', response.last_name);
+            me.set('img_url', response.picture.data.url);
           }
           else
           {
-          	conole.log(response.error);
+          	console.log(response.error);
           }
         });
       }
@@ -76,7 +80,7 @@ export function initialize(container, application) {
     }(document, 'script', 'facebook-jssdk'));
 
    window.fbAsyncInit = fbAsyncInit;
-};
+}
 
 export default {
   name: 'facebook',
