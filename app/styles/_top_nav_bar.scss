@@ -15,13 +15,22 @@
 		}
 	}
   .like-button, .donate-button, .user-img {
-    margin: 0 15px;
-    background-color: $topbar-bg-color;
+    @media screen and (max-width:760px)
+		{
+			padding: 0 15px;
+		}
+    @media screen and (min-width:760px)
+		{
+			margin: 0 15px;
+      background-color: $topbar-bg-color;
+		}
+
   }
   .user-img {
     width: 35px;
     border-radius: 5px;
     margin-top: 5px;
+    float:right;
   }
 }
 
@@ -42,6 +51,23 @@
     height: 45px !important;
     iframe {
       margin-top: 13px;
+    }
+  }
+}
+
+.no-login {
+  &.alert-box {
+    z-index: 9999;
+    float: right;
+    font-size: 1rem;
+
+    @media screen and (min-width:760px)
+		{
+			width: 330px;
+		}
+
+    .close {
+      top: 20%;
     }
   }
 }
