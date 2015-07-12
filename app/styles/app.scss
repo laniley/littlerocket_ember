@@ -465,6 +465,9 @@ body
 }
 
 .top-bar {
+  -webkit-box-shadow: 0px 2px 10px #666;	/* webkit browser*/
+  -moz-box-shadow: 0px 2px 10px #666;	/* firefox */
+  box-shadow: 0px 2px 10px #666;
 	.name {
 		h1 {
 			font-family: Agency_FB;

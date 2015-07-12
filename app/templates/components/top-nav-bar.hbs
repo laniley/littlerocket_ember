@@ -10,6 +10,14 @@
 	  <section class="top-bar-section">
 	    <!-- Right Nav Section -->
 	    <ul class="right">
+				<li class="donate-button"><a href="#">
+					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+						<input type="hidden" name="cmd" value="_s-xclick">
+						<input type="hidden" name="hosted_button_id" value="J29L63ZSAF48G">
+						<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
+						<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+					</form>
+				</a></li>
 				{{#unless me.isLoggedIn}}
 		      <li {{action 'login'}}><a href="#">
 						{{unbound fa-icon "facebook-square"}} login
