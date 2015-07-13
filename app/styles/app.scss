@@ -25,63 +25,6 @@ body
 		margin-bottom: 0;
 	}
 
-	.not_on_mobile_column
-	{
-		position: relative;
-		margin: 10px;
-		float: left;
-
-		@media screen and (max-device-width:800px)
-		{
-			display: none;
-		}
-
-		@media screen and (max-width:1200px)
-		{
-			display: none;
-		}
-
-		// .fb-like
-		// {
-		// 	float: right;
-		// }
-
-		#fb-challenge-container
-		{
-			display: inline-block;
-			margin-bottom: 10px;
-		}
-	}
-
-	.column_left
-	{
-		width: 33%;
-	}
-
-	.column
-	{
-		position: relative;
-		float: left;
-		margin: 10px;
-		width: 33%;
-
-		@media screen and (max-device-width:800px)
-		{
-			margin: 0;
-			width: 100%;
-		}
-
-		@media screen and (max-width:1200px)
-		{
-			width: 100%;
-		}
-	}
-
-	.column_right
-	{
-		width: 25%;
-	}
-
 	// benötigt, damit die Spieler im Liederbord
 	// korrekt untereinander angeordnet werden
 	.img_container
@@ -140,46 +83,27 @@ body
 	// 	}
 	// }
 
-	.control-infos-row
+	.control-infos
 	{
-		position: 	absolute;
 		font-size: 	22px;
 		color: 		#333;
 		text-align: center;
-		width: 		100%;
-
-		@media only screen and (max-device-width:800px)
-		{
-			display: none;
-		}
 
 		.control-info-text
 		{
-			position: absolute;
-			float: left;
-
 			&.fire
 			{
 				text-align: center;
-				width: 100%;
 			}
 
 			&.left
 			{
 				text-align: right;
-				padding-right: 10px;
-				left: 0;
-				right: 50%;
-				top: 60px;
 			}
 
 			&.right
 			{
 				text-align: left;
-				padding-left: 10px;
-				left: 50%;
-				right: 0;
-				top: 60px;
 			}
 		}
 	}
@@ -454,6 +378,10 @@ body
 	}
 }
 
+.row {
+  max-width: 100%;
+}
+
 #main {
 	position: absolute;
 
@@ -519,20 +447,8 @@ body
 }
 
 #app_next_banner {
-	position: absolute;
+	position: relative;
 	left: 50%;
 	margin-left: -380px;
-	// margin-bottom: 50px;
-	top: 750px;
-	z-index: 2;
-
-	@media screen and (max-device-width:800px)
-	{
-		display: none;
-	}
-
-	@media screen and (max-width:1200px)
-	{
-		display: none;
-	}
+  margin-top: 30px;
 }
