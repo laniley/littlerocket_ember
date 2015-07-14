@@ -15,11 +15,11 @@
 		}
 	}
   .like-button, .donate-button, .user-img {
-    @media screen and (max-width:760px)
+    @media screen and (max-width:640px)
 		{
 			padding: 0 15px;
 		}
-    @media screen and (min-width:760px)
+    @media screen and (min-width:640px)
 		{
 			margin: 0 15px;
       background-color: $topbar-bg-color;
@@ -55,23 +55,6 @@
     height: 45px !important;
     iframe {
       margin-top: 13px;
-    }
-  }
-}
-
-.no-login {
-  &.alert-box {
-    z-index: 9999;
-    float: right;
-    font-size: 1rem;
-
-    @media screen and (min-width:760px)
-		{
-			width: 330px;
-		}
-
-    .close {
-      top: 20%;
     }
   }
 }
