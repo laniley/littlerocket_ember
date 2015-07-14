@@ -30,11 +30,18 @@
       height: 2rem;
     }
   }
-  .user-img {
+  .user-img img {
     width: 35px;
     border-radius: 5px;
     margin-top: 5px;
-    float:right;
+    @media screen and (max-width:640px)
+		{
+			margin-bottom: 15px;
+		}
+    @media screen and (min-width:640px)
+		{
+			float:right;
+		}
   }
 }
 
