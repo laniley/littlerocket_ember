@@ -2,7 +2,7 @@
 @import "foundation";
 @import "top_nav_bar";
 
-$border: 1px solid #99C1CF;
+$border: 1px solid #74929D;
 $lightblue: #C2E3ED;
 
 @font-face
@@ -250,55 +250,7 @@ body
 		}
 	}
 
-	#leaderboard_container
-	{
-		.fb-publish-actions-not-granted
-		{
-			margin-bottom: 20px;
-		}
 
-		.leaderboard_list
-		{
-			position: relative;
-			height: 350px;
-			min-width: 300px;
-			overflow: auto;
-
-			font-size: 18px;
-
-
-			.list-item
-			{
-				height: 	60px;
-				margin-left: 0px !important;
-			}
-
-			.name
-			{
-				font-size: 22px;
-			}
-
-			.rank_container
-			{
-				float: left;
-				margin-right: 10px;
-				line-height: 50px;
-				font-size: 22px;
-			}
-
-			.img_container
-			{
-				float: left;
-				margin-right: 10px;
-				line-height: 50px;
-			}
-
-			img
-			{
-				width: 50px;
-			}
-		}
-	}
 
 	#game_container
 	{
@@ -378,10 +330,6 @@ body
 	}
 }
 
-.row {
-  max-width: 100%;
-}
-
 #main {
 	position: absolute;
 
@@ -401,6 +349,60 @@ body
 	background: linear-gradient(to bottom,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#add8e6',GradientType=0 );
 }
+
+.row {
+  max-width: 100%;
+}
+
+.columns .title {
+  font-size: 1.75rem;
+  line-height: 2.5rem;
+	margin: 15px 0;
+	background-color: $darkblue;
+	border: $border;
+	color: white;
+	padding-left: 5px;
+}
+
+.leaderboard {
+		.fb-publish-actions-not-granted {
+			margin-bottom: 20px;
+		}
+
+		.leaderboard_list {
+			position: relative;
+			height: 350px;
+			min-width: 300px;
+			overflow: auto;
+			font-size: 18px;
+
+			.list-item {
+				height: 	60px;
+				margin-left: 0px !important;
+			}
+
+			.name {
+				font-size: 22px;
+			}
+
+			.rank_container {
+				float: left;
+				margin-right: 10px;
+				line-height: 50px;
+				font-size: 22px;
+			}
+
+			.img_container {
+				float: left;
+				margin-right: 10px;
+				line-height: 50px;
+			}
+
+			img {
+				width: 50px;
+			}
+		}
+	}
 
 .fb-button {
 	background: -webkit-linear-gradient(#4c69ba, #3b55a0);
@@ -430,20 +432,17 @@ body
 	height: 113px;
 	margin: 10px;
 
-	@media only screen and (max-device-width:800px)
-	{
+	@media only screen and (max-device-width:800px) {
 		display: none;
 	}
-}
 
-.clouds_left
-{
-	left: 0;
-}
+  &.clouds_left {
+  	left: 0;
+  }
 
-.clouds_right
-{
-	right: 0;
+  &.clouds_right {
+  	right: 0;
+  }
 }
 
 #app_next_banner {

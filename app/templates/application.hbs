@@ -9,12 +9,11 @@
 
 			<div class="row">
 
-				<div class="small-4 columns">
-						<div class="cockpit">
-							<h1>Cockpit</h1>
-							<div class="cockpit-row">
-								<div class="player-infos">
-										<div class="img_container">
+				<div class="small-4 columns show-for-large-up cockpit">
+					<div class="title">Cockpit</div>
+						<div class="cockpit-row">
+							<div class="player-infos">
+								<div class="img_container">
 											<img src="" class="cockpit_img profile small" />
 										</div>
 										<div class="cockpit_name name"></div>
@@ -62,10 +61,9 @@
 									</ul>
 								</div>
 							</div>
-						</div>
 				</div>
 
-				<div class="small-4 columns">
+				<div class="small-12 large-4 columns">
 
 					<div class="row">
 						<canvas id='game' width='420' height='600'></canvas>
@@ -94,17 +92,15 @@
 
 				</div>
 
-				<div class="small-4 columns">
-					<div class="row" id="leaderboard_container">
-						<h1>Leaderboard</h1>
-						<!-- invite -->
-						 <div id="fb-challenge-container">
-							<button id="fb-challenge" class="fb-button confirm">
-								{{unbound fa-icon "facebook-square"}} Invite your friends
-							</button>
-						</div>
-						<div class="leaderboard_list scrollable_list leaderboard"></div>
+				<div class="small-4  columns show-for-large-up leaderboard">
+					<div class="title">Leaderboard</div>
+					<!-- invite -->
+					 <div id="fb-challenge-container">
+						<button id="fb-challenge" class="fb-button confirm">
+							{{unbound fa-icon "facebook-square"}} Invite your friends
+						</button>
 					</div>
+					<div class="leaderboard_list scrollable_list leaderboard"></div>
 				</div>
 
 			</div>
