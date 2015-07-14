@@ -65,3 +65,20 @@
     }
   }
 }
+
+.no-login {
+  &.alert-box {
+    z-index: 9999;
+    float: right;
+    font-size: 1rem;
+
+    @media screen and (min-width:760px)
+        {
+            width: 330px;
+        }
+
+    .close {
+      top: 20%;
+    }
+  }
+}

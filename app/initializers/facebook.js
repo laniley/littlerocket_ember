@@ -24,7 +24,7 @@ export function initialize(container /* , application */) {
       {
         // Logged into your app and Facebook.
         if(Ember.isEmpty(me)) {
-          store.createRecord('me', { id: 1, isLoggedIn: true });
+          me = store.createRecord('me', { id: 1, isLoggedIn: true });
         }
         else {
           me.set('isLoggedIn', true);
@@ -37,9 +37,24 @@ export function initialize(container /* , application */) {
           if( !response.error )
           {
           	console.log('Successful login for: ' + response.first_name + " " + response.last_name);
-            me.set('first_name', response.first_name);
-            me.set('last_name', response.last_name);
-            me.set('img_url', response.picture.data.url);
+
+            var user = store.find('user', { fb_id: response.id }).then(users => {
+
+                if(Ember.isEmpty(users)) {
+                  user = store.createRecord('user');
+                }
+                else {
+                  user = users.get('firstObject');
+                }
+
+                user.set('fb_id', response.id);
+                user.set('first_name', response.first_name);
+                user.set('last_name', response.last_name);
+                user.set('img_url', response.picture.data.url);
+                user.save().then(user => {
+                  me.set('user', user);
+                });
+            });
           }
           else
           {

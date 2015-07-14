@@ -27,7 +27,7 @@ export default Ember.Component.extend({
           this.me.set('isLoggedIn', true);
         }
 
-  			this.testAPI();
+  			this.testAPI(this.store);
   	}
   	else if (response.status === 'not_authorized')
   	{
@@ -59,15 +59,31 @@ export default Ember.Component.extend({
   	console.log('Welcome!  Fetching your information.... ');
 
     var self = this;
+    var store = this.get('targetObject.store')
 
   	FB.api('/me', {fields: 'id,first_name,last_name,picture.width(120).height(120)'}, function(response)
   	{
   		if( !response.error )
   		{
         console.log('Successful login for: ' + response.first_name + " " + response.last_name);
-        self.me.set('first_name', response.first_name);
-        self.me.set('last_name', response.last_name);
-        self.me.set('img_url', response.picture.data.url);
+
+        var user = store.find('user', { fb_id: response.id }).then(users => {
+
+            if(Ember.isEmpty(users)) {
+              user = store.createRecord('user');
+            }
+            else {
+              user = users.get('firstObject');
+            }
+
+            user.set('fb_id', response.id);
+            user.set('first_name', response.first_name);
+            user.set('last_name', response.last_name);
+            user.set('img_url', response.picture.data.url);
+            user.save().then(user => {
+              self.get('me').set('user', user);
+            });
+        });
 
   			// getPermissions(function(){});
 

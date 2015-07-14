@@ -31,6 +31,9 @@ module.exports = function(environment) {
     }
   };
 
+  ENV.backend_url = 'http://localhost:8000';
+  ENV.backend_namespace = 'api/v1';
+
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;

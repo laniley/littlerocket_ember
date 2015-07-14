@@ -33,7 +33,7 @@
 				<!-- login -->
 				{{#if me.isLoggedIn}}
 					<li class="user-img">
-						<img {{bind-attr src=me.img_url}} />
+						<img {{bind-attr src=me.user.img_url}} />
 					</li>
 				{{else}}
 		      <li {{action 'login'}}>
