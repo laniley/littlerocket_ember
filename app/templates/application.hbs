@@ -10,64 +10,7 @@
 			<div class="row">
 
 				<div class="small-4 columns show-for-large-up cockpit">
-					<div class="title">Cockpit</div>
-					{{#if model.isLoggedIn}}
-						<div class="cockpit-row">
-							<div class="player-infos">
-								<div class="img_container">
-											<img src="" class="cockpit_img profile small" />
-										</div>
-										<div class="cockpit_name name"></div>
-										<div><i class="fa fa-star"></i> <span class="stars">0</span></div>
-										<div class="score_container">
-											<span class="cockpit_score score">0</span> Points
-										</div>
-										<div class="rank_container">
-												<span class="cockpit_rank rank">0</span>. in the leaderboard
-										</div>
-									</div>
-
-									<div class="fb-publish-actions-not-granted fb-relative-container">
-									<fb:login-button scope="public_profile,publish_actions,user_friends" onlogin="checkLoginState();">post your score to facebook</fb:login-button>
-								</div>
-
-									<div class="cockpit-item-container item-container">
-										<div class="workbench fa-stack cockpit-item locked">
-											<i class="fa fa-wrench fa-stack-1x" title="Use 1000 stars to build the workbench!"></i>
-											<i class="fa fa-lock fa-stack-1x locked" title="You need 1000 stars to unlock the workbench!"></i>
-										</div>
-										<div class="lab fa-stack cockpit-item locked">
-											<i class="fa fa-flask fa-stack-1x" title="Use 1000 stars to build the lab!"></i>
-											<i class="fa fa-lock fa-stack-1x locked" title="You need 1000 stars to unlock the lab!"></i>
-										</div>
-								</div>
-								<div id="workbench">
-									<h2>Workbench</h2>
-									<ul id="workbench-item-container" class="item-container">
-										<li id="canon" class="fa-stack cockpit-item locked">
-											<i class="fa fa-bullseye fa-stack-1x" title="Use 500 stars to build the canon!"></i>
-											<i class="fa fa-lock fa-stack-1x locked" title="You need 500 stars to unlock the canon!"></i>
-										</li>
-										<li id="canon-infos" title="capacity"></li>
-									</ul>
-								</div>
-								<div id="lab">
-									<h2>Lab</h2>
-									<ul id="lab-item-container" class="item-container">
-										<li id="canon-upgrades" class="fa-stack cockpit-item locked">
-											<i class="fa fa-bullseye fa-stack-1x" title="The available canon upgrades."></i>
-											<i class="fa fa-lock fa-stack-1x locked" title="You need to buy the canon at the workbench first, to unlock the canon upgrades!"></i>
-										</li>
-										<li id="canon-upgrades-infos"></li>
-									</ul>
-								</div>
-							</div>
-					{{else}}
-						<div class="login-info">
-							<div>{{unbound fa-icon "fa-lock"}}</div>
-							<div>Please log in.</div>
-						</div>
-					{{/if}}
+					{{cockpit-component me=model}}
 				</div>
 
 				<div class="small-12 large-4 columns">
@@ -100,7 +43,7 @@
 				</div>
 
 				<div class="small-4  columns show-for-large-up leaderboard">
-					<div class="title">Leaderboard</div>
+					<div class="title">{{unbound fa-icon "fa-trophy"}} Leaderboard</div>
 					{{#if model.isLoggedIn}}
 						<!-- invite -->
 						 <div id="fb-challenge-container">
