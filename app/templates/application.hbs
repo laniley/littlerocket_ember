@@ -11,6 +11,7 @@
 
 				<div class="small-4 columns show-for-large-up cockpit">
 					<div class="title">Cockpit</div>
+					{{#if model.isLoggedIn}}
 						<div class="cockpit-row">
 							<div class="player-infos">
 								<div class="img_container">
@@ -61,6 +62,12 @@
 									</ul>
 								</div>
 							</div>
+					{{else}}
+						<div class="login-info">
+							<div>{{unbound fa-icon "fa-lock"}}</div>
+							<div>Please log in.</div>
+						</div>
+					{{/if}}
 				</div>
 
 				<div class="small-12 large-4 columns">
@@ -94,13 +101,20 @@
 
 				<div class="small-4  columns show-for-large-up leaderboard">
 					<div class="title">Leaderboard</div>
-					<!-- invite -->
-					 <div id="fb-challenge-container">
-						<button id="fb-challenge" class="fb-button confirm">
-							{{unbound fa-icon "facebook-square"}} Invite your friends
-						</button>
-					</div>
-					<div class="leaderboard_list scrollable_list leaderboard"></div>
+					{{#if model.isLoggedIn}}
+						<!-- invite -->
+						 <div id="fb-challenge-container">
+							<button id="fb-challenge" class="fb-button confirm">
+								{{unbound fa-icon "facebook-square"}} Invite your friends
+							</button>
+						</div>
+						<div class="leaderboard_list scrollable_list leaderboard"></div>
+					{{else}}
+						<div class="login-info">
+							<div>{{unbound fa-icon "fa-lock"}}</div>
+							<div>Please log in.</div>
+						</div>
+					{{/if}}
 				</div>
 
 			</div>

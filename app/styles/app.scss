@@ -354,17 +354,28 @@ body
   max-width: 100%;
 }
 
-.columns .title {
-  font-size: 1.75rem;
-  line-height: 2.5rem;
-	margin: 15px 0;
-	background-color: $darkblue;
-	border: $border;
-	color: white;
-	padding-left: 5px;
+.columns {
+  .title {
+    font-size: 1.75rem;
+    line-height: 2.5rem;
+  	margin: 15px 0;
+  	background-color: $darkblue;
+  	border: $border;
+  	color: white;
+  	padding-left: 5px;
+  }
+  .login-info {
+    text-align: center;
+    font-size: 2.5rem;
+    padding: 200px 0;
+    color: white;
+    background-color: #888;
+    border: 1px solid #444;
+  }
 }
 
 .leaderboard {
+
 		.fb-publish-actions-not-granted {
 			margin-bottom: 20px;
 		}
@@ -402,7 +413,8 @@ body
 				width: 50px;
 			}
 		}
-	}
+
+}
 
 .fb-button {
 	background: -webkit-linear-gradient(#4c69ba, #3b55a0);
