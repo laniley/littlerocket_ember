@@ -85,8 +85,6 @@ export default Ember.Component.extend({
             });
         });
 
-  			// getPermissions(function(){});
-
   			// getScores(function()
   			// {
   			// 	renderScores();
