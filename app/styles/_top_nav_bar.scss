@@ -69,13 +69,14 @@
 .no-login {
   &.alert-box {
     z-index: 9999;
+    top: -427px;
     float: right;
     font-size: 1rem;
 
     @media screen and (min-width:760px)
-        {
-            width: 330px;
-        }
+    {
+        width: 330px;
+    }
 
     .close {
       top: 20%;

@@ -199,9 +199,9 @@ export function initialize(/* container, application */) {
 
 			Q.state.on("change.distance",this,"updateText");
 			Q.state.on("change.stars",this,"updateText");
-		}
+		},
 
-		,updateText: function(newVal)
+		updateText: function(newVal)
 		{
 			  this.p.label = (parseInt(distance) + parseInt(stars)) + "\n";
 		}
@@ -222,9 +222,9 @@ export function initialize(/* container, application */) {
 			});
 
 			Q.state.on("change.distance",this,"updateText");
-		 }
+    },
 
-		 ,updateText: function(newVal)
+		 updateText: function(newVal)
 		 {
 			  this.p.label = parseInt(distance) + "\n";
 		 }
@@ -245,9 +245,9 @@ export function initialize(/* container, application */) {
 			});
 
 			Q.state.on("change.level",this,"updateText");
-		 }
+    },
 
-		 ,updateText: function(newVal)
+		 updateText: function(newVal)
 		 {
 			  this.p.label = newVal + "\n";
 		 }
@@ -268,9 +268,9 @@ export function initialize(/* container, application */) {
 			});
 
 			Q.state.on("change.stars",this,"updateStars");
-		 }
+    },
 
-		 ,updateStars: function(newVal)
+		 updateStars: function(newVal)
 		 {
 			  this.p.label = newVal + "\n";
 		 }
@@ -291,9 +291,9 @@ export function initialize(/* container, application */) {
 			});
 
 			Q.state.on("change.globalSpeed",this,"updateSpeed");
-		 }
+    },
 
-		 ,updateSpeed: function(newVal)
+		 updateSpeed: function(newVal)
 		 {
 			  this.p.label = parseInt((newVal / maxSpeed) * 100) + " %\n";
 		 }
@@ -314,9 +314,9 @@ export function initialize(/* container, application */) {
 			});
 
 			Q.state.on("change.distanceToGoal",this,"updateText");
-		 }
+    },
 
-		 ,updateText: function(newVal)
+		 updateText: function(newVal)
 		 {
 			  this.p.label = parseInt(distanceToGoal) + "\n";
 		 }
@@ -337,9 +337,9 @@ export function initialize(/* container, application */) {
 			});
 
 			Q.state.on("change.bullets",this,"updateText");
-		}
+		},
 
-		,updateText: function(newVal)
+		updateText: function(newVal)
 		{
 			this.p.label = "Ammo: " + parseInt(bullets) + "\n";
 		}
@@ -487,11 +487,11 @@ export function initialize(/* container, application */) {
 
 		distance          = 0;
 		stars             = 0;
-
 		bullets 				= 0;
 
-		if(cockpit.hasCanon())
-			bullets 	= cockpit.canon.capacity;
+		if(cockpit.hasCanon()) {
+      bullets = cockpit.canon.capacity;
+    }
 
 		distanceToGoalRef = 50;
 		globalSpeedRef    = 250;
@@ -589,8 +589,7 @@ export function initialize(/* container, application */) {
 
 		stage.insert(new Q.UI.Text
 		({
-				label: scoreInfo + (parseInt(distance) + parseInt(stars)) + "\n\n"
-						+ 'distance: ' + (parseInt(distance) + '\n stars: ' + parseInt(stars)),
+				label: scoreInfo + (parseInt(distance) + parseInt(stars)) + "\n\n" + 'distance: ' + (parseInt(distance) + '\n stars: ' + parseInt(stars)),
 				color: color,
 				x: 0,
 				y: 0,
@@ -599,9 +598,9 @@ export function initialize(/* container, application */) {
 				scale: scale
 		}), containerText);
 
-		if(scale === 1)
-			containerText.fit(20);
-
+		if(scale === 1) {
+      containerText.fit(20);
+    }
 
 		// Try again
 		var container = stage.insert(new Q.UI.Container
@@ -679,9 +678,9 @@ export function initialize(/* container, application */) {
 			  "collecting_a_star.mp3",
 			  "racing.mp3",
 			  "explosion.mp3"
-			]
+			],
 
-			, function()
+			function()
 			{
 				Q.sheet("level_selection", "level_selection.png", { tileW: 420, tileH: 600 });
 				Q.sheet("bullet","bullet.png", { tileW: 20, tileH: 20 });
@@ -724,7 +723,7 @@ export function initialize(/* container, application */) {
 					var element = document.getElementById("loading_progress");
 					element.style.width = Math.floor(loaded/total*100) + "%";
 
-					if(loaded/total == 1)
+					if(loaded/total === 1)
 					{
 						$("#loading").remove();
 					}
