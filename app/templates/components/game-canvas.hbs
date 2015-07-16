@@ -1,16 +1,18 @@
 <div class="row">
 
-  <canvas id='game'>
+  <canvas id='game' width='420' height='600'>
     Your browser doesn't support this game. :(
   </canvas>
 
-  <div id='loading'>
-    <div id='loading_container'>
-      <div id='loading_progress'>
-        <span>loading...</span>
+  {{#if isLoading}}
+    <div id='loading'>
+      <div id='loading_container'>
+        <div id='loading_progress'>
+          <span>loading...</span>
+        </div>
       </div>
     </div>
-  </div>
+  {{/if}}
 
 </div>
 
