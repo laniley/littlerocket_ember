@@ -6,9 +6,10 @@
 
 # dependencies
 /node_modules
-/bower_components
-!/bower_components/quintus
-!/bower_components/quintus/dist
+
+/bower_components/**/*
+!/bower_components/quintus/
+/bower_components/quintus/node_modules
 
 # misc
 /.sass-cache
