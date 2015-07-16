@@ -59,7 +59,7 @@ export default Ember.Component.extend({
   	console.log('Welcome!  Fetching your information.... ');
 
     var self = this;
-    var store = this.get('targetObject.store')
+    var store = this.get('targetObject.store');
 
   	FB.api('/me', {fields: 'id,first_name,last_name,picture.width(120).height(120)'}, function(response)
   	{
