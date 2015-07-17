@@ -1,15 +1,18 @@
 /* global Quintus */
 import Ember from 'ember';
+import GameSpriteComponent from './game-sprite';
 
 export default Ember.Component.extend({
 
   me: null,
+  store: null,
   isLoading: true,
 
   didInsertElement: function() {
     // Set up a basic Quintus object
     // with the necessary modules and controls
     var self = this;
+    this.set('store', this.get('targetObject.store'));
 
     var Q = window.Q = new Quintus({
       development: false,
@@ -488,22 +491,22 @@ export default Ember.Component.extend({
   		Q.stageScene('hud', 3, Q('Rocket').first().p);
   	});
 
-    Q.Sprite.extend("Level_Selection",
-    {
-    	init: function(p)
-    	{
-    		this._super(p,
-    		{
-    			name:  "Level_Selection",
-    			sheet: "level_selection",
-    			tileW: 420,
-    			tileH: 600,
-    			x: 		 210,
-    			y: 		 300,
-    			scale: scale
-    	   });
-    	}
-    });
+    // Q.Sprite.extend("Level_Selection",
+    // {
+    // 	init: function(p)
+    // 	{
+    // 		this._super(p,
+    // 		{
+    // 			name:  "Level_Selection",
+    // 			sheet: "level_selection",
+    // 			tileW: 420,
+    // 			tileH: 600,
+    // 			x: 		 210,
+    // 			y: 		 300,
+    // 			scale: scale
+    // 	   });
+    // 	}
+    // });
 
     Q.scene("levelSelection", function(stage)
     {
@@ -513,7 +516,27 @@ export default Ember.Component.extend({
     	Q.audio.stop('rocket.mp3');
     	Q.audio.stop('racing.mp3');
 
-    	stage.insert(new Q.Level_Selection());
+      var levelSelection = GameSpriteComponent.create({
+        name:  "Level_Selection",
+        sheet: "level_selection",
+        tileW: 420,
+        tileH: 600,
+        x: 		 210,
+        y: 		 300,
+        scale: scale
+      });
+
+      levelSelection.init();
+
+    	stage.insert(new Q.Sprite({
+        name:  "Level_Selection",
+        sheet: "level_selection",
+        tileW: 420,
+        tileH: 600,
+        x: 		 210,
+        y: 		 300,
+        scale: scale
+      }));
 
     	// assets
     	var assetLevel2 = 'star_locked.png';
