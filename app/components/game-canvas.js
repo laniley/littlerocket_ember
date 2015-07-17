@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   me: null,
   store: null,
   isLoading: true,
+  isPaused: true,
 
   didInsertElement: function() {
 
@@ -22,8 +23,6 @@ export default Ember.Component.extend({
     (
     		'game',
     		{
-    			// width: 420,
-    			// height: 600,
     			scaleToFit: true,
           maximize: "touch"
     		}
@@ -61,8 +60,6 @@ export default Ember.Component.extend({
     Q.SPRITE_ASTEROID = 4;
     Q.MENU_ICON       = 8;
     Q.SPRITE_BULLET	  = 16;
-
-    var paused        = true;
 
     var level         = 1;
     var distance      = 0;
@@ -418,7 +415,7 @@ export default Ember.Component.extend({
 
   	Q.scene("mainMenu",function(stage)
   	{
-  		paused = true;
+  		self.set('isPaused', true);
   		Q.pauseGame();
 
   		Q.audio.stop('rocket.mp3');
@@ -504,7 +501,7 @@ export default Ember.Component.extend({
 
     Q.scene("levelSelection", function(stage)
     {
-    	paused = true;
+    	self.set('isPaused', true);
     	Q.pauseGame();
 
     	Q.audio.stop('rocket.mp3');
@@ -698,7 +695,7 @@ export default Ember.Component.extend({
 
   	Q.scene("level",function(stage)
   	{
-  		paused = false;
+  		self.set('isPaused', false);
   		Q.unpauseGame();
   		Q.audio.play('rocket.mp3', { loop: true });
   		Q.audio.play('racing.mp3', { loop: true });
@@ -755,12 +752,12 @@ export default Ember.Component.extend({
   		  		if(Q.loop)
   		  		{
   		  			Q.pauseGame();
-  		  			paused = true;
+  		  			self.set('isPaused', true);
   		  		}
   		  		else if(!Q.loop)
   		  		{
   		  			Q.unpauseGame();
-  		  			paused = false;
+  		  			self.set('isPaused', false);
   		  		}
 
   		});
@@ -769,7 +766,7 @@ export default Ember.Component.extend({
 
   	Q.scene("gameOver", function(stage)
   	{
-  		paused = true;
+  		self.set('isPaused', true);
   		Q.pauseGame();
 
   		Q.audio.stop('rocket.mp3');
