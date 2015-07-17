@@ -1943,8 +1943,13 @@ Quintus.Sprites = function(Q) {
    }
   });
 
-  Q.Sprite.extend("Level_Selection",
-  {
+  Q.Sprite.extend("TransformableSprite", {
+  	 rotate: function(degree) {
+  		  this.p.angle = degree;
+  	 }
+  });
+
+  Q.Sprite.extend("Level_Selection",{
     init: function(p)
     {
       this._super(p,
