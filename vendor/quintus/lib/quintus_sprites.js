@@ -374,7 +374,7 @@ Quintus.Sprites = function(Q) {
         ax: 0,
         ay: 0
       },props),defaultProps);
-   },
+    },
 
    step: function(dt) {
      var p = this.p;
@@ -385,7 +385,7 @@ Quintus.Sprites = function(Q) {
      p.x += p.vx * dt;
      p.y += p.vy * dt;
    }
- });
+  });
 
   return Q;
 };

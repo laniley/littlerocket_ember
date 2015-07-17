@@ -24,6 +24,19 @@ export default Ember.Component.extend({
     this.refreshMatrix();
   },
 
+  draw: function(ctx, x, y, frame) {
+    // if(!ctx) {
+    //   ctx = Q.ctx;
+    // }
+    //
+    // ctx.drawImage(Q.asset(this.asset),
+    //               this.fx(frame),this.fy(frame),
+    //               this.tilew, this.tileh,
+    //               Math.floor(x),Math.floor(y),
+    //               this.tilew, this.tileh);
+
+  },
+
   refreshMatrix: function() {
     // this.matrix.identity();
     //

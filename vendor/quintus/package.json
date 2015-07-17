@@ -6,7 +6,7 @@
     "email": "html5game@cykod.com"
   },
   "repository": {
-    "type" : "git",
+    "type": "git",
     "url": "git://github.com/cykod/Quintus"
   },
   "licenses": [
@@ -36,5 +36,8 @@
     "jade": "~0.34.1",
     "stylus": "~0.36.0",
     "aws-sdk": "1.4.1"
+  },
+  "devDependencies": {
+    "underscore": "^1.8.3"
   }
 }
