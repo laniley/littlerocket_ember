@@ -1,3 +1,4 @@
+/* Quintus */
 import Ember from 'ember';
 
 export default Ember.Component.extend({
@@ -484,20 +485,20 @@ export default Ember.Component.extend({
   		Q.stageScene('hud', 3, Q('Rocket').first().p);
   	});
 
-    Q.Sprite.extend("Level_Selection",
-    {
-    	init: function(p)
-    	{
-        this._super(p,
-    		{
-    			name:  "Level_Selection",
-    			asset: "level_selection.png",
-    			x: 		 210,
-    			y: 		 300,
-    			scale: scale
-    	   });
-    	}
-    });
+    // Q.Sprite.extend("Level_Selection",
+    // {
+    // 	init: function(p)
+    // 	{
+    //     this._super(p,
+    // 		{
+    // 			name:  "Level_Selection",
+    // 			asset: "level_selection.png",
+    // 			x: 		 210,
+    // 			y: 		 300,
+    // 			scale: scale
+    // 	   });
+    // 	}
+    // });
 
     Q.scene("levelSelection", function(stage)
     {
@@ -512,13 +513,15 @@ export default Ember.Component.extend({
     	// assets
     	var assetLevel2 = 'star_locked.png';
 
-    	// if(me.get('user').get('max_level') > 1)
+    	if(self.get('me').get('user').get('max_level') > 1) {
     		assetLevel2 = 'star.png';
+      }
 
     	var assetLevel3 = 'star_locked.png';
 
-    	// if(me.get('user').get('max_level') > 2)
+    	if(self.get('me').get('user').get('max_level') > 2) {
     		assetLevel3 = 'star.png';
+      }
 
     	var assetLevel4 = 'star_locked.png';
     	var assetLevel5 = 'star_locked.png';
@@ -527,9 +530,9 @@ export default Ember.Component.extend({
     	var assetLevel8 = 'star_locked.png';
     	var assetLevel9 = 'star_locked.png';
 
-    	// Level 1
-    	var level1Button = stage.insert(new Q.UI.Button
-    	(
+      // Level 1
+      var level1Button = stage.insert(new Q.UI.Button
+      (
     		{
     	      asset: 	'star.png',
     	      x: 		80,
@@ -537,17 +540,17 @@ export default Ember.Component.extend({
     	      scale: 	0.7,
     	      label: 	'1'
         	}
-       ));
+      ));
 
-       level1Button.on("click", function()
-    	{
-    		level = 1;
-    		Q.clearStages();
-    		Q.stageScene("mainMenu");
-    	});
+      level1Button.on("click", function()
+      {
+      		level = 1;
+      		Q.clearStages();
+      		Q.stageScene("mainMenu");
+      });
 
-       // Level 2
-    	var level2Button = stage.insert(new Q.UI.Button
+      // Level 2
+      var level2Button = stage.insert(new Q.UI.Button
     	(
     		{
     	      asset: 	assetLevel2,
@@ -556,16 +559,16 @@ export default Ember.Component.extend({
     	      scale: 	0.7,
     	      label: 	'2'
         	}
-       ));
+      ));
 
-       level2Button.on("click", function()
+      level2Button.on("click", function()
     	{
-    		if(max_level > 1)
-    		{
-    			level = 2;
-    			Q.clearStages();
-    			Q.stageScene("mainMenu");
-    		}
+      		if(max_level > 1)
+      		{
+      			level = 2;
+      			Q.clearStages();
+      			Q.stageScene("mainMenu");
+      		}
     	});
 
     	// Level 3
@@ -578,17 +581,17 @@ export default Ember.Component.extend({
     	      scale: 	0.7,
     	      label: 	'3'
         	}
-       ));
+      ));
 
-       level3Button.on("click", function()
-    	{
-    		if(max_level > 2)
-    		{
-    			level = 3;
-    			Q.clearStages();
-    			Q.stageScene("mainMenu");
-    		}
-    	});
+      level3Button.on("click", function()
+      {
+      		if(max_level > 2)
+      		{
+      			level = 3;
+      			Q.clearStages();
+      			Q.stageScene("mainMenu");
+      		}
+      });
 
     	// Level 4
     	var level4Button = stage.insert(new Q.UI.Button
@@ -924,8 +927,8 @@ export default Ember.Component.extend({
 
 				Q.stageScene("levelSelection");
 
-				Q.debug = true;
-				Q.debugFill = true;
+				// Q.debug = true;
+				// Q.debugFill = true;
 			},
 
 			{

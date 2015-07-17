@@ -1650,7 +1650,7 @@ Quintus.Sprites = function(Q) {
       ];
   };
 
- Q._generateCollisionPoints = function(obj) {
+  Q._generateCollisionPoints = function(obj) {
     if(!obj.matrix && !obj.refreshMatrix) { return; }
     if(!obj.c) { obj.c = { points: [] }; }
     var p = obj.p, c = obj.c;
@@ -1709,8 +1709,6 @@ Quintus.Sprites = function(Q) {
 
     // TODO: Invoke moved on children
   };
-
-
 
 // Properties:
   //    x
@@ -1943,6 +1941,21 @@ Quintus.Sprites = function(Q) {
      p.x += p.vx * dt;
      p.y += p.vy * dt;
    }
+  });
+
+  Q.Sprite.extend("Level_Selection",
+  {
+    init: function(p)
+    {
+      this._super(p,
+      {
+        name:  "Level_Selection",
+        asset: "level_selection.png",
+        x: 		 210,
+        y: 		 300,
+        scale: p.scale
+       });
+    }
   });
 
   return Q;
