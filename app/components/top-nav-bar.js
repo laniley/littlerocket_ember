@@ -27,7 +27,7 @@ export default Ember.Component.extend({
           this.me.set('isLoggedIn', true);
         }
 
-  			this.testAPI(this.store);
+  			this.getUserDataFromFB(this.store);
   	}
   	else if (response.status === 'not_authorized')
   	{
@@ -54,7 +54,7 @@ export default Ember.Component.extend({
 
   // Here we run a very simple test of the Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
-  testAPI: function()
+  getUserDataFromFB: function()
   {
   	console.log('Welcome!  Fetching your information.... ');
 
