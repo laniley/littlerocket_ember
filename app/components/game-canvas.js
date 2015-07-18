@@ -5,6 +5,9 @@ export default Ember.Component.extend({
 
   me: null,
   store: null,
+
+  level: 1,
+
   isLoading: true,
   isPaused: true,
 
@@ -62,7 +65,6 @@ export default Ember.Component.extend({
     Q.MENU_ICON       = 8;
     Q.SPRITE_BULLET	  = 16;
 
-    var level         = 1;
     var distance      = 0;
     var stars         = 0;
     var bullets 		  = 0;
@@ -226,7 +228,7 @@ export default Ember.Component.extend({
   			({
   				 x: scale * 0,
   				 y: scale * 24,
-  				 label: level+"\n",
+  				 label: self.get('level') + "\n",
   				 color: "black",
   				 size: scale * 20,
   				 outlineWidth: container.width
@@ -359,7 +361,7 @@ export default Ember.Component.extend({
             bullets: 		   3
     		  });
 
-    		  this.p.hasACanon = cockpit.hasCanon();
+    		  this.p.hasACanon = self.get('me').get('user').get('rocket').get('hasACanon');
 
     		  // Drehpunkt zentral
     		  this.p.points = [
@@ -385,7 +387,7 @@ export default Ember.Component.extend({
 
     		  this.add("2d, platformerControls, animation");
 
-    		  Q.state.set("level", level);
+    		  Q.state.set("level", self.get("level"));
 
     		  this.on('exploded', this, 'destroy');
     		  this.on('fireCanon', this, 'fireCanon');
@@ -393,29 +395,32 @@ export default Ember.Component.extend({
 
     	step: function(dt)
     	{
-    		if(paused == false)
+    		if(self.get('isPaused') === false)
     		{
     			this.p.lastSpeedUp += dt;
 
     			if(this.p.lastSpeedUp > 1)
     			{
-    				globalSpeed++;
-    				distanceToGoal--;
-    				distance++;
-    				this.p.speed = globalSpeed;
-    				Q.state.set("globalSpeed", globalSpeed);
-    				Q.state.set("distanceToGoal", distanceToGoal);
-    				Q.state.set("distance", distance);
+            self.get('rocket').set('speed', self.get('rocket').get('speed') + 1);
+            self.get('rocket').set('distanceToGoal', self.get('rocket').get('distanceToGoal') - 1);
+            self.get('rocket').set('distance', self.get('rocket').get('distance') + 1);
+
+    				this.p.speed = self.get('rocket').get('speed');
+
+    				Q.state.set("globalSpeed", self.get('rocket').get('speed'));
+    				Q.state.set("distanceToGoal", self.get('rocket').get('distanceToGoal'));
+    				Q.state.set("distance", self.get('rocket').get('distance'));
+
     				this.p.lastSpeedUp = 0;
     			}
 
 
-    			if(distanceToGoal <= 0)
+    			if(self.get('rocket').get('distanceToGoal') <= 0)
     			{
     				this.levelUp();
     			}
 
-    			// rocket cannt leave the screen
+    			// rocket can't leave the screen
     			if(
     					 this.p.x > Q.width - 30 && this.p.vx > 0
     				||  this.p.x < 30 && this.p.vx < 0
@@ -702,7 +707,7 @@ export default Ember.Component.extend({
 
       level1Button.on("click", function()
       {
-      		level = 1;
+      		self.set('level', 1);
       		Q.clearStages();
       		Q.stageScene("mainMenu");
       });
@@ -723,7 +728,7 @@ export default Ember.Component.extend({
     	{
       		if(max_level > 1)
       		{
-      			level = 2;
+      			self.set('level', 2);
       			Q.clearStages();
       			Q.stageScene("mainMenu");
       		}
@@ -745,7 +750,7 @@ export default Ember.Component.extend({
       {
       		if(max_level > 2)
       		{
-      			level = 3;
+      			self.set('level', 3);
       			Q.clearStages();
       			Q.stageScene("mainMenu");
       		}
