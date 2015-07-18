@@ -447,5 +447,26 @@ Quintus.Sprites = function(Q) {
      }
   });
 
+  	Q.Sprite.extend("StarIcon",
+  	{
+  		 init: function(p)
+  		 {
+  			  this._super(p,
+  			  {
+  					name:   	'StarIcon',
+  					asset:  	'menuicons/points.png',
+  					type:   	p.type,
+  					tileW:  	p.scale * 24,
+  					tileH:  	p.scale * 24,
+  					x:      	p.scale * 20,
+  					y:      	p.scale * 95,
+  					scale: 	  p.scale
+  			  });
+
+  			  this.p.x += this.p.tileW / 2;
+  			  this.p.y += this.p.tileH / 2;
+  		 }
+  	});
+
   return Q;
 };

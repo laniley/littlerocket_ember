@@ -89,27 +89,6 @@ export default Ember.Component.extend({
     	rocket_y -= 100;
     }
 
-  	Q.Sprite.extend("StarIcon",
-  	{
-  		 init: function(p)
-  		 {
-  			  this._super(p,
-  			  {
-  					name:   	'StarIcon',
-  					sheet:  	'points',
-  					type:   	Q.MENU_ICON,
-  					tileW:  	scale * 24,
-  					tileH:  	scale * 24,
-  					x:      	scale * 20,
-  					y:      	scale * 95,
-  					scale: 	  scale
-  			  });
-
-  			  this.p.x += this.p.tileW / 2;
-  			  this.p.y += this.p.tileH / 2;
-  		 }
-  	});
-
     Q.Sprite.extend("SpeedIcon",
   	{
   		 init: function(p)
@@ -520,7 +499,11 @@ export default Ember.Component.extend({
         scale: scale
       }));
 
-  		stage.insert(new Q.StarIcon());
+      stage.insert(new Q.StarIcon({
+        type:  Q.MENU_ICON,
+        scale: scale
+      }));
+
   		stage.insert(new Q.SpeedIcon());
   		stage.insert(new Q.GoalIcon());
 
