@@ -20,7 +20,7 @@ export default Ember.Mixin.create({
     console.log('fb login status', response);
 
     var store = this.store;
-    this.set('me', store.getById('me', 1));
+    this.set('me', store.peekRecord('me', 1));
 
     if (response.status === 'connected')
   	{
