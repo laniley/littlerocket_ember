@@ -69,13 +69,16 @@
 .no-login {
   &.alert-box {
     z-index: 9999;
-    top: -442px;
     float: right;
     font-size: 1rem;
 
+    -webkit-box-shadow: 0px 2px 10px #666;	/* webkit browser*/
+    -moz-box-shadow: 0px 2px 10px #666;	/* firefox */
+    box-shadow: 0px 2px 10px #666;
+
     @media screen and (min-width:760px)
     {
-        width: 330px;
+        width: 335px;
     }
 
     .close {
