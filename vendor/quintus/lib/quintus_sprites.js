@@ -405,5 +405,26 @@ Quintus.Sprites = function(Q) {
     }
   });
 
+  Q.Sprite.extend("DistanceIcon",
+  {
+     init: function(p)
+     {
+        this._super(p,
+        {
+          name:   	'DistanceIcon',
+          asset:  	'menuicons/distance.png',
+          type:   	p.type,
+          tileW:  	p.scale * 24,
+          tileH:  	p.scale * 24,
+          x:      	p.scale * 20,
+          y:      	p.scale * 45,
+          scale: 	  p.scale
+        });
+
+        this.p.x += this.p.tileW / 2;
+        this.p.y += this.p.tileH / 2;
+     }
+  });
+
   return Q;
 };

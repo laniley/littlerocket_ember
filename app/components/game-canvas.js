@@ -87,27 +87,6 @@ export default Ember.Component.extend({
     	rocket_y -= 100;
     }
 
-    Q.Sprite.extend("DistanceIcon",
-  	{
-  		 init: function(p)
-  		 {
-  			  this._super(p,
-  			  {
-  					name:   	'DistanceIcon',
-  					sheet:  	'distance',
-  					type:   	Q.MENU_ICON,
-  					tileW:  	scale * 24,
-  					tileH:  	scale * 24,
-  					x:      	scale * 20,
-  					y:      	scale * 45,
-  					scale: 	scale
-  			  });
-
-  			  this.p.x += this.p.tileW / 2;
-  			  this.p.y += this.p.tileH / 2;
-  		 }
-  	});
-
   	Q.Sprite.extend("LevelIcon",
   	{
   		 init: function(p)
@@ -121,7 +100,7 @@ export default Ember.Component.extend({
   					tileH:  	scale * 24,
   					x:      	scale * 20,
   					y:      	scale * 70,
-  					scale: 	scale
+  					scale: 	  scale
   			  });
 
   			  this.p.x += this.p.tileW / 2;
@@ -142,7 +121,7 @@ export default Ember.Component.extend({
   					tileH:  	scale * 24,
   					x:      	scale * 20,
   					y:      	scale * 95,
-  					scale: 	scale
+  					scale: 	  scale
   			  });
 
   			  this.p.x += this.p.tileW / 2;
@@ -163,7 +142,7 @@ export default Ember.Component.extend({
   					tileH:  	scale * 24,
   					x:      	scale * 20,
   					y:      	scale * 120,
-  					scale: 	scale
+  					scale: 	  scale
   			  });
 
   			  this.p.x += this.p.tileW / 2;
@@ -184,7 +163,7 @@ export default Ember.Component.extend({
   					tileH:  	scale * 24,
   					x:      	scale * 20,
   					y:      	scale * 145,
-  					scale: 	scale
+  					scale:   	scale
   			  });
 
   			  this.p.x += this.p.tileW / 2;
@@ -547,7 +526,11 @@ export default Ember.Component.extend({
   	Q.scene('hud',function(stage)
   	{
   		// Icons
-  		stage.insert(new Q.DistanceIcon());
+  		stage.insert(new Q.DistanceIcon({
+        type: Q.MENU_ICON,
+        scale: scale
+      }));
+
   		stage.insert(new Q.LevelIcon());
   		stage.insert(new Q.StarIcon());
   		stage.insert(new Q.SpeedIcon());
