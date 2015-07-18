@@ -1,7 +1,8 @@
 /* global FB */
 import Ember from 'ember';
+import FacebookLoginMixin from './../mixins/facebook-login';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(FacebookLoginMixin, {
 
   me: null,
   scope: 'public_profile,publish_actions,user_friends',
@@ -12,7 +13,7 @@ export default Ember.Component.extend({
 
   statusChangeCallback: function(response)
   {
-  	console.log('statusChangeCallback', response);
+  	console.log('fb login status', response);
   	 // The response object is returned with a status field that lets the
   	 // app know the current login status of the person.
   	 // Full docs on the response object can be found in the documentation
@@ -119,12 +120,6 @@ export default Ember.Component.extend({
   			console.log(response.error);
   		}
   	});
-  },
-
-  checkLoginState: function() {
-    FB.getLoginStatus(response => {
-        this.statusChangeCallback(response);
-    });
   },
 
   actions: {
