@@ -80,8 +80,25 @@ export default Ember.Component.extend({
             user.set('first_name', response.first_name);
             user.set('last_name', response.last_name);
             user.set('img_url', response.picture.data.url);
-            user.save().then(user => {
-              self.get('me').set('user', user);
+
+            var rocket = user.get('rocket').then(rocket => {
+
+              if(Ember.isEmpty(rocket)) {
+                rocket = store.createRecord('rocket');
+                rocket.set('user', user);
+                rocket.save().then(rocket => {
+                  user.set('rocket', rocket);
+                  user.save().then(user => {
+                    self.get('me').set('user', user);
+                  });
+                });
+              }
+              else {
+                user.save().then(user => {
+                  self.get('me').set('user', user);
+                });
+              }
+
             });
         });
 

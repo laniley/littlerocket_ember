@@ -6,5 +6,7 @@ export default DS.Model.extend({
   last_name: DS.attr('string'),
   img_url: DS.attr('string'),
   score: DS.attr('number', { defaultValue: 0 }),
-  max_level: DS.attr('number', { defaultValue: 1 })
+  max_level: DS.attr('number', { defaultValue: 1 }),
+
+  rocket: DS.belongsTo('rocket', { async: true })
 });

@@ -354,6 +354,196 @@ export default Ember.Component.extend({
   		}
   	});
 
+    Q.TransformableSprite.extend("Rocket", {
+    	init: function(p) {
+    		  this._super(p, {
+    				name:          "Rocket",
+    				sheet:         "rocket",
+    				sprite:        "rocket", // name of the animation
+    				frame:         0,
+    				direction:     'up',
+    				stars:         0,
+    				vSpeed:        50,
+    				x:             25, // x location of the center
+    				y:             70, // y location of the center
+    				tileW:         50,
+    				tileH:         140,
+    				type:          Q.SPRITE_ROCKET,
+    				collisionMask: Q.SPRITE_STAR,
+            lastSpeedUp:   0,
+            points:        [],
+            collided:      false,
+            scale: 			   scale,
+            hasACanon: 	   false,
+            canonBlocked:  false,
+            canonCapacity: 3,
+            bullets: 		   3
+    		  });
+
+    		  this.p.hasACanon = cockpit.hasCanon();
+
+    		  // Drehpunkt zentral
+    		  this.p.points = [
+    										  // links, halb oben
+    										  [-25, -10],
+    										  // Raketenspitze
+    										  [0, -this.p.tileH / 2],
+    										  // rechts, halb oben
+    										  [25, -10],
+    										  // rechts, halb unten
+    										  [25, 15],
+    										  // Antriebsdüse
+    										  [10, 30],
+    										  // rechts, unten
+    										  [25, -20 + this.p.tileH / 2],
+    										  // mitte unten
+    										  [0, -10  + this.p.tileH / 2],
+    										  // links, unten
+    										  [-25, -20  + this.p.tileH / 2],
+    										  [-10, 30 ],
+    										  [-25, 15]
+    								];
+
+    		  this.add("2d, platformerControls, animation");
+
+    		  Q.state.set("level", level);
+
+    		  this.on('exploded', this, 'destroy');
+    		  this.on('fireCanon', this, 'fireCanon');
+    	},
+
+    	step: function(dt)
+    	{
+    		if(paused == false)
+    		{
+    			this.p.lastSpeedUp += dt;
+
+    			if(this.p.lastSpeedUp > 1)
+    			{
+    				globalSpeed++;
+    				distanceToGoal--;
+    				distance++;
+    				this.p.speed = globalSpeed;
+    				Q.state.set("globalSpeed", globalSpeed);
+    				Q.state.set("distanceToGoal", distanceToGoal);
+    				Q.state.set("distance", distance);
+    				this.p.lastSpeedUp = 0;
+    			}
+
+
+    			if(distanceToGoal <= 0)
+    			{
+    				this.levelUp();
+    			}
+
+    			// rocket cannt leave the screen
+    			if(
+    					 this.p.x > Q.width - 30 && this.p.vx > 0
+    				||  this.p.x < 30 && this.p.vx < 0
+    			 )
+    			{
+    				this.p.vx = 0;
+    			}
+
+    		  // rotate the rocket
+    		  // based on our velocity
+    		  if(this.p.vx > 0 && this.p.angle < 45) // nach rechts drehen
+    		  {
+    				this.rotate(this.p.angle + 5);
+    		  }
+    		  else if(this.p.vx < 0 && this.p.angle > -45) // nach links drehen
+    		  {
+    				this.rotate(this.p.angle - 5);
+    		  }
+    		  else if(this.p.vx == 0)
+    		  {
+    				if(this.p.angle > 0)
+    				{
+    					 if(this.p.angle - 5 < 0)
+    						this.rotate(0);
+    					 else
+    						this.rotate(this.p.angle - 5);
+    				}
+    				else
+    				{
+    					 if(this.p.angle + 5 > 0)
+    						this.rotate(0);
+    					 else
+    						this.rotate(this.p.angle + 5);
+    				}
+    		  }
+
+    		  	// fire Canon
+    		  	if(Q.inputs['fire'] && this.p.hasACanon)
+    		  	{
+    		    	this.trigger("fireCanon");
+    		  	}
+    		}
+    	},
+
+    	fireCanon: function()
+    	{
+    		if(this.p.canonBlocked == false && this.p.bullets > 0)
+    		{
+    			this.p.canonBlocked = true;
+
+    			var bullet = new Q.Bullet();
+    	    	this.stage.insert(bullet);
+
+    	    	bullets--;
+    	    	this.p.bullets = bullets;
+    	    	Q.state.set("bullets", bullets);
+
+    	    	var me = this;
+
+    	    	setTimeout(function(){ me.p.canonBlocked = false; }, 500);
+    	   }
+    	},
+
+    	destroy: function()
+    	{
+    		// this.destroy();
+    		Q.pauseGame();
+    	},
+
+    	levelUp: function()
+    	{
+    		level++;
+    		Q.state.set("level", level);
+
+    		distanceToGoalRef *= 1.2;
+    		globalSpeedRef    *= 1.2;
+    		maxSpeedRef       *= 1.2;
+
+    		distanceToGoal  = distanceToGoalRef;
+    		globalSpeed     = globalSpeedRef;
+    		maxSpeed        = maxSpeedRef;
+
+    		if(level === 2)
+    		{
+    			Q.stage().insert(new Q.UfoMaker());
+    			asteroidMaker.p.launchDelay = 0.6 * scale - (globalSpeed / maxSpeed);
+
+    			if(level > max_level)
+    			{
+    				max_level = level;
+    				sendLevel(max_level);
+    			}
+    		}
+
+    		if(level === 3)
+    		{
+    			Q.stage().insert(new Q.ExplodingAsteroidMaker());
+
+    			if(level > max_level)
+    			{
+    				max_level = level;
+    				sendLevel(max_level);
+    			}
+    		}
+    	}
+    });
+
   	Q.scene('hud',function(stage)
   	{
   		// Icons
@@ -484,21 +674,6 @@ export default Ember.Component.extend({
 
   		Q.stageScene('hud', 3, Q('Rocket').first().p);
   	});
-
-    // Q.Sprite.extend("Level_Selection",
-    // {
-    // 	init: function(p)
-    // 	{
-    //     this._super(p,
-    // 		{
-    // 			name:  "Level_Selection",
-    // 			asset: "level_selection.png",
-    // 			x: 		 210,
-    // 			y: 		 300,
-    // 			scale: scale
-    // 	   });
-    // 	}
-    // });
 
     Q.scene("levelSelection", function(stage)
     {
