@@ -1,3 +1,4 @@
+/* global FB */
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
@@ -86,7 +87,7 @@ export default Ember.Mixin.create({
             user.set('last_name', response.last_name);
             user.set('img_url', response.picture.data.url);
 
-            var rocket = user.get('rocket').then(rocket => {
+            user.get('rocket').then(rocket => {
 
               if(Ember.isEmpty(rocket)) {
                 rocket = store.createRecord('rocket');
