@@ -1,4 +1,4 @@
-/* Quintus */
+/* global Quintus */
 import Ember from 'ember';
 
 export default Ember.Component.extend({
