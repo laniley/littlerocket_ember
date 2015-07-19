@@ -1,49 +1,135 @@
+/*global Quintus:false */
+/**
+Quintus HTML5 Game Engine - Sprites Module
+
+The code in `quintus_sprites.js` defines the `Quintus.Sprites` module, which
+add support for sprite sheets and the base sprite class.
+
+Most games will include at a minimum `Quintus.Sprites` and `Quintus.Scenes`
+
+@module Quintus.Sprites
+*/
 
 
-Quintus.Sprites = function(Q) {
+/**
+ * Quintus Sprites Module Class
+ *
+ * @class Quintus.Sprites
+ */
+Quintus.Sprites = function(Q)
+{
 
-  // Create a new sprite sheet
-  // Options:
-  //  tilew - tile width
-  //  tileh - tile height
-  //  w     - width of the sprite block
-  //  h     - height of the sprite block
-  //  sx    - start x
-  //  sy    - start y
-  //  cols  - number of columns per row
-  Q.Class.extend("SpriteSheet",{
-    init: function(name, asset,options) {
+  /**
+
+  Sprite sheet class - generally instantiated with `Q.sheet` new `new`
+
+
+  @class Q.SpriteSheet
+  @extends Q.Class
+  @for Quintus.Sprites
+  */
+  Q.Class.extend("SpriteSheet",
+  {
+
+    /**
+    constructor
+
+    Options:
+
+      * tileW - tile width
+      * tileH - tile height
+      * w     - width of the sprite block
+      * h     - height of the sprite block
+      * sx    - start x
+      * sy    - start y
+      * spacingX - spacing between each tile x (after 1st)
+      * spacingY - spacing between each tile y
+      * marginX - margin around each tile x
+      * marginY - margin around each tile y
+      * cols  - number of columns per row
+
+    @constructor
+    @for Q.SpriteSheet
+    @method init
+    @param {String} name
+    @param {String} asset
+    @param {Object} options
+    */
+    init: function(name, asset,options)
+    {
       if(!Q.asset(asset)) { throw "Invalid Asset:" + asset; }
       Q._extend(this,{
         name: name,
         asset: asset,
         w: Q.asset(asset).width,
         h: Q.asset(asset).height,
-        tilew: 64,
-        tileh: 64,
+        tileW: 64,
+        tileH: 64,
         sx: 0,
-        sy: 0
+        sy: 0,
+        spacingX: 0,
+        spacingY: 0,
+        frameProperties: {}
         });
       if(options) { Q._extend(this,options); }
+      // fix for old tilew instead of tileW
+      if(this.tilew) {
+        this.tileW = this.tilew;
+        delete this['tilew'];
+      }
+      if(this.tileh) {
+        this.tileH = this.tileh;
+        delete this['tileh'];
+      }
+
       this.cols = this.cols ||
-                  Math.floor(this.w / this.tilew);
+                  Math.floor(this.w / (this.tileW + this.spacingX));
+
+      this.frames = this.cols * (Math.floor(this.h/(this.tileH + this.spacingY)));
     },
 
-    fx: function(frame) {
-      return Math.floor((frame % this.cols) * this.tilew + this.sx);
+    /**
+     Returns the starting x position of a single frame
+
+     @method fx
+     @for Q.SpriteSheet
+     @param {Integer} frame
+    */
+    fx: function(frame)
+    {
+      return Math.floor((frame % this.cols) * (this.tileW + this.spacingX) + this.sx);
     },
 
-    fy: function(frame) {
-      return Math.floor(Math.floor(frame / this.cols) * this.tileh + this.sy);
+    /**
+     Returns the starting y position of a single frame
+
+     @method fy
+     @for Q.SpriteSheet
+     @param {Integer} frame
+    */
+    fy: function(frame)
+    {
+      return Math.floor(Math.floor(frame / this.cols) * (this.tileH + this.spacingY) + this.sy);
     },
 
-    draw: function(ctx, x, y, frame) {
+    /**
+     Draw a single frame at x,y on the provided context
+
+     @method draw
+     @for Q.SpriteSheet
+     @param {Context2D} ctx
+     @param {Float} x
+     @param {Float} y
+     @param {Integer} frame
+    */
+    draw: function(ctx, x, y, frame)
+    {
       if(!ctx) { ctx = Q.ctx; }
       ctx.drawImage(Q.asset(this.asset),
                     this.fx(frame),this.fy(frame),
-                    this.tilew, this.tileh,
+                    this.tileW, this.tileH,
                     Math.floor(x),Math.floor(y),
-                    this.tilew, this.tileh);
+                    this.tileW, this.tileH);
 
     }
 
@@ -51,7 +137,18 @@ Quintus.Sprites = function(Q) {
 
 
   Q.sheets = {};
-  Q.sheet = function(name,asset,options) {
+
+  /**
+   Return a `Q.SpriteSheet` or  create a new sprite sheet
+
+   @method Q.sheet
+   @for Quintus.Sprites
+   @param {String} name - name of sheet to return or create
+   @param {String} [asset] - if provided, will create a sprite sheet using this asset
+   @param {Object} [options] - if provided, will be passed as options to `Q.SpriteSheet`
+  */
+  Q.sheet = function(name,asset,options)
+  {
     if(asset) {
       Q.sheets[name] = new Q.SpriteSheet(name,asset,options);
     } else {
@@ -59,6 +156,14 @@ Quintus.Sprites = function(Q) {
     }
   };
 
+  /**
+   Create a number of `Q.SpriteSheet` objects from an image asset and a sprite data JSON asset
+
+   @method Q.compileSheets
+   @for Quintus.Sprites
+   @param {String} imageAsset
+   @param {String spriteDataAsset
+  */
   Q.compileSheets = function(imageAsset,spriteDataAsset) {
     var data = Q.asset(spriteDataAsset);
     Q._each(data,function(spriteData,name) {
@@ -67,32 +172,128 @@ Quintus.Sprites = function(Q) {
   };
 
 
+  /**
+   Bitmask 0 to indicate no sprites
+
+   @property Q.SPRITE_NONE
+   @for Quintus.Sprites
+   @final
+  */
   Q.SPRITE_NONE     = 0;
+
+  /**
+   default sprite type 1
+
+   @property Q.SPRITE_DEFAULT
+   @for Quintus.Sprites
+   @final
+  */
   Q.SPRITE_DEFAULT  = 1;
+
+  /**
+   particle sprite type 2
+
+   @property Q.SPRITE_PARTICLE
+   @for Quintus.Sprites
+   @final
+  */
   Q.SPRITE_PARTICLE = 2;
+
+  /**
+   active sprite type 4
+
+   @property Q.SPRITE_ACTIVE
+   @for Quintus.Sprites
+   @final
+  */
   Q.SPRITE_ACTIVE   = 4;
+
+  /**
+   friendly sprite type 8
+
+   @property Q.SPRITE_FRIENDLY
+   @for Quintus.Sprites
+   @final
+  */
   Q.SPRITE_FRIENDLY = 8;
+
+  /**
+   enemy sprite type 16
+
+   @property Q.SPRITE_ENEMY
+   @for Quintus.Sprites
+   @final
+  */
   Q.SPRITE_ENEMY    = 16;
+
+
+  /**
+   powerup sprite type 32
+
+   @property Q.SPRITE_POWERUP
+   @for Quintus.Sprites
+   @final
+  */
   Q.SPRITE_POWERUP  = 32;
+
+
+  /**
+   UI sprite type 64
+
+   @property Q.SPRITE_UI
+   @for Quintus.Sprites
+   @final
+  */
   Q.SPRITE_UI       = 64;
+
+  /**
+   all sprite type - 0xFFFF
+
+   @property Q.SPRITE_ALL
+   @for Quintus.Sprites
+   @final
+  */
   Q.SPRITE_ALL   = 0xFFFF;
 
 
-  Q._generatePoints = function(obj,force) {
-    if(obj.p.points && !force) { return; }
-    var p = obj.p,
-        halfW = p.w/2,
-        halfH = p.h/2;
+  /**
+   generate a square set of  `p.points` on an object from `p.w` and `p.h`
 
-    p.points = [
+   `p.points` represent the collision points for an object in object coordinates.
+
+
+    @method q._generatePoints
+    @for Quintus.Sprites
+    @param {Q.Sprite} obj - object to add points to
+    @param {Boolean} force - if set to true, will regenerate `p.points` even if it already exists, otherwise  if p.points exist it'll be left alone
+  */
+  	Q._generatePoints = function(obj,force)
+  	{
+    	if(obj.p.points && !force) { return; }
+    		var p = obj.p,
+        		halfW = p.w/2,
+        		halfH = p.h/2;
+
+    	p.points = [
       [ -halfW, -halfH ],
       [  halfW, -halfH ],
       [  halfW,  halfH ],
       [ -halfW,  halfH ]
       ];
-  };
+  	};
 
-  Q._generateCollisionPoints = function(obj) {
+
+  /**
+   Generate a square set of  `c.points` on an object from the object transform matrix and `p.points`
+
+   `c.points` represents the collision points of an sprite in world coordinates, scaled, rotate and taking into account any parent transforms.
+
+
+    @method Q._generateCollisionPoints
+    @for Quintus.Sprites
+    @param {q.sprite} obj - object to add collision points to
+  */
+ Q._generateCollisionPoints = function(obj) {
     if(!obj.matrix && !obj.refreshMatrix) { return; }
     if(!obj.c) { obj.c = { points: [] }; }
     var p = obj.p, c = obj.c;
@@ -112,10 +313,22 @@ Quintus.Sprites = function(Q) {
 
     obj.refreshMatrix();
 
+    var i;
+
+    // Early out if we don't need to rotate / scale / deal with a container
+    if(!obj.container && (!p.scale || p.scale === 1) && p.angle === 0) {
+      for(i=0;i<obj.p.points.length;i++) {
+        obj.c.points[i] = obj.c.points[i] || [];
+        obj.c.points[i][0] = p.x + obj.p.points[i][0];
+        obj.c.points[i][1] = p.y + obj.p.points[i][1];
+      }
+      c.x = p.x; c.y = p.y;
+      c.cx = p.cx; c.cy = p.cy;
+      c.w = p.w; c.h = p.h;
+      return;
+    }
     var container = obj.container || Q._nullContainer;
 
-    // TODO: see if we care or if it's more
-    // efficient just to do the calc each time
     c.x = container.matrix.transformX(p.x,p.y);
     c.y = container.matrix.transformY(p.x,p.y);
     c.angle = p.angle + container.c.angle;
@@ -126,7 +339,7 @@ Quintus.Sprites = function(Q) {
         maxX = -Infinity,
         maxY = -Infinity;
 
-    for(var i=0;i<obj.p.points.length;i++) {
+    for(i=0;i<obj.p.points.length;i++) {
       if(!obj.c.points[i]) {
         obj.c.points[i] = [];
       }
@@ -152,13 +365,56 @@ Quintus.Sprites = function(Q) {
     // TODO: Invoke moved on children
   };
 
-// Properties:
-  //    x
-  //    y
-  //    z - sort order
-  //    sheet or asset
-  //    frame
+
+  /**
+
+   Basic sprite class - will render either and asset or a frame from a sprite sheet.
+
+   Auto sets the width and height (`p.w` and `p.h`) from the provided image asset and
+   centers the sprite so 0,0 is the center of the provide image.
+
+   Most of the times you'll sub-class `Q.Sprite`
+
+   @extends Q.GameObject
+   @class Q.Sprite
+   @for Quintus.Sprites
+  */
   Q.GameObject.extend("Sprite",{
+
+    /**
+
+      Default sprite constructor, takes in a set of properties and a set of default properties (useful when you create a subclass of sprite)
+
+      Default properties:
+
+           {
+            asset: null,  // asset to use
+            sheet: null,  // sprite sheet to use (overrides asset)
+            x: 0,
+            y: 0,
+            z: 0,
+            w: 0,         // width, set from p.asset or p.sheet
+            h: 0,         // height, set from p.asset or p.sheet
+            cx: w/2,      // center x, defaults to center of the asset or sheet
+            cy: h/2,      // center y, default same as cx
+            // points defines the collision shape, override to customer the collision shape,
+            // must be a convex polygon in clockwise order
+            points: [  [ -w/2, -h/2 ], [  w/2, -h/2 ], [  w/2,  h/2 ], [ -w/2,  h/2 ] ],
+            opacity: 1,
+            angle: 0,
+            frame: 0
+            type:  Q.SPRITE_DEFAULT | Q.SPRITE_ACTIVE,
+            name: '',
+            sort: false,   // set to true to force children to be sorted by theier p.z,
+            hidden: false,  // set to true to hide the sprite
+            flip: ""       // set to "x", "y", or "xy" to flip sprite over that dimension
+           }
+
+      @method init
+      @for Q.Sprite
+      @param {Object} props - property has that will be turned into `p`
+      @param {Object} [defaultProps] - default properties that are assigned only if there's not a corresponding value in `props`
+    */
     init: function(props,defaultProps) {
       this.p = Q._extend({
         x: 0,
@@ -167,7 +423,9 @@ Quintus.Sprites = function(Q) {
         opacity: 1,
         angle: 0,
         frame: 0,
-        type: Q.SPRITE_DEFAULT | Q.SPRITE_ACTIVE
+        type: Q.SPRITE_DEFAULT | Q.SPRITE_ACTIVE,
+        name: '',
+        spriteProperties: {}
       },defaultProps);
 
       this.matrix = new Q.Matrix2D();
@@ -178,21 +436,25 @@ Quintus.Sprites = function(Q) {
       this.size();
       this.p.id = this.p.id || Q._uniqueId();
 
-      this.c = { points: [] };
-
       this.refreshMatrix();
     },
 
-    // Resets the width, height and center based on the
-    // asset or sprite sheet
+    /**
+    Resets the width, height and center based on the
+     asset or sprite sheet
+
+    @method size
+    @for Q.Sprite
+    @param {Boolean} force - force a reset (call if w or h changes)
+    */
     size: function(force) {
       if(force || (!this.p.w || !this.p.h)) {
         if(this.asset()) {
           this.p.w = this.asset().width;
           this.p.h = this.asset().height;
         } else if(this.sheet()) {
-          this.p.w = this.sheet().tilew;
-          this.p.h = this.sheet().tileh;
+          this.p.w = this.sheet().tileW;
+          this.p.h = this.sheet().tileH;
         }
       }
 
@@ -200,7 +462,14 @@ Quintus.Sprites = function(Q) {
       this.p.cy = (force || this.p.cy === void 0) ? (this.p.h / 2) : this.p.cy;
     },
 
-    // Get or set the asset associate with this sprite
+    /**
+    Get or set the asset associate with this sprite
+
+    @method asset
+    @for Q.Sprite
+    @param {String} [name] - leave empty to return the asset, add to set the asset
+    @param {Boolean} [resize] - force a call to `size()` and `_generatePoints`
+    */
     asset: function(name,resize) {
       if(!name) { return Q.asset(this.p.asset); }
 
@@ -211,7 +480,15 @@ Quintus.Sprites = function(Q) {
       }
     },
 
-    // Get or set the sheet associate with this sprite
+    /**
+
+     Get or set the sheet associate with this sprite
+
+     @method sheet
+     @for Q.Sprite
+     @param {String} [name] - leave empty to return the sprite sheet, add to resize
+     @param {Boolean} [resize] - force a resize
+    */
     sheet: function(name,resize) {
       if(!name) { return Q.sheet(this.p.sheet); }
 
@@ -222,14 +499,33 @@ Quintus.Sprites = function(Q) {
       }
     },
 
+    /**
+     Hide the sprite (render returns without rendering)
+
+     @method hide
+     @for Q.Sprite
+    */
     hide: function() {
       this.p.hidden = true;
     },
 
+    /**
+     Show the sprite
+
+     @method show
+     @for Q.Sprite
+    */
     show: function() {
       this.p.hidden = false;
     },
 
+    /**
+     Set a set of `p` properties on a Sprite
+
+     @method set
+     @for Q.Sprite
+     @param {Object} properties - hash of properties to set
+    */
     set: function(properties) {
       Q._extend(this.p,properties);
       return this;
@@ -245,6 +541,14 @@ Quintus.Sprites = function(Q) {
       "xy": [ -1, -1]
     },
 
+    /**
+     Default render method for the sprite. Don't overload this unless you want to
+     handle all the transform and scale stuff yourself. Rather overload the `draw` method.
+
+     @method render
+     @for Q.Sprite
+     @param {Context2D} ctx - context to render to
+    */
     render: function(ctx) {
       var p = this.p;
 
@@ -280,6 +584,12 @@ Quintus.Sprites = function(Q) {
 
     },
 
+    /**
+     Center sprite inside of it's container (or the stage)
+
+     @method center
+     @for Q.Sprite
+    */
     center: function() {
       if(this.container) {
         this.p.x = this.container.p.w / 2;
@@ -291,12 +601,24 @@ Quintus.Sprites = function(Q) {
 
     },
 
+    /**
+     Draw the asset on the stage. the context passed in is alreay transformed.
+
+     All you need to do is a draw the sprite centered at 0,0
+
+     @method draw
+     @for Q.Sprite
+     @param {Context2D} ctx
+    */
     draw: function(ctx) {
       var p = this.p;
       if(p.sheet) {
         this.sheet().draw(ctx,-p.cx,-p.cy,p.frame);
       } else if(p.asset) {
         ctx.drawImage(Q.asset(p.asset),-p.cx,-p.cy);
+      } else if(p.color) {
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.cx,-p.cy,p.w,p.h);
       }
     },
 
@@ -338,6 +660,18 @@ Quintus.Sprites = function(Q) {
       }
     },
 
+    /**
+     Update method is called each step with the time elapsed since the last step.
+
+     Doesn't do anything other than trigger events, call a `step` method if defined
+     and run update on all its children.
+
+     Generally leave this method alone and define a `step` method that will be called
+
+     @method update
+     @for Q.Sprite
+     @param {Float} dt - time elapsed since last call
+    */
     update: function(dt) {
       this.trigger('prestep',dt);
       if(this.step) { this.step(dt); }
@@ -348,8 +682,17 @@ Quintus.Sprites = function(Q) {
       if(this.stage && this.children.length > 0) {
         this.stage.updateSprites(this.children,dt,true);
       }
+
+      // Reset collisions if we're tracking them
+      if(this.p.collisions) { this.p.collisions = []; }
     },
 
+    /*
+     Regenerates this sprite's transformation matrix
+
+     @method refreshMatrix
+     @for Q.Sprite
+    */
     refreshMatrix: function() {
       var p = this.p;
       this.matrix.identity();
@@ -364,6 +707,19 @@ Quintus.Sprites = function(Q) {
     }
   });
 
+  /**
+   Simple sprite that adds in basic newtonian physics on each step:
+
+       p.vx += p.ax * dt;
+       p.vy += p.ay * dt;
+
+       p.x += p.vx * dt;
+       p.y += p.vy * dt;
+
+   @class Q.MovingSprite
+   @extends Q.Sprite
+   @for Quintus.Sprites
+  */
   Q.Sprite.extend("MovingSprite",{
     init: function(props,defaultProps) {
       this._super(Q._extend({
@@ -372,7 +728,7 @@ Quintus.Sprites = function(Q) {
         ax: 0,
         ay: 0
       },props),defaultProps);
-    },
+   },
 
    step: function(dt) {
      var p = this.p;
@@ -383,111 +739,112 @@ Quintus.Sprites = function(Q) {
      p.x += p.vx * dt;
      p.y += p.vy * dt;
    }
-  });
+ });
 
-  Q.Sprite.extend("TransformableSprite", {
-  	 rotate: function(degree) {
-  		  this.p.angle = degree;
-  	 }
-  });
+ Q.Sprite.extend("TransformableSprite", {
+    rotate: function(degree) {
+       this.p.angle = degree;
+    }
+ });
 
-  Q.Sprite.extend("Level_Selection",{
+ Q.Sprite.extend("Level_Selection",{
+   init: function(p)
+   {
+     this._super(p,
+     {
+       name:  "Level_Selection",
+       asset: "level_selection.png",
+       x: 		 210,
+       y: 		 300,
+       scale: p.scale
+      });
+   }
+ });
+
+ Q.Sprite.extend("DistanceIcon",
+ {
     init: function(p)
     {
-      this._super(p,
-      {
-        name:  "Level_Selection",
-        asset: "level_selection.png",
-        x: 		 210,
-        y: 		 300,
-        scale: p.scale
+       this._super(p,
+       {
+         name:   	'DistanceIcon',
+         asset:  	'menuicons/distance.png',
+         type:   	p.type,
+         tileW:  	p.scale * 24,
+         tileH:  	p.scale * 24,
+         x:      	p.scale * 20,
+         y:      	p.scale * 45,
+         scale: 	  p.scale
        });
+
+       this.p.x += this.p.tileW / 2;
+       this.p.y += this.p.tileH / 2;
     }
-  });
+ });
 
-  Q.Sprite.extend("DistanceIcon",
-  {
-     init: function(p)
-     {
-        this._super(p,
-        {
-          name:   	'DistanceIcon',
-          asset:  	'menuicons/distance.png',
-          type:   	p.type,
-          tileW:  	p.scale * 24,
-          tileH:  	p.scale * 24,
-          x:      	p.scale * 20,
-          y:      	p.scale * 45,
-          scale: 	  p.scale
-        });
+ Q.Sprite.extend("LevelIcon",
+ {
+    init: function(p)
+    {
+       this._super(p,
+       {
+         name:   	'LevelIcon',
+         asset:  	'menuicons/level.png',
+         type:   	p.type,
+         tileW:  	p.scale * 24,
+         tileH:  	p.scale * 24,
+         x:      	p.scale * 20,
+         y:      	p.scale * 70,
+         scale: 	  p.scale
+       });
 
-        this.p.x += this.p.tileW / 2;
-        this.p.y += this.p.tileH / 2;
-     }
-  });
+       this.p.x += this.p.tileW / 2;
+       this.p.y += this.p.tileH / 2;
+    }
+ });
 
-  Q.Sprite.extend("LevelIcon",
-  {
-     init: function(p)
-     {
-        this._super(p,
-        {
-          name:   	'LevelIcon',
-          asset:  	'menuicons/level.png',
-          type:   	p.type,
-          tileW:  	p.scale * 24,
-          tileH:  	p.scale * 24,
-          x:      	p.scale * 20,
-          y:      	p.scale * 70,
-          scale: 	  p.scale
-        });
+ Q.Sprite.extend("StarIcon",
+ {
+    init: function(p)
+    {
+       this._super(p,
+       {
+         name:   	'StarIcon',
+         asset:  	'menuicons/points.png',
+         type:   	p.type,
+         tileW:  	p.scale * 24,
+         tileH:  	p.scale * 24,
+         x:      	p.scale * 20,
+         y:      	p.scale * 95,
+         scale: 	  p.scale
+       });
 
-        this.p.x += this.p.tileW / 2;
-        this.p.y += this.p.tileH / 2;
-     }
-  });
+       this.p.x += this.p.tileW / 2;
+       this.p.y += this.p.tileH / 2;
+    }
+ });
 
-	Q.Sprite.extend("StarIcon",
-	{
-		 init: function(p)
-		 {
-			  this._super(p,
-			  {
-					name:   	'StarIcon',
-					asset:  	'menuicons/points.png',
-					type:   	p.type,
-					tileW:  	p.scale * 24,
-					tileH:  	p.scale * 24,
-					x:      	p.scale * 20,
-					y:      	p.scale * 95,
-					scale: 	  p.scale
-			  });
+ Q.Sprite.extend("SpeedIcon",
+ {
+    init: function(p)
+    {
+       this._super(p,
+       {
+         name:   	'SpeedIcon',
+         asset:  	'menuicons/speed.png',
+         type:   	p.type,
+         tileW:  	p.scale * 24,
+         tileH:  	p.scale * 24,
+         x:      	p.scale * 20,
+         y:      	p.scale * 120,
+         scale: 	  p.scale
+       });
 
-			  this.p.x += this.p.tileW / 2;
-			  this.p.y += this.p.tileH / 2;
-		 }
-	});
+       this.p.x += this.p.tileW / 2;
+       this.p.y += this.p.tileH / 2;
+    }
+ });
 
-  Q.Sprite.extend("SpeedIcon",
-  {
-     init: function(p)
-     {
-        this._super(p,
-        {
-          name:   	'SpeedIcon',
-          asset:  	'menuicons/speed.png',
-          type:   	p.type,
-          tileW:  	p.scale * 24,
-          tileH:  	p.scale * 24,
-          x:      	p.scale * 20,
-          y:      	p.scale * 120,
-          scale: 	  p.scale
-        });
-
-        this.p.x += this.p.tileW / 2;
-        this.p.y += this.p.tileH / 2;
-     }
-  });
 
   return Q;
 };

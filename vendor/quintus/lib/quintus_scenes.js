@@ -1,27 +1,67 @@
 /*global Quintus:false */
 
+/**
+Quintus HTML5 Game Engine - Scenes Module
+
+The code in `quintus_scenes.js` defines the `Quintus.Scenes` module, which
+adds in support for Scenes and Stages into Quintus. 
+
+Depends on the `Quintus.Sprite` module.
+
+Scenes let you create reusable definitions for setting up levels and screens.
+
+Stages are the primary container object in Quintus, handling Sprite management,
+stepping, rendering and collision detection.
+
+@module Quintus.Scenes
+*/
+
+/** 
+ * Quintus Scenes Module Class
+ *
+ * @class Quintus.Scenes
+ */
 Quintus.Scenes = function(Q) {
 
   Q.scenes = {};
   Q.stages = [];
 
-  Q.Scene = Q.Class.extend({
+
+  /** 
+   Basic scene class, consisting primarily of a scene function 
+   and some options that are passed to the stage.
+
+   Should be instantiated by calling `Q.scene` not new
+
+   @class Q.Scene
+   @for Quintus.Scenes
+  */
+  Q.Class.extend('Scene',{
     init: function(sceneFunc,opts) {
       this.opts = opts || {};
       this.sceneFunc = sceneFunc;
     }
   });
 
-  // Set up or return a new scene
-  Q.scene = function(name,sceneObj,opts) {
-    if(sceneObj === void 0) {
+  /**
+   Set up a new scene or return an existing scene. If you don't pass in `sceneFunc`, 
+   it'll return a scene otherwise it'll create a new one.
+
+   @method Q.scene
+   @for Quintus.Scenes
+   @param {String} name - name of scene to create or return
+   @param {Function} [sceneFunc] - scene function: `function(stage) { .. }` that sets up the stage
+  */
+  Q.scene = function(name,sceneFunc,opts) {
+    if(sceneFunc === void 0) {
       return Q.scenes[name];
     } else {
-      if(Q._isFunction(sceneObj)) {
-        sceneObj = new Q.Scene(sceneObj,opts);
+      if(Q._isFunction(sceneFunc)) {
+        sceneFunc = new Q.Scene(sceneFunc,opts);
+        sceneFunc.name = name;
       }
-      Q.scenes[name] = sceneObj;
-      return sceneObj;
+      Q.scenes[name] = sceneFunc;
+      return sceneFunc;
     }
   };
 
@@ -29,8 +69,6 @@ Quintus.Scenes = function(Q) {
     c: {
       x: 0,
       y: 0,
-      /* cx: 0,
-      cy: 0, */
       angle: 0,
       scale: 1
     },
@@ -38,9 +76,16 @@ Quintus.Scenes = function(Q) {
   };
 
  
-  // Default to SAT collision between two objects
-  // Thanks to doc's at: http://www.sevenson.com.au/actionscript/sat/
-  // TODO: handle angles on objects 
+  /**
+   SAT collision detection between two objects
+   Thanks to doc's at: http://www.sevenson.com.au/actionscript/sat/
+
+   This is sort of a black box - use the methods on stage like `search` and `collide` to
+   run the collision system.
+
+   @property Q.collision
+   @for Quintus.Scenes
+  */
   Q.collision = (function() { 
     var normalX, normalY,
         offset = [ 0,0 ],
@@ -162,14 +207,8 @@ Quintus.Scenes = function(Q) {
     function satCollision(o1,o2) {
       var result1, result2, result;
 
-      // Don't compare a square to a square for no reason
-      // if(!o1.p.points && !o2.p.points) return true;
-
       if(!o1.p.points) { Q._generatePoints(o1); }
       if(!o2.p.points) { Q._generatePoints(o2); }
-
-      Q._generateCollisionPoints(o1);
-      Q._generateCollisionPoints(o2);
 
       result1 = collide(o1,o2);
       if(!result1) { return false; }
@@ -190,25 +229,46 @@ Quintus.Scenes = function(Q) {
   }());
 
 
-  Q.overlap = function(o1,o2) {
-    var c1 = o1.c || o1.p;
-    var c2 = o2.c || o2.p;
+  /**
+   Check for the overlap of the boudning boxes of two Sprites
 
-    var o1x = c1.x - c1.cx,
-        o1y = c1.y - c1.cy;
-    var o2x = c2.x - c2.cx,
-        o2y = c2.y - c2.cy;
+   @method Q.overlap
+   @for Quintus.Scenes
+   @param {Q.Sprite} o1
+   @param {Q.Sprite} o2
+   @returns {Boolean}
+  */
+  Q.overlap = function(o1,o2) {
+    var c1 = o1.c || o1.p || o1;
+    var c2 = o2.c || o2.p || o2;
+
+    var o1x = c1.x - (c1.cx || 0),
+        o1y = c1.y - (c1.cy || 0);
+    var o2x = c2.x - (c2.cx || 0),
+        o2y = c2.y - (c2.cy || 0);
 
     return !((o1y+c1.h<o2y) || (o1y>o2y+c2.h) ||
              (o1x+c1.w<o2x) || (o1x>o2x+c2.w));
   };
 
+  /**
+   Base stage class, responsible for managing sets of sprites.
+
+   `Q.Stage`'s aren't generally instantiated directly, but rather are created
+   automatically when you call `Q.stageScene('sceneName')`
+
+   @class Q.Stage
+   @extends Q.GameObject
+   @for Quintus.Scenes
+  */
   Q.Stage = Q.GameObject.extend({
     // Should know whether or not the stage is paused
     defaults: {
       sort: false,
       gridW: 400,
-      gridH: 400
+      gridH: 400,
+      x: 0,
+      y: 0
     },
 
     init: function(scene,opts) {
@@ -218,6 +278,12 @@ Quintus.Scenes = function(Q) {
       this.index = {};
       this.removeList = [];
       this.grid = {};
+      this._collisionLayers = [];
+
+      this.time = 0;
+
+      this.defaults['w'] = Q.width;
+      this.defaults['h'] = Q.height;
 
       this.options = Q._extend({},this.defaults);
       if(this.scene)  { 
@@ -243,12 +309,24 @@ Quintus.Scenes = function(Q) {
       }
     },
 
+    /**
+      Load an array of assets of the form:
+
+          [ [ "Player", { x: 15, y: 54 } ],
+            [ "Enemy",  { x: 54, y: 42 } ] ]
+
+      Either pass in the array or a string of asset name
+
+     @method loadAssets
+     @param {Array or String} asset - Array of assets or a string of asset name
+     @for Q.Stage
+    */
     // Load an array of assets of the form:
     // [ [ "Player", { x: 15, y: 54 } ],
     //   [ "Enemy",  { x: 54, y: 42 } ] ]
     // Either pass in the array or a string of asset name
     loadAssets: function(asset) {
-      var assetArray = Q._isArray(asset) ? asset : Q.asset(stage.options.asset);
+      var assetArray = Q._isArray(asset) ? asset : Q.asset(asset);
       for(var i=0;i<assetArray.length;i++) {
         var spriteClass = assetArray[i][0];
         var spriteProps = assetArray[i][1];
@@ -256,12 +334,26 @@ Quintus.Scenes = function(Q) {
       }
     },
 
+    /**
+     executes the callback for each item in the scene
+
+     @method each
+     @param {function} callback
+     @for Q.Stage
+    */
     each: function(callback) {
       for(var i=0,len=this.items.length;i<len;i++) {
         callback.call(this.items[i],arguments[1],arguments[2]);
       }
     },
 
+    /**
+     invokes a functioncall for each item in the scene
+
+     @method invoke
+     @param {function} funcName
+     @for Q.Stage
+    */
     invoke: function(funcName) {
       for(var i=0,len=this.items.length;i<len;i++) {              
         this.items[i][funcName].call(
@@ -270,6 +362,12 @@ Quintus.Scenes = function(Q) {
       }
     },
 
+    /**
+
+     @method detect
+     @param {function} func
+     @for Q.Stage
+    */
     detect: function(func) {
       for(var i = this.items.length-1;i >= 0; i--) {
         if(func.call(this.items[i],arguments[1],arguments[2],arguments[3])) {
@@ -280,6 +378,12 @@ Quintus.Scenes = function(Q) {
     },
 
 
+    /**
+
+     @method identify
+     @param {function} func
+     @for Q.Stage
+    */
     identify: function(func) {
       var result;
       for(var i = this.items.length-1;i >= 0; i--) {
@@ -288,6 +392,16 @@ Quintus.Scenes = function(Q) {
         }
       }
       return false;
+    },
+
+    /**
+
+     @method find
+     @param {Number or String} id
+     @for Q.Stage
+    */
+    find: function(id) {
+      return this.index[id];
     },
 
     addToLists: function(lists,object) {
@@ -315,6 +429,15 @@ Quintus.Scenes = function(Q) {
       }
     },
 
+    /**
+     inserts an item into the scene, or inside a container
+
+     @method insert
+     @for Q.Stage
+     @param {Q.GameObject} itm - the Item to insert
+     @param container - _optional_
+     @return the inserted object for chaining
+    */
     insert: function(itm,container) {
       this.items.push(itm);
       itm.stage = this;
@@ -344,6 +467,13 @@ Quintus.Scenes = function(Q) {
       return itm;
     },
 
+    /**
+     removes an item from the scene
+
+     @method remove
+     @param {Q.GameObject} itm - the Item to remove
+     @for Q.Stage
+    */
     remove: function(itm) {
       this.delGrid(itm);
       this.removeList.push(itm);
@@ -371,16 +501,28 @@ Quintus.Scenes = function(Q) {
       }
     },
 
+    /**
+     Pauses the scene, sprites will no longer be stepped but still rendered.
+
+     @method pause
+     @for Q.Stage
+    */
     pause: function() {
       this.paused = true;
     },
 
+    /**
+     Unpauses the scene.
+
+     @method unpause
+     @for Q.Stage
+    */
     unpause: function() {
       this.paused = false;
     },
 
     _gridCellCheck: function(type,id,obj,collisionMask) {
-      if(!collisionMask || collisionMask & type) {
+      if(Q._isUndefined(collisionMask) || collisionMask & type) {
         var obj2 = this.index[id];
         if(obj2 && obj2 !== obj && Q.overlap(obj,obj2)) {
           var col= Q.collision(obj,obj2);
@@ -394,7 +536,7 @@ Quintus.Scenes = function(Q) {
       }
     },
 
-    gridTest: function(obj,collisionMask,collisionLayer) {
+    gridTest: function(obj,collisionMask) {
       var grid = obj.grid, gridCell, col;
 
       for(var y = grid.Y1;y <= grid.Y2;y++) {
@@ -412,20 +554,44 @@ Quintus.Scenes = function(Q) {
     },
 
     collisionLayer: function(layer) {
-      this._collisionLayer = layer;
+      this._collisionLayers.push(layer);
+      layer.collisionLayer = true;
       return this.insert(layer);
     },
+    
+    _collideCollisionLayer: function(obj,collisionMask) {
+      var col;
 
+      for(var i = 0,max = this._collisionLayers.length;i < max;i++) {
+        var layer = this._collisionLayers[i];
+        if(layer.p.type & collisionMask) {
+          col = layer.collide(obj);
+          if(col) { col.obj = layer;  return col; }
+        }
+      }
+      return false;
+    },
+
+    /**
+     Searches the scene for an object.
+
+     @method search
+     @param obj
+     @param collisionMask - _optional_
+     @for Q.Stage
+    */
     search: function(obj,collisionMask) {
       var col;
 
-      collisionMask = collisionMask || (obj.p && obj.p.collisionMask);
-      if(this._collisionLayer && (this._collisionLayer.p.type & collisionMask)) {
-        col = this._collisionLayer.collide(obj);
-        if(col) { return col; }
-      }
+      // If the object doesn't have a grid, regrid it
+      // so we know where to search
+      // and skip adding it to the grid only if it's not on this stage
+      if(!obj.grid) { this.regrid(obj,obj.stage !== this); }
 
-      col = this.gridTest(obj,collisionMask,this._collisionLayer);
+      collisionMask = Q._isUndefined(collisionMask) ? (obj.p && obj.p.collisionMask) : collisionMask;
+
+      col = this._collideCollisionLayer(obj,collisionMask);
+      col =  col || this.gridTest(obj,collisionMask);
       return col;
     },
 
@@ -433,13 +599,24 @@ Quintus.Scenes = function(Q) {
       p: { 
         x: 0,
         y: 0,
-				cx: 0,
-				cy: 0,
+        cx: 0,
+        cy: 0,
         w: 1,
         h: 1
       }, grid: {}
     },
 
+    /**
+     Finds any object that collides with the point x,y on the stage (not on the canvas).
+     If `collisionMask` is used, only checks for collisions with sprites of that type.
+
+     @method locate
+     @param {number} x
+     @param {number} y
+     @param collisionMask - type of the sprite _optional_
+     @return the object if one is found or false
+     @for Q.Stage
+    */
     locate: function(x,y,collisionMask) {
       var col = null;
 
@@ -448,13 +625,8 @@ Quintus.Scenes = function(Q) {
 
       this.regrid(this._locateObj,true);
 
-      if(this._collisionLayer && (this._collisionLayer.p.type & collisionMask)) {
-        col = this._collisionLayer.collide(this._locateObj);
-      }
-
-      if(!col) { 
-        col = this.gridTest(this._locateObj,collisionMask,this._collisionLayer);
-      }
+      col = this._collideCollisionLayer(this._locateObj,collisionMask);
+      col =  col || this.gridTest(this._locateObj,collisionMask);
 
       if(col && col.obj) {
         return col.obj;
@@ -464,6 +636,15 @@ Quintus.Scenes = function(Q) {
 
     },
 
+    /**
+     calculates if the given object collides with anything in the scene
+
+     @method collide
+     @param obj
+     @param options - _optional_
+     @return col2 || col
+     @for Q.Stage
+    */
     collide: function(obj,options) {
       var col, col2, collisionMask, 
           maxCol, curCol, skipEvents;
@@ -474,26 +655,26 @@ Quintus.Scenes = function(Q) {
       } else {
         collisionMask = options;
       }
-      collisionMask = collisionMask  || (obj.p && obj.p.collisionMask);
+      collisionMask = Q._isUndefined(collisionMask) ? (obj.p && obj.p.collisionMask) : collisionMask;
       maxCol = maxCol || 3;
 
-      curCol = maxCol;
 
+      Q._generateCollisionPoints(obj);
       this.regrid(obj);
-      if(this._collisionLayer && (this._collisionLayer.p.type & collisionMask)) {
-        while(curCol > 0 && (col = this._collisionLayer.collide(obj))) {
-          col.obj = this._collisionLayer;
-          if(!skipEvents) { 
-            obj.trigger('hit',col);
-            obj.trigger('hit.collision',col);
-          }
-          this.regrid(obj);
-          curCol--;
+
+      curCol = maxCol;
+      while(curCol > 0 && (col = this._collideCollisionLayer(obj,collisionMask))) {
+        if(!skipEvents) { 
+          obj.trigger('hit',col);
+          obj.trigger('hit.collision',col);
         }
+        Q._generateCollisionPoints(obj);
+        this.regrid(obj);
+        curCol--;
       }
 
       curCol = maxCol;
-      while(curCol > 0 && (col2 = this.gridTest(obj,collisionMask,this._collisionLayer))) {
+      while(curCol > 0 && (col2 = this.gridTest(obj,collisionMask))) {
         obj.trigger('hit',col2);
         obj.trigger('hit.sprite',col2);
 
@@ -514,6 +695,7 @@ Quintus.Scenes = function(Q) {
           obj2.trigger('hit.sprite',col2);
         }
 
+        Q._generateCollisionPoints(obj);
         this.regrid(obj);
         curCol--;
       }
@@ -549,10 +731,10 @@ Quintus.Scenes = function(Q) {
     },
 
     // Add an item into the collision detection grid,
-    // Ignore the collision layer or objects without a type
+    // Ignore collision layers
     regrid: function(item,skipAdd) {
-      if(this._collisionLayer && item === this._collisionLayer) { return; }
-      if(!item.p.type && !skipAdd) { return; }
+      if(item.collisionLayer) { return; }
+      item.grid = item.grid || {};
 
       var c = item.c || item.p;
 
@@ -574,12 +756,44 @@ Quintus.Scenes = function(Q) {
          if(!skipAdd) { this.addGrid(item); }
       }
     },
+    
+    markSprites: function(items,time) {
+      var viewport = this.viewport,
+          scale = viewport ? viewport.scale : 1,
+          x = viewport ? viewport.x : 0,
+          y = viewport ? viewport.y : 0,
+          viewW = Q.width / scale,
+          viewH = Q.height / scale,
+          gridX1 = Math.floor(x / this.options.gridW),
+          gridY1 = Math.floor(y / this.options.gridH),
+          gridX2 = Math.floor((x + viewW) / this.options.gridW),
+          gridY2 = Math.floor((y + viewH) / this.options.gridH),
+          gridRow, gridBlock;
+
+      for(var iy=gridY1; iy<=gridY2; iy++) {
+        if((gridRow = this.grid[iy])) { 
+          for(var ix=gridX1; ix<=gridX2; ix++) {
+            if((gridBlock = gridRow[ix])) {
+              for(var id in gridBlock) {
+                if(this.index[id]) {
+                  this.index[id].mark = time;
+                  if(this.index[id].container) { this.index[id].container.mark = time; }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
 
     updateSprites: function(items,dt,isContainer) {
       var item;
 
       for(var i=0,len=items.length;i<len;i++) {              
         item = items[i];
+        // If set to visible only, don't step if set to visibleOnly
+        if(!isContainer && (item.p.visibleOnly && (!item.mark || item.mark < this.time))) { continue; }
+
         if(isContainer || !item.container) { 
           item.update(dt);
           Q._generateCollisionPoints(item);
@@ -592,6 +806,9 @@ Quintus.Scenes = function(Q) {
 
     step:function(dt) {
       if(this.paused) { return false; }
+
+      this.time += dt;
+      this.markSprites(this.items,this.time);
 
       this.trigger("prestep",dt);
       this.updateSprites(this.items,dt);
@@ -607,19 +824,43 @@ Quintus.Scenes = function(Q) {
       this.trigger('poststep',dt);
     },
 
+    /**
+     hides the scene
+
+     @method hide
+     @for Q.Stage
+    */
     hide: function() {
       this.hidden = true;
     },
 
+    /**
+     unhides the scene
+
+     @method show
+     @for Q.Stage
+    */
     show: function() {
-      this.hidden = false
+      this.hidden = false;
     },
 
+    /**
+     stops the scene (hides and pauses)
+
+     @method stop
+     @for Q.Stage
+    */
     stop: function() {
       this.hide();
       this.pause();
     },
 
+    /**
+     starts the scene (shows and unpauses)
+
+     @method start
+     @for Q.Stage
+    */
     start: function() {
       this.show();
       this.unpause();
@@ -636,7 +877,8 @@ Quintus.Scenes = function(Q) {
       for(var i=0,len=this.items.length;i<len;i++) {              
         var item = this.items[i];
         // Don't render sprites with containers (sprites do that themselves)
-        if(!item.container) { 
+        // Also don't render if not onscreen
+        if(!item.container && (item.p.renderAlways || item.mark >= this.time)) {
           item.render(ctx);
         }
       }
@@ -764,12 +1006,33 @@ Quintus.Scenes = function(Q) {
     }
   };
 
+  /**
+   Returns the default or currently active stage.
+   If called from a sprites step() returns the stage that the sprite is member of
+   If a number is passed in, this stages is returned
+   *Warning* might return `undefined` if that stage doesnt exist!
+
+   @method Q.stage
+   @for Q
+   @param {Number} num - number of the stage
+   @return {Q.Stage} current, active, or numbered stage
+  */
   Q.stage = function(num) {
     // Use activeStage is num is undefined
     num = (num === void 0) ? Q.activeStage : num;
     return Q.stages[num];
   };
 
+  /**
+   Stages a scene. `num` is like a z-index. Higher numbered stages render on top
+   of lower numbered stages!
+
+   @method Q.stageScene
+   @param {Q.Scene or String} scene - a Q.Scene or the string for name of a scene
+   @param {number} num - index _optional_
+   @param {Object} options - some options
+   @for Quintus
+   */
   Q.stageScene = function(scene,num,options) {
     // If it's a string, find a registered scene by that name
     if(Q._isString(scene)) {
@@ -806,7 +1069,7 @@ Quintus.Scenes = function(Q) {
 
     // Load an assets object array
     if(stage.options.asset) {
-      stage.loadAssets();
+      stage.loadAssets(stage.options.asset);
     }
 
     if(scene) {
@@ -825,6 +1088,7 @@ Quintus.Scenes = function(Q) {
 
   Q.stageGameLoop = function(dt) {
     var i,len,stage;
+
 
     if(dt < 0) { dt = 1.0/60; }
     if(dt > 1/15) { dt  = 1.0/15; }
@@ -852,6 +1116,13 @@ Quintus.Scenes = function(Q) {
     if(Q.input && Q.ctx) { Q.input.drawCanvas(Q.ctx); }
   };
 
+  /**
+   Destroys the stage with indes `num`
+
+   @method clearStage
+   @param {Number} num
+   @for Q
+  */
   Q.clearStage = function(num) {
     if(Q.stages[num]) { 
       Q.stages[num].destroy(); 
@@ -859,6 +1130,12 @@ Quintus.Scenes = function(Q) {
     }
   };
 
+  /**
+   Destroys all stages
+
+   @method clearStages
+   @for Q
+  */
   Q.clearStages = function() {
     for(var i=0,len=Q.stages.length;i<len;i++) {
       if(Q.stages[i]) { Q.stages[i].destroy(); }

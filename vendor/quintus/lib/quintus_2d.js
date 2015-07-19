@@ -1,8 +1,10 @@
 /*global Quintus:false */
 
-Quintus["2D"] = function(Q) {
+Quintus["2D"] = function(Q) 
+{
 
-  Q.component('viewport',{
+  Q.component('viewport',
+  {
     added: function() {
       this.entity.on('prerender',this,'prerender');
       this.entity.on('render',this,'postrender');
@@ -16,10 +18,11 @@ Quintus["2D"] = function(Q) {
     },
 
     extend: {
-      follow: function(sprite,directions) {
+      follow: function(sprite,directions,boundingBox) {
         this.off('poststep',this.viewport,'follow');
         this.viewport.directions = directions || { x: true, y: true };
         this.viewport.following = sprite;
+        this.viewport.boundingBox = boundingBox;
         this.on('poststep',this.viewport,'follow');
         this.viewport.follow(true);
       },
@@ -57,11 +60,39 @@ Quintus["2D"] = function(Q) {
     },
 
     softCenterOn: function(x,y) {
-      if(x !== void 0) {
-        this.x += (x - Q.width / 2 / this.scale - this.x)/3;
+      if(x !== void 0) {        
+        var dx = (x - Q.width / 2 / this.scale - this.x)/3;
+        if(this.boundingBox) {
+          if(this.x + dx < this.boundingBox.minX) {
+            this.x = this.boundingBox.minX / this.scale;
+          }
+          else if(this.x + dx > (this.boundingBox.maxX - Q.width) / this.scale) {
+            this.x = (this.boundingBox.maxX - Q.width) / this.scale;
+          }
+          else {
+            this.x += dx;
+          }            
+        }
+        else {
+          this.x += dx;
+        }
       }
       if(y !== void 0) { 
-        this.y += (y - Q.height / 2 / this.scale - this.y)/3;
+        var dy = (y - Q.height / 2 / this.scale - this.y)/3;
+        if(this.boundingBox) {
+          if(this.y + dy < this.boundingBox.minY) {
+            this.y = this.boundingBox.minY / this.scale;
+          }
+          else if(this.y + dy > (this.boundingBox.maxY - Q.height) / this.scale) {
+            this.y = (this.boundingBox.maxY - Q.height) / this.scale;
+          }
+          else {
+            this.y += dy;
+          }            
+        }
+        else {
+          this.y += dy;
+        }
       }
 
     },
@@ -101,7 +132,7 @@ Quintus["2D"] = function(Q) {
   });
 
 
- Q.TileLayer = Q.Sprite.extend({
+ Q.Sprite.extend("TileLayer",{
 
     init: function(props) {
       this._super(props,{
@@ -110,16 +141,20 @@ Quintus["2D"] = function(Q) {
         blockTileW: 10,
         blockTileH: 10,
         type: 1,
-        layerIndex: 0
+        renderAlways: true
       });
       if(this.p.dataAsset) {
         this.load(this.p.dataAsset);
       }
+
+      this.setDimensions();
+
       this.blocks = [];
       this.p.blockW = this.p.tileW * this.p.blockTileW;
       this.p.blockH = this.p.tileH * this.p.blockTileH;
       this.colBounds = {}; 
       this.directions = [ 'top','left','right','bottom'];
+      this.tileProperties = {};
 
       this.collisionObject = { 
         p: {
@@ -129,60 +164,107 @@ Quintus["2D"] = function(Q) {
           cy: this.p.tileH/2
         }
       };
+      
+      this.tileCollisionObjects = {};      
 
       this.collisionNormal = { separate: []};
+
+      this._generateCollisionObjects();
+    },
+
+    // Generate the tileCollisionObject overrides where needed
+    _generateCollisionObjects: function() {
+      var self = this;
+
+      function returnPoint(pt) {
+        return [ pt[0] * self.p.tileW - self.p.tileW/2,
+                 pt[1] * self.p.tileH - self.p.tileH/2
+               ];
+      }
+
+      if(this.sheet() && this.sheet().frameProperties) {
+        var frameProperties = this.sheet().frameProperties;
+        for(var k in frameProperties) { 
+          var colObj = this.tileCollisionObjects[k] = { p: Q._clone(this.collisionObject.p) };
+          Q._extend(colObj.p,frameProperties[k]);
+
+          if(colObj.p.points) {
+            colObj.p.points = Q._map(colObj.p.points, returnPoint);
+          }
+
+          this.tileCollisionObjects[k] = colObj;
+        }
+      }
+
     },
 
     load: function(dataAsset) {
       var fileParts = dataAsset.split("."),
-        fileExt = fileParts[fileParts.length-1].toLowerCase();
+          fileExt = fileParts[fileParts.length-1].toLowerCase(),
+          data;
 
-      if (fileExt == "json") {  
-        var data = Q._isString(dataAsset) ?  Q.asset(dataAsset) : dataAsset;
-      }
-      else if (fileExt == "tmx" || fileExt == "xml") {
-        var parser = new DOMParser(),
-          doc = parser.parseFromString(Q.asset(dataAsset), "application/xml");
-
-        var layer = doc.getElementsByTagName("layer")[this.p.layerIndex],
-            width = parseInt(layer.getAttribute("width")),
-            height = parseInt(layer.getAttribute("height"));
-
-        var data = [],
-            tiles = layer.getElementsByTagName("tile"),
-            idx = 0;
-        for(var y = 0;y < height;y++) {
-          data[y] = [];
-          for(var x = 0;x < width;x++) {
-            var tile = tiles[idx];
-            data[y].push(parseInt(tile.getAttribute("gid")-1));
-            idx++;
-          }
-        }
+      if (fileExt === "json") {  
+        data = Q._isString(dataAsset) ?  Q.asset(dataAsset) : dataAsset;
       }
       else {
         throw "file type not supported";
       }
       this.p.tiles = data;
-      this.p.rows = data.length;
-      this.p.cols = data[0].length;
-      this.p.w = this.p.cols * this.p.tileW;
-      this.p.h = this.p.rows * this.p.tileH;
+    },
+
+    setDimensions: function() {
+      var tiles = this.p.tiles;
+
+      if(tiles) { 
+        this.p.rows = tiles.length;
+        this.p.cols = tiles[0].length;
+        this.p.w = this.p.cols * this.p.tileW;
+        this.p.h = this.p.rows * this.p.tileH;
+      }
     },
 
     getTile: function(tileX,tileY) {
       return this.p.tiles[tileY] && this.p.tiles[tileY][tileX];
     },
+    
+    getTileProperty: function(tile, prop) {
+      if(this.tileProperties[tile] !== undefined) {
+        return this.tileProperties[tile][prop];          
+      } else {
+        return;
+      }      
+    },
+    
+    getTileProperties: function(tile) {
+      if(this.tileProperties[tile] !== undefined) {
+        return this.tileProperties[tile];          
+      } else {
+        return {};
+      }
+    },
+    
+    getTilePropertyAt: function(tileX, tileY, prop) {
+      return this.getTileProperty(this.getTile(tileX, tileY), prop);
+    },
+    
+    getTilePropertiesAt: function(tileX, tileY) {
+      return this.getTileProperties(this.getTile(tileX, tileY));
+    },
+    
+    tileHasProperty: function(tile, prop) {
+      return(this.getTileProperty(tile, prop) !== undefined);
+    },    
 
     setTile: function(x,y,tile) {
       var p = this.p,
           blockX = Math.floor(x/p.blockTileW),
           blockY = Math.floor(y/p.blockTileH);
 
-      if(blockX >= 0 && blockY >= 0 &&
-         blockX < this.p.cols &&
-         blockY <  this.p.cols) {
+      if(x >= 0 && x < this.p.cols &&
+         y >= 0 && y < this.p.rows) { 
+
         this.p.tiles[y][x] = tile;
+
         if(this.blocks[blockY]) {
           this.blocks[blockY][blockX] = null;
         }
@@ -204,28 +286,47 @@ Quintus["2D"] = function(Q) {
     collidableTile: function(tileNum) {
       return tileNum > 0;
     },
+    
+    getCollisionObject: function(tileX, tileY) {
+      var p = this.p,
+          tile = this.getTile(tileX, tileY),
+          colObj;
+      
+      colObj = (this.tileCollisionObjects[tile] !== undefined) ? 
+        this.tileCollisionObjects[tile] : this.collisionObject;     
+      
+      colObj.p.x = tileX * p.tileW + p.x + p.tileW/2;
+      colObj.p.y = tileY * p.tileH + p.y + p.tileH/2;
+      
+      return colObj;
+    },
 
     collide: function(obj) {
       var p = this.p,
-          tileStartX = Math.floor((obj.p.x - obj.p.cx - p.x) / p.tileW),
-          tileStartY = Math.floor((obj.p.y - obj.p.cy - p.y) / p.tileH),
-          tileEndX =  Math.ceil((obj.p.x - obj.p.cx + obj.p.w - p.x) / p.tileW),
-          tileEndY =  Math.ceil((obj.p.y - obj.p.cy + obj.p.h - p.y) / p.tileH),
-          colObj = this.collisionObject,
+          objP = obj.c || obj.p, 
+          tileStartX = Math.floor((objP.x - objP.cx - p.x) / p.tileW),
+          tileStartY = Math.floor((objP.y - objP.cy - p.y) / p.tileH),
+          tileEndX =  Math.ceil((objP.x - objP.cx + objP.w - p.x) / p.tileW),
+          tileEndY =  Math.ceil((objP.y - objP.cy + objP.h - p.y) / p.tileH),
           normal = this.collisionNormal,
-          col;
+          col, colObj;
   
       normal.collided = false;
 
       for(var tileY = tileStartY; tileY<=tileEndY; tileY++) {
         for(var tileX = tileStartX; tileX<=tileEndX; tileX++) {
           if(this.tilePresent(tileX,tileY)) {
-            colObj.p.x = tileX * p.tileW + p.x + p.tileW/2;
-            colObj.p.y = tileY * p.tileH + p.y + p.tileH/2;
-            
+            colObj = this.getCollisionObject(tileX, tileY);
+
             col = Q.collision(obj,colObj);
-            if(col && col.magnitude > 0 && 
-               (!normal.collided || normal.magnitude < col.magnitude )) {
+      
+            if(col && col.magnitude > 0) {
+              if(colObj.p.sensor) {
+                colObj.tile = this.getTile(tileX,tileY);
+                if(obj.trigger) { 
+                  obj.trigger('sensor.tile',colObj); 
+                }
+              } else if(!normal.collided || normal.magnitude < col.magnitude ) {
                  normal.collided = true;
                  normal.separate[0] = col.separate[0];
                  normal.separate[1] = col.separate[1];
@@ -236,6 +337,10 @@ Quintus["2D"] = function(Q) {
                  normal.tileX = tileX;
                  normal.tileY = tileY;
                  normal.tile = this.getTile(tileX,tileY);
+                 if(obj.p.collisions !== undefined) {
+                   obj.p.collisions.push(normal);               
+                 }
+              }
             }
           }
         }
@@ -350,24 +455,24 @@ Quintus["2D"] = function(Q) {
 
       // Top collision
       if(col.normalY < -0.3) { 
-        if(p.vy > 0) { p.vy = 0; }
+        if(!p.skipCollide && p.vy > 0) { p.vy = 0; }
         col.impact = impactY;
         entity.trigger("bump.bottom",col);
       }
       if(col.normalY > 0.3) {
-        if(p.vy < 0) { p.vy = 0; }
+        if(!p.skipCollide && p.vy < 0) { p.vy = 0; }
         col.impact = impactY;
 
         entity.trigger("bump.top",col);
       }
 
       if(col.normalX < -0.3) { 
-        if(p.vx > 0) { p.vx = 0;  }
+        if(!p.skipCollide && p.vx > 0) { p.vx = 0;  }
         col.impact = impactX;
         entity.trigger("bump.right",col);
       }
       if(col.normalX > 0.3) { 
-        if(p.vx < 0) { p.vx = 0; }
+        if(!p.skipCollide && p.vx < 0) { p.vx = 0; }
         col.impact = impactX;
 
         entity.trigger("bump.left",col);
@@ -383,8 +488,8 @@ Quintus["2D"] = function(Q) {
       while(dtStep > 0) {
         dt = Math.min(1/30,dtStep);
         // Updated based on the velocity and acceleration
-        p.vx += p.ax * dt + (p.gravityX == void 0 ? Q.gravityX : p.gravityX) * dt * p.gravity;
-        p.vy += p.ay * dt + (p.gravityY == void 0 ? Q.gravityY : p.gravityY) * dt * p.gravity;
+        p.vx += p.ax * dt + (p.gravityX === void 0 ? Q.gravityX : p.gravityX) * dt * p.gravity;
+        p.vy += p.ay * dt + (p.gravityY === void 0 ? Q.gravityY : p.gravityY) * dt * p.gravity;
         p.x += p.vx * dt;
         p.y += p.vy * dt;
 
@@ -401,13 +506,24 @@ Quintus["2D"] = function(Q) {
     },
 
     goLeft: function(col) {
-      this.entity.p.vx = -col.impact;
+      this.entity.p.vx = -col.impact;      
+      if(this.entity.p.defaultDirection === 'right') {
+          this.entity.p.flip = 'x';
+      }
+      else {
+          this.entity.p.flip = false;
+      }
     },
 
     goRight: function(col) {
       this.entity.p.vx = col.impact;
+      if(this.entity.p.defaultDirection === 'left') {
+          this.entity.p.flip = 'x';
+      }
+      else {
+          this.entity.p.flip = false;
+      }
     }
   });
 
 };
-
