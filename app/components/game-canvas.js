@@ -5,6 +5,7 @@ export default Ember.Component.extend({
 
   me: null,
   store: null,
+  rocket: null,
 
   level: 1,
 
@@ -95,8 +96,8 @@ export default Ember.Component.extend({
   		{
   			this._super
   			({
-  				 x: 0,
-  				 y: 0,
+  				 x: 20,
+  				 y: 20,
   				 label: (parseInt(distance) + parseInt(stars)) + "\n",
   				 color: "black",
   				 size: scale * 20,
@@ -277,7 +278,7 @@ export default Ember.Component.extend({
             bullets: 		   3
     		  });
 
-    		  this.p.hasACanon = self.get('me').get('user').get('rocket').get('hasACanon');
+    		  this.p.hasACanon = self.get('rocket').get('hasACanon');
 
     		  // Drehpunkt zentral
     		  this.p.points = [
@@ -970,74 +971,99 @@ export default Ember.Component.extend({
   		containerSelectLevel.fit(20);
   	});
 
-    Q.load
-    (
-			[
-			  "level_selection.png",
-			  "rocket.png",
-			  "bullet.png",
-			  "star.png",
-			  "star_locked.png",
-			  "asteroid.png",
-			  "explodingAsteroid.png",
-			  "ufo.png",
-			  "menuicons/distance.png",
-			  "menuicons/goal.png",
-			  "menuicons/speed.png",
-			  "menuicons/level.png",
-			  "menuicons/points.png",
-			  "rocket.mp3",
-			  "collecting_a_star.mp3",
-			  "racing.mp3",
-			  "explosion.mp3"
-			],
+  },
 
-			function()
-			{
-				Q.sheet("bullet","bullet.png", { tileW: 20, tileH: 20 });
-				Q.sheet("star","star.png", { tileW: 60, tileH: 60 });
-				Q.sheet("star_locked","star.png", { tileW: 61, tileH: 64 });
-				Q.sheet("asteroid","asteroid.png", { tileW: 70, tileH: 70 });
-				Q.sheet("explodingAsteroid","explodingAsteroid.png", { tileW: 200, tileH: 200 });
-				Q.sheet("ufo","ufo.png", { tileW: 72, tileH: 40 });
-				Q.sheet("rocket", "rocket.png", { tileW: 50, tileH: 140 });
-				Q.sheet("distance","menuicons/distance.png", { tileW: 24, tileH: 24 });
-				Q.sheet("level","menuicons/level.png", { tileW: 24, tileH: 24 });
-				Q.sheet("points","menuicons/points.png", { tileW: 24, tileH: 24 });
-				Q.sheet("goal","menuicons/goal.png", { tileW: 24, tileH: 24 });
-				Q.sheet("speed","menuicons/speed.png", { tileW: 24, tileH: 24 });
+  loadGame: function() {
 
-				Q.animations('rocket',
-				{
-					flying: { frames: [0], loop: false },
-					explosion: { frames: [1,2,3,4,5], rate: 1/15, loop: false, trigger: "exploded" }
-				});
+    var self = this;
 
-				Q.animations('explodingAsteroid',
-				{
-					// flying: { frames: [0], loop: false },
-					explosion: { frames: [0,1,2], rate: 1/15, loop: false, trigger: "exploded" }
-				});
+    if(!Ember.isEmpty(this.get('me'))) {
 
-				Q.stageScene("levelSelection");
+      this.get('me').get('user').then(user => {
 
-				Q.debug = true;
-				Q.debugFill = true;
-			},
+        if(!Ember.isEmpty(user)) {
 
-			{
-				progressCallback: function(loaded,total)
-				{
-					var element = document.getElementById("loading_progress");
-					    element.style.width = Math.floor(loaded/total*100) + "%";
+          user.get('rocket').then(rocket => {
 
-					if(loaded/total === 1)
-					{
-						self.set('isLoading', false);
-					}
-				}
-			}
-  	);
-  }
+              self.set('rocket', rocket);
+
+              Q.load
+              (
+          			[
+          			  "level_selection.png",
+          			  "rocket.png",
+          			  "bullet.png",
+          			  "star.png",
+          			  "star_locked.png",
+          			  "asteroid.png",
+          			  "explodingAsteroid.png",
+          			  "ufo.png",
+          			  "menuicons/distance.png",
+          			  "menuicons/goal.png",
+          			  "menuicons/speed.png",
+          			  "menuicons/level.png",
+          			  "menuicons/points.png",
+          			  "rocket.mp3",
+          			  "collecting_a_star.mp3",
+          			  "racing.mp3",
+          			  "explosion.mp3"
+          			],
+
+          			function()
+          			{
+          				Q.sheet("bullet","bullet.png", { tileW: 20, tileH: 20 });
+          				Q.sheet("star","star.png", { tileW: 60, tileH: 60 });
+          				Q.sheet("star_locked","star.png", { tileW: 61, tileH: 64 });
+          				Q.sheet("asteroid","asteroid.png", { tileW: 70, tileH: 70 });
+          				Q.sheet("explodingAsteroid","explodingAsteroid.png", { tileW: 200, tileH: 200 });
+          				Q.sheet("ufo","ufo.png", { tileW: 72, tileH: 40 });
+          				Q.sheet("rocket", "rocket.png", { tileW: 50, tileH: 140 });
+          				Q.sheet("distance","menuicons/distance.png", { tileW: 24, tileH: 24 });
+          				Q.sheet("level","menuicons/level.png", { tileW: 24, tileH: 24 });
+          				Q.sheet("points","menuicons/points.png", { tileW: 24, tileH: 24 });
+          				Q.sheet("goal","menuicons/goal.png", { tileW: 24, tileH: 24 });
+          				Q.sheet("speed","menuicons/speed.png", { tileW: 24, tileH: 24 });
+
+          				Q.animations('rocket',
+          				{
+          					flying: { frames: [0], loop: false },
+          					explosion: { frames: [1,2,3,4,5], rate: 1/15, loop: false, trigger: "exploded" }
+          				});
+
+          				Q.animations('explodingAsteroid',
+          				{
+          					// flying: { frames: [0], loop: false },
+          					explosion: { frames: [0,1,2], rate: 1/15, loop: false, trigger: "exploded" }
+          				});
+
+          				Q.stageScene("levelSelection");
+
+          				Q.debug = true;
+          				Q.debugFill = true;
+          			},
+
+          			{
+          				progressCallback: function(loaded,total)
+          				{
+          					var element = document.getElementById("loading_progress");
+          					    element.style.width = Math.floor(loaded/total*100) + "%";
+
+          					if(loaded/total === 1)
+          					{
+          						self.set('isLoading', false);
+          					}
+          				}
+          			}
+            	);
+
+          });
+
+        }
+
+      });
+
+    }
+
+  }.observes('me.user').on('init')
 
 });
