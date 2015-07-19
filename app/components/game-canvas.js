@@ -284,23 +284,25 @@ export default Ember.Component.extend({
     		  // Drehpunkt zentral
     		  this.p.points = [
     										  // links, halb oben
-    										  [-25, -10],
+    										  [-25, -20],
     										  // Raketenspitze
     										  [0, -this.p.tileH / 2],
     										  // rechts, halb oben
-    										  [25, -10],
+    										  [25, -20],
     										  // rechts, halb unten
-    										  [25, 15],
-    										  // Antriebsdüse
-    										  [10, 30],
+    										  [25, 5],
+    										  // Antriebsdüse rechts
+    										  [10, 20],
     										  // rechts, unten
-    										  [25, -20 + this.p.tileH / 2],
+    										  [25, -35 + this.p.tileH / 2],
     										  // mitte unten
-    										  [0, -10  + this.p.tileH / 2],
+    										  [0, -30  + this.p.tileH / 2],
     										  // links, unten
-    										  [-25, -20  + this.p.tileH / 2],
-    										  [-10, 30 ],
-    										  [-25, 15]
+    										  [-25, -35  + this.p.tileH / 2],
+                          // Antriebsdüse links
+    										  [-10, 20 ],
+                          // links, halb oben
+    										  [-25, 5]
     								];
 
     		  this.add("2d, platformerControls, animation");
