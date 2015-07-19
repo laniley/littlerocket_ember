@@ -89,27 +89,6 @@ export default Ember.Component.extend({
     	rocket_y -= 100;
     }
 
-    Q.Sprite.extend("SpeedIcon",
-  	{
-  		 init: function(p)
-  		 {
-  			  this._super(p,
-  			  {
-  					name:   	'SpeedIcon',
-  					sheet:  	'speed',
-  					type:   	Q.MENU_ICON,
-  					tileW:  	scale * 24,
-  					tileH:  	scale * 24,
-  					x:      	scale * 20,
-  					y:      	scale * 120,
-  					scale: 	  scale
-  			  });
-
-  			  this.p.x += this.p.tileW / 2;
-  			  this.p.y += this.p.tileH / 2;
-  		 }
-  	});
-
   	Q.Sprite.extend("GoalIcon",
   	{
   		 init: function(p)
@@ -504,7 +483,11 @@ export default Ember.Component.extend({
         scale: scale
       }));
 
-  		stage.insert(new Q.SpeedIcon());
+  		stage.insert(new Q.SpeedIcon({
+        type:  Q.MENU_ICON,
+        scale: scale
+      }));
+
   		stage.insert(new Q.GoalIcon());
 
   		var scoreContainer = stage.insert
@@ -1056,8 +1039,8 @@ export default Ember.Component.extend({
 
 				Q.stageScene("levelSelection");
 
-				// Q.debug = true;
-				// Q.debugFill = true;
+				Q.debug = true;
+				Q.debugFill = true;
 			},
 
 			{
