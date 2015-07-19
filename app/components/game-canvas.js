@@ -565,6 +565,223 @@ export default Ember.Component.extend({
     	 }
     });
 
+    Q.Sprite.extend("Asteroid",
+    {
+    	// When an asteroid is hit..
+    	sensor: function(colObj)
+    	{
+    		// Destroy it
+    		if(colObj.isA('Rocket') && !colObj.collided)
+    		{
+    			colObj.collided = true;
+
+    			Q.audio.stop('rocket.mp3');
+    			Q.audio.stop('racing.mp3');
+    			Q.audio.play('explosion.mp3');
+
+    			globalSpeedRef = 0;
+    			colObj.play('explosion');
+
+    			Q.stageScene("gameOver", 2);
+    		}
+    		else if(colObj.isA('Bullet') && !colObj.collided)
+    		{
+    			colObj.collided = true;
+
+    			Q.audio.play('explosion.mp3');
+
+    			colObj.destroy();
+    			this.destroy();
+    		}
+    	}
+    });
+
+    Q.Asteroid.extend("NormalAsteroid",
+    {
+    	init: function(p)
+    	{
+    		this._super(p,
+    		{
+    			name:   'Asteroid',
+    			sheet:  'asteroid',
+    			type:   Q.SPRITE_ASTEROID,
+    			collisionMask: Q.SPRITE_ROCKET | Q.SPRITE_BULLET,
+    			sensor: true,
+    			x:      ((Q.width - (70 * scale)) * Math.random()) + (35 * scale),
+    			y:      0,
+    			tileW:  70,
+    			tileH:  70,
+    			scale: scale,
+    			points: []
+    		});
+
+    		// collision points berechnen
+    		var radius = this.p.tileW / 2 - 3;
+    		var winkel = 0;
+
+    		for(var i = 0; i < 10; i++)
+    		{
+    			winkel += (Math.PI * 2) / 10;
+
+    			var x = Math.floor(Math.sin(winkel) * radius);
+    			var y = Math.floor(Math.cos(winkel) * radius);
+
+    			this.p.points.push([x, y]);
+    		}
+
+    		this.on("sensor");
+
+    		this.add("2d, asteroidControls");
+    	}
+    });
+
+    Q.Asteroid.extend("ExplodingAsteroid",
+    {
+    	init: function(p)
+    	{
+    		this._super(p,
+    		{
+    			name:   'ExplodingAsteroid',
+    			sheet:  'explodingAsteroid',
+    			sprite: 'explodingAsteroid', // name of the animation
+    			frame:  0,
+    			type:   Q.SPRITE_ASTEROID,
+    			collisionMask: Q.SPRITE_ROCKET | Q.SPRITE_BULLET,
+    			sensor: true,
+    			tileW:  200,
+    			tileH:  200,
+
+    			x:      ((Q.width - (200 * scale)) * Math.random()) + (100 * scale), // x location of the center of the sprite
+    			y:      0,
+
+    			scale: scale,
+    			points: [],
+    			isExploded: false
+    		});
+
+    		// collision points berechnen
+    		var radius = this.p.tileW / 2 - 3;
+    		var winkel = 0;
+
+    		for(var i = 0; i < 10; i++)
+    		{
+    			winkel += (Math.PI * 2) / 10;
+
+    			var x = Math.floor(Math.sin(winkel) * radius);
+    			var y = Math.floor(Math.cos(winkel) * radius);
+
+    			this.p.points.push([x, y]);
+    		}
+
+    		this.on("sensor");
+    		this.on('exploded', this, 'destroy');
+
+    		this.add("2d, asteroidControls, animation");
+    	},
+
+    	explode: function()
+    	{
+    		this.play('explosion');
+    	}
+    });
+
+    Q.component("asteroidControls",
+    {
+    	// default properties to add onto our entity
+    	defaults: { speed: 100, direction: 'down' },
+
+    	// // called when the component is added to
+    	// // an entity
+    	added: function()
+    	{
+    		var p = this.entity.p;
+
+    		// add in our default properties
+    		Q._defaults(p, this.defaults);
+
+    		// every time our entity steps
+    		// call our step method
+    		this.entity.on("step",this,"step");
+    	},
+
+    	step: function(dt)
+    	{
+    		// grab the entity's properties
+    		// for easy reference
+    		var p = this.entity.p;
+
+    		// based on our direction, try to add velocity
+    		// in that direction
+    		switch(p.direction)
+    		{
+    			case "down":  	p.vy = globalSpeed * 1.2;
+    								break;
+    		}
+
+    		if(this.entity.isA('ExplodingAsteroid')	&&
+          p.y > (Q.height * 0.75) &&
+          p.isExploded === false)
+    		{
+    			p.isExploded = true;
+    		  	Q.audio.play('explosion.mp3');
+    		  	this.entity.explode();
+    		}
+
+    		else if(p.y > Q.height)
+    		{
+    			this.entity.destroy();
+    		}
+    	}
+    });
+
+    Q.GameObject.extend("AsteroidMaker",
+    {
+    	init: function()
+    	{
+    		this.p =
+    		{
+    			launchDelay: 0.4 * scale - (globalSpeed / maxSpeed),
+    			launchRandom: 1,
+    			launch: 1
+    		};
+    	},
+
+     	update: function(dt)
+     	{
+    	  	this.p.launch -= dt;
+
+    	  	if(this.p.launch < 0)
+    	  	{
+    			this.stage.insert(new Q.NormalAsteroid());
+    			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
+    		}
+     	}
+    });
+
+    Q.GameObject.extend("ExplodingAsteroidMaker",
+    {
+    	init: function()
+    	{
+    		this.p =
+    		{
+    			launchDelay: 2 * scale - (globalSpeed / maxSpeed),
+    			launchRandom: 1,
+    			launch: 2
+    		};
+    	},
+
+    	update: function(dt)
+    	{
+    		this.p.launch -= dt;
+
+    		if(this.p.launch < 0)
+    		{
+    			this.stage.insert(new Q.ExplodingAsteroid( {size : 50} ));
+    			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
+    		}
+    	}
+    });
+
   	Q.scene('hud',function(stage)
   	{
   		// Icons
