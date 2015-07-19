@@ -89,27 +89,6 @@ export default Ember.Component.extend({
     	rocket_y -= 100;
     }
 
-  	Q.Sprite.extend("GoalIcon",
-  	{
-  		 init: function(p)
-  		 {
-  			  this._super(p,
-  			  {
-  					name:   	'GoalIcon',
-  					sheet:  	'goal',
-  					type:   	Q.MENU_ICON,
-  					tileW:  	scale * 24,
-  					tileH:  	scale * 24,
-  					x:      	scale * 20,
-  					y:      	scale * 145,
-  					scale:   	scale
-  			  });
-
-  			  this.p.x += this.p.tileW / 2;
-  			  this.p.y += this.p.tileH / 2;
-  		 }
-  	});
-
   	Q.UI.Text.extend("ScoreText",
   	{
   		init: function(container)
@@ -488,7 +467,10 @@ export default Ember.Component.extend({
         scale: scale
       }));
 
-  		stage.insert(new Q.GoalIcon());
+  		stage.insert(new Q.GoalIcon({
+        type:  Q.MENU_ICON,
+        scale: scale
+      }));
 
   		var scoreContainer = stage.insert
   		(
