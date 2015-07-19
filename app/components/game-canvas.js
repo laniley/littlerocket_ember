@@ -3,6 +3,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
+  Q: null,
   me: null,
   store: null,
   rocket: null,
@@ -96,11 +97,11 @@ export default Ember.Component.extend({
   		{
   			this._super
   			({
-  				 x: 20,
-  				 y: 20,
+  				 x: 0,
+  				 y: 0,
   				 label: (parseInt(distance) + parseInt(stars)) + "\n",
   				 color: "black",
-  				 size: scale * 20,
+  				//  size: scale * 25,
   				 outlineWidth: container.width
   			});
 
@@ -339,8 +340,8 @@ export default Ember.Component.extend({
 
     			// rocket can't leave the screen
     			if(
-    					 this.p.x > Q.width - 30 && this.p.vx > 0
-    				||  this.p.x < 30 && this.p.vx < 0
+    					 this.p.x > Q.width - 30 && this.p.vx > 0 ||
+               this.p.x < 30 && this.p.vx < 0
     			 )
     			{
     				this.p.vx = 0;
@@ -356,21 +357,25 @@ export default Ember.Component.extend({
     		  {
     				this.rotate(this.p.angle - 5);
     		  }
-    		  else if(this.p.vx == 0)
+    		  else if(this.p.vx === 0)
     		  {
     				if(this.p.angle > 0)
     				{
-    					 if(this.p.angle - 5 < 0)
+    					 if(this.p.angle - 5 < 0) {
     						this.rotate(0);
-    					 else
+              }
+    					else {
     						this.rotate(this.p.angle - 5);
+              }
     				}
     				else
     				{
-    					 if(this.p.angle + 5 > 0)
+    					if(this.p.angle + 5 > 0) {
     						this.rotate(0);
-    					 else
+              }
+    					else {
     						this.rotate(this.p.angle + 5);
+              }
     				}
     		  }
 
@@ -384,7 +389,7 @@ export default Ember.Component.extend({
 
     	fireCanon: function()
     	{
-    		if(this.p.canonBlocked == false && this.p.bullets > 0)
+    		if(this.p.canonBlocked === false && this.p.bullets > 0)
     		{
     			this.p.canonBlocked = true;
 
@@ -478,15 +483,15 @@ export default Ember.Component.extend({
   			new Q.UI.Container
   			(
   			  {
-  					x: scale * 20,
-  					y: scale * 20
+  					x: scale * 10,
+  					y: scale * 10
   			  }
   			)
   		);
 
   		scoreContainer.insert(new Q.ScoreText(scoreContainer));
 
-  		scoreContainer.fit(scale * 10);
+  		scoreContainer.fit(0);
 
   		// Values
   		var container = stage.insert
@@ -495,7 +500,7 @@ export default Ember.Component.extend({
   			(
   			  {
   					x: scale * 60,
-  					y: scale * 50
+  					y: scale * 45
   			  }
   			)
   		);
@@ -506,9 +511,7 @@ export default Ember.Component.extend({
   		container.insert(new Q.SpeedText(container));
   		container.insert(new Q.DistanceToGoalText(container));
 
-  		container.fit(scale * 10);
-
-
+  		container.fit(0);
 
   		var containerAmmo = stage.insert
   		(
@@ -551,7 +554,7 @@ export default Ember.Component.extend({
   				fill: "#CCCCCC",
   				label: "Start",
   				border: 2,
-  		      borderColor: "rgba(0,0,0,0.5)"
+  		    borderColor: "rgba(0,0,0,0.5)"
   			})
   		);
 
@@ -971,6 +974,8 @@ export default Ember.Component.extend({
   		containerSelectLevel.fit(20);
   	});
 
+    this.set('Q', Q);
+
   },
 
   loadGame: function() {
@@ -986,6 +991,8 @@ export default Ember.Component.extend({
           user.get('rocket').then(rocket => {
 
               self.set('rocket', rocket);
+
+              var Q = this.get('Q');
 
               Q.load
               (
