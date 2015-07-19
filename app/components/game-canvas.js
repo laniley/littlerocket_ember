@@ -450,6 +450,121 @@ export default Ember.Component.extend({
     	}
     });
 
+    // Create the Star sprite
+    Q.Sprite.extend("Star",
+    {
+    	 init: function(p)
+    	 {
+    		  this._super(p,
+    		  {
+    				name: 'Star',
+    				sheet: 'star',
+    				type: Q.SPRITE_STAR,
+    				collisionMask: Q.SPRITE_ROCKET,
+    				sensor: true,
+    				x:      ((Q.width - (60 * scale)) * Math.random()) + (30 * scale),
+    				y:      0,
+    				scale: scale
+    		  });
+
+    		  this.on("sensor");
+    		  this.on("inserted");
+
+    		  this.add("2d, starControls");
+    	 },
+
+    	 // When a star is hit..
+    	 sensor: function(colObj)
+    	 {
+    		  // Collision with rocket
+    		  if(colObj.isA('Rocket'))
+    		  {
+    				// Play sound
+    				Q.audio.play('collecting_a_star.mp3');
+
+    				// Destroy it and count up score
+    				colObj.p.stars++;
+    				stars++;
+
+    				Q.state.set("stars", colObj.p.stars);
+
+    				this.destroy();
+    		  }
+    	 },
+
+    	 // When a star is inserted, use it's parent (the stage)
+    	 // to keep track of the total number of dots on the stage
+    	 inserted: function()
+    	 {
+    		  this.stage.starCount = this.stage.starCount || 0;
+    		  this.stage.starCount++;
+    	 }
+    });
+
+    Q.component("starControls",
+    {
+    	 // default properties to add onto our entity
+    	 defaults: { speed: 100, direction: 'down' },
+
+    	 // // called when the component is added to
+    	 // // an entity
+    	 added: function()
+    	 {
+    		  var p = this.entity.p;
+
+    		  // add in our default properties
+    		  Q._defaults(p, this.defaults);
+
+    		  // every time our entity steps
+    		  // call our step method
+    		  this.entity.on("step",this,"step");
+    	 },
+
+    	 step: function(dt)
+    	 {
+    		  // grab the entity's properties
+    		  // for easy reference
+    		  var p = this.entity.p;
+
+    		  // based on our direction, try to add velocity
+    		  // in that direction
+    		  switch(p.direction)
+    		  {
+    				case "down":  p.vy = globalSpeed;
+    								  break;
+    		  }
+
+    		  if(p.y > Q.height)
+    		  {
+    				this.entity.destroy();
+    		  }
+    	 }
+    });
+
+    Q.GameObject.extend("StarMaker",
+    {
+    	 init: function()
+    	 {
+    		  this.p =
+    		  {
+    				launchDelay: 1 * scale - (globalSpeed / maxSpeed),
+    				launchRandom: 1,
+    				launch: 1
+    		  };
+    	 },
+
+    	 update: function(dt)
+    	 {
+    		  this.p.launch -= dt;
+
+    		  if(this.p.launch < 0)
+    		  {
+    				this.stage.insert(new Q.Star());
+    				this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
+    		  }
+    	 }
+    });
+
   	Q.scene('hud',function(stage)
   	{
   		// Icons
@@ -794,10 +909,11 @@ export default Ember.Component.extend({
     	});
     });
 
-  	Q.scene("level",function(stage)
-  	{
-  		self.set('isPaused', false);
+  	Q.scene("level", stage => {
+
+      this.set('isPaused', false);
   		Q.unpauseGame();
+
   		Q.audio.play('rocket.mp3', { loop: true });
   		Q.audio.play('racing.mp3', { loop: true });
 
@@ -805,7 +921,7 @@ export default Ember.Component.extend({
   		stars             = 0;
   		bullets 				= 0;
 
-  		if(cockpit.hasCanon()) {
+  		if(this.get('rocket').get('hasACanon')) {
         bullets = cockpit.canon.capacity;
       }
 
