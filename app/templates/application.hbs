@@ -9,15 +9,15 @@
 
 			<div class="row">
 
-				<div class="small-4 columns show-for-large-up cockpit">
+				<div class="columns cockpit">
 					{{cockpit-component me=model}}
 				</div>
 
-				<div class="small-12 large-4 columns">
+				<div class="columns game">
 					{{game-canvas me=model}}
 				</div>
 
-				<div class="small-4  columns show-for-large-up leaderboard">
+				<div class="columns leaderboard">
 					<div class="title">{{unbound fa-icon "fa-trophy"}} Leaderboard</div>
 					{{#if model.isLoggedIn}}
 						<!-- invite -->
@@ -26,7 +26,7 @@
 								{{unbound fa-icon "facebook-square"}} Invite your friends
 							</button>
 						</div>
-						<div class="leaderboard_list scrollable_list leaderboard"></div>
+						<div class="leaderboard_list scrollable_list"></div>
 					{{else}}
 						<div class="login-info">
 							<div>{{unbound fa-icon "fa-lock"}}</div>
