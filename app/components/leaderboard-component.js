@@ -8,7 +8,7 @@ export default Ember.Component.extend({
   didInsertElement: function() {
     this.store = this.get('targetObject.store');
 
-    this.store.find('user', { 'mode': 'leaderboard' }).then(users => {
+    this.store.query('user', { 'mode': 'leaderboard' }).then(users => {
       this.set('top_players', users);
     });
   }
