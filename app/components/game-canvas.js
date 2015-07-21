@@ -5,7 +5,6 @@ export default Ember.Component.extend({
 
   Q: null,
   me: null,
-  store: null,
   rocket: null,
 
   level: 1,

@@ -774,7 +774,7 @@ Quintus.Sprites = function(Q)
          tileH:  	p.scale * 24,
          x:      	p.scale * 20,
          y:      	p.scale * 45,
-         scale: 	  p.scale
+         scale: 	p.scale
        });
 
        this.p.x += this.p.tileW / 2;

@@ -18,21 +18,7 @@
 				</div>
 
 				<div class="columns leaderboard">
-					<div class="title">{{unbound fa-icon "fa-trophy"}} Leaderboard</div>
-					{{#if model.isLoggedIn}}
-						<!-- invite -->
-						 <div id="fb-challenge-container">
-							<button id="fb-challenge" class="fb-button confirm">
-								{{unbound fa-icon "facebook-square"}} Invite your friends
-							</button>
-						</div>
-						<div class="leaderboard_list scrollable_list"></div>
-					{{else}}
-						<div class="login-info">
-							<div>{{unbound fa-icon "fa-lock"}}</div>
-							<div>Please log in.</div>
-						</div>
-					{{/if}}
+					{{leaderboard-component me=model}}
 				</div>
 
 			</div>
