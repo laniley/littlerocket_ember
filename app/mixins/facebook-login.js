@@ -87,25 +87,31 @@ export default Ember.Mixin.create({
             user.set('last_name', response.last_name);
             user.set('img_url', response.picture.data.url);
 
-            user.get('rocket').then(rocket => {
+            user.save().then(user => {
 
-              if(Ember.isEmpty(rocket)) {
-                rocket = store.createRecord('rocket');
-                rocket.set('user', user);
-                rocket.save().then(rocket => {
-                  user.set('rocket', rocket);
-                  user.save().then(user => {
-                    self.get('me').set('user', user);
+              var rocket = store.find('rocket', { user: user.get('id') }).then(rockets => {
+
+                if(Ember.isEmpty(rockets)) {
+                  console.log('no rocket');
+                  rocket = store.createRecord('rocket');
+                  rocket.set('user', user);
+                  rocket.save().then(rocket => {
+                    user.set('rocket', rocket);
+                    user.save().then(user => {
+                      self.get('me').set('user', user);
+                    });
                   });
-                });
-              }
-              else {
-                user.save().then(user => {
+                }
+                else {
+                  console.log('rocket');
+                  rocket = rockets.get('firstObject');
                   self.get('me').set('user', user);
-                });
-              }
+                }
+
+              });
 
             });
+
         });
 
   			// getScores(function()
