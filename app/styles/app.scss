@@ -1,6 +1,7 @@
 @import "settings";
 @import "foundation";
 @import "top_nav_bar";
+@import "leaderboard";
 
 $lightblue: #C2E3ED;
 $border: 1px solid #74929D;
@@ -424,70 +425,6 @@ body
       $columns:4
     );
   }
-}
-
-.leaderboard {
-  @media (max-width: 800px)
-  {
-    display: none;
-  }
-
-  @media (min-width: 801px) and (max-width: 1250px)
-  {
-    @include grid-column(
-      // Control the number of columns
-      $columns:6,
-      // Specify how many columns to pull this element past
-			$pull:6
-    );
-  }
-
-  @media (min-width: 1251px)
-  {
-    @include grid-column(
-      // Control the number of columns
-      $columns:4
-    );
-  }
-
-	.fb-publish-actions-not-granted {
-		margin-bottom: 20px;
-	}
-
-	.leaderboard_list {
-		position: relative;
-		height: 350px;
-		min-width: 300px;
-		overflow: auto;
-		font-size: 18px;
-
-		.list-item {
-			height: 	60px;
-			margin-left: 0px !important;
-		}
-
-		.name {
-			font-size: 22px;
-		}
-
-		.rank_container {
-			float: left;
-			margin-right: 10px;
-			line-height: 50px;
-			font-size: 22px;
-		}
-
-		.img_container {
-			float: left;
-			margin-right: 10px;
-			line-height: 50px;
-		}
-
-		img {
-			width: 50px;
-		}
-	}
-
 }
 
 .fb-button {

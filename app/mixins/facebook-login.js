@@ -73,7 +73,7 @@ export default Ember.Mixin.create({
   		{
         console.log('Successful login for: ' + response.first_name + " " + response.last_name);
 
-        var user = store.find('user', { fb_id: response.id }).then(users => {
+        var user = store.query('user', { fb_id: response.id }).then(users => {
 
             if(Ember.isEmpty(users)) {
               user = store.createRecord('user');
@@ -89,10 +89,9 @@ export default Ember.Mixin.create({
 
             user.save().then(user => {
 
-              var rocket = store.find('rocket', { user: user.get('id') }).then(rockets => {
+              var rocket = store.query('rocket', { user: user.get('id') }).then(rockets => {
 
                 if(Ember.isEmpty(rockets)) {
-                  console.log('no rocket');
                   rocket = store.createRecord('rocket');
                   rocket.set('user', user);
                   rocket.save().then(rocket => {
@@ -103,7 +102,6 @@ export default Ember.Mixin.create({
                   });
                 }
                 else {
-                  console.log('rocket');
                   rocket = rockets.get('firstObject');
                   self.get('me').set('user', user);
                 }
