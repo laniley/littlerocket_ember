@@ -355,14 +355,7 @@ body
   max-width: 100%;
 }
 
-.columns {
-  &.hud-container {
-    .ember-view {
-      border-bottom: 2px solid #8AA8B2;
-      padding-bottom: 5px;
-      height: 598px;
-    }
-  }
+.hud-container {
   .title {
     font-size: 1.75rem;
     line-height: 2.5rem;
@@ -373,6 +366,21 @@ body
     .item {
       display: inline-block;
       margin-right: 20px;
+      &:not(.active) {
+        color: #b8b8b8;
+        cursor: pointer;
+        &:hover {
+          color: #666;
+        }
+      }
+    }
+  }
+  .content {
+    border-bottom: 2px solid #8AA8B2;
+    height: 540px;
+    .fb-comments-container {
+        height: 490px;
+        overflow: auto;
     }
   }
   .login-info {
