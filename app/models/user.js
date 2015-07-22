@@ -11,5 +11,9 @@ export default DS.Model.extend({
   stars: DS.attr('number', { defaultValue: 0 }),
   max_level: DS.attr('number', { defaultValue: 1 }),
 
-  rocket: DS.belongsTo('rocket', { async: true })
+  rocket: DS.belongsTo('rocket', { async: true }),
+
+  name: function() {
+    return this.get('first_name') + ' ' + this.get('last_name');
+  }.property('first_name', 'last_name')
 });
