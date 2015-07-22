@@ -11,7 +11,9 @@
   <div class="content">
     <!-- invite -->
      <div id="fb-challenge-container">
-       <button id="fb-challenge" class="fb-button confirm"> {{unbound fa-icon "facebook-square"}} Invite your friends </button>
+       <button id="fb-challenge" class="fb-button confirm" {{action 'inviteFriends'}}>
+         {{unbound fa-icon "facebook-square" size="lg"}} Invite your friends
+       </button>
      </div>
      {{#if (if-equals socialSection 'leaderboard') }}
         <div class="leaderboard_list scrollable_list">
