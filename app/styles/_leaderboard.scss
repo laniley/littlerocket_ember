@@ -36,28 +36,31 @@
 		.list-item {
 			height: 	60px;
 			margin-left: 0px !important;
+
+      .rank_container {
+  			float: left;
+  			margin-right: 10px;
+  			line-height: 50px;
+  			font-size: 22px;
+        width: 23px;
+        text-align: right;
+  		}
+
+      .img_container {
+  			float: left;
+  			margin-right: 10px;
+  			line-height: 50px;
+
+        img {
+    			width: 50px;
+    		}
+  		}
+
+      .name {
+  			font-size: 22px;
+  		}
 		}
 
-		.name {
-			font-size: 22px;
-		}
-
-		.rank_container {
-			float: left;
-			margin-right: 10px;
-			line-height: 50px;
-			font-size: 22px;
-		}
-
-		.img_container {
-			float: left;
-			margin-right: 10px;
-			line-height: 50px;
-		}
-
-		img {
-			width: 50px;
-		}
 	}
 
 }
