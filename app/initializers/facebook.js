@@ -1,4 +1,3 @@
-/* global FB */
 import ENV from '../config/environment';
 
 export function initialize(container, application) {
