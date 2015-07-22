@@ -3,10 +3,6 @@
 @import "top_nav_bar";
 @import "leaderboard";
 
-$lightblue: #C2E3ED;
-$border: 1px solid #74929D;
-$border-thick: 2px solid #74929D;
-
 @font-face
 {
   font-family: Agency_FB;
@@ -360,6 +356,13 @@ body
 }
 
 .columns {
+  &.hud-container {
+    .ember-view {
+      border-bottom: 2px solid #8AA8B2;
+      padding-bottom: 5px;
+      height: 598px;
+    }
+  }
   .title {
     font-size: 1.75rem;
     line-height: 2.5rem;
@@ -367,6 +370,10 @@ body
   	color: rgb(127, 154, 163);
   	padding-left: 5px;
     border-bottom: $border-thick;
+    .item {
+      display: inline-block;
+      margin-right: 20px;
+    }
   }
   .login-info {
     text-align: center;
@@ -473,4 +480,5 @@ body
 	left: 50%;
 	margin-left: -380px;
   margin-top: 30px;
+  margin-bottom: 20px;
 }

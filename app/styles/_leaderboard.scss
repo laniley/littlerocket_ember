@@ -22,16 +22,16 @@
     );
   }
 
-	.fb-publish-actions-not-granted {
+  .fb-publish-actions-not-granted {
 		margin-bottom: 20px;
 	}
 
 	.leaderboard_list {
-		position: relative;
-		height: 350px;
-		min-width: 300px;
-		overflow: auto;
-		font-size: 18px;
+    position: relative;
+    height: 488px;
+    width: 100%;
+    overflow: auto;
+    font-size: 18px;
 
 		.list-item {
 			height: 	60px;

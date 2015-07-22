@@ -115,6 +115,7 @@ $include-html-global-classes: $include-html-classes;
 // $jet         : #222222;
 // $black       : #000000;
 
+$lightblue: #C2E3ED;
 $darkblue: #8AA8B2;
 
 // We use these as default colors throughout
@@ -124,6 +125,10 @@ $darkblue: #8AA8B2;
 // $success-color: #43AC6A;
 // $warning-color: #f08a24;
 // $info-color: #a0d3e8;
+$border-color: $darkblue;
+
+$border: 1px solid $border-color;
+$border-thick: 2px solid $border-color;
 
 // We use these to control various global styles
 // $body-bg: $white;
