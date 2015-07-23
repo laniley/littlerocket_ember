@@ -112,12 +112,6 @@ export default Ember.Mixin.create({
 
         });
 
-  			// getScores(function()
-  			// {
-  			// 	renderScores();
-  			// });
-
-  			// getLeaderboardRankFromDB();
   			// getLevel();
   			// getStars();
   			// getWorkbenchStatus();
