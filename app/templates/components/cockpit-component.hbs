@@ -1,14 +1,15 @@
 <div class="title">{{unbound fa-icon "fa-dashboard"}} Cockpit</div>
 
 {{#if me.isLoggedIn}}
-  <div class="cockpit-row content">
+  <div class="content">
+
     <div class="player-infos">
       <div class="img_container">
         <img src={{me.user.img_url}} />
       </div>
-      <div class="cockpit_name name"></div>
+      <div class="name">{{me.user.name}}</div>
       <div class="score_container">
-        <span class="cockpit_score score">Score {{me.user.score}}</span>
+        <span class="cockpit_score score"><b>Score</b> {{me.user.score}}</span>
       </div>
       <div><i class="fa fa-star"></i> <span class="stars">{{me.user.stars}}</span></div>
       <div class="rank_container">
@@ -16,29 +17,39 @@
       </div>
     </div>
 
-        <div class="fb-publish-actions-not-granted fb-relative-container">
-        <fb:login-button scope="public_profile,publish_actions,user_friends" onlogin="checkLoginState();">post your score to facebook</fb:login-button>
+    <div class="tab-container">
+      <div class="workbench tab block-button active">
+        <span class="fa-stack">
+          {{unbound fa-icon "fa-rocket" stack=1}}
+          {{!-- {{unbound fa-icon "fa-lock locked" stack=1}} --}}
+        </span>
       </div>
+      <div class="lab tab block-button locked" title="You need 1000 stars to unlock the lab!">
+        <span class="fa-stack">
+          {{unbound fa-icon "fa-flask" stack=1}}
+          {{unbound fa-icon "fa-lock locked" stack=1}}
+        </span>
+      </div>
+    </div>
 
-        <div class="cockpit-item-container item-container">
-          <div class="workbench fa-stack cockpit-item locked">
-            <i class="fa fa-wrench fa-stack-1x" title="Use 1000 stars to build the workbench!"></i>
-            <i class="fa fa-lock fa-stack-1x locked" title="You need 1000 stars to unlock the workbench!"></i>
-          </div>
-          <div class="lab fa-stack cockpit-item locked">
-            <i class="fa fa-flask fa-stack-1x" title="Use 1000 stars to build the lab!"></i>
-            <i class="fa fa-lock fa-stack-1x locked" title="You need 1000 stars to unlock the lab!"></i>
-          </div>
-      </div>
-      <div id="workbench">
+    <div id="workbench">
         <h2>Workbench</h2>
-        <ul id="workbench-item-container" class="item-container">
-          <li id="canon" class="fa-stack cockpit-item locked">
-            <i class="fa fa-bullseye fa-stack-1x" title="Use 500 stars to build the canon!"></i>
-            <i class="fa fa-lock fa-stack-1x locked" title="You need 500 stars to unlock the canon!"></i>
-          </li>
-          <li id="canon-infos" title="capacity"></li>
-        </ul>
+        <div id="workbench-item-container" class="item-container">
+          <img src="assets/images/rocket_workbench.png" />
+          <div id="canon" class="fa-stack block-button locked">
+            <div class="fa fa-bullseye fa-stack-1x" title="Use 500 stars to build the canon!"></div>
+            <div class="fa fa-lock fa-stack-1x locked" title="You need 500 stars to unlock the canon!"></div>
+          </div>
+          <div id="shield" class="fa-stack block-button locked">
+            <div class="fa fa-shield fa-stack-1x" title="Use 500 stars to build the canon!"></div>
+            <div class="fa fa-lock fa-stack-1x locked" title="You need 500 stars to unlock the canon!"></div>
+          </div>
+          <div id="drive" class="fa-stack block-button locked">
+            <div class="fa fa-forward fa-stack-1x" title="Use 500 stars to build the canon!"></div>
+            <div class="fa fa-lock fa-stack-1x locked" title="You need 500 stars to unlock the canon!"></div>
+          </div>
+          {{!-- <div id="canon-infos" title="capacity"></div> --}}
+        </div>
       </div>
       <div id="lab">
         <h2>Lab</h2>
