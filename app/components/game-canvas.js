@@ -66,6 +66,8 @@ export default Ember.Component.extend({
 
     Q.state.set('scale', 1);
 
+    var rocket_y  = Q.height/6 * 5;
+
     if(Q.touchDevice)
     {
       Q.state.set('scale', 2.5);
@@ -74,7 +76,7 @@ export default Ember.Component.extend({
 
     Q.state.set('level', 1);
 
-    var distance      = 0;
+    Q.state.set('distance', 0);
     Q.state.set('stars', 0);
     Q.state.set('bullets', 0);
 
@@ -88,8 +90,6 @@ export default Ember.Component.extend({
     Q.state.set('distanceToGoal', 50);
     Q.state.set('speed', 50);
     var maxSpeed        = 100;
-
-    var rocket_y  = Q.height/6 * 5;
 
     Q.TransformableSprite.extend("Rocket", {
     	init: function(p) {
@@ -157,22 +157,18 @@ export default Ember.Component.extend({
 
     			if(this.p.lastSpeedUp > 1)
     			{
-            // self.get('rocket').set('speed', self.get('rocket').get('speed') + 1);
-            self.get('rocket').set('distanceToGoal', self.get('rocket').get('distanceToGoal') - 1);
-            self.get('rocket').set('distance', self.get('rocket').get('distance') + 1);
-
             Q.state.set('speed', Q.state.get('speed') + 1);
 
     				this.p.speed = Q.state.get('speed');
 
-    				Q.state.set("distanceToGoal", self.get('rocket').get('distanceToGoal'));
-    				Q.state.set("distance", self.get('rocket').get('distance'));
+    				Q.state.set("distanceToGoal", Q.state.get("distanceToGoal") - 1);
+    				Q.state.set("distance", Q.state.get("distance") + 1);
 
     				this.p.lastSpeedUp = 0;
     			}
 
 
-    			if(self.get('rocket').get('distanceToGoal') <= 0)
+    			if(Q.state.get("distanceToGoal") <= 0)
     			{
     				this.levelUp();
     			}
@@ -259,7 +255,7 @@ export default Ember.Component.extend({
     		globalSpeedRef    *= 1.2;
     		maxSpeedRef       *= 1.2;
 
-    		distanceToGoal  = distanceToGoalRef;
+    		Q.state.set('distanceToGoal', distanceToGoalRef);
     		Q.state.set('speed', globalSpeedRef);
     		maxSpeed        = maxSpeedRef;
 
@@ -330,7 +326,7 @@ export default Ember.Component.extend({
     	 },
 
     	 // When a star is inserted, use it's parent (the stage)
-    	 // to keep track of the total number of dots on the stage
+    	 // to keep track of the total number of stars on the stage
     	 inserted: function()
     	 {
     		  this.stage.starCount = this.stage.starCount || 0;
@@ -968,7 +964,7 @@ export default Ember.Component.extend({
   		Q.audio.play('rocket.mp3', { loop: true });
   		Q.audio.play('racing.mp3', { loop: true });
 
-  		distance          = 0;
+  		Q.state.set('distance', 0);
   		Q.state.set('stars', 0);
   		Q.state.set('bullets', 0);
 
@@ -1042,11 +1038,11 @@ export default Ember.Component.extend({
 
   		var scoreInfo = "Your score:\n\n";
 
-  		if(distance + Q.state.get('stars') > user_score)
+  		if(Q.state.get('distance') + Q.state.get('stars') > user_score)
   		{
   			scoreInfo = "You beat your own highscore!\n\n";
 
-  			saveScore(distance + Q.state.get('stars'));
+  			saveScore(Q.state.get('distance') + Q.state.get('stars'));
   		}
 
   		sendStars(parseInt(Q.state.get('stars')) + parseInt(stars_count), function()
@@ -1072,7 +1068,7 @@ export default Ember.Component.extend({
 
   		stage.insert(new Q.UI.Text
   		({
-  				label: scoreInfo + (parseInt(distance) + parseInt(Q.state.get('stars'))) + "\n\n" + 'distance: ' + (parseInt(distance) + '\n stars: ' + parseInt(Q.state.get('stars'))),
+  				label: scoreInfo + (parseInt(Q.state.get('distance')) + parseInt(Q.state.get('stars'))) + "\n\n" + 'distance: ' + (parseInt(Q.state.get('distance')) + '\n stars: ' + parseInt(Q.state.get('stars'))),
   				color: color,
   				x: 0,
   				y: 0,
