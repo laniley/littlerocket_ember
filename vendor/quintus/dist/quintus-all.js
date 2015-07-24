@@ -6883,8 +6883,8 @@ Quintus.UI = function(Q)
         ({
            x: 0,
            y: Q.state.get('scale') * 72,
-           label: parseInt((Q.state.get('speed') / p.maxSpeed) * 100) + " %\n",
-           maxSpeed: p.maxSpeed,
+           label: parseInt((Q.state.get('speed') / Q.state.get('maxSpeed')) * 100) + " %\n",
+           maxSpeed: Q.state.get('maxSpeed'),
            color: "black",
            size: Q.state.get('scale') * 20,
            outlineWidth: container.width

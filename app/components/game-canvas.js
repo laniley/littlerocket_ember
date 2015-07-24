@@ -80,16 +80,17 @@ export default Ember.Component.extend({
     Q.state.set('stars', 0);
     Q.state.set('bullets', 0);
 
+    var distanceToGoalRef = 50;
+    Q.state.set('distanceToGoal', 50);
+
+    var globalSpeedRef = 50;
+    Q.state.set('speed', 100);
+    // max speed of the stars and asteroids
+    Q.state.set('maxSpeed',100);
+    Q.state.set('maxSpeedRef', 100);
+
     var asteroidMaker = null;
     var ufoMaker      = null;
-
-    var distanceToGoalRef = 50;
-    var globalSpeedRef    = 50;
-    var maxSpeedRef       = 100;
-
-    Q.state.set('distanceToGoal', 50);
-    Q.state.set('speed', 50);
-    var maxSpeed        = 100;
 
     Q.TransformableSprite.extend("Rocket", {
     	init: function(p) {
@@ -100,7 +101,7 @@ export default Ember.Component.extend({
     				frame:         0,
     				direction:     'up',
     				stars:         0,
-    				vSpeed:        50,
+    				vSpeed:        Q.state.get('speed'),
     				x:             25, // x location of the center
     				y:             70, // y location of the center
     				tileW:         50,
@@ -253,16 +254,16 @@ export default Ember.Component.extend({
 
     		distanceToGoalRef *= 1.2;
     		globalSpeedRef    *= 1.2;
-    		maxSpeedRef       *= 1.2;
+    		Q.state.set('maxSpeedRef', Q.state.get('maxSpeedRef') * 1.2);
 
     		Q.state.set('distanceToGoal', distanceToGoalRef);
     		Q.state.set('speed', globalSpeedRef);
-    		maxSpeed        = maxSpeedRef;
+        Q.state.set('maxSpeed', Q.state.get('maxSpeedRef'));
 
     		if(Q.state.get('level') === 2)
     		{
     			Q.stage().insert(new Q.UfoMaker());
-    			asteroidMaker.p.launchDelay = 0.6 * Q.state.get('scale') - (Q.state.get('speed') / maxSpeed);
+    			asteroidMaker.p.launchDelay = 0.6 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed'));
 
     			if(Q.state.get('level') > max_level)
     			{
@@ -380,7 +381,7 @@ export default Ember.Component.extend({
     	 {
     		  this.p =
     		  {
-    				launchDelay: Q.state.get('scale') - (Q.state.get('speed') / maxSpeed),
+    				launchDelay: Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed')),
     				launchRandom: 1,
     				launch: 1
     		  };
@@ -573,7 +574,7 @@ export default Ember.Component.extend({
     	{
     		this.p =
     		{
-    			launchDelay: 0.4 * Q.state.get('scale') - (Q.state.get('speed') / maxSpeed),
+    			launchDelay: 0.4 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed')),
     			launchRandom: 1,
     			launch: 1
     		};
@@ -597,7 +598,7 @@ export default Ember.Component.extend({
     	{
     		this.p =
     		{
-    			launchDelay: 2 * Q.state.get('scale') - (Q.state.get('speed') / maxSpeed),
+    			launchDelay: 2 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed')),
     			launchRandom: 1,
     			launch: 2
     		};
@@ -654,9 +655,7 @@ export default Ember.Component.extend({
   		container.insert(new Q.DistanceText(container));
   		container.insert(new Q.LevelText(container));
   		container.insert(new Q.StarsText(container));
-  		container.insert(new Q.SpeedText(container, {
-        maxSpeed: maxSpeed
-      }));
+  		container.insert(new Q.SpeedText(container));
   		container.insert(new Q.DistanceToGoalText(container));
 
   		container.fit(0);
@@ -960,19 +959,19 @@ export default Ember.Component.extend({
 
   		distanceToGoalRef = 50;
   		globalSpeedRef    = 250;
-  		maxSpeedRef       = 500;
+      Q.state.set('maxSpeedRef', 500);
 
   		Q.state.set('distanceToGoal', 50);
   		Q.state.set('speed', 250);
-  		maxSpeed          = 500;
+      Q.state.set('maxSpeed', 500);
 
   		if(Q.touchDevice)
   		{
   			globalSpeedRef = globalSpeedRef * Q.state.get('scale');
         Q.state.set('speed', Q.state.get('speed') * Q.state.get('scale'));
 
-  			maxSpeed = maxSpeed * Q.state.get('scale');
-  			maxSpeedRef = maxSpeedRef * Q.state.get('scale');
+  			Q.state.set('maxSpeed', Q.state.get('maxSpeed') * Q.state.get('scale'));
+        Q.state.set('maxSpeedRef', Q.state.get('maxSpeedRef') * Q.state.get('scale'));
   		}
 
   		stage.insert(new Q.StarMaker());
@@ -984,7 +983,7 @@ export default Ember.Component.extend({
 
   		if(Q.state.get('level') > 1)
   		{
-  			asteroidMaker.p.launchDelay = 0.6 * Q.state.get('scale') - (Q.state.get('speed') / maxSpeed);
+  			asteroidMaker.p.launchDelay = 0.6 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed'));
   			Q.stage().insert(new Q.UfoMaker());
   		}
 
@@ -1024,102 +1023,103 @@ export default Ember.Component.extend({
 
   		var scoreInfo = "Your score:\n\n";
 
-  		if(Q.state.get('distance') + Q.state.get('stars') > self.get('me').get('user').get('score'))
-  		{
-  			scoreInfo = "You beat your own highscore!\n\n";
-
-  			saveScore(Q.state.get('distance') + Q.state.get('stars'));
-  		}
-
       self.get('me').get('user').then(user => {
+
+        if(Q.state.get('distance') + Q.state.get('stars') > user.get('score'))
+    		{
+    			scoreInfo = "You beat your own highscore!\n\n";
+          user.set('score', Q.state.get('distance') + Q.state.get('stars'));
+    		}
+
         var new_stars_amount = user.get('stars') + parseInt(Q.state.get('stars'));
         user.set('stars', new_stars_amount);
+
         user.save();
+
+    		var containerText = stage.insert(new Q.UI.Container
+    		({
+    			  x: Q.width/2, y: Q.height/3 + 70, fill: "rgba(0,0,0,0.5)"
+    		}));
+
+        var color = 'white';
+        var size = 20;
+
+    		if(Q.state.get('scale') > 1)
+    		{
+    			color = 'black';
+    			size = 30;
+    		}
+
+    		stage.insert(new Q.UI.Text
+    		({
+    				label: scoreInfo + (parseInt(Q.state.get('distance')) + parseInt(Q.state.get('stars'))) + "\n\n" + 'distance: ' + (parseInt(Q.state.get('distance')) + '\n stars: ' + parseInt(Q.state.get('stars'))),
+    				color: color,
+    				x: 0,
+    				y: 0,
+    				size: size,
+    				align: 'center',
+    				scale: Q.state.get('scale')
+    		}), containerText);
+
+    		if(Q.state.get('scale') === 1) {
+          containerText.fit(20);
+        }
+
+    		// Try again
+    		var container = stage.insert(new Q.UI.Container
+    		({
+    			  x: Q.width/2, y: (Q.height/2 + 130 * Q.state.get('scale'))
+    		}));
+
+    		var button = container.insert
+    		(
+    			new Q.UI.Button
+    			({
+    				x: 0,
+    				y: 0,
+    				fill: "#CCCCCC",
+    				label: "Try level again",
+    				border: 2,
+    				scale: Q.state.get('scale')
+    		 })
+    		);
+
+    		button.on("click",function()
+    		{
+    			  Q.clearStages();
+    			  Q.stageScene('level');
+    			  Q.stageScene('hud', 3, Q('Rocket').first().p);
+    		});
+
+  		  container.fit(20);
+
+    		// Select level
+    		var containerSelectLevel = stage.insert(new Q.UI.Container
+    		({
+    			  x: Q.width/2, y: (Q.height/2 + 200 * Q.state.get('scale'))
+    		}));
+
+    		var buttonSelectLevel = containerSelectLevel.insert
+    		(
+    			new Q.UI.Button
+    			({
+    				x: 0,
+    				y: 0,
+    				fill: "#CCCCCC",
+    				label: "Select level",
+    				border: 2,
+    				scale: Q.state.get('scale')
+    		 })
+    		);
+
+    		buttonSelectLevel.on("click",function()
+    		{
+    			  Q.clearStages();
+    			  Q.stageScene('levelSelection');
+    		});
+
+  		  containerSelectLevel.fit(20);
       });
-
-  		var containerText = stage.insert(new Q.UI.Container
-  		({
-  			  x: Q.width/2, y: Q.height/3 + 70, fill: "rgba(0,0,0,0.5)"
-  		}));
-
-      var color = 'white';
-      var size = 20;
-
-  		if(Q.state.get('scale') > 1)
-  		{
-  			color = 'black';
-  			size = 30;
-  		}
-
-  		stage.insert(new Q.UI.Text
-  		({
-  				label: scoreInfo + (parseInt(Q.state.get('distance')) + parseInt(Q.state.get('stars'))) + "\n\n" + 'distance: ' + (parseInt(Q.state.get('distance')) + '\n stars: ' + parseInt(Q.state.get('stars'))),
-  				color: color,
-  				x: 0,
-  				y: 0,
-  				size: size,
-  				align: 'center',
-  				scale: Q.state.get('scale')
-  		}), containerText);
-
-  		if(Q.state.get('scale') === 1) {
-        containerText.fit(20);
-      }
-
-  		// Try again
-  		var container = stage.insert(new Q.UI.Container
-  		({
-  			  x: Q.width/2, y: (Q.height/2 + 130 * Q.state.get('scale'))
-  		}));
-
-  		var button = container.insert
-  		(
-  			new Q.UI.Button
-  			({
-  				x: 0,
-  				y: 0,
-  				fill: "#CCCCCC",
-  				label: "Try level again",
-  				border: 2,
-  				scale: Q.state.get('scale')
-  		 })
-  		);
-
-  		button.on("click",function()
-  		{
-  			  Q.clearStages();
-  			  Q.stageScene('level');
-  			  Q.stageScene('hud', 3, Q('Rocket').first().p);
-  		});
-
-  		container.fit(20);
-
-  		// Select level
-  		var containerSelectLevel = stage.insert(new Q.UI.Container
-  		({
-  			  x: Q.width/2, y: (Q.height/2 + 200 * Q.state.get('scale'))
-  		}));
-
-  		var buttonSelectLevel = containerSelectLevel.insert
-  		(
-  			new Q.UI.Button
-  			({
-  				x: 0,
-  				y: 0,
-  				fill: "#CCCCCC",
-  				label: "Select level",
-  				border: 2,
-  				scale: Q.state.get('scale')
-  		 })
-  		);
-
-  		buttonSelectLevel.on("click",function()
-  		{
-  			  Q.clearStages();
-  			  Q.stageScene('levelSelection');
-  		});
-
-  		containerSelectLevel.fit(20);
   	});
 
     this.set('Q', Q);
@@ -1138,7 +1138,7 @@ export default Ember.Component.extend({
 
           user.get('rocket').then(rocket => {
 
-              self.set('rocket', rocket);
+              this.set('rocket', rocket);
 
               var Q = this.get('Q');
 
