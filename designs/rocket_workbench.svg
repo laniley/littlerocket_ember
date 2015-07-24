@@ -10,8 +10,8 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="500"
-   height="328"
+   width="400"
+   height="300"
    id="svg4810"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -175,19 +175,19 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-724.36218)">
+     transform="translate(0,-752.36218)">
     <g
        id="g3026">
       <g
          id="g3052">
         <path
-           style="fill:none;stroke:#000000;stroke-width:3.44618177;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-           d="m 303.18185,804.29275 44.94203,0 0,-37.55377 52.67101,0"
+           style="fill:none;stroke:#000000;stroke-width:3.02741861;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m 272.19375,834.13319 39.48089,0 0,-32.99042 46.27068,0"
            id="path3064-1"
            inkscape:connector-curvature="0" />
         <g
            id="g3835"
-           transform="matrix(1.4961748,-1.4463024,1.4962525,1.4463774,-923.9011,1216.0757)"
+           transform="matrix(1.314367,-1.2705548,1.3144352,1.2706207,-805.7801,1195.8783)"
            inkscape:export-filename="C:\xampp\htdocs\LittleRocket\images\store_images\AppIcon_1024x1024.png"
            inkscape:export-xdpi="90"
            inkscape:export-ydpi="90">
@@ -329,13 +329,13 @@
              inkscape:export-ydpi="90" />
         </g>
         <path
-           style="fill:none;stroke:#000000;stroke-width:3.44618177;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-           d="m 229.7978,801.10941 -44.94203,0 0,-37.55378 -52.67098,0"
+           style="fill:none;stroke:#000000;stroke-width:3.02741861;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m 207.72696,831.33667 -39.48089,0 0,-32.99043 -46.27067,0"
            id="path3064"
            inkscape:connector-curvature="0" />
         <path
-           style="fill:none;stroke:#000000;stroke-width:3.44618177;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-           d="m 236.63603,977.84699 44.94203,0 0,-37.55374 52.67106,0"
+           style="fill:none;stroke:#000000;stroke-width:3.02741861;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m 213.73425,986.59797 39.48089,0 0,-32.99039 46.27073,0"
            id="path3064-1-7"
            inkscape:connector-curvature="0" />
       </g>

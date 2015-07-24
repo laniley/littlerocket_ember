@@ -3050,7 +3050,7 @@ Quintus.Sprites = function(Q)
        asset: "level_selection.png",
        x: 		 210,
        y: 		 300,
-       scale: p.scale
+       scale:  Q.state.get('scale')
       });
    }
  });
@@ -3064,11 +3064,11 @@ Quintus.Sprites = function(Q)
          name:   	'DistanceIcon',
          asset:  	'menuicons/distance.png',
          type:   	p.type,
-         tileW:  	p.scale * 24,
-         tileH:  	p.scale * 24,
-         x:      	p.scale * 20,
-         y:      	p.scale * 45,
-         scale: 	  p.scale
+         tileW:  	Q.state.get('scale') * 24,
+         tileH:  	Q.state.get('scale') * 24,
+         x:      	Q.state.get('scale') * 20,
+         y:      	Q.state.get('scale') * 45,
+         scale: 	Q.state.get('scale')
        });
 
        this.p.x += this.p.tileW / 2;
@@ -3085,11 +3085,11 @@ Quintus.Sprites = function(Q)
          name:   	'LevelIcon',
          asset:  	'menuicons/level.png',
          type:   	p.type,
-         tileW:  	p.scale * 24,
-         tileH:  	p.scale * 24,
-         x:      	p.scale * 20,
-         y:      	p.scale * 70,
-         scale: 	  p.scale
+         tileW:  	Q.state.get('scale') * 24,
+         tileH:  	Q.state.get('scale') * 24,
+         x:      	Q.state.get('scale') * 20,
+         y:      	Q.state.get('scale') * 70,
+         scale: 	Q.state.get('scale')
        });
 
        this.p.x += this.p.tileW / 2;
@@ -3106,11 +3106,11 @@ Quintus.Sprites = function(Q)
          name:   	'StarIcon',
          asset:  	'menuicons/points.png',
          type:   	p.type,
-         tileW:  	p.scale * 24,
-         tileH:  	p.scale * 24,
-         x:      	p.scale * 20,
-         y:      	p.scale * 95,
-         scale: 	  p.scale
+         tileW:  	Q.state.get('scale') * 24,
+         tileH:  	Q.state.get('scale') * 24,
+         x:      	Q.state.get('scale') * 20,
+         y:      	Q.state.get('scale') * 95,
+         scale: 	Q.state.get('scale')
        });
 
        this.p.x += this.p.tileW / 2;
@@ -3127,11 +3127,11 @@ Quintus.Sprites = function(Q)
          name:   	'SpeedIcon',
          asset:  	'menuicons/speed.png',
          type:   	p.type,
-         tileW:  	p.scale * 24,
-         tileH:  	p.scale * 24,
-         x:      	p.scale * 20,
-         y:      	p.scale * 120,
-         scale: 	  p.scale
+         tileW:  	Q.state.get('scale') * 24,
+         tileH:  	Q.state.get('scale') * 24,
+         x:      	Q.state.get('scale') * 20,
+         y:       Q.state.get('scale') * 120,
+         scale: 	Q.state.get('scale')
        });
 
        this.p.x += this.p.tileW / 2;
@@ -3148,11 +3148,11 @@ Quintus.Sprites = function(Q)
          name:   	'GoalIcon',
          asset:  	'menuicons/goal.png',
          type:   	p.style,
-         tileW:  	p.scale * 24,
-         tileH:  	p.scale * 24,
-         x:      	p.scale * 20,
-         y:      	p.scale * 145,
-         scale:   p.scale
+         tileW:  	Q.state.get('scale') * 24,
+         tileH:  	Q.state.get('scale') * 24,
+         x:      	Q.state.get('scale') * 20,
+         y:      	Q.state.get('scale') * 145,
+         scale:   Q.state.get('scale')
        });
 
        this.p.x += this.p.tileW / 2;
@@ -6264,9 +6264,9 @@ Quintus.Touch = function(Q) {
 
 /*global Quintus:false */
 
-Quintus.UI = function(Q) 
+Quintus.UI = function(Q)
 {
-  if(Q._isUndefined(Quintus.Touch)) 
+  if(Q._isUndefined(Quintus.Touch))
   {
     throw "Quintus.UI requires Quintus.Touch Module";
   }
@@ -6280,9 +6280,9 @@ Quintus.UI = function(Q)
     ctx.lineTo(-rect.cx + rect.w - rect.radius, -rect.cy);
     ctx.quadraticCurveTo(-rect.cx + rect.w, -rect.cy, -rect.cx + rect.w, -rect.cy + rect.radius);
     ctx.lineTo(-rect.cx + rect.w, -rect.cy + rect.h - rect.radius);
-    ctx.quadraticCurveTo(-rect.cx + rect.w, 
-                         -rect.cy + rect.h, 
-                         -rect.cx + rect.w - rect.radius, 
+    ctx.quadraticCurveTo(-rect.cx + rect.w,
+                         -rect.cy + rect.h,
+                         -rect.cx + rect.w - rect.radius,
                          -rect.cy + rect.h);
     ctx.lineTo(-rect.cx + rect.radius, -rect.cy + rect.h);
     ctx.quadraticCurveTo(-rect.cx, -rect.cy + rect.h, -rect.cx, -rect.cy + rect.h - rect.radius);
@@ -6293,20 +6293,20 @@ Quintus.UI = function(Q)
 
 
 
-  Q.UI.Container = Q.Sprite.extend("UI.Container", 
+  Q.UI.Container = Q.Sprite.extend("UI.Container",
   {
-    	init: function(p,defaults) 
+    	init: function(p,defaults)
     	{
       	var adjustedP = Q._clone(p||{}),
           	match;
 
 	      if(p && Q._isString(p.w) && (match = p.w.match(/^[0-9]+%$/))) {
-	        adjustedP.w = parseInt(p.w,10) * Q.width / 100;         
+	        adjustedP.w = parseInt(p.w,10) * Q.width / 100;
 	        adjustedP.x = Q.width/2 - adjustedP.w/2;
 	      }
 
 	      if(p && Q._isString(p.h) && (match = p.h.match(/^[0-9]+%$/))) {
-	        adjustedP.h = parseInt(p.h,10) * Q.height / 100;         
+	        adjustedP.h = parseInt(p.h,10) * Q.height / 100;
 	        adjustedP.y = Q.height /2 - adjustedP.h/2;
 	      }
 
@@ -6316,7 +6316,7 @@ Quintus.UI = function(Q)
 	        fill:   null, // Set to color to add background
 	        highlight:   null, // Set to color to for button
 	        radius: 5, // Border radius
-	        stroke: "#000", 
+	        stroke: "#000",
 	        border: false, // Set to a width to show a border
 	        shadow: false, // Set to true or a shadow offest
 	        shadowColor: false, // Set to a rgba value for the shadow
@@ -6364,9 +6364,9 @@ Quintus.UI = function(Q)
       this.p.h = maxY - minY + paddingY * 2;
     },
 
-    addShadow: function(ctx) 
+    addShadow: function(ctx)
     {
-      if(this.p.shadow) 
+      if(this.p.shadow)
       {
         var shadowAmount = Q._isNumber(this.p.shadow) ? this.p.shadow : 5;
         ctx.shadowOffsetX=shadowAmount;
@@ -6375,17 +6375,17 @@ Quintus.UI = function(Q)
       }
     },
 
-    clearShadow: function(ctx) 
+    clearShadow: function(ctx)
     {
       ctx.shadowColor = "transparent";
     },
 
-    drawRadius: function(ctx) 
+    drawRadius: function(ctx)
     {
       Q.UI.roundRect(ctx,this.p);
       this.addShadow(ctx);
       ctx.fill();
-      if(this.p.border) 
+      if(this.p.border)
       {
         this.clearShadow(ctx);
         ctx.lineWidth = this.p.border;
@@ -6393,10 +6393,10 @@ Quintus.UI = function(Q)
       }
     },
 
-    drawSquare: function(ctx) 
+    drawSquare: function(ctx)
     {
       this.addShadow(ctx);
-      if(this.p.fill) { 
+      if(this.p.fill) {
         ctx.fillRect(-this.p.cx,-this.p.cy,
                       this.p.w,this.p.h);
       }
@@ -6409,7 +6409,7 @@ Quintus.UI = function(Q)
       }
     },
 
-    draw: function(ctx) 
+    draw: function(ctx)
     {
       if(this.p.hidden) { return false; }
       if(!this.p.border && !this.p.fill) { return; }
@@ -6422,7 +6422,7 @@ Quintus.UI = function(Q)
       }
       ctx.strokeStyle = this.p.stroke;
 
-      if(this.p.radius > 0) { 
+      if(this.p.radius > 0) {
         this.drawRadius(ctx);
       } else {
         this.drawSquare(ctx);
@@ -6432,9 +6432,9 @@ Quintus.UI = function(Q)
   });
 
 
-  Q.UI.Text = Q.Sprite.extend("UI.Text", 
+  Q.UI.Text = Q.Sprite.extend("UI.Text",
   {
-    init: function(p,defaultProps) 
+    init: function(p,defaultProps)
     {
       this._super(Q._defaults(p||{},defaultProps),
       {
@@ -6445,7 +6445,7 @@ Quintus.UI = function(Q)
       this.el = document.createElement("canvas");
       this.ctx = this.el.getContext("2d");
 
-      if(this.p.label) 
+      if(this.p.label)
       {
         this.calcSize();
       }
@@ -6453,7 +6453,7 @@ Quintus.UI = function(Q)
       this.prerender();
     },
 
-    calcSize: function() 
+    calcSize: function()
     {
       this.setFont(Q.ctx);
 
@@ -6464,9 +6464,9 @@ Quintus.UI = function(Q)
 
       var maxLabel = "";
 
-      for(var i = 0;i < this.splitLabel.length;i++) 
+      for(var i = 0;i < this.splitLabel.length;i++)
       {
-        if(this.splitLabel[i].length > maxLabel.length) 
+        if(this.splitLabel[i].length > maxLabel.length)
         {
           maxLabel = this.splitLabel[i];
         }
@@ -6488,7 +6488,7 @@ Quintus.UI = function(Q)
       }
     },
 
-    prerender: function() 
+    prerender: function()
     {
       if(this.p.oldLabel === this.p.label) { return; }
       this.p.oldLabel = this.p.label;
@@ -6504,43 +6504,43 @@ Quintus.UI = function(Q)
       this.ctx.fillText(this.p.label,0,0);
     },
 
-    draw: function(ctx) 
+    draw: function(ctx)
     {
         //this.prerender();
-        if(this.p.opacity === 0) 
+        if(this.p.opacity === 0)
           { return; }
 
-        if(this.p.oldLabel !== this.p.label) 
+        if(this.p.oldLabel !== this.p.label)
           { this.calcSize(); }
 
         this.setFont(ctx);
 
-        if(this.p.opacity !== void 0) 
+        if(this.p.opacity !== void 0)
           { ctx.globalAlpha = this.p.opacity; }
 
-        for(var i =0;i<this.splitLabel.length;i++) 
+        for(var i =0;i<this.splitLabel.length;i++)
         {
-          if(this.p.align === 'center') 
-          {      
-            if(this.p.outlineWidth) 
+          if(this.p.align === 'center')
+          {
+            if(this.p.outlineWidth)
             {
               ctx.strokeText(this.splitLabel[i],0,-this.p.cy + i * this.p.size * 1.2);
             }
 
             ctx.fillText(this.splitLabel[i],0,-this.p.cy + i * this.p.size * 1.2);
-          } 
-          else if(this.p.align === 'right') 
+          }
+          else if(this.p.align === 'right')
           {
-            if(this.p.outlineWidth) 
+            if(this.p.outlineWidth)
             {
               ctx.strokeText(this.splitLabel[i],this.p.cx,-this.p.cy + i * this.p.size * 1.2);
             }
 
             ctx.fillText(this.splitLabel[i],this.p.cx,-this.p.cy + i * this.p.size * 1.2);
-          } 
-          else 
-          { 
-            if(this.p.outlineWidth) 
+          }
+          else
+          {
+            if(this.p.outlineWidth)
             {
               ctx.strokeText(this.splitLabel[i],-this.p.cx,-this.p.cy +i * this.p.size * 1.2);
             }
@@ -6550,12 +6550,12 @@ Quintus.UI = function(Q)
         }
     },
 
-    asset: function() 
+    asset: function()
     {
       return this.el;
     },
 
-    setFont: function(ctx) 
+    setFont: function(ctx)
     {
       ctx.textBaseline = "top";
       ctx.font= this.font();
@@ -6578,9 +6578,9 @@ Quintus.UI = function(Q)
   });
 
 
-  	Q.UI.Button = Q.UI.Container.extend("UI.Button", 
+  	Q.UI.Button = Q.UI.Container.extend("UI.Button",
   	{
-    	init: function(p, defaultProps, callback) 
+    	init: function(p, defaultProps, callback)
     	{
 	      this._super(Q._defaults(p||{},defaultProps),
 	      {
@@ -6588,7 +6588,7 @@ Quintus.UI = function(Q)
 	        keyActionName: null
 	      });
 
-	      if(this.p.label && (!this.p.w || !this.p.h)) 
+	      if(this.p.label && (!this.p.w || !this.p.h))
 	      {
 	        Q.ctx.save();
 	        this.setFont(Q.ctx);
@@ -6606,7 +6606,7 @@ Quintus.UI = function(Q)
 	      this.on('touch',this,"highlight");
 	      this.on('touchEnd',this,"push");
 
-	      if(this.p.keyActionName) 
+	      if(this.p.keyActionName)
 	      {
 	        	Q.input.on(this.p.keyActionName,this,"push");
 	      }
@@ -6625,16 +6625,16 @@ Quintus.UI = function(Q)
 	      this.trigger('click');
 	   },
 
-	   draw: function(ctx) 
+	   draw: function(ctx)
 	   {
 	      this._super(ctx);
 
-	      if(this.p.asset || this.p.sheet) 
+	      if(this.p.asset || this.p.sheet)
 	      {
 	        	Q.Sprite.prototype.draw.call(this,ctx);
 	      }
 
-	      if(this.p.label) 
+	      if(this.p.label)
 	      {
 	        	ctx.save();
 	        	this.setFont(ctx);
@@ -6643,7 +6643,7 @@ Quintus.UI = function(Q)
 	      }
 	   },
 
-	   setFont: function(ctx) 
+	   setFont: function(ctx)
 	   {
 	      ctx.textBaseline = "middle";
 	      ctx.font = this.p.font || "400 24px arial";
@@ -6706,16 +6706,16 @@ Quintus.UI = function(Q)
     },
 
     remove: function() {
-      if(this.iframe) { 
+      if(this.iframe) {
         Q.wrapper.removeChild(this.iframe);
         this.iframe = null;
       }
     }
   });
 
-  Q.UI.HTMLElement = Q.Sprite.extend("UI.HTMLElement", 
+  Q.UI.HTMLElement = Q.Sprite.extend("UI.HTMLElement",
   {
-    init: function(p) 
+    init: function(p)
     {
         this._super(p, { opacity: 1, type: Q.SPRITE_UI  });
 
@@ -6741,7 +6741,7 @@ Quintus.UI = function(Q)
     },
 
     remove: function() {
-      if(this.el) { 
+      if(this.el) {
         Q.wrapper.removeChild(this.el);
         this.el= null;
       }
@@ -6776,7 +6776,168 @@ Quintus.UI = function(Q)
     }
   });
 
+  Q.UI.Text.extend("ScoreText",
+  {
+    init: function(container)
+    {
+      this._super
+      ({
+         x: 0,
+         y: 0,
+         label: "0\n",
+         color: "black",
+         size: Q.state.get('scale') * 25,
+         outlineWidth: container.width
+      });
 
+      Q.state.on("change.distance",this,"updateText");
+    	Q.state.on("change.stars",this,"updateText");
+    },
+
+    updateText: function(newVal)
+    {
+        this.p.label = (parseInt(Q.state.get("stars")) + parseInt(Q.state.get("distance"))) + "\n";
+    }
+  });
+
+  Q.UI.Text.extend("DistanceText",
+  {
+     init: function(container)
+     {
+      this._super
+      ({
+         x: 0,
+         y: 0,
+         label: "0\n",
+         color: "black",
+         size: Q.state.get('scale') * 20,
+         outlineWidth: container.width
+      });
+
+      Q.state.on("change.distance",this,"updateText");
+    },
+
+     updateText: function(newVal)
+     {
+        this.p.label = newVal + "\n";
+     }
+  });
+
+  Q.UI.Text.extend("LevelText",
+  {
+     init: function(container)
+     {
+      this._super
+      ({
+         x: 0,
+         y: Q.state.get('scale') * 24,
+         label: Q.state.get("level") + "\n",
+         color: "black",
+         size: Q.state.get('scale') * 20,
+         outlineWidth: container.width
+      });
+
+      Q.state.on("change.level",this,"updateText");
+    },
+
+     updateText: function(newVal)
+     {
+        this.p.label = newVal + "\n";
+     }
+  });
+
+  Q.UI.Text.extend("StarsText",
+  {
+     init: function(container)
+     {
+      this._super
+      ({
+         x: 0,
+         y: Q.state.get('scale') * 48,
+         label: "0\n",
+         color: "black",
+         size: Q.state.get('scale') * 20,
+         outlineWidth: container.width
+      });
+
+      Q.state.on("change.stars",this,"updateStars");
+    },
+
+     updateStars: function(newVal)
+     {
+        this.p.label = newVal + "\n";
+     }
+  });
+
+  Q.UI.Text.extend("SpeedText",
+  {
+     init: function(container, p)
+     {
+        this._super
+        ({
+           x: 0,
+           y: Q.state.get('scale') * 72,
+           label: parseInt((Q.state.get('speed') / p.maxSpeed) * 100) + " %\n",
+           maxSpeed: p.maxSpeed,
+           color: "black",
+           size: Q.state.get('scale') * 20,
+           outlineWidth: container.width
+        });
+
+        Q.state.on("change.speed",this,"updateSpeed");
+    },
+
+    updateSpeed: function(newVal)
+    {
+        this.p.label = parseInt((newVal / this.p.maxSpeed) * 100) + " %\n";
+    }
+  });
+
+  Q.UI.Text.extend("DistanceToGoalText",
+  {
+     init: function(container)
+     {
+      this._super
+      ({
+         x: 0,
+         y: Q.state.get('scale') * 96,
+         label: Q.state.get('distanceToGoal') + "\n",
+         color: "black",
+         size: Q.state.get('scale') * 20,
+         outlineWidth: container.width
+      });
+
+      Q.state.on("change.distanceToGoal",this,"updateText");
+    },
+
+     updateText: function(newVal)
+     {
+        this.p.label = parseInt(Q.state.get('distanceToGoal')) + "\n";
+     }
+  });
+
+  Q.UI.Text.extend("BulletsText",
+  {
+    init: function(container)
+    {
+      this._super
+      ({
+         x: 0,
+         y: Q.state.get('scale') * 0,
+         label: "Ammo: " + Q.state.get('bullets') + "\n",
+         color: "black",
+         size: Q.state.get('scale') * 20,
+         outlineWidth: container.width
+      });
+
+      Q.state.on("change.bullets",this,"updateText");
+    },
+
+    updateText: function(newVal)
+    {
+      this.p.label = "Ammo: " + newVal + "\n";
+    }
+  });
 
 };
 

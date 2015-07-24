@@ -756,7 +756,7 @@ Quintus.Sprites = function(Q)
        asset: "level_selection.png",
        x: 		 210,
        y: 		 300,
-       scale: p.scale
+       scale:  Q.state.get('scale')
       });
    }
  });
@@ -770,11 +770,11 @@ Quintus.Sprites = function(Q)
          name:   	'DistanceIcon',
          asset:  	'menuicons/distance.png',
          type:   	p.type,
-         tileW:  	p.scale * 24,
-         tileH:  	p.scale * 24,
-         x:      	p.scale * 20,
-         y:      	p.scale * 45,
-         scale: 	p.scale
+         tileW:  	Q.state.get('scale') * 24,
+         tileH:  	Q.state.get('scale') * 24,
+         x:      	Q.state.get('scale') * 20,
+         y:      	Q.state.get('scale') * 45,
+         scale: 	Q.state.get('scale')
        });
 
        this.p.x += this.p.tileW / 2;
@@ -791,11 +791,11 @@ Quintus.Sprites = function(Q)
          name:   	'LevelIcon',
          asset:  	'menuicons/level.png',
          type:   	p.type,
-         tileW:  	p.scale * 24,
-         tileH:  	p.scale * 24,
-         x:      	p.scale * 20,
-         y:      	p.scale * 70,
-         scale: 	  p.scale
+         tileW:  	Q.state.get('scale') * 24,
+         tileH:  	Q.state.get('scale') * 24,
+         x:      	Q.state.get('scale') * 20,
+         y:      	Q.state.get('scale') * 70,
+         scale: 	Q.state.get('scale')
        });
 
        this.p.x += this.p.tileW / 2;
@@ -812,11 +812,11 @@ Quintus.Sprites = function(Q)
          name:   	'StarIcon',
          asset:  	'menuicons/points.png',
          type:   	p.type,
-         tileW:  	p.scale * 24,
-         tileH:  	p.scale * 24,
-         x:      	p.scale * 20,
-         y:      	p.scale * 95,
-         scale: 	  p.scale
+         tileW:  	Q.state.get('scale') * 24,
+         tileH:  	Q.state.get('scale') * 24,
+         x:      	Q.state.get('scale') * 20,
+         y:      	Q.state.get('scale') * 95,
+         scale: 	Q.state.get('scale')
        });
 
        this.p.x += this.p.tileW / 2;
@@ -833,11 +833,11 @@ Quintus.Sprites = function(Q)
          name:   	'SpeedIcon',
          asset:  	'menuicons/speed.png',
          type:   	p.type,
-         tileW:  	p.scale * 24,
-         tileH:  	p.scale * 24,
-         x:      	p.scale * 20,
-         y:      	p.scale * 120,
-         scale: 	  p.scale
+         tileW:  	Q.state.get('scale') * 24,
+         tileH:  	Q.state.get('scale') * 24,
+         x:      	Q.state.get('scale') * 20,
+         y:       Q.state.get('scale') * 120,
+         scale: 	Q.state.get('scale')
        });
 
        this.p.x += this.p.tileW / 2;
@@ -854,11 +854,11 @@ Quintus.Sprites = function(Q)
          name:   	'GoalIcon',
          asset:  	'menuicons/goal.png',
          type:   	p.style,
-         tileW:  	p.scale * 24,
-         tileH:  	p.scale * 24,
-         x:      	p.scale * 20,
-         y:      	p.scale * 145,
-         scale:   p.scale
+         tileW:  	Q.state.get('scale') * 24,
+         tileH:  	Q.state.get('scale') * 24,
+         x:      	Q.state.get('scale') * 20,
+         y:      	Q.state.get('scale') * 145,
+         scale:   Q.state.get('scale')
        });
 
        this.p.x += this.p.tileW / 2;
