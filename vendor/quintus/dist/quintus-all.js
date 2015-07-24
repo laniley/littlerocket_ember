@@ -3041,6 +3041,12 @@ Quintus.Sprites = function(Q)
     }
  });
 
+ Q.SPRITE_ROCKET   = 1;
+ Q.SPRITE_STAR     = 2;
+ Q.SPRITE_ASTEROID = 4;
+ Q.MENU_ICON       = 8;
+ Q.SPRITE_BULLET	 = 16;
+
  Q.Sprite.extend("Level_Selection",{
    init: function(p)
    {
@@ -3063,7 +3069,7 @@ Quintus.Sprites = function(Q)
        {
          name:   	'DistanceIcon',
          asset:  	'menuicons/distance.png',
-         type:   	p.type,
+         type:   	Q.MENU_ICON,
          tileW:  	Q.state.get('scale') * 24,
          tileH:  	Q.state.get('scale') * 24,
          x:      	Q.state.get('scale') * 20,
@@ -3084,7 +3090,7 @@ Quintus.Sprites = function(Q)
        {
          name:   	'LevelIcon',
          asset:  	'menuicons/level.png',
-         type:   	p.type,
+         type:   	Q.MENU_ICON,
          tileW:  	Q.state.get('scale') * 24,
          tileH:  	Q.state.get('scale') * 24,
          x:      	Q.state.get('scale') * 20,
@@ -3105,7 +3111,7 @@ Quintus.Sprites = function(Q)
        {
          name:   	'StarIcon',
          asset:  	'menuicons/points.png',
-         type:   	p.type,
+         type:   	Q.MENU_ICON,
          tileW:  	Q.state.get('scale') * 24,
          tileH:  	Q.state.get('scale') * 24,
          x:      	Q.state.get('scale') * 20,
@@ -3126,7 +3132,7 @@ Quintus.Sprites = function(Q)
        {
          name:   	'SpeedIcon',
          asset:  	'menuicons/speed.png',
-         type:   	p.type,
+         type:   	Q.MENU_ICON,
          tileW:  	Q.state.get('scale') * 24,
          tileH:  	Q.state.get('scale') * 24,
          x:      	Q.state.get('scale') * 20,
@@ -3147,7 +3153,7 @@ Quintus.Sprites = function(Q)
        {
          name:   	'GoalIcon',
          asset:  	'menuicons/goal.png',
-         type:   	p.style,
+         type:   	Q.MENU_ICON,
          tileW:  	Q.state.get('scale') * 24,
          tileH:  	Q.state.get('scale') * 24,
          x:      	Q.state.get('scale') * 20,

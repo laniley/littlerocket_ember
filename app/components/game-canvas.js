@@ -61,7 +61,7 @@ export default Ember.Component.extend({
     Q.SPRITE_ROCKET   = 1;
     Q.SPRITE_STAR     = 2;
     Q.SPRITE_ASTEROID = 4;
-    Q.MENU_ICON       = 8;
+    // Q.MENU_ICON       = 8;
     Q.SPRITE_BULLET	  = 16;
 
     Q.state.set('scale', 1);
@@ -618,25 +618,11 @@ export default Ember.Component.extend({
   	Q.scene('hud',function(stage)
   	{
   		// Icons
-  		stage.insert(new Q.DistanceIcon({
-        type:  Q.MENU_ICON
-      }));
-
-  		stage.insert(new Q.LevelIcon({
-        type:  Q.MENU_ICON
-      }));
-
-      stage.insert(new Q.StarIcon({
-        type:  Q.MENU_ICON
-      }));
-
-  		stage.insert(new Q.SpeedIcon({
-        type:  Q.MENU_ICON
-      }));
-
-  		stage.insert(new Q.GoalIcon({
-        type:  Q.MENU_ICON
-      }));
+  		stage.insert(new Q.DistanceIcon());
+  		stage.insert(new Q.LevelIcon());
+      stage.insert(new Q.StarIcon());
+  		stage.insert(new Q.SpeedIcon());
+  		stage.insert(new Q.GoalIcon());
 
   		var scoreContainer = stage.insert
   		(
@@ -1056,17 +1042,13 @@ export default Ember.Component.extend({
   			  x: Q.width/2, y: Q.height/3 + 70, fill: "rgba(0,0,0,0.5)"
   		}));
 
-      var color = 'black';
+      var color = 'white';
+      var size = 20;
 
   		if(Q.state.get('scale') > 1)
   		{
   			color = 'black';
   			size = 30;
-  		}
-  		else
-  		{
-  			color = 'white';
-  			size = 20;
   		}
 
   		stage.insert(new Q.UI.Text
