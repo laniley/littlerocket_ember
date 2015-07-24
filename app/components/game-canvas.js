@@ -1038,22 +1038,25 @@ export default Ember.Component.extend({
 
   		var scoreInfo = "Your score:\n\n";
 
-  		if(Q.state.get('distance') + Q.state.get('stars') > user_score)
+  		if(Q.state.get('distance') + Q.state.get('stars') > self.get('me').get('user').get('score'))
   		{
   			scoreInfo = "You beat your own highscore!\n\n";
 
   			saveScore(Q.state.get('distance') + Q.state.get('stars'));
   		}
 
-  		sendStars(parseInt(Q.state.get('stars')) + parseInt(stars_count), function()
-  		{
-  			getStars();
-  		});
+      self.get('me').get('user').then(user => {
+        var new_stars_amount = user.get('stars') + parseInt(Q.state.get('stars'));
+        user.set('stars', new_stars_amount);
+        user.save();
+      });
 
   		var containerText = stage.insert(new Q.UI.Container
   		({
   			  x: Q.width/2, y: Q.height/3 + 70, fill: "rgba(0,0,0,0.5)"
   		}));
+
+      var color = 'black';
 
   		if(Q.state.get('scale') > 1)
   		{
