@@ -24,7 +24,7 @@ module.exports = function(environment) {
       'script-src': "'self' 'unsafe-inline' 'unsafe-eval' www.google-analytics.com use.typekit.net connect.facebook.net facebook.com graph.facebook.com",
       'font-src': "'self' data: use.typekit.net fonts.gstatic.com",
       'connect-src': "'self' localhost:8000 connect.facebook.net",
-      'img-src': "'self' www.google-analytics.com www.paypalobjects.com graph.facebook.com www.facebook.com p.typekit.net fbcdn-profile-a.akamaihd.net csi.gstatic.com mt.googleapis.com",
+      'img-src': "'self' www.google-analytics.com www.paypalobjects.com fbstatic-a.akamaihd.net graph.facebook.com www.facebook.com p.typekit.net fbcdn-profile-a.akamaihd.net csi.gstatic.com mt.googleapis.com",
       'style-src': "'self' 'unsafe-inline' use.typekit.net fonts.googleapis.com",
       'frame-src': "s-static.ak.facebook.com static.ak.facebook.com www.facebook.com admin.appnext.com",
       'report-uri': '/_/csp-reports'
@@ -38,7 +38,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     ENV.APP.LOG_TRANSITIONS = true;
-    ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
+    // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
 
     ENV.fb_app_id = '964330650255655';
