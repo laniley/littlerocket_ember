@@ -87,39 +87,68 @@ export default Ember.Mixin.create({
             user.set('last_name', response.last_name);
             user.set('img_url', response.picture.data.url);
 
-            user.get('rocket').then(rocket => {
-
-              if(Ember.isEmpty(rocket)) {
-                rocket = store.createRecord('rocket');
-                rocket.set('user', user);
-                rocket.save().then(rocket => {
-                  user.set('rocket', rocket);
-                  user.save().then(user => {
-                    self.get('me').set('user', user);
+            user.save().then(user => {
+              user.get('rocket').then(rocket => {
+                if(Ember.isEmpty(rocket)) {
+                  rocket = store.query('rocket', { user: user.get('id') }).then(rockets => {
+                    if(Ember.isEmpty(rockets)) {
+                      rocket = store.createRecord('rocket');
+                      rocket.set('user', user);
+                      rocket.save().then(rocket => {
+                        user.set('rocket', rocket);
+                        user.save().then(user => {
+                          self.loadRocketCallback(user, rocket);
+                        });
+                      });
+                    }
+                    else {
+                       rocket = rockets.get('firstObject');
+                       self.loadRocketCallback(user, rocket);
+                    }
                   });
-                });
-              }
-              else {
-                self.get('me').set('user', user);
-              }
-
-              // rocket.get('canon')
-
+                }
+                else {
+                  self.loadRocketCallback(user, rocket);
+                }
+              });
             });
-
         });
-
-  			// getLevel();
-  			// getStars();
-  			// getWorkbenchStatus();
-  			// getLabStatus();
-  			// getCanonStatus();
   		}
   		else
   		{
   			console.log(response.error);
   		}
   	});
+  },
+
+  loadRocketCallback: function(user, rocket) {
+
+    var me = this.store.peekRecord('me', 1);
+    me.set('user', user);
+
+    rocket.get('canon').then(canon => {
+     if(Ember.isEmpty(canon)) {
+       this.store.query('canon', { rocket: rocket.get('id') }).then(canons => {
+         if(Ember.isEmpty(canons)) {
+           canon = this.store.createRecord('canon');
+           canon.set('rocket', rocket);
+           canon.save().then(canon => {
+               rocket.set('canon', canon);
+               rocket.save();
+           });
+         }
+         else {
+           canon = canons.get('firstObject');
+         }
+       });
+     }
+    });
+
+    // getLevel();
+    // getStars();
+    // getWorkbenchStatus();
+    // getLabStatus();
+    // getCanonStatus();
   }
 
 });

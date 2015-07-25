@@ -21,10 +21,9 @@
       <div class="workbench tab block-button active">
         <span class="fa-stack">
           {{unbound fa-icon "fa-rocket" stack=1}}
-          {{!-- {{unbound fa-icon "fa-lock locked" stack=1}} --}}
         </span>
       </div>
-      <div class="lab tab block-button locked" title="You need 1000 stars to unlock the lab!">
+      <div class="lab tab block-button" title="You need 1000 stars to unlock the lab!">
         <span class="fa-stack">
           {{unbound fa-icon "fa-flask" stack=1}}
           {{unbound fa-icon "fa-lock locked" stack=1}}
@@ -36,18 +35,20 @@
         <h2>Workbench</h2>
         <div id="workbench-item-container" class="item-container">
           <img src="assets/images/rocket_workbench.png" />
-          <div id="canon" class="fa-stack block-button locked">
-            <div class="fa fa-bullseye fa-stack-1x" title="Use 500 stars to build the canon!"></div>
-            <div class="fa fa-lock fa-stack-1x locked" title="You need 500 stars to unlock the canon!"></div>
-          </div>
-          <div id="shield" class="fa-stack block-button locked">
-            <div class="fa fa-shield fa-stack-1x" title="Use 500 stars to build the canon!"></div>
-            <div class="fa fa-lock fa-stack-1x locked" title="You need 500 stars to unlock the canon!"></div>
-          </div>
-          <div id="drive" class="fa-stack block-button locked">
-            <div class="fa fa-forward fa-stack-1x" title="Use 500 stars to build the canon!"></div>
-            <div class="fa fa-lock fa-stack-1x locked" title="You need 500 stars to unlock the canon!"></div>
-          </div>
+          <span id="canon" class="fa-stack block-button" title="You need 500 stars to unlock the canon!">
+            {{unbound fa-icon "fa-bullseye" stack=1}}
+            {{#unless me.user.rocket.hasACanon}}
+              {{unbound fa-icon "fa-lock locked" stack=1}}
+            {{/unless}}
+          </span>
+          <span id="shield" class="fa-stack block-button" title="You need 500 stars to unlock the shield!">
+            {{unbound fa-icon "fa-shield" stack=1}}
+            {{unbound fa-icon "fa-lock locked" stack=1}}
+          </span>
+          <span id="drive" class="fa-stack block-button" title="You need 500 stars to unlock the engine!">
+            {{unbound fa-icon "fa-forward" stack=1}}
+            {{unbound fa-icon "fa-lock locked" stack=1}}
+          </span>
           {{!-- <div id="canon-infos" title="capacity"></div> --}}
         </div>
       </div>
