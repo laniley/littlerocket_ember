@@ -9,11 +9,14 @@ export default Ember.Component.extend({
 
   didInsertElement: function() {
     this.store = this.get('targetObject.store');
+    this.loadTopPlayers();
+  },
 
+  loadTopPlayers: function() {
     this.store.query('user', { 'mode': 'leaderboard' }).then(users => {
       this.set('top_players', users);
     });
-  },
+  }.observes('me.user.score'),
 
   actions: {
     openSection: function(section) {
