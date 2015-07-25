@@ -4,19 +4,22 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   me: null,
   socialSection: 'leaderboard',
-  top_players: null,
+  leaderboard: null,
   store: null,
 
   didInsertElement: function() {
     this.store = this.get('targetObject.store');
-    this.loadTopPlayers();
-  },
 
-  loadTopPlayers: function() {
     this.store.query('user', { 'mode': 'leaderboard' }).then(users => {
-      this.set('top_players', users);
+      var leaderboard = this.store.createRecord('leaderboard', {
+        id: 1,
+        name: 'world leaderboard',
+        players: users
+      });
+
+      this.set('leaderboard', leaderboard);
     });
-  }.observes('me.user.score'),
+  },
 
   actions: {
     openSection: function(section) {

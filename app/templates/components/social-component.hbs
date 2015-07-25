@@ -18,7 +18,7 @@
      </div>
      {{#if (if-equals socialSection 'leaderboard') }}
         <div class="leaderboard_list scrollable_list">
-           {{#each top_players as |top_player|}}
+           {{#each leaderboard.players as |top_player|}}
               <div class="list-item">
                 <div class="rank_container">
                   <span class="rank">{{top_player.rank}}</span>

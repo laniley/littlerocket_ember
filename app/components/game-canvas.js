@@ -1034,7 +1034,12 @@ export default Ember.Component.extend({
         var new_stars_amount = user.get('stars') + parseInt(Q.state.get('stars'));
         user.set('stars', new_stars_amount);
 
-        user.save();
+        user.save().then(user => {
+          self.get('targetObject.store').query('user', { 'mode': 'leaderboard' }).then(users => {
+            var leaderboard = self.get('targetObject.store').peekRecord('leaderboard', 1);
+            leaderboard.set('players', users);
+          });
+        });
 
     		var containerText = stage.insert(new Q.UI.Container
     		({
