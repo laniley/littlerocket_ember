@@ -90,7 +90,6 @@ export default Ember.Component.extend({
     Q.state.set('maxSpeedRef', 100);
 
     var asteroidMaker = null;
-    var ufoMaker      = null;
 
     Q.TransformableSprite.extend("Rocket", {
     	init: function(p) {
@@ -285,6 +284,140 @@ export default Ember.Component.extend({
     	}
     });
 
+    Q.Sprite.extend("Ufo",
+    {
+    	init: function(p)
+    	{
+    		this._super(p,
+    		{
+    			name:   'Ufo',
+    			sheet:  'ufo',
+    			type:   Q.SPRITE_UFO,
+    			collisionMask: Q.SPRITE_ROCKET | Q.SPRITE_BULLET,
+    			sensor: true,
+    			x:      ((Q.width - (72 * Q.state.get('scale'))) * Math.random()) + (20 * Q.state.get('scale')),
+    			y:      0,
+    			tileW:  72,
+    			tileH:  40,
+    			scale:  Q.state.get('scale'),
+    			points: [],
+    			xDirection: 0.5 - Math.random()
+    		});
+
+    		// collision points berechnen
+    		var radius = this.p.tileW / 2 - 3;
+    		var winkel = 0;
+
+    		for(var i = 0; i < 10; i++)
+    		{
+    			winkel += (Math.PI * 2) / 10;
+
+    			var x = Math.floor(Math.sin(winkel) * radius);
+    			var y = Math.floor(Math.cos(winkel) * radius);
+
+    			this.p.points.push([x, y]);
+    		}
+
+    		this.on("sensor");
+
+    		this.add("2d, ufoControls");
+    	},
+
+    	// When an ufo is hit..
+    	sensor: function(colObj)
+    	{
+    		// Destroy it
+    		if(colObj.isA('Rocket') && !colObj.collided)
+    		{
+    			colObj.collided = true;
+
+    			Q.audio.stop('rocket.mp3');
+    			Q.audio.stop('racing.mp3');
+    			Q.audio.play('explosion.mp3');
+
+    			globalSpeedRef = 0;
+    			colObj.play('explosion');
+
+    			Q.stageScene("gameOver", 2);
+    		}
+    		else if(colObj.isA('Bullet') && !colObj.collided)
+    		{
+    			colObj.collided = true;
+
+    			Q.audio.play('explosion.mp3');
+
+    			colObj.destroy();
+    			this.destroy();
+    		}
+    	}
+    });
+
+    Q.component("ufoControls",
+    {
+    	// default properties to add onto our entity
+    	defaults: { speed: 100 },
+
+    	// called when the component is added to an entity
+    	added: function()
+    	{
+    		var p = this.entity.p;
+
+    		// add in our default properties
+    		Q._defaults(p, this.defaults);
+
+    		// every time our entity steps call our step method
+    		this.entity.on("step",this,"step");
+    	},
+
+    	step: function(/*dt*/)
+    	{
+    		// grab the entity's properties for easy reference
+    		var p = this.entity.p;
+
+    		p.vy = Q.state.get('speed') * 1.3;
+    		// based on our xDirection, try to add velocity in that direction
+    		if(p.xDirection > 0) {
+          p.vx = Q.state.get('speed') / 2;
+        }
+    		else {
+          p.vx = -Q.state.get('speed') / 2;
+        }
+
+    		if(p.y > Q.height) {
+    			this.entity.destroy();
+    		}
+
+    		if((p.x > Q.width - 35 * Q.state.get('scale') && p.xDirection > 0) || (p.x < 35 * Q.state.get('scale') && p.xDirection <= 0)) {
+          p.xDirection = p.xDirection * -1;
+        }
+
+    	}
+    });
+
+    Q.GameObject.extend("UfoMaker",
+    {
+    	init: function()
+    	{
+    		this.p =
+    		{
+    			launchDelay: 1.2 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed')),
+    			launchRandom: 1,
+    			launch: 1
+    		};
+    	},
+
+     	update: function(dt)
+     	{
+    	  	this.p.launch -= dt;
+
+    	  	if(this.p.launch < 0)
+    	  	{
+    			this.stage.insert(new Q.Ufo());
+    			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
+    		}
+     	}
+    });
+
     // Create the Star sprite
     Q.Sprite.extend("Star",
     {
@@ -354,7 +487,7 @@ export default Ember.Component.extend({
     		  this.entity.on("step",this,"step");
     	 },
 
-    	 step: function(dt)
+    	 step: function(/*dt*/)
     	 {
     		  // grab the entity's properties
     		  // for easy reference
@@ -538,7 +671,7 @@ export default Ember.Component.extend({
     		this.entity.on("step",this,"step");
     	},
 
-    	step: function(dt)
+    	step: function(/*dt*/)
     	{
     		// grab the entity's properties
     		// for easy reference
@@ -548,22 +681,21 @@ export default Ember.Component.extend({
     		// in that direction
     		switch(p.direction)
     		{
-    			case "down":  	p.vy = Q.state.get('speed') * 1.2;
-    								break;
+    			case "down":
+              p.vy = Q.state.get('speed') * 1.2;
+    					break;
     		}
 
-    		if(this.entity.isA('ExplodingAsteroid')	&&
-          p.y > (Q.height * 0.75) &&
-          p.isExploded === false)
+    		if(this.entity.isA('ExplodingAsteroid')	&& p.y > (Q.height * 0.75) && p.isExploded === false)
     		{
-    			p.isExploded = true;
+            p.isExploded = true;
     		  	Q.audio.play('explosion.mp3');
     		  	this.entity.explode();
     		}
 
     		else if(p.y > Q.height)
     		{
-    			this.entity.destroy();
+    			  this.entity.destroy();
     		}
     	}
     });
@@ -954,7 +1086,7 @@ export default Ember.Component.extend({
   		Q.state.set('bullets', 0);
 
   		if(this.get('rocket').get('hasACanon')) {
-        Q.state.set('bullets', cockpit.canon.capacity);
+        Q.state.set('bullets', this.get('rocket').get('canon').get('capacity'));
       }
 
   		distanceToGoalRef = 50;
@@ -1034,7 +1166,7 @@ export default Ember.Component.extend({
         var new_stars_amount = user.get('stars') + parseInt(Q.state.get('stars'));
         user.set('stars', new_stars_amount);
 
-        user.save().then(user => {
+        user.save().then(() => {
           self.get('targetObject.store').query('user', { 'mode': 'leaderboard' }).then(users => {
             var leaderboard = self.get('targetObject.store').peekRecord('leaderboard', 1);
             leaderboard.set('players', users);
