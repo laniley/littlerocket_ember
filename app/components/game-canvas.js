@@ -40,7 +40,8 @@ export default Ember.Component.extend({
       	LEFT: "left",
       	RIGHT: "right",
       	UP: "fire",
-      	SPACE: "space"
+      	SPACE: "space",
+        ENTER: "enter"
     });
 
     Q.input.touchControls
@@ -875,6 +876,13 @@ export default Ember.Component.extend({
       Q.state.set('speed', 0);
 
   		Q.stageScene('hud', 3, Q('Rocket').first().p);
+
+      // on enter
+  		Q.input.on("enter", this, function()
+  		{
+		  		Q.stageScene('level');
+  		});
+
   	});
 
     Q.scene("levelSelection", function(stage)
@@ -1129,18 +1137,16 @@ export default Ember.Component.extend({
   		// pause game
   		Q.input.on("space", this, function()
   		{
-  			console.log(Q.loop);
-  		  		if(Q.loop)
-  		  		{
-  		  			Q.pauseGame();
-  		  			self.set('isPaused', true);
-  		  		}
-  		  		else if(!Q.loop)
-  		  		{
-  		  			Q.unpauseGame();
-  		  			self.set('isPaused', false);
-  		  		}
-
+		  		if(Q.loop)
+		  		{
+		  			Q.pauseGame();
+		  			self.set('isPaused', true);
+		  		}
+		  		else if(!Q.loop)
+		  		{
+		  			Q.unpauseGame();
+		  			self.set('isPaused', false);
+		  		}
   		});
 
   	});
@@ -1154,6 +1160,20 @@ export default Ember.Component.extend({
   		Q.audio.stop('racing.mp3');
 
   		var scoreInfo = "Your score:\n\n";
+
+      var containerText = stage.insert(new Q.UI.Container
+      ({
+          x: Q.width/2, y: Q.height/3 + 70, fill: "rgba(0,0,0,0.5)"
+      }));
+
+      var color = 'white';
+      var size = 20;
+
+      if(Q.state.get('scale') > 1)
+      {
+        color = 'black';
+        size = 30;
+      }
 
       self.get('me').get('user').then(user => {
 
@@ -1173,20 +1193,6 @@ export default Ember.Component.extend({
           });
         });
 
-    		var containerText = stage.insert(new Q.UI.Container
-    		({
-    			  x: Q.width/2, y: Q.height/3 + 70, fill: "rgba(0,0,0,0.5)"
-    		}));
-
-        var color = 'white';
-        var size = 20;
-
-    		if(Q.state.get('scale') > 1)
-    		{
-    			color = 'black';
-    			size = 30;
-    		}
-
     		stage.insert(new Q.UI.Text
     		({
     				label: scoreInfo + (parseInt(Q.state.get('distance')) + parseInt(Q.state.get('stars'))) + "\n\n" + 'distance: ' + (parseInt(Q.state.get('distance')) + '\n stars: ' + parseInt(Q.state.get('stars'))),
@@ -1202,62 +1208,72 @@ export default Ember.Component.extend({
           containerText.fit(20);
         }
 
-    		// Try again
-    		var container = stage.insert(new Q.UI.Container
-    		({
-    			  x: Q.width/2, y: (Q.height/2 + 130 * Q.state.get('scale'))
-    		}));
-
-    		var button = container.insert
-    		(
-    			new Q.UI.Button
-    			({
-    				x: 0,
-    				y: 0,
-    				fill: "#CCCCCC",
-    				label: "Try level again",
-    				border: 2,
-    				scale: Q.state.get('scale')
-    		 })
-    		);
-
-    		button.on("click",function()
-    		{
-    			  Q.clearStages();
-    			  Q.stageScene('level');
-    			  Q.stageScene('hud', 3, Q('Rocket').first().p);
-    		});
-
-  		  container.fit(20);
-
-    		// Select level
-    		var containerSelectLevel = stage.insert(new Q.UI.Container
-    		({
-    			  x: Q.width/2, y: (Q.height/2 + 200 * Q.state.get('scale'))
-    		}));
-
-    		var buttonSelectLevel = containerSelectLevel.insert
-    		(
-    			new Q.UI.Button
-    			({
-    				x: 0,
-    				y: 0,
-    				fill: "#CCCCCC",
-    				label: "Select level",
-    				border: 2,
-    				scale: Q.state.get('scale')
-    		 })
-    		);
-
-    		buttonSelectLevel.on("click",function()
-    		{
-    			  Q.clearStages();
-    			  Q.stageScene('levelSelection');
-    		});
-
-  		  containerSelectLevel.fit(20);
       });
-  	});
+
+      // Try again
+      var container = stage.insert(new Q.UI.Container
+      ({
+          x: Q.width/2, y: (Q.height/2 + 130 * Q.state.get('scale'))
+      }));
+
+      var button = container.insert
+      (
+        new Q.UI.Button
+        ({
+          x: 0,
+          y: 0,
+          fill: "#CCCCCC",
+          label: "Try level again",
+          border: 2,
+          scale: Q.state.get('scale')
+       })
+      );
+
+      button.on("click",function()
+      {
+          Q.clearStages();
+          Q.stageScene('level');
+          Q.stageScene('hud', 3, Q('Rocket').first().p);
+      });
+
+      container.fit(20);
+
+      // Select level
+      var containerSelectLevel = stage.insert(new Q.UI.Container
+      ({
+          x: Q.width/2, y: (Q.height/2 + 200 * Q.state.get('scale'))
+      }));
+
+      var buttonSelectLevel = containerSelectLevel.insert
+      (
+        new Q.UI.Button
+        ({
+          x: 0,
+          y: 0,
+          fill: "#CCCCCC",
+          label: "Select level",
+          border: 2,
+          scale: Q.state.get('scale')
+       })
+      );
+
+      buttonSelectLevel.on("click",function()
+      {
+          Q.clearStages();
+          Q.stageScene('levelSelection');
+      });
+
+      containerSelectLevel.fit(20);
+
+      // on enter
+  		Q.input.on("enter", this, function()
+  		{
+		  		Q.clearStages();
+          Q.stageScene('level');
+          Q.stageScene('hud', 3, Q('Rocket').first().p);
+  		});
+
+    });
 
     this.set('Q', Q);
 
