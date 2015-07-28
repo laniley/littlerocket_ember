@@ -266,27 +266,23 @@ export default Ember.Component.extend({
     		Q.state.set('speed', globalSpeedRef);
         Q.state.set('maxSpeed', Q.state.get('maxSpeedRef'));
 
+        self.get('me').get('user').then(user => {
+          if(Q.state.get('level') > user.get('max_level'))
+          {
+            user.set('max_level', Q.state.get('level'));
+            user.save();
+          }
+        });
+
     		if(Q.state.get('level') === 2)
     		{
     			Q.stage().insert(new Q.UfoMaker());
     			asteroidMaker.p.launchDelay = 0.6 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed'));
-
-    			if(Q.state.get('level') > max_level)
-    			{
-    				max_level = Q.state.get('level');
-    				sendLevel(max_level);
-    			}
     		}
 
     		if(Q.state.get('level') === 3)
     		{
     			Q.stage().insert(new Q.ExplodingAsteroidMaker());
-
-    			if(Q.state.get('level') > max_level)
-    			{
-    				max_level = Q.state.get('level');
-    				sendLevel(max_level);
-    			}
     		}
     	}
     });
@@ -999,7 +995,7 @@ export default Ember.Component.extend({
 
       level2Button.on("click", function()
     	{
-      		if(max_level > 1)
+      		if(self.get('me').get('user').get('max_level') > 1)
       		{
             Q.state.set('level', 2);
       			Q.clearStages();
@@ -1021,7 +1017,7 @@ export default Ember.Component.extend({
 
       level3Button.on("click", function()
       {
-      		if(max_level > 2)
+      		if(self.get('me').get('user').get('max_level') > 2)
       		{
             Q.state.set('level', 3);
       			Q.clearStages();
@@ -1444,8 +1440,8 @@ export default Ember.Component.extend({
 
           				Q.stageScene("levelSelection");
 
-          				Q.debug = true;
-          				Q.debugFill = true;
+          				// Q.debug = true;
+          				// Q.debugFill = true;
           			},
 
           			{
