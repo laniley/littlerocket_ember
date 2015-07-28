@@ -39,7 +39,8 @@ export default Ember.Component.extend({
     ({
       	LEFT: "left",
       	RIGHT: "right",
-      	UP: "fire",
+      	UP: "up",
+        DOWN: "down",
       	SPACE: "space",
         ENTER: "enter"
     });
@@ -50,7 +51,7 @@ export default Ember.Component.extend({
       	[
       		['left','<' ],
           [],
-          ['fire', '*'],
+          ['up', '*'],
           [],
           ['right','>' ]
        ]
@@ -91,6 +92,11 @@ export default Ember.Component.extend({
     Q.state.set('maxSpeedRef', 100);
 
     var asteroidMaker = null;
+
+    // COLORS
+    Q.state.set('buttonFillColorUnselected', '#CCC');
+    Q.state.set('buttonFillColorSelected', '#F5F36F');
+    Q.state.set('buttonTextColorSelected', '#D62E00');
 
     Q.TransformableSprite.extend("Rocket", {
     	init: function(p) {
@@ -216,7 +222,7 @@ export default Ember.Component.extend({
     		  }
 
     		  	// fire Canon
-    		  	if(Q.inputs['fire'] && this.p.hasACanon)
+    		  	if(Q.inputs['up'] && this.p.hasACanon)
     		  	{
     		    	this.trigger("fireCanon");
     		  	}
@@ -824,21 +830,24 @@ export default Ember.Component.extend({
   			  y: Q.height/2 - 40 * Q.state.get('scale')
   		}));
 
-  		var button = container.insert
+  		var buttonStartLevel = container.insert
   		(
   			new Q.UI.Button
   			({
   				x: 0,
   				y: 0,
   				scale: Q.state.get('scale'),
-  				fill: "#CCCCCC",
+          fontColor: Q.state.get('buttonTextColorSelected'),
+          stroke: Q.state.get('buttonTextColorSelected'),
+  				fill: Q.state.get('buttonFillColorSelected'),
+          shadow: 5,
+          shadowColor: "rgba(0,0,0,0.5)",
   				label: "Start",
-  				border: 2,
-  		    borderColor: "rgba(0,0,0,0.5)"
+  				border: 2
   			})
   		);
 
-  		button.on("click",function()
+  		buttonStartLevel.on("click",function()
   		{
   			Q.stageScene('level');
   		});
@@ -861,6 +870,7 @@ export default Ember.Component.extend({
   				fill: "#CCCCCC",
   				label: "Select level",
   				border: 2,
+          shadowColor: "rgba(0,0,0,0.5)",
   				scale: Q.state.get('scale')
   		 })
   		);
@@ -877,10 +887,52 @@ export default Ember.Component.extend({
 
   		Q.stageScene('hud', 3, Q('Rocket').first().p);
 
-      // on enter
+      var currentSelectedButton = 'buttonStartLevel';
+
+      // inputs
   		Q.input.on("enter", this, function()
   		{
-		  		Q.stageScene('level');
+          if(currentSelectedButton === 'buttonStartLevel') {
+            Q.stageScene('level');
+          }
+		  		else {
+            Q.clearStages();
+    			  Q.stageScene('levelSelection');
+          }
+  		});
+
+      Q.input.on("up", this, function()
+  		{
+          buttonSelectLevel.p.fill = Q.state.get('buttonFillColorUnselected');
+          buttonStartLevel.p.fill = Q.state.get('buttonFillColorSelected');
+
+          buttonSelectLevel.p.fontColor = Q.state.get('buttonTextColorUnselected');
+          buttonStartLevel.p.fontColor = Q.state.get('buttonTextColorSelected');
+
+          buttonSelectLevel.p.stroke = Q.state.get('buttonTextColorUnselected');
+          buttonStartLevel.p.stroke = Q.state.get('buttonTextColorSelected');
+
+          buttonSelectLevel.p.shadow = 0;
+          buttonStartLevel.p.shadow = 5;
+
+          currentSelectedButton = 'buttonStartLevel';
+  		});
+
+      Q.input.on("down", this, function()
+  		{
+		  		buttonStartLevel.p.fill = Q.state.get('buttonFillColorUnselected');
+          buttonSelectLevel.p.fill = Q.state.get('buttonFillColorSelected');
+
+          buttonStartLevel.p.fontColor = Q.state.get('buttonTextColorUnselected');
+          buttonSelectLevel.p.fontColor = Q.state.get('buttonTextColorSelected');
+
+          buttonStartLevel.p.stroke = Q.state.get('buttonTextColorUnselected');
+          buttonSelectLevel.p.stroke = Q.state.get('buttonTextColorSelected');
+
+          buttonSelectLevel.p.shadow = 5;
+          buttonStartLevel.p.shadow = 0;
+
+          currentSelectedButton = 'buttonSelectLevel';
   		});
 
   	});
