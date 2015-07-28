@@ -250,8 +250,8 @@ export default Ember.Component.extend({
 
     	destroy: function()
     	{
-    		// this.destroy();
-    		Q.pauseGame();
+        self.set('isPaused', true);
+    		// Q.pauseGame();
     	},
 
     	levelUp: function()
@@ -417,7 +417,7 @@ export default Ember.Component.extend({
      	{
     	  	this.p.launch -= dt;
 
-    	  	if(this.p.launch < 0)
+    	  	if(!self.get('isPaused') && this.p.launch < 0)
     	  	{
     			this.stage.insert(new Q.Ufo());
     			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
@@ -531,7 +531,7 @@ export default Ember.Component.extend({
     	 {
     		  this.p.launch -= dt;
 
-    		  if(this.p.launch < 0)
+    		  if(!self.get('isPaused') && this.p.launch < 0)
     		  {
     				this.stage.insert(new Q.Star());
     				this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
@@ -709,7 +709,7 @@ export default Ember.Component.extend({
 
     Q.GameObject.extend("AsteroidMaker",
     {
-    	init: function()
+      init: function()
     	{
     		this.p =
     		{
@@ -723,11 +723,10 @@ export default Ember.Component.extend({
      	{
     	  	this.p.launch -= dt;
 
-    	  	if(this.p.launch < 0)
-    	  	{
-    			this.stage.insert(new Q.NormalAsteroid());
-    			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
-    		}
+    	  	if(!self.get('isPaused') && this.p.launch < 0) {
+      			this.stage.insert(new Q.NormalAsteroid());
+      			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
+    		  }
      	}
     });
 
@@ -747,7 +746,7 @@ export default Ember.Component.extend({
     	{
     		this.p.launch -= dt;
 
-    		if(this.p.launch < 0)
+    		if(!self.get('isPaused') && this.p.launch < 0)
     		{
     			this.stage.insert(new Q.ExplodingAsteroid( {size : 50} ));
     			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
@@ -1203,10 +1202,10 @@ export default Ember.Component.extend({
 
   	});
 
-  	Q.scene("gameOver", function(stage)
-  	{
-  		self.set('isPaused', true);
-  		Q.pauseGame();
+  	Q.scene("gameOver", function(stage) {
+
+      Q.state.set('speed', 0);
+      self.set('isPaused', true);
 
   		Q.audio.stop('rocket.mp3');
   		Q.audio.stop('racing.mp3');
@@ -1268,20 +1267,24 @@ export default Ember.Component.extend({
           x: Q.width/2, y: (Q.height/2 + 130 * Q.state.get('scale'))
       }));
 
-      var button = container.insert
+      var buttonTryAgain = container.insert
       (
         new Q.UI.Button
         ({
           x: 0,
           y: 0,
-          fill: "#CCCCCC",
+          fontColor: Q.state.get('buttonTextColorSelected'),
+          stroke: Q.state.get('buttonTextColorSelected'),
+  				fill: Q.state.get('buttonFillColorSelected'),
+          shadow: 5,
+          shadowColor: "rgba(0,0,0,0.5)",
           label: "Try level again",
           border: 2,
           scale: Q.state.get('scale')
        })
       );
 
-      button.on("click",function()
+      buttonTryAgain.on("click",function()
       {
           Q.clearStages();
           Q.stageScene('level');
@@ -1304,6 +1307,7 @@ export default Ember.Component.extend({
           y: 0,
           fill: "#CCCCCC",
           label: "Select level",
+          shadowColor: "rgba(0,0,0,0.5)",
           border: 2,
           scale: Q.state.get('scale')
        })
@@ -1317,12 +1321,54 @@ export default Ember.Component.extend({
 
       containerSelectLevel.fit(20);
 
-      // on enter
+      var currentSelectedButton = 'buttonTryAgain';
+
+      // inputs
   		Q.input.on("enter", this, function()
   		{
-		  		Q.clearStages();
+        if(currentSelectedButton === 'buttonTryAgain') {
+          Q.clearStages();
           Q.stageScene('level');
           Q.stageScene('hud', 3, Q('Rocket').first().p);
+        }
+        else {
+          Q.clearStages();
+          Q.stageScene('levelSelection');
+        }
+  		});
+
+      Q.input.on("up", this, function()
+  		{
+          buttonSelectLevel.p.fill = Q.state.get('buttonFillColorUnselected');
+          buttonTryAgain.p.fill = Q.state.get('buttonFillColorSelected');
+
+          buttonSelectLevel.p.fontColor = Q.state.get('buttonTextColorUnselected');
+          buttonTryAgain.p.fontColor = Q.state.get('buttonTextColorSelected');
+
+          buttonSelectLevel.p.stroke = Q.state.get('buttonTextColorUnselected');
+          buttonTryAgain.p.stroke = Q.state.get('buttonTextColorSelected');
+
+          buttonSelectLevel.p.shadow = 0;
+          buttonTryAgain.p.shadow = 5;
+
+          currentSelectedButton = 'buttonTryAgain';
+  		});
+
+      Q.input.on("down", this, function()
+  		{
+		  		buttonTryAgain.p.fill = Q.state.get('buttonFillColorUnselected');
+          buttonSelectLevel.p.fill = Q.state.get('buttonFillColorSelected');
+
+          buttonTryAgain.p.fontColor = Q.state.get('buttonTextColorUnselected');
+          buttonSelectLevel.p.fontColor = Q.state.get('buttonTextColorSelected');
+
+          buttonTryAgain.p.stroke = Q.state.get('buttonTextColorUnselected');
+          buttonSelectLevel.p.stroke = Q.state.get('buttonTextColorSelected');
+
+          buttonSelectLevel.p.shadow = 5;
+          buttonTryAgain.p.shadow = 0;
+
+          currentSelectedButton = 'buttonSelectLevel';
   		});
 
     });
