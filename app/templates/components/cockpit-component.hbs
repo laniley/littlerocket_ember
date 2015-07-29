@@ -35,12 +35,25 @@
         <h2>Workbench</h2>
         <div id="workbench-item-container" class="item-container">
           <img src="assets/images/rocket_workbench.png" />
-          <span id="canon" class="fa-stack block-button" title="You need 500 stars to unlock the canon!">
-            {{unbound fa-icon "fa-bullseye" stack=1}}
-            {{#unless me.user.rocket.hasACanon}}
-              {{unbound fa-icon "fa-lock locked" stack=1}}
-            {{/unless}}
-          </span>
+          {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
+            <span id="canon" class="fa-stack block-button" title="The Canon">
+              {{unbound fa-icon "fa-bullseye" stack=1}}
+            </span>
+          {{else}}
+            {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
+              <span id="canon" class="fa-stack block-button" title="The Canon">
+                {{unbound fa-icon "fa-bullseye" stack=1}}
+                {{timer-component type='canon' component=me.user.rocket.canon}}
+              </span>
+            {{else}}
+              <span id="canon" class="fa-stack block-button"
+                title="You need 500 stars to unlock the canon!"
+                {{action 'buy' 'canon' me.user.rocket.canon}}>
+                {{unbound fa-icon "fa-bullseye" stack=1}}
+                {{unbound fa-icon "fa-lock locked" stack=1}}
+              </span>
+            {{/if}}
+          {{/if}}
           <span id="shield" class="fa-stack block-button" title="You need 500 stars to unlock the shield!">
             {{unbound fa-icon "fa-shield" stack=1}}
             {{unbound fa-icon "fa-lock locked" stack=1}}

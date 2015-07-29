@@ -314,9 +314,22 @@ body
 
   .timer
   {
+    height: 100%;
+    width: 100;
+
     canvas
     {
       margin-top: 8px;
+    }
+
+    .percent {
+        position: absolute;
+        top: 1.05em;
+        left: 0;
+        width: 3.33em;
+        font-size: 0.3em;
+        text-align:center;
+        display: none;
     }
   }
 }
