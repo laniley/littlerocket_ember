@@ -80,7 +80,6 @@ export default Ember.Component.extend({
 
     Q.state.set('distance', 0);
     Q.state.set('stars', 0);
-    Q.state.set('bullets', 0);
 
     var distanceToGoalRef = 50;
     Q.state.set('distanceToGoal', 50);
@@ -121,7 +120,7 @@ export default Ember.Component.extend({
             hasACanon: 	   false,
             canonBlocked:  false,
             canonCapacity: 3,
-            bullets: 		   3
+            bullets: 		   Q.state.get('bullets')
     		  });
 
     		  this.p.hasACanon = self.get('rocket').get('hasACanon');
@@ -238,9 +237,8 @@ export default Ember.Component.extend({
     			var bullet = new Q.Bullet();
     	    	this.stage.insert(bullet);
 
-    	    	bullets--;
-    	    	this.p.bullets = bullets;
-    	    	Q.state.set("bullets", bullets);
+            Q.state.set('bullets', Q.state.get('bullets') - 1);
+    	    	this.p.bullets = Q.state.get('bullets');
 
     	    	var me = this;
 
@@ -805,8 +803,32 @@ export default Ember.Component.extend({
   			)
   		);
 
-  		containerAmmo.insert(new Q.BulletsText(containerAmmo));
-  	});
+      self.get('me').get('user').then(user => {
+
+        if(!Ember.isEmpty(user)) {
+
+          user.get('rocket').then(rocket => {
+
+            rocket.get('canon').then(canon => {
+
+                if(canon.get('status') === 'unlocked') {
+                  Q.state.set('bullets', canon.get('capacity'));
+                }
+                else {
+                  Q.state.set('bullets', 0);
+                }
+
+                containerAmmo.insert(new Q.BulletsText(containerAmmo));
+
+            });
+
+          });
+
+        }
+
+      });
+
+    });
 
   	Q.scene("mainMenu",function(stage)
   	{
@@ -1138,11 +1160,6 @@ export default Ember.Component.extend({
 
   		Q.state.set('distance', 0);
   		Q.state.set('stars', 0);
-  		Q.state.set('bullets', 0);
-
-  		if(this.get('rocket').get('hasACanon')) {
-        Q.state.set('bullets', this.get('rocket').get('canon').get('capacity'));
-      }
 
   		distanceToGoalRef = 50;
   		globalSpeedRef    = 250;
@@ -1388,6 +1405,13 @@ export default Ember.Component.extend({
               this.set('rocket', rocket);
 
               var Q = this.get('Q');
+
+              if(this.get('rocket').get('canon').get('status') === 'locked') {
+                Q.state.set('bullets', 0);
+              }
+              else {
+                Q.state.set('bullets', this.get('rocket').get('canon').get('capacity'));
+              }
 
               Q.load
               (

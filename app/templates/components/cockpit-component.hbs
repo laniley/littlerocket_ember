@@ -36,19 +36,20 @@
         <div id="workbench-item-container" class="item-container">
           <img src="assets/images/rocket_workbench.png" />
           {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
-            <span id="canon" class="fa-stack block-button" title="The Canon">
+            <span id="canon" class="fa-stack block-button" title="Your Canon">
               {{unbound fa-icon "fa-bullseye" stack=1}}
+              <span class="capacity">{{me.user.rocket.canon.capacity}}</span>
             </span>
           {{else}}
             {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
-              <span id="canon" class="fa-stack block-button" title="The Canon">
+              <span id="canon" class="fa-stack block-button" title="Your Canon">
                 {{unbound fa-icon "fa-bullseye" stack=1}}
                 {{timer-component type='canon' component=me.user.rocket.canon}}
               </span>
             {{else}}
               <span id="canon" class="fa-stack block-button"
                 title="You need 500 stars to unlock the canon!"
-                {{action 'buy' 'canon' me.user.rocket.canon}}>
+                {{action 'buyCanon'}}>
                 {{unbound fa-icon "fa-bullseye" stack=1}}
                 {{unbound fa-icon "fa-lock locked" stack=1}}
               </span>

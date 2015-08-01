@@ -68,54 +68,13 @@ body
 
 	.item-container
 	{
-		padding-left: 0;
-
-		li
-		{
-			display: inline-block;
-			list-style: none;
-		}
-
-		#canon, #canon-upgrades
-		{
-			cursor: help;
-
-			&.active
-			{
-				background-color: $darkblue;
-				color: white;
-
-				&:hover, &.open, &.under_construction
-				{
-					background-color: $darkblue;
-				}
-			}
-		}
-	}
-
-	#canon-infos, #canon-upgrades-infos
-	{
-		visibility: hidden;
-		line-height: 65px;
-		margin: 15px 0 0 15px;
-		font-size: 1.5em;
-		color: orange;
-		text-shadow: #c0c0c0 3px 3px 5px;
-		cursor: default;
-
-		i
-		{
-			&.inactive
-			{
-				color: #666;
-			}
-
-			&.buyable
-			{
-				cursor: pointer;
-				color: #7BAABA;
-			}
-		}
+    .capacity {
+      position: absolute;
+      color: #666;
+      margin-top: 10px;
+      margin-left: 10px;
+      font-size: 2.3rem;
+    }
 	}
 
   #game_container {
