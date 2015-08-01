@@ -119,11 +119,15 @@ export default Ember.Component.extend({
             scale: 			   Q.state.get('scale'),
             hasACanon: 	   false,
             canonBlocked:  false,
-            canonCapacity: 3,
-            bullets: 		   Q.state.get('bullets')
+            canonCapacity: 3
     		  });
 
-    		  this.p.hasACanon = self.get('rocket').get('hasACanon');
+          if(!Ember.isEmpty(self.get('rocket').get('canon'))) {
+            this.p.hasACanon = true;
+          }
+    		  else {
+            this.p.hasACanon = false;
+          }
 
     		  // Drehpunkt zentral
     		  this.p.points = [
@@ -230,20 +234,18 @@ export default Ember.Component.extend({
 
     	fireCanon: function()
     	{
-    		if(this.p.canonBlocked === false && this.p.bullets > 0)
+    		if(this.p.hasACanon && this.p.canonBlocked === false && Q.state.get('bullets') > 0)
     		{
-    			this.p.canonBlocked = true;
+          this.p.canonBlocked = true;
 
-    			var bullet = new Q.Bullet();
-    	    	this.stage.insert(bullet);
+          this.stage.insert(new Q.Bullet());
 
-            Q.state.set('bullets', Q.state.get('bullets') - 1);
-    	    	this.p.bullets = Q.state.get('bullets');
+          Q.state.set('bullets', Q.state.get('bullets') - 1);
 
-    	    	var me = this;
+          var me = this;
 
-    	    	setTimeout(function(){ me.p.canonBlocked = false; }, 500);
-    	   }
+          setTimeout(function(){ me.p.canonBlocked = false; }, 1000);
+    	  }
     	},
 
     	destroy: function()
@@ -281,6 +283,61 @@ export default Ember.Component.extend({
     		if(Q.state.get('level') === 3)
     		{
     			Q.stage().insert(new Q.ExplodingAsteroidMaker());
+    		}
+    	}
+    });
+
+    Q.TransformableSprite.extend("Bullet",
+    {
+    	init: function(p)
+    	{
+    		  this._super(p,
+    		  {
+    				name:          "Bullet",
+    				sheet:         "bullet",
+    				tileW:         20,
+    				tileH:         20,
+    				x:             Q('Rocket').first().p.x, // x location of the center
+    				y:             400, // y location of the center
+    				type:          Q.SPRITE_BULLET,
+    				collisionMask: Q.SPRITE_ASTEROID,
+    				collided:      false,
+    				scale: 			   Q.state.get('scale')
+    		  });
+
+    		  this.add("2d, bulletControls");
+    	}
+    });
+
+    Q.component("bulletControls",
+    {
+    	// // called when the component is added to
+    	// // an entity
+    	added: function()
+    	{
+    		var p = this.entity.p;
+
+    		// add in our default properties
+    		Q._defaults(p, this.defaults);
+
+    		// every time our entity steps
+    		// call our step method
+    		this.entity.on("step",this,"step");
+    	},
+
+    	step: function(dt)
+    	{
+    		// grab the entity's properties
+    		// for easy reference
+    		var p = this.entity.p;
+
+    		// based on our direction, try to add velocity
+    		// in that direction
+    		p.vy = -350;
+
+    		if(p.y < 0)
+    		{
+    			this.entity.destroy();
     		}
     	}
     });
@@ -866,6 +923,7 @@ export default Ember.Component.extend({
 
   		buttonStartLevel.on("click",function()
   		{
+        Q.clearStages();
   			Q.stageScene('level');
   		});
 
@@ -910,6 +968,7 @@ export default Ember.Component.extend({
   		Q.input.on("enter", this, function()
   		{
           if(currentSelectedButton === 'buttonStartLevel') {
+            Q.clearStages();
             Q.stageScene('level');
           }
 		  		else {
@@ -1198,7 +1257,7 @@ export default Ember.Component.extend({
 
   		Q.stageScene('hud', 3, Q('Rocket').first().p);
 
-  		// pause game
+  		// inputs
   		Q.input.on("space", this, function()
   		{
 		  		if(Q.loop)
@@ -1212,6 +1271,9 @@ export default Ember.Component.extend({
 		  			self.set('isPaused', false);
 		  		}
   		});
+
+      Q.input.on("enter", this, function() {
+      });
 
   	});
 
