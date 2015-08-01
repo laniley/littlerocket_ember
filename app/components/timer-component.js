@@ -6,16 +6,24 @@ export default Ember.Component.extend({
   component: null,
 
   didInsertElement: function() {
+
+    var now = Math.floor(new Date().getTime() / 1000); // current timestamp in seconds
+    var remaining_construction_time = this.get('component').get('construction_time') - (now - this.get('component').get('construction_start'));
+
     Ember.$('#' + this.get('type') + ' > .timer').pietimer
     (
       {
-      	seconds: this.get('component').get('construction_time'),
+      	seconds: remaining_construction_time,
       	color: 'rgba(43, 194, 83, 0.3)',
       	height: 50,
       	width: 50
       },
-      function() {
-        // me.setStatus('construction_complete');
+      () => {
+
+        if(this.get('component').get('status') === 'under_construction') {
+          this.get('component').set('status', 'unlocked');
+          // this.get('component').save();
+        }
 
         // FB.api
         // (
@@ -27,13 +35,13 @@ export default Ember.Component.extend({
         // 	function(response)
         // 	{
         // 	   if( !response.error )
-     //  				{
-     //  					console.log(response);
-     //  				}
-     //  				else
-     //  				{
-     //  					console.log(response.error);
-     //  				}
+        //  				{
+        //  					console.log(response);
+        //  				}
+        //  				else
+        //  				{
+        //  					console.log(response.error);
+        //  				}
         // 	}
         // );
     });

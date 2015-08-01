@@ -68,12 +68,18 @@ body
 
 	.item-container
 	{
-    .capacity {
+    .has-tip {
       position: absolute;
-      color: #666;
-      margin-top: 10px;
-      margin-left: 10px;
-      font-size: 2.3rem;
+      height: 2.5rem;
+      margin-top: 15px;
+      margin-left: 3px;
+    }
+    .info {
+      color: #E67213;
+      margin-top: 15px;
+      margin-left: -3px;
+      font-size: 2rem;
+      line-height: 2rem;
     }
 	}
 
@@ -182,6 +188,10 @@ body
 
 .row {
   max-width: 100%;
+}
+
+.has-tip {
+  color: $primary-text-color;
 }
 
 .hud-container {

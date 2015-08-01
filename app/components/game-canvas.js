@@ -244,7 +244,7 @@ export default Ember.Component.extend({
 
           var me = this;
 
-          setTimeout(function(){ me.p.canonBlocked = false; }, 1000);
+          setTimeout(function(){ me.p.canonBlocked = false; }, 1000 / self.get('me').get('user').get('rocket').get('canon').get('bps'));
     	  }
     	},
 

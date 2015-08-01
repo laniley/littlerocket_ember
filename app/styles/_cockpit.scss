@@ -26,6 +26,16 @@
       margin-bottom: 15px;
       border-bottom: $border;
 
+      .left-column {
+        width: 60%;
+        float: left;
+      }
+
+      .right-column {
+        width: 40%;
+        float: left;
+      }
+
       .img_container {
         float: left;
         margin-right: 10px;

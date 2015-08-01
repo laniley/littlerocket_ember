@@ -4,16 +4,27 @@
   <div class="content">
 
     <div class="player-infos">
-      <div class="img_container">
-        <img src={{me.user.img_url}} />
+      <div class="left-column">
+        <div class="img_container">
+          <img src={{me.user.img_url}} />
+        </div>
+        <div class="name">{{me.user.name}}</div>
+        <div class="score_container">
+          <span class="cockpit_score score"><b>Score</b> {{me.user.score}}</span>
+        </div>
+        <div><i class="fa fa-star"></i> <span class="stars">{{me.user.stars}}</span></div>
+        <div class="rank_container">
+            <span class="cockpit_rank rank">{{me.user.rank}}</span>. in the leaderboard
+        </div>
       </div>
-      <div class="name">{{me.user.name}}</div>
-      <div class="score_container">
-        <span class="cockpit_score score"><b>Score</b> {{me.user.score}}</span>
-      </div>
-      <div><i class="fa fa-star"></i> <span class="stars">{{me.user.stars}}</span></div>
-      <div class="rank_container">
-          <span class="cockpit_rank rank">{{me.user.rank}}</span>. in the leaderboard
+      <div class="right-column">
+        <div><b>Max. Ammo:</b> {{me.user.rocket.canon.capacity}}</div>
+        <div>
+          {{#tooltip-component tooltip="BPS = <u>B</u>ullets <u>P</u>er <u>S</u>econd<br /> A higher BPS means, that your canon reloads faster."}}
+            BPS:
+          {{/tooltip-component}}
+          {{me.user.rocket.canon.bps}}
+        </div>
       </div>
     </div>
 
@@ -36,9 +47,13 @@
         <div id="workbench-item-container" class="item-container">
           <img src="assets/images/rocket_workbench.png" />
           {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
-            <span id="canon" class="fa-stack block-button" title="Your Canon">
+            <span id="canon" class="fa-stack block-button">
               {{unbound fa-icon "fa-bullseye" stack=1}}
-              <span class="capacity">{{me.user.rocket.canon.capacity}}</span>
+              <div class="workbench-item-tooltip">
+                {{#tooltip-component tooltip=canon_tooltip}}
+                  {{unbound fa-icon "fa-exclamation-circle info" stack=1}}
+                {{/tooltip-component}}
+              </div>
             </span>
           {{else}}
             {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
