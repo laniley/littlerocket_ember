@@ -1,10 +1,56 @@
 import Ember from 'ember';
+import DS from 'ember-data';
 
 export default Ember.Component.extend({
+
   me: null,
 
+  user: function() {
+    return this.get('me').get('user');
+  }.property('me.user'),
+
+  rocket: function() {
+    var user = this.get('user');
+    if(!Ember.isEmpty(user)) {
+      return user.get('rocket');
+    }
+    else {
+      return null;
+    }
+  }.property('user.rocket'),
+
+  canon: function() {
+    var rocket = this.get('rocket');
+    if(!Ember.isEmpty(rocket)) {
+      return rocket.get('canon');
+    }
+    else {
+      return null;
+    }
+  }.property('rocket.canon'),
+
+  canon_capacity: function() {
+    var canon = this.get('canon');
+    if(!Ember.isEmpty(canon) && canon.get('status') === 'unlocked') {
+      return canon.get('capacity');
+    }
+    else {
+      return 0;
+    }
+  }.property('canon.status', 'canon.capacity'),
+
+  canon_bps: function() {
+    var canon = this.get('canon');
+    if(!Ember.isEmpty(canon) && canon.get('status') === 'unlocked') {
+      return canon.get('bps');
+    }
+    else {
+      return 0;
+    }
+  }.property('user.rocket.canon.status', 'user.rocket.canon.bps'),
+
   canon_tooltip: function() {
-    return    "<u><b>Canon</b></u><br />Max. Ammo: " + 
+    return    "<u><b>Canon</b></u><br />Max. Ammo: " +
               this.get('me').get('user').get('rocket').get('canon').get('capacity') +
               "<br />BPS (Bullets per second): " +
               this.get('me').get('user').get('rocket').get('canon').get('bps');

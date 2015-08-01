@@ -18,12 +18,12 @@
         </div>
       </div>
       <div class="right-column">
-        <div><b>Max. Ammo:</b> {{me.user.rocket.canon.capacity}}</div>
+        <div><b>Max. Ammo:</b> {{canon_capacity}}</div>
         <div>
           {{#tooltip-component tooltip="BPS = <u>B</u>ullets <u>P</u>er <u>S</u>econd<br /> A higher BPS means, that your canon reloads faster."}}
             BPS:
           {{/tooltip-component}}
-          {{me.user.rocket.canon.bps}}
+          {{canon_bps}}
         </div>
       </div>
     </div>
