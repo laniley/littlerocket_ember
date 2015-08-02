@@ -60,9 +60,9 @@ export default Ember.Mixin.create({
 
   // Here we receive the user data from the FB Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
-  getUserDataFromFB: function()
-  {
-  	console.log('Welcome!  Fetching your information.... ');
+  getUserDataFromFB: function() {
+
+    console.log('Welcome!  Fetching your information.... ');
 
     var self = this;
     var store = this.store;
@@ -88,29 +88,8 @@ export default Ember.Mixin.create({
             user.set('img_url', response.picture.data.url);
 
             user.save().then(user => {
-              user.get('rocket').then(rocket => {
-                if(Ember.isEmpty(rocket)) {
-                  rocket = store.query('rocket', { user: user.get('id') }).then(rockets => {
-                    if(Ember.isEmpty(rockets)) {
-                      rocket = store.createRecord('rocket');
-                      rocket.set('user', user);
-                      rocket.save().then(rocket => {
-                        user.set('rocket', rocket);
-                        user.save().then(user => {
-                          self.loadRocketCallback(user, rocket);
-                        });
-                      });
-                    }
-                    else {
-                       rocket = rockets.get('firstObject');
-                       self.loadRocketCallback(user, rocket);
-                    }
-                  });
-                }
-                else {
-                  self.loadRocketCallback(user, rocket);
-                }
-              });
+              self.loadRocket(user);
+              self.loadLab(user);
             });
         });
   		}
@@ -119,6 +98,32 @@ export default Ember.Mixin.create({
   			console.log(response.error);
   		}
   	});
+  },
+
+  loadRocket: function(user) {
+    user.get('rocket').then(rocket => {
+      if(Ember.isEmpty(rocket)) {
+        rocket = this.store.query('rocket', { user: user.get('id') }).then(rockets => {
+          if(Ember.isEmpty(rockets)) {
+            rocket = this.store.createRecord('rocket');
+            rocket.set('user', user);
+            rocket.save().then(rocket => {
+              user.set('rocket', rocket);
+              user.save().then(user => {
+                this.loadRocketCallback(user, rocket);
+              });
+            });
+          }
+          else {
+             rocket = rockets.get('firstObject');
+             this.loadRocketCallback(user, rocket);
+          }
+        });
+      }
+      else {
+        this.loadRocketCallback(user, rocket);
+      }
+    });
   },
 
   loadRocketCallback: function(user, rocket) {
@@ -143,12 +148,37 @@ export default Ember.Mixin.create({
        });
      }
     });
+  },
 
-    // getLevel();
-    // getStars();
-    // getWorkbenchStatus();
-    // getLabStatus();
-    // getCanonStatus();
+  loadLab: function(user) {
+    if(user.get('lab')) {
+      user.get('lab').then(lab => {
+        if(Ember.isEmpty(lab)) {
+          this.store.query('lab', { user: user.get('id') }).then(labs => {
+            if(Ember.isEmpty(labs)) {
+              var lab = this.store.createRecord('lab');
+              lab.set('user', user);
+              lab.save().then(lab => {
+                user.set('lab', lab);
+                user.save();
+              });
+            }
+          });
+        }
+      });
+    }
+    else {
+      this.store.query('lab', { user: user.get('id') }).then(labs => {
+        if(Ember.isEmpty(labs)) {
+          var lab = this.store.createRecord('lab');
+          lab.set('user', user);
+          lab.save().then(lab => {
+            user.set('lab', lab);
+            user.save();
+          });
+        }
+      });
+    }
   }
 
 });

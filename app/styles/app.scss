@@ -232,6 +232,11 @@ body
   margin-bottom: 15px;
   .tab {
     display: inline-block;
+    .has-tip {
+      height: 2.5rem;
+      margin-top: 15px;
+      margin-left: 3px;
+    }
   }
 }
 
@@ -284,7 +289,7 @@ body
   .timer
   {
     height: 100%;
-    width: 100;
+    width: 100%;
 
     canvas
     {

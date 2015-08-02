@@ -56,29 +56,38 @@ export default Ember.Component.extend({
               this.get('me').get('user').get('rocket').get('canon').get('bps');
   }.property('me.user.rocket.canon.capacity'),
 
+  buyComponent: function(user, component) {
+    if(user.get('stars') >= component.get('costs')) {
+
+      var now = Math.floor(new Date().getTime() / 1000); // current timestamp in seconds
+
+      component.set('status', 'under_construction');
+      component.set('construction_start', now);
+      component.save().then(component => {
+        user.set('stars', user.get('stars') - component.get('costs'));
+        user.save();
+      });
+    }
+  },
+
   actions: {
     buyCanon: function() {
-
       var me = this.get('targetObject.store').peekRecord('me', 1);
-
       me.get('user').then(user => {
         user.get('rocket').then(rocket => {
           rocket.get('canon').then(component => {
-            if(user.get('stars') >= component.get('costs')) {
-
-              var now = Math.floor(new Date().getTime() / 1000); // current timestamp in seconds
-
-              component.set('status', 'under_construction');
-              component.set('construction_start', now);
-              component.save().then(component => {
-                user.set('stars', user.get('stars') - component.get('costs'));
-                user.save();
-              });
-          	}
+            this.buyComponent(user, component);
           });
         });
       });
-
+    },
+    buyLab: function() {
+      var me = this.get('targetObject.store').peekRecord('me', 1);
+      me.get('user').then(user => {
+        user.get('lab').then(component => {
+          this.buyComponent(user, component);
+        });
+      });
     }
   }
 });
