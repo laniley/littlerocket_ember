@@ -673,4 +673,32 @@ Quintus.UI = function(Q)
     }
   });
 
+  Q.UI.Text.extend("CanonIsReloadingText",
+  {
+    init: function(container)
+    {
+      this._super
+      ({
+         x: 0,
+         y: Q.state.get('scale') * 0,
+         label: "\n",
+         color: "black",
+         size: Q.state.get('scale') * 20,
+         outlineWidth: container.width
+      });
+
+      Q.state.on("change.canon_is_reloading",this,"updateText");
+    },
+
+    updateText: function(newVal)
+    {
+      if(Q.state.get("canon_is_reloading")) {
+        this.p.label = "Reloading\n";
+      }
+      else {
+        this.p.label = "Ready\n";
+      }
+    }
+  });
+
 };

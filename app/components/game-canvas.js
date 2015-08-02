@@ -80,6 +80,7 @@ export default Ember.Component.extend({
 
     Q.state.set('distance', 0);
     Q.state.set('stars', 0);
+    Q.state.set('canon_is_reloading', false);
 
     var distanceToGoalRef = 50;
     Q.state.set('distanceToGoal', 50);
@@ -244,7 +245,12 @@ export default Ember.Component.extend({
 
           var me = this;
 
-          setTimeout(function(){ me.p.canonBlocked = false; }, 1000 / self.get('me').get('user').get('rocket').get('canon').get('bps'));
+          Q.state.set('canon_is_reloading', true);
+
+          setTimeout(function() {
+            me.p.canonBlocked = false;
+            Q.state.set('canon_is_reloading', false);
+          }, 1000 / self.get('me').get('user').get('rocket').get('canon').get('bps'));
     	  }
     	},
 
@@ -876,7 +882,6 @@ export default Ember.Component.extend({
                 }
 
                 containerAmmo.insert(new Q.BulletsText(containerAmmo));
-
             });
 
           });
@@ -884,6 +889,19 @@ export default Ember.Component.extend({
         }
 
       });
+
+      var containerReloading = stage.insert
+  		(
+  			new Q.UI.Container
+  			(
+  			  {
+  					x: Q.state.get('scale') * 300,
+  					y: Q.state.get('scale') * 50
+  			  }
+  			)
+  		);
+
+      containerReloading.insert(new Q.CanonIsReloadingText(containerReloading));
 
     });
 

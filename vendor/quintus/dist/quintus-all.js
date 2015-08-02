@@ -6437,7 +6437,6 @@ Quintus.UI = function(Q)
     }
   });
 
-
   Q.UI.Text = Q.Sprite.extend("UI.Text",
   {
     init: function(p,defaultProps)
@@ -6583,79 +6582,78 @@ Quintus.UI = function(Q)
 
   });
 
+  Q.UI.Button = Q.UI.Container.extend("UI.Button",
+  {
+    init: function(p, defaultProps, callback)
+    {
+      this._super(Q._defaults(p||{},defaultProps),
+      {
+        type: Q.SPRITE_UI | Q.SPRITE_DEFAULT,
+        keyActionName: null
+      });
 
-  	Q.UI.Button = Q.UI.Container.extend("UI.Button",
-  	{
-    	init: function(p, defaultProps, callback)
-    	{
-	      this._super(Q._defaults(p||{},defaultProps),
-	      {
-	        type: Q.SPRITE_UI | Q.SPRITE_DEFAULT,
-	        keyActionName: null
-	      });
+      if(this.p.label && (!this.p.w || !this.p.h))
+      {
+        Q.ctx.save();
+        this.setFont(Q.ctx);
+        var metrics = Q.ctx.measureText(this.p.label);
+        Q.ctx.restore();
+        if(!this.p.h) {  this.p.h = 24 + 20; }
+        if(!this.p.w) { this.p.w = metrics.width + 20; }
+      }
 
-	      if(this.p.label && (!this.p.w || !this.p.h))
-	      {
-	        Q.ctx.save();
-	        this.setFont(Q.ctx);
-	        var metrics = Q.ctx.measureText(this.p.label);
-	        Q.ctx.restore();
-	        if(!this.p.h) {  this.p.h = 24 + 20; }
-	        if(!this.p.w) { this.p.w = metrics.width + 20; }
-	      }
+      if(isNaN(this.p.cx)) { this.p.cx = this.p.w / 2; }
+      if(isNaN(this.p.cy)) { this.p.cy = this.p.h / 2; }
 
-	      if(isNaN(this.p.cx)) { this.p.cx = this.p.w / 2; }
-	      if(isNaN(this.p.cy)) { this.p.cy = this.p.h / 2; }
+      this.callback = callback;
 
-	      this.callback = callback;
+      this.on('touch',this,"highlight");
+      this.on('touchEnd',this,"push");
 
-	      this.on('touch',this,"highlight");
-	      this.on('touchEnd',this,"push");
+      if(this.p.keyActionName)
+      {
+        	Q.input.on(this.p.keyActionName,this,"push");
+      }
+    },
 
-	      if(this.p.keyActionName)
-	      {
-	        	Q.input.on(this.p.keyActionName,this,"push");
-	      }
-	    },
+    highlight: function() {
+      if(typeof this.sheet() !== 'undefined' && this.sheet().frames > 1) {
+        this.p.frame = 1;
+      }
+    },
 
-	   highlight: function() {
-	      if(typeof this.sheet() !== 'undefined' && this.sheet().frames > 1) {
-	        this.p.frame = 1;
-	      }
-	    },
+    push: function()
+    {
+      this.p.frame = 0;
+      if(this.callback) { this.callback(); }
+      this.trigger('click');
+    },
 
-	   push: function()
-	   {
-	      this.p.frame = 0;
-	      if(this.callback) { this.callback(); }
-	      this.trigger('click');
-	   },
+    draw: function(ctx)
+    {
+      this._super(ctx);
 
-	   draw: function(ctx)
-	   {
-	      this._super(ctx);
+      if(this.p.asset || this.p.sheet)
+      {
+        	Q.Sprite.prototype.draw.call(this,ctx);
+      }
 
-	      if(this.p.asset || this.p.sheet)
-	      {
-	        	Q.Sprite.prototype.draw.call(this,ctx);
-	      }
+      if(this.p.label)
+      {
+        	ctx.save();
+        	this.setFont(ctx);
+        	ctx.fillText(this.p.label,0,0);
+        	ctx.restore();
+      }
+    },
 
-	      if(this.p.label)
-	      {
-	        	ctx.save();
-	        	this.setFont(ctx);
-	        	ctx.fillText(this.p.label,0,0);
-	        	ctx.restore();
-	      }
-	   },
-
-	   setFont: function(ctx)
-	   {
-	      ctx.textBaseline = "middle";
-	      ctx.font = this.p.font || "400 24px arial";
-	      ctx.fillStyle = this.p.fontColor || "black";
-	      ctx.textAlign = "center";
-	   }
+    setFont: function(ctx)
+    {
+      ctx.textBaseline = "middle";
+      ctx.font = this.p.font || "400 24px arial";
+      ctx.fillStyle = this.p.fontColor || "black";
+      ctx.textAlign = "center";
+    }
 
   });
 
@@ -6942,6 +6940,34 @@ Quintus.UI = function(Q)
     updateText: function(newVal)
     {
       this.p.label = "Ammo: " + newVal + "\n";
+    }
+  });
+
+  Q.UI.Text.extend("CanonIsReloadingText",
+  {
+    init: function(container)
+    {
+      this._super
+      ({
+         x: 0,
+         y: Q.state.get('scale') * 0,
+         label: "\n",
+         color: "black",
+         size: Q.state.get('scale') * 20,
+         outlineWidth: container.width
+      });
+
+      Q.state.on("change.canon_is_reloading",this,"updateText");
+    },
+
+    updateText: function(newVal)
+    {
+      if(Q.state.get("canon_is_reloading")) {
+        this.p.label = "Reloading\n";
+      }
+      else {
+        this.p.label = "Ready\n";
+      }
     }
   });
 
