@@ -29,13 +29,13 @@
     </div>
 
     <div class="tab-container">
-      <div class="workbench tab block-button active">
+      <div class="workbench tab block-button {{if workbenchIsOpen 'active'}}" {{action 'openWorkbench'}}>
         <span class="fa-stack">
           {{unbound fa-icon "fa-rocket" stack=1}}
         </span>
       </div>
       {{#if (if-equals me.user.lab.status 'unlocked') }}
-        <div class="lab tab block-button">
+        <div class="lab tab block-button {{if labIsOpen 'active'}}" {{action 'openLab'}}>
           <span class="fa-stack">
             {{unbound fa-icon "fa-flask" stack=1}}
           </span>
@@ -61,55 +61,58 @@
       {{/if}}
     </div>
 
-    <div id="workbench">
-      <h2>Workbench</h2>
-      <div id="workbench-item-container" class="item-container">
-        <img src="assets/images/rocket_workbench.png" />
-        {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
-          <span id="canon" class="fa-stack block-button">
-            {{unbound fa-icon "fa-bullseye" stack=1}}
-            <div class="workbench-item-tooltip">
-              {{#tooltip-component tooltip=canon_tooltip}}
-                {{unbound fa-icon "fa-exclamation-circle info" stack=1}}
-              {{/tooltip-component}}
-            </div>
-          </span>
-        {{else}}
-          {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
-            <span id="canon" class="fa-stack block-button" title="Your Canon">
+    {{#if (if-equals currentSection 'workbench') }}
+      <div id="workbench">
+        <h2>Workbench</h2>
+        <div id="workbench-item-container" class="item-container">
+          <img src="assets/images/rocket_workbench.png" />
+          {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
+            <span id="canon" class="fa-stack block-button">
               {{unbound fa-icon "fa-bullseye" stack=1}}
-              {{timer-component type='canon' component=me.user.rocket.canon}}
+              <div class="workbench-item-tooltip">
+                {{#tooltip-component tooltip=canon_tooltip}}
+                  {{unbound fa-icon "fa-exclamation-circle info" stack=1}}
+                {{/tooltip-component}}
+              </div>
             </span>
           {{else}}
-            <span id="canon" class="fa-stack block-button"
-              title="You need 500 stars to unlock the canon!"
-              {{action 'buyCanon'}}>
-              {{unbound fa-icon "fa-bullseye" stack=1}}
-              {{unbound fa-icon "fa-lock locked" stack=1}}
-            </span>
+            {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
+              <span id="canon" class="fa-stack block-button" title="Your Canon">
+                {{unbound fa-icon "fa-bullseye" stack=1}}
+                {{timer-component type='canon' component=me.user.rocket.canon}}
+              </span>
+            {{else}}
+              <span id="canon" class="fa-stack block-button"
+                title="You need 500 stars to unlock the canon!"
+                {{action 'buyCanon'}}>
+                {{unbound fa-icon "fa-bullseye" stack=1}}
+                {{unbound fa-icon "fa-lock locked" stack=1}}
+              </span>
+            {{/if}}
           {{/if}}
-        {{/if}}
-        <span id="shield" class="fa-stack block-button" title="You need 500 stars to unlock the shield!">
-          {{unbound fa-icon "fa-shield" stack=1}}
-          {{unbound fa-icon "fa-lock locked" stack=1}}
-        </span>
-        <span id="drive" class="fa-stack block-button" title="You need 500 stars to unlock the engine!">
-          {{unbound fa-icon "fa-forward" stack=1}}
-          {{unbound fa-icon "fa-lock locked" stack=1}}
-        </span>
-        {{!-- <div id="canon-infos" title="capacity"></div> --}}
+          <span id="shield" class="fa-stack block-button" title="You need 500 stars to unlock the shield!">
+            {{unbound fa-icon "fa-shield" stack=1}}
+            {{unbound fa-icon "fa-lock locked" stack=1}}
+          </span>
+          <span id="drive" class="fa-stack block-button" title="You need 500 stars to unlock the engine!">
+            {{unbound fa-icon "fa-forward" stack=1}}
+            {{unbound fa-icon "fa-lock locked" stack=1}}
+          </span>
+          {{!-- <div id="canon-infos" title="capacity"></div> --}}
+        </div>
       </div>
-    </div>
-    {{!-- <div id="lab">
-      <h2>Lab</h2>
-      <ul id="lab-item-container" class="item-container">
-        <li id="canon-upgrades" class="fa-stack cockpit-item locked">
-          <i class="fa fa-bullseye fa-stack-1x" title="The available canon upgrades."></i>
-          <i class="fa fa-lock fa-stack-1x locked" title="You need to buy the canon at the workbench first, to unlock the canon upgrades!"></i>
-        </li>
-        <li id="canon-upgrades-infos"></li>
-      </ul>
-    </div> --}}
+    {{else}}
+      <div id="lab">
+        <h2>Lab</h2>
+        <ul id="lab-item-container" class="item-container">
+          <li id="canon-upgrades" class="fa-stack cockpit-item locked">
+            <i class="fa fa-bullseye fa-stack-1x" title="The available canon upgrades."></i>
+            <i class="fa fa-lock fa-stack-1x locked" title="You need to buy the canon at the workbench first, to unlock the canon upgrades!"></i>
+          </li>
+          <li id="canon-upgrades-infos"></li>
+        </ul>
+      </div>
+    {{/if}}
 
   </div>
 {{else}}

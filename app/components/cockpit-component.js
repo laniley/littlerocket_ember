@@ -4,6 +4,25 @@ import DS from 'ember-data';
 export default Ember.Component.extend({
 
   me: null,
+  currentSection: 'workbench',
+
+  workbenchIsOpen: function() {
+    if(this.get('currentSection') === 'workbench') {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }.property('currentSection'),
+
+  labIsOpen: function() {
+    if(this.get('currentSection') === 'lab') {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }.property('currentSection'),
 
   user: function() {
     return this.get('me').get('user');
@@ -71,6 +90,12 @@ export default Ember.Component.extend({
   },
 
   actions: {
+    openWorkbench: function() {
+      this.set('currentSection', 'workbench');
+    },
+    openLab: function() {
+      this.set('currentSection', 'lab');
+    },
     buyCanon: function() {
       var me = this.get('targetObject.store').peekRecord('me', 1);
       me.get('user').then(user => {

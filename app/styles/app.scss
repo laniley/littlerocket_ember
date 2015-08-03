@@ -248,16 +248,18 @@ body
   height: 65px;
   line-height: 65px;
   text-align: center;
-  cursor: pointer;
 
-  &.active
-  {
+  &.active {
     background-color: #99C1CF;
     color: white;
+  }
 
+  &:not(.active)
+  {
     &:hover, &.open
     {
-      background-color: $lightblue;
+      background-color: white;
+      cursor: pointer;
     }
   }
 
