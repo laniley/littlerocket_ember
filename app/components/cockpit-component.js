@@ -6,6 +6,10 @@ export default Ember.Component.extend({
   me: null,
   currentSection: 'workbench',
 
+  store: function() {
+    return this.get('targetObject.store')
+  }.property(),
+
   user: function() {
     return this.get('me').get('user');
   }.property('me.user'),

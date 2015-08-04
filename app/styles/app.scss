@@ -218,13 +218,19 @@ body
     border-bottom: 2px solid #8AA8B2;
     height: 540px;
   }
-  .login-info {
+  .login-info, .locked-info {
     text-align: center;
     font-size: 2.5rem;
-    padding: 210px 0;
     color: white;
     background-color: #888;
     border: 1px solid #444;
+  }
+  .login-info {
+    padding: 210px 0;
+  }
+  .locked-info {
+    margin-top: 5px;
+    padding: 83px 0;
   }
 }
 
@@ -300,20 +306,15 @@ body
   {
     height: 100%;
     width: 100%;
+  }
+}
 
-    canvas
-    {
-      margin-top: 8px;
-    }
-
-    .percent {
-        position: absolute;
-        top: 1.05em;
-        left: 0;
-        width: 3.33em;
-        font-size: 0.3em;
-        text-align:center;
-        display: none;
+#workbench-item-container {
+  .block-button {
+    .timer {
+      canvas {
+        margin-top: 7px;
+      }
     }
   }
 }

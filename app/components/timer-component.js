@@ -21,8 +21,28 @@ export default Ember.Component.extend({
       () => {
 
         if(this.get('component').get('status') === 'under_construction') {
+
           this.get('component').set('status', 'unlocked');
-          // this.get('component').save();
+
+          var store = this.get('targetObject.store');
+          var me = store.peekRecord('me', 1);
+
+          if(this.get('type') === 'lab-tab') {
+            me.get('user').then(user => {
+              user.get('lab').then(lab => {
+                lab.save();
+              })
+            });
+          }
+          else if(this.get('type') === 'canon') {
+            me.get('user').then(user => {
+              user.get('rocket').then(rocket => {
+                rocket.get('canon').then(canon => {
+                  canon.save();
+                });
+              });
+            });
+          }
         }
 
         // FB.api

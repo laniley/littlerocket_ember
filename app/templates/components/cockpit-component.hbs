@@ -39,7 +39,7 @@
       {{#if (if-equals me.user.lab.status 'unlocked') }}
         <div class="lab tab">
           {{#link-to 'index' (query-params cockpit_section="lab")}}
-            <span class="fa-stack">
+            <span id="lab-tab" class="fa-stack">
               {{unbound fa-icon "fa-flask" stack=1}}
             </span>
           {{/link-to}}
@@ -108,13 +108,20 @@
     {{else}}
       <div id="lab">
         <h2>Lab</h2>
-        <div class="tab-container">
-          <div id="canon-upgrades" class="fa-stack tab locked">
-            <i class="fa fa-bullseye fa-stack-1x" title="The available canon upgrades."></i>
-            <i class="fa fa-lock fa-stack-1x locked" title="You need to buy the canon at the workbench first, to unlock the canon upgrades!"></i>
+        {{#if (if-equals me.user.lab.status 'unlocked') }}
+          <div class="tab-container">
+            <div id="canon-upgrades" class="fa-stack tab locked">
+              <i class="fa fa-bullseye fa-stack-1x" title="The available canon upgrades."></i>
+              <i class="fa fa-lock fa-stack-1x locked" title="You need to buy the canon at the workbench first, to unlock the canon upgrades!"></i>
+            </div>
+            <div id="canon-upgrades-infos"></div>
           </div>
-          <div id="canon-upgrades-infos"></div>
-        </div>
+        {{else}}
+          <div class="locked-info">
+            <div>{{unbound fa-icon "fa-lock"}}</div>
+            <div>Locked</div>
+          </div>
+        {{/if}}
       </div>
     {{/if}}
 
