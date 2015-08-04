@@ -1,5 +1,6 @@
 @import "settings";
 @import "foundation";
+@import "pietimer";
 @import "top_nav_bar";
 @import "cockpit";
 @import "leaderboard";
@@ -270,7 +271,7 @@ body
 
     &:not(.active)
     {
-      &:hover, &.open
+      &:hover
       {
         background-color: white;
         cursor: pointer;
@@ -278,6 +279,11 @@ body
     }
   }
 
+  &:hover
+  {
+    background-color: white;
+    cursor: pointer;
+  }
 
   .fa-stack {
     width: 100%;
@@ -297,27 +303,12 @@ body
     color: #666;
     margin-top: 15px;
     margin-left: 15px;
+    cursor: pointer;
   }
 
   .under_construction
   {
     color: orange;
-  }
-
-  .timer
-  {
-    height: 100%;
-    width: 100%;
-  }
-}
-
-#workbench-item-container {
-  .block-button {
-    .timer {
-      canvas {
-        margin-top: 7px;
-      }
-    }
   }
 }
 
@@ -390,29 +381,6 @@ body
   }
 }
 
-// #lab {
-// 	li
-// 	{
-// 		display: inline-block;
-// 		list-style: none;
-// 	}
-//
-// 	#canon, #canon-upgrades
-// 	{
-// 		cursor: help;
-//
-// 		&.active
-// 		{
-// 			background-color: $darkblue;
-// 			color: white;
-//
-// 			&:hover, &.open, &.under_construction
-// 			{
-// 				background-color: $darkblue;
-// 			}
-// 		}
-// 	}
-// }
 
 #app_next_banner {
 	position: relative;

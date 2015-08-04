@@ -41,6 +41,7 @@
           {{#link-to 'index' (query-params cockpit_section="lab")}}
             <span id="lab-tab" class="fa-stack">
               {{unbound fa-icon "fa-flask" stack=1}}
+              {{timer-component type='lab-tab' component=me.user.lab}}
             </span>
           {{/link-to}}
         </div>

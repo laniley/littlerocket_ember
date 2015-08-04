@@ -10,13 +10,14 @@ export default Ember.Component.extend({
     var now = Math.floor(new Date().getTime() / 1000); // current timestamp in seconds
     var remaining_construction_time = this.get('component').get('construction_time') - (now - this.get('component').get('construction_start'));
 
-    Ember.$('#' + this.get('type') + ' > .timer').pietimer
+    Ember.$('#' + this.get('elementId')).pietimer
     (
       {
-      	seconds: remaining_construction_time,
+      	timerSeconds: remaining_construction_time,
       	color: 'rgba(43, 194, 83, 0.3)',
       	height: 50,
-      	width: 50
+      	width: 50,
+        showPercentage: true
       },
       () => {
 
@@ -31,14 +32,14 @@ export default Ember.Component.extend({
             me.get('user').then(user => {
               user.get('lab').then(lab => {
                 lab.save();
-              })
+              });
             });
           }
           else if(this.get('type') === 'canon') {
             me.get('user').then(user => {
               user.get('rocket').then(rocket => {
-                rocket.get('canon').then(canon => {
-                  canon.save();
+                rocket.get(this.get('type')).then(component => {
+                  component.save();
                 });
               });
             });
@@ -65,7 +66,5 @@ export default Ember.Component.extend({
         // 	}
         // );
     });
-
-    Ember.$('#' + this.get('type') + ' > .timer').pietimer('start');
   }
 });
