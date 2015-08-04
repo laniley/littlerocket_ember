@@ -29,27 +29,31 @@
     </div>
 
     <div class="tab-container">
-      <div class="workbench tab block-button {{if workbenchIsOpen 'active'}}" {{action 'openWorkbench'}}>
-        <span class="fa-stack">
-          {{unbound fa-icon "fa-rocket" stack=1}}
-        </span>
+      <div class="workbench tab">
+        {{#link-to 'index' (query-params cockpit_section="workbench")}}
+          <span class="fa-stack">
+            {{unbound fa-icon "fa-rocket" stack=1}}
+          </span>
+        {{/link-to}}
       </div>
       {{#if (if-equals me.user.lab.status 'unlocked') }}
-        <div class="lab tab block-button {{if labIsOpen 'active'}}" {{action 'openLab'}}>
-          <span class="fa-stack">
-            {{unbound fa-icon "fa-flask" stack=1}}
-          </span>
+        <div class="lab tab">
+          {{#link-to 'index' (query-params cockpit_section="lab")}}
+            <span class="fa-stack">
+              {{unbound fa-icon "fa-flask" stack=1}}
+            </span>
+          {{/link-to}}
         </div>
       {{else}}
         {{#if (if-equals me.user.lab.status 'under_construction') }}
-          <div class="lab tab block-button">
+          <div class="lab tab">
             <span id="lab-tab" class="fa-stack">
               {{unbound fa-icon "fa-flask" stack=1}}
               {{timer-component type='lab-tab' component=me.user.lab}}
             </span>
           </div>
         {{else}}
-          <div class="lab tab block-button" {{action 'buyLab'}}>
+          <div class="lab tab" {{action 'buyLab'}}>
             <span class="fa-stack">
               {{unbound fa-icon "fa-flask" stack=1}}
               {{#tooltip-component tooltip="You need 1000 stars to unlock the lab!"}}
@@ -104,13 +108,13 @@
     {{else}}
       <div id="lab">
         <h2>Lab</h2>
-        <ul id="lab-item-container" class="item-container">
-          <li id="canon-upgrades" class="fa-stack cockpit-item locked">
+        <div class="tab-container">
+          <div id="canon-upgrades" class="fa-stack tab locked">
             <i class="fa fa-bullseye fa-stack-1x" title="The available canon upgrades."></i>
             <i class="fa fa-lock fa-stack-1x locked" title="You need to buy the canon at the workbench first, to unlock the canon upgrades!"></i>
-          </li>
-          <li id="canon-upgrades-infos"></li>
-        </ul>
+          </div>
+          <div id="canon-upgrades-infos"></div>
+        </div>
       </div>
     {{/if}}
 

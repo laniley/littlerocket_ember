@@ -240,28 +240,36 @@ body
   }
 }
 
-.block-button {
+.block-button, .tab {
   border: $border;
-  color: #99C1CF;
   font-size: 2.4em;
   width: 65px;
   height: 65px;
   line-height: 65px;
   text-align: center;
+  color: $darkblue;
 
-  &.active {
-    background-color: #99C1CF;
-    color: white;
-  }
+  a {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    color: $darkblue;
 
-  &:not(.active)
-  {
-    &:hover, &.open
+    &.active {
+      background-color: $darkblue;
+      color: white;
+    }
+
+    &:not(.active)
     {
-      background-color: white;
-      cursor: pointer;
+      &:hover, &.open
+      {
+        background-color: white;
+        cursor: pointer;
+      }
     }
   }
+
 
   .fa-stack {
     width: 100%;
@@ -378,6 +386,30 @@ body
   	right: 0;
   }
 }
+
+// #lab {
+// 	li
+// 	{
+// 		display: inline-block;
+// 		list-style: none;
+// 	}
+//
+// 	#canon, #canon-upgrades
+// 	{
+// 		cursor: help;
+//
+// 		&.active
+// 		{
+// 			background-color: $darkblue;
+// 			color: white;
+//
+// 			&:hover, &.open, &.under_construction
+// 			{
+// 				background-color: $darkblue;
+// 			}
+// 		}
+// 	}
+// }
 
 #app_next_banner {
 	position: relative;
