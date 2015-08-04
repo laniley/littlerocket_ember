@@ -235,6 +235,7 @@ body
 }
 
 .tab-container {
+  margin-top: 15px;
   margin-bottom: 15px;
   .tab {
     display: inline-block;
@@ -263,6 +264,7 @@ body
 
     &.active {
       background-color: $darkblue;
+      cursor: default;
       color: white;
     }
 
