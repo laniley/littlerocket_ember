@@ -1319,12 +1319,14 @@ export default Ember.Component.extend({
         size = 30;
       }
 
+      var new_score = (parseInt(Q.state.get('distance')) + parseInt(Q.state.get('stars'))) * parseInt(Q.state.get('level'));
+
       self.get('me').get('user').then(user => {
 
-        if(Q.state.get('distance') + Q.state.get('stars') > user.get('score'))
+        if(new_score > user.get('score'))
     		{
     			scoreInfo = "You beat your own highscore!\n\n";
-          user.set('score', Q.state.get('distance') + Q.state.get('stars'));
+          user.set('score', new_score);
     		}
 
         var new_stars_amount = user.get('stars') + parseInt(Q.state.get('stars'));
@@ -1339,7 +1341,10 @@ export default Ember.Component.extend({
 
     		stage.insert(new Q.UI.Text
     		({
-    				label: scoreInfo + (parseInt(Q.state.get('distance')) + parseInt(Q.state.get('stars'))) + "\n\n" + 'distance: ' + (parseInt(Q.state.get('distance')) + '\n stars: ' + parseInt(Q.state.get('stars'))),
+    				label: scoreInfo + new_score + "\n\n" +
+                   'distance: ' + (parseInt(Q.state.get('distance')) + '\n' +
+                   'stars: ' + parseInt(Q.state.get('stars'))) + '\n' +
+                   'x ' + parseInt(Q.state.get('level')) + ' (level)',
     				color: color,
     				x: 0,
     				y: 0,

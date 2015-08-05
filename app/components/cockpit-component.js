@@ -66,8 +66,8 @@ export default Ember.Component.extend({
 
       var now = Math.floor(new Date().getTime() / 1000); // current timestamp in seconds
 
-      component.set('status', 'under_construction');
       component.set('construction_start', now);
+      component.set('status', 'under_construction');
       component.save().then(component => {
         user.set('stars', user.get('stars') - component.get('costs'));
         user.save();
