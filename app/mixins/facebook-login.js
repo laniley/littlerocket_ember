@@ -131,23 +131,72 @@ export default Ember.Mixin.create({
     var me = this.store.peekRecord('me', 1);
     me.set('user', user);
 
-    rocket.get('canon').then(canon => {
-     if(Ember.isEmpty(canon)) {
-       this.store.query('canon', { rocket: rocket.get('id') }).then(canons => {
-         if(Ember.isEmpty(canons)) {
-           canon = this.store.createRecord('canon');
-           canon.set('rocket', rocket);
-           canon.save().then(canon => {
-               rocket.set('canon', canon);
-               rocket.save();
-           });
-         }
-         else {
-           canon = canons.get('firstObject');
-         }
-       });
-     }
-    });
+    this.loadCanon(user, rocket);
+    this.loadShield(user, rocket);
+  },
+
+  loadCanon: function(user, rocket) {
+    if(rocket.get('canon')) {
+      rocket.get('canon').then(canon => {
+       if(Ember.isEmpty(canon)) {
+         this.store.query('canon', { rocket: rocket.get('id') }).then(canons => {
+           if(Ember.isEmpty(canons)) {
+             canon = this.store.createRecord('canon');
+             canon.set('rocket', rocket);
+             canon.save().then(canon => {
+                 rocket.set('canon', canon);
+                 rocket.save();
+             });
+           }
+           else {
+             canon = canons.get('firstObject');
+             rocket.set('canon', canon);
+             rocket.save();
+           }
+         });
+       }
+      });
+    }
+    else {
+      var canon = this.store.createRecord('canon');
+      canon.set('rocket', rocket);
+      canon.save().then(canon => {
+          rocket.set('canon', canon);
+          rocket.save();
+      });
+    }
+  },
+
+  loadShield: function(user, rocket) {
+    if(rocket.get('shield')) {
+      rocket.get('shield').then(shield => {
+       if(Ember.isEmpty(shield)) {
+         this.store.query('shield', { rocket: rocket.get('id') }).then(shields => {
+           if(Ember.isEmpty(shields)) {
+             shield = this.store.createRecord('shield');
+             shield.set('rocket', rocket);
+             shield.save().then(shield => {
+                 rocket.set('shield', shield);
+                 rocket.save();
+             });
+           }
+           else {
+             shield = shields.get('firstObject');
+             rocket.set('shield', shield);
+             rocket.save();
+           }
+         });
+       }
+      });
+    }
+    else {
+      var shield = this.store.createRecord('shield');
+      shield.set('rocket', rocket);
+      shield.save().then(shield => {
+          rocket.set('shield', shield);
+          rocket.save();
+      });
+    }
   },
 
   loadLab: function(user) {

@@ -71,6 +71,7 @@
         <h2>Workbench</h2>
         <div id="workbench-item-container" class="item-container">
           <img src="assets/images/rocket_workbench.png" />
+          {{!-- CANON --}}
           {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
             <span id="canon" class="fa-stack block-button">
               {{unbound fa-icon "fa-bullseye" stack=1}}
@@ -82,7 +83,7 @@
             </span>
           {{else}}
             {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
-              <span id="canon" class="fa-stack block-button" title="Your Canon">
+              <span id="canon" class="fa-stack block-button">
                 {{unbound fa-icon "fa-bullseye" stack=1}}
                 {{timer-component type='canon' component=me.user.rocket.canon}}
               </span>
@@ -95,15 +96,35 @@
               </span>
             {{/if}}
           {{/if}}
-          <span id="shield" class="fa-stack block-button" title="You need 500 stars to unlock the shield!">
-            {{unbound fa-icon "fa-shield" stack=1}}
-            {{unbound fa-icon "fa-lock locked" stack=1}}
-          </span>
+          {{!-- SHIELD --}}
+          {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
+            <span id="shield" class="fa-stack block-button">
+              {{unbound fa-icon "fa-shield" stack=1}}
+              <div class="workbench-item-tooltip">
+                {{#tooltip-component tooltip=shield_tooltip}}
+                  {{unbound fa-icon "fa-exclamation-circle info" stack=1}}
+                {{/tooltip-component}}
+              </div>
+            </span>
+          {{else}}
+            {{#if (if-equals me.user.rocket.shield.status 'under_construction') }}
+              <span id="shield" class="fa-stack block-button">
+                {{unbound fa-icon "fa-shield" stack=1}}
+                {{timer-component type='shield' component=me.user.rocket.shield}}
+              </span>
+            {{else}}
+              <span id="shield" class="fa-stack block-button"
+                title="You need 500 stars to unlock the shield!"
+                {{action 'buyShield'}}>
+                {{unbound fa-icon "fa-shield" stack=1}}
+                {{unbound fa-icon "fa-lock locked" stack=1}}
+              </span>
+            {{/if}}
+          {{/if}}
           <span id="drive" class="fa-stack block-button" title="You need 500 stars to unlock the engine!">
             {{unbound fa-icon "fa-forward" stack=1}}
             {{unbound fa-icon "fa-lock locked" stack=1}}
           </span>
-          {{!-- <div id="canon-infos" title="capacity"></div> --}}
         </div>
       </div>
     {{else}}
@@ -111,12 +132,59 @@
         <h2>Lab</h2>
         {{#if (if-equals me.user.lab.status 'unlocked') }}
           <div class="tab-container">
-            <div id="canon-upgrades" class="fa-stack tab locked">
-              <i class="fa fa-bullseye fa-stack-1x" title="The available canon upgrades."></i>
-              <i class="fa fa-lock fa-stack-1x locked" title="You need to buy the canon at the workbench first, to unlock the canon upgrades!"></i>
+            <div id="canon-upgrades" class="tab">
+              {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
+                {{unbound fa-icon "fa-bullseye"}}
+              {{else}}
+                {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
+                  {{unbound fa-icon "fa-bullseye"}}
+                  {{timer-component type='canon' component=me.user.rocket.canon}}
+                {{else}}
+                  <span class="fa-stack" {{action 'buyCanon'}}>
+                    {{unbound fa-icon "fa-bullseye" stack=1}}
+                    {{#tooltip-component tooltip="You need 500 stars to unlock the canon!"}}
+                      {{unbound fa-icon "fa-lock locked" stack=1}}
+                    {{/tooltip-component}}
+                  </span>
+                {{/if}}
+              {{/if}}
             </div>
-            <div id="canon-upgrades-infos"></div>
+            <div id="shield-upgrades" class="tab">
+              {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
+                {{unbound fa-icon "fa-shield"}}
+              {{else}}
+                {{#if (if-equals me.user.rocket.shield.status 'under_construction') }}
+                  {{unbound fa-icon "fa-shield"}}
+                  {{timer-component type='shield' component=me.user.rocket.shield}}
+                {{else}}
+                  <span class="fa-stack" {{action 'buyShield'}}>
+                    {{unbound fa-icon "fa-shield" stack=1}}
+                    {{#tooltip-component tooltip="You need 500 stars to unlock the shield!"}}
+                      {{unbound fa-icon "fa-lock locked" stack=1}}
+                    {{/tooltip-component}}
+                  </span>
+                {{/if}}
+              {{/if}}
+            </div>
+            <div id="drive-upgrades" class="tab">
+              {{#if (if-equals me.user.rocket.drive.status 'unlocked') }}
+                {{unbound fa-icon "fa-forward"}}
+              {{else}}
+                {{#if (if-equals me.user.rocket.drive.status 'under_construction') }}
+                  {{unbound fa-icon "fa-forward"}}
+                  {{timer-component type='drive' component=me.user.rocket.drive}}
+                {{else}}
+                  <span class="fa-stack" {{action 'buyDrive'}}>
+                    {{unbound fa-icon "fa-forward" stack=1}}
+                    {{#tooltip-component tooltip="You need 500 stars to unlock the engine!"}}
+                      {{unbound fa-icon "fa-lock locked" stack=1}}
+                    {{/tooltip-component}}
+                  </span>
+                {{/if}}
+              {{/if}}
+            </div>
           </div>
+          <div id="canon-upgrades-infos"></div>
         {{else}}
           <div class="locked-info">
             <div>{{unbound fa-icon "fa-lock"}}</div>
@@ -124,12 +192,6 @@
           </div>
         {{/if}}
       </div>
-    {{/if}}
-
-    {{#if show_not_enough_stars_alert}}
-      {{#prompt-component}}
-    		You don't have enough stars!
-    	{{/prompt-component}}
     {{/if}}
 
     {{#if show_not_enough_stars_alert}}

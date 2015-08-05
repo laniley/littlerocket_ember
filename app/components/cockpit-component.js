@@ -4,6 +4,7 @@ export default Ember.Component.extend({
 
   me: null,
   currentSection: 'workbench',
+  show_not_enough_stars_alert: false,
 
   store: function() {
     return this.get('targetObject.store');
@@ -72,6 +73,9 @@ export default Ember.Component.extend({
         user.save();
       });
     }
+    else {
+      this.set('show_not_enough_stars_alert', true);
+    }
   },
 
   actions: {
@@ -84,6 +88,27 @@ export default Ember.Component.extend({
           });
         });
       });
+    },
+    buyShield: function() {
+      var me = this.get('targetObject.store').peekRecord('me', 1);
+      me.get('user').then(user => {
+        user.get('rocket').then(rocket => {
+          rocket.get('shield').then(component => {
+            this.buyComponent(user, component);
+          });
+        });
+      });
+    },
+    buyDrive: function() {
+      console.log('buyDrive');
+      // var me = this.get('targetObject.store').peekRecord('me', 1);
+      // me.get('user').then(user => {
+      //   user.get('rocket').then(rocket => {
+      //     rocket.get('shield').then(component => {
+      //       this.buyComponent(user, component);
+      //     });
+      //   });
+      // });
     },
     buyLab: function() {
       var me = this.get('targetObject.store').peekRecord('me', 1);
