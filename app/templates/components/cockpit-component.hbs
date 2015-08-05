@@ -73,12 +73,10 @@
           <img src="assets/images/rocket_workbench.png" />
           {{!-- CANON --}}
           {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
-            <span id="canon" class="fa-stack block-button">
-              {{unbound fa-icon "fa-bullseye" stack=1}}
-              <div class="workbench-item-tooltip">
-                {{#tooltip-component tooltip=canon_tooltip}}
-                  {{unbound fa-icon "fa-exclamation-circle info" stack=1}}
-                {{/tooltip-component}}
+            <span id="canon" class="block-button">
+              {{unbound fa-icon "fa-bullseye"}}
+              <div class="info">
+                {{me.user.rocket.canon.selectedCanonModelMm.canonModel.model}}
               </div>
             </span>
           {{else}}

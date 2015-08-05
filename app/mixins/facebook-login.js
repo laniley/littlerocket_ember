@@ -146,14 +146,19 @@ export default Ember.Mixin.create({
              canon.save().then(canon => {
                  rocket.set('canon', canon);
                  rocket.save();
+                 this.loadCanonModel(canon);
              });
            }
            else {
              canon = canons.get('firstObject');
              rocket.set('canon', canon);
              rocket.save();
+             this.loadCanonModel(canon);
            }
          });
+       }
+       else {
+         this.loadCanonModel(canon);
        }
       });
     }
@@ -163,6 +168,44 @@ export default Ember.Mixin.create({
       canon.save().then(canon => {
           rocket.set('canon', canon);
           rocket.save();
+          this.loadCanonModel(canon);
+      });
+    }
+  },
+
+  loadCanonModel: function(canon) {
+    if(canon.get('selectedCanonModelMm')) {
+      canon.get('selectedCanonModelMm').then(canonModelMm => {
+       if(Ember.isEmpty(canonModelMm)) {
+         this.store.query('canonModelMm', { canon: canon.get('id') }).then(canonModelMms => {
+           if(Ember.isEmpty(canonModelMms)) {
+             this.store.query('canonModel', { model: 1 }).then(canonModels => {
+               canonModelMm = this.store.createRecord('canon-model-mm', {
+                 canon: canon,
+                 canonModel: canonModels.get('firstObject'),
+                 status: 'unlocked'
+               });
+               canonModelMm.save().then(canonModelMm => {
+                 canon.set('selectedCanonModelMm', canonModelMm);
+                 canon.save();
+               });
+             });
+           }
+         });
+       }
+      });
+    }
+    else {
+      this.store.query('canonModel', { model: 1 }).then(canonModels => {
+        var canonModelMm = this.store.createRecord('canon-model-mm', {
+          canon: canon,
+          canonModel: canonModels.get('firstObject'),
+          status: 'unlocked'
+        });
+        canonModelMm.save().then(canonModelMm => {
+          canon.set('selectedCanonModelMm', canonModelMm);
+          canon.save();
+        });
       });
     }
   },

@@ -76,11 +76,15 @@ body
       margin-left: 3px;
     }
     .info {
-      color: #E67213;
-      margin-top: 15px;
-      margin-left: -3px;
-      font-size: 2rem;
-      line-height: 2rem;
+      position: absolute;
+      bottom: 3px;
+      right: 3px;
+      padding: 5px;
+      font-size: 18px;
+      line-height: 0.7rem;
+      color: white;
+      background-color: #666;
+      border-radius: 3px;
     }
 	}
 
