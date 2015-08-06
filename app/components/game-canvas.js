@@ -1491,12 +1491,26 @@ export default Ember.Component.extend({
 
               var Q = this.get('Q');
 
-              if(this.get('rocket').get('canon').get('status') === 'locked') {
-                Q.state.set('bullets', 0);
-              }
-              else {
-                Q.state.set('bullets', this.get('rocket').get('canon').get('selectedCanonModelMm').get('canonModelAmmoLevelMm').get('canonModelAmmoLevel').get('capacity'));
-              }
+              rocket.get('canon').then(canon => {
+                if(canon.get('status') === 'locked') {
+                  Q.state.set('bullets', 0);
+                  Q.state.set('bps', 0);
+                }
+                else {
+                  canon.get('selectedCanonModelMm').then(selectedCanonModelMm => {
+                    selectedCanonModelMm.get('canonModelAmmoLevelMm').then(canonModelAmmoLevelMm => {
+                      canonModelAmmoLevelMm.get('canonModelAmmoLevel').then(canonModelAmmoLevel => {
+                        Q.state.set('bullets', canonModelAmmoLevel.get('capacity'));
+                      });
+                    });
+                    selectedCanonModelMm.get('canonModelBpsLevelMm').then(canonModelBpsLevelMm => {
+                      canonModelBpsLevelMm.get('canonModelBpsLevel').then(canonModelBpsLevel => {
+                        Q.state.set('bps', canonModelBpsLevel.get('bps'));
+                      });
+                    });
+                  });
+                }
+              });
 
               Q.load
               (
