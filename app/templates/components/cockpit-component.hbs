@@ -18,12 +18,41 @@
         </div>
       </div>
       <div class="right-column">
-        <div><b>Ammo:</b> {{me.user.rocket.canon.selectedCanonModelMm.canonModelAmmoLevelMm.canonModelAmmoLevel.capacity}}</div>
+        <div>
+          <b>Ammo:</b>
+          {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
+            {{me.user.rocket.canon.selectedCanonModelMm.canonModelAmmoLevelMm.canonModelAmmoLevel.capacity}}
+          {{else}}
+            0
+          {{/if}}
+        </div>
         <div>
           {{#tooltip-component tooltip="BPS = <u>B</u>ullets <u>P</u>er <u>S</u>econd<br /> A higher BPS means, that your canon reloads faster."}}
             BPS:
           {{/tooltip-component}}
-          {{me.user.rocket.canon.selectedCanonModelMm.canonModelBpsLevelMm.canonModelBpsLevel.bps}}
+          {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
+            {{me.user.rocket.canon.selectedCanonModelMm.canonModelBpsLevelMm.canonModelBpsLevel.bps}}
+          {{else}}
+            0
+          {{/if}}
+        </div>
+        <div>
+          <b>Shield:</b>
+          {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
+            {{me.user.rocket.shield.selectedShieldModelMm.shieldModelCapacityLevelMm.shieldModelCapacityLevel.capacity}}
+          {{else}}
+            0
+          {{/if}}
+        </div>
+        <div>
+          {{#tooltip-component tooltip="SRR = <u>S</u>hield <u>R</u>echarge <u>R</u>ate<br /> A higher SRR means, that your shield reloads faster."}}
+            SRR:
+          {{/tooltip-component}}
+          {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
+            {{me.user.rocket.shield.selectedShieldModelMm.shieldModelRechargeLevelMm.shieldModelRechargeLevel.recharge_rate}}
+          {{else}}
+            0
+          {{/if}}
         </div>
       </div>
     </div>

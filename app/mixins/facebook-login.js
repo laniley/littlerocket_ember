@@ -354,13 +354,13 @@ export default Ember.Mixin.create({
            }
            else {
              this.loadShieldModelCapacityLevel(shieldModelMms.get('firstObject'));
-            //  this.loadShieldModelRechargeLevel(shieldModelMm);
+             this.loadShieldModelRechargeLevel(shieldModelMms.get('firstObject'));
            }
          });
        }
        else {
          this.loadShieldModelCapacityLevel(shieldModelMm);
-        //  this.loadShieldModelRechargeLevel(shieldModelMm);
+         this.loadShieldModelRechargeLevel(shieldModelMm);
        }
       });
     }
@@ -375,7 +375,7 @@ export default Ember.Mixin.create({
           shield.set('selectedShieldModelMm', shieldModelMm);
           shield.save();
           this.loadShieldModelCapacityLevel(shieldModelMm);
-          // this.loadShieldModelRechargeLevel(shieldModelMm);
+          this.loadShieldModelRechargeLevel(shieldModelMm);
         });
       });
     }
@@ -403,6 +403,42 @@ export default Ember.Mixin.create({
                   });
                   shieldModelCapacityLevelMm.save().then(shieldModelCapacityLevelMm => {
                      shieldModelMm.set('shieldModelCapacityLevelMm', shieldModelCapacityLevelMm);
+                     shieldModelMm.save();
+                  });
+                }
+              });
+            });
+          });
+        }
+      });
+    }
+    else {
+      console.log('test');
+    }
+  },
+
+  loadShieldModelRechargeLevel: function(shieldModelMm) {
+    if(shieldModelMm.get('shieldModelRechargeLevelMm')) {
+      shieldModelMm.get('shieldModelRechargeLevelMm').then(shieldModelRechargeLevelMm => {
+        if(Ember.isEmpty(shieldModelRechargeLevelMm)) {
+          shieldModelMm.get('shieldModel').then(shieldModel => {
+            this.store.query('shieldModelRechargeLevel', {
+              level: 1,
+              shieldModel: shieldModel.get('id')
+            }).then(shieldModelRechargeLevels => {
+              this.store.query('shieldModelRechargeLevelMm', {
+                shieldModelMm: shieldModelMm.get('id'),
+                shieldModelRechargeLevel: shieldModelRechargeLevels.get('firstObject').get('id')
+              }).then(shieldModelRechargeLevelMms => {
+                if(Ember.isEmpty(shieldModelRechargeLevelMms)) {
+                  shieldModelRechargeLevelMm = this.store.createRecord('shield-model-recharge-level-mm', {
+                     shieldModelMm: shieldModelMm,
+                     shieldModelRechargeLevel: shieldModelRechargeLevels.get('firstObject'),
+                     construction_start: 0,
+                     status: 'unlocked'
+                  });
+                  shieldModelRechargeLevelMm.save().then(shieldModelRechargeLevelMm => {
+                     shieldModelMm.set('shieldModelRechargeLevelMm', shieldModelRechargeLevelMm);
                      shieldModelMm.save();
                   });
                 }
