@@ -236,7 +236,6 @@ export default Ember.Mixin.create({
                 canonModelAmmoLevel: canonModelAmmoLevels.get('firstObject').get('id')
               }).then(canonModelAmmoLevelMms => {
                 if(Ember.isEmpty(canonModelAmmoLevelMms)) {
-                  console.log('test1');
                   canonModelAmmoLevelMm = this.store.createRecord('canon-model-ammo-level-mm', {
                      canonModelMm: canonModelMm,
                      canonModelAmmoLevel: canonModelAmmoLevels.get('firstObject'),

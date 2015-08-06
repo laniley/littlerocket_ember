@@ -696,7 +696,7 @@ Quintus.UI = function(Q)
         this.p.label = "Reloading\n";
       }
       else {
-        this.p.label = "Ready\n";
+        this.p.label = " \n";
       }
     }
   });

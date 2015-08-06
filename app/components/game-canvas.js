@@ -6,7 +6,7 @@ export default Ember.Component.extend({
   Q: null,
   me: null,
   rocket: null,
-
+  canonReloadingTimeout: null,
   isLoading: true,
   isPaused: true,
 
@@ -119,7 +119,6 @@ export default Ember.Component.extend({
             collided:      false,
             scale: 			   Q.state.get('scale'),
             hasACanon: 	   false,
-            canonBlocked:  false,
             canonCapacity: 3
     		  });
 
@@ -235,22 +234,18 @@ export default Ember.Component.extend({
 
     	fireCanon: function()
     	{
-    		if(this.p.hasACanon && this.p.canonBlocked === false && Q.state.get('bullets') > 0)
+    		if(this.p.hasACanon && !Q.state.get('canon_is_reloading') && Q.state.get('bullets') > 0)
     		{
-          this.p.canonBlocked = true;
-
           this.stage.insert(new Q.Bullet());
 
           Q.state.set('bullets', Q.state.get('bullets') - 1);
-
-          var me = this;
-
           Q.state.set('canon_is_reloading', true);
 
-          setTimeout(function() {
-            me.p.canonBlocked = false;
+          var timeout = setTimeout(function() {
             Q.state.set('canon_is_reloading', false);
-          }, 1000 / self.get('me').get('user').get('rocket').get('canon').get('bps'));
+          }, 1000 / Q.state.get('bps'));
+
+          self.set('canonReloadingTimeout', timeout);
     	  }
     	},
 
@@ -1298,7 +1293,12 @@ export default Ember.Component.extend({
   	Q.scene("gameOver", function(stage) {
 
       Q.state.set('speed', 0);
+      Q.state.set('canon_is_reloading', false);
       self.set('isPaused', true);
+
+      if(self.get('canonReloadingTimeout')) {
+        clearTimeout(self.get('canonReloadingTimeout'));
+      }
 
   		Q.audio.stop('rocket.mp3');
   		Q.audio.stop('racing.mp3');
