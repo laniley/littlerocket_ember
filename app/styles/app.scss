@@ -170,6 +170,15 @@ body
 	}
 }
 
+table {
+  tr {
+    td {
+      color: $primary-text-color;
+      background-color: white;
+    }
+  }
+}
+
 #main {
 	position: absolute;
 

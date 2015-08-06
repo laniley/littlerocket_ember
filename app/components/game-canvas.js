@@ -252,7 +252,7 @@ export default Ember.Component.extend({
     	destroy: function()
     	{
         self.set('isPaused', true);
-    		// Q.pauseGame();
+    		Q.pauseGame();
     	},
 
     	levelUp: function()
