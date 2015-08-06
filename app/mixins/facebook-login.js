@@ -262,41 +262,35 @@ export default Ember.Mixin.create({
     if(canonModelMm.get('canonModelBpsLevelMm')) {
       canonModelMm.get('canonModelBpsLevelMm').then(canonModelBpsLevelMm => {
         if(Ember.isEmpty(canonModelBpsLevelMm)) {
-          this.store.query('canonModelBpsLevelMm', { canonModelMm: canonModelMm.get('id') }).then(canonModelBpsLevelMms => {
-            if(Ember.isEmpty(canonModelBpsLevelMms)) {
-              console.log('test1');
-    //             this.store.query('canonModelLevel', { level: 1 }).then(canonModelLevels => {
-    //               console.log('test1');
-        //          canonModelMm = this.store.createRecord('canon-model-mm', {
-        //            canon: canon,
-        //            canonModel: canonModels.get('firstObject'),
-        //            status: 'unlocked'
-        //          });
-        //          canonModelMm.save().then(canonModelMm => {
-        //            canon.set('selectedCanonModelMm', canonModelMm);
-        //            canon.save();
-        //            this.loadCanonModelLevel();
-        //          });
-      //           });
-            }
+          canonModelMm.get('canonModel').then(canonModel => {
+            this.store.query('canonModelBpsLevel', {
+              level: 1,
+              canonModel: canonModel.get('id')
+            }).then(canonModelBpsLevels => {
+              this.store.query('canonModelBpsLevelMm', {
+                canonModelMm: canonModelMm.get('id'),
+                canonModelBpsLevel: canonModelBpsLevels.get('firstObject').get('id')
+              }).then(canonModelBpsLevelMms => {
+                if(Ember.isEmpty(canonModelBpsLevelMms)) {
+                  canonModelBpsLevelMm = this.store.createRecord('canon-model-bps-level-mm', {
+                     canonModelMm: canonModelMm,
+                     canonModelBpsLevel: canonModelBpsLevels.get('firstObject'),
+                     construction_start: 0,
+                     status: 'unlocked'
+                  });
+                  canonModelBpsLevelMm.save().then(canonModelBpsLevelMm => {
+                     canonModelMm.set('canonModelBpsLevelMm', canonModelBpsLevelMm);
+                     canonModelMm.save();
+                  });
+                }
+              });
+            });
           });
         }
       });
     }
     else {
       console.log('test2');
-      // this.store.query('canonModel', { model: 1 }).then(canonModels => {
-      //   var canonModelMm = this.store.createRecord('canon-model-mm', {
-      //     canon: canon,
-      //     canonModel: canonModels.get('firstObject'),
-      //     status: 'unlocked'
-      //   });
-      //   canonModelMm.save().then(canonModelMm => {
-      //     canon.set('selectedCanonModelMm', canonModelMm);
-      //     canon.save();
-      //     this.loadCanonModelLevel();
-      //   });
-      // });
     }
   },
 
