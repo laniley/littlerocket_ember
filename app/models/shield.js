@@ -6,5 +6,5 @@ export default DS.Model.extend({
   construction_start: DS.attr('number', { defaultValue: 0 }),
   status: DS.attr('String', { defaultValue: 'locked' }),
   rocket: DS.belongsTo('rocket', { async: true }),
-  selectedShieldModelMm: DS.belongsTo('canon-model-mm', { async: true })
+  selectedShieldModelMm: DS.belongsTo('shield-model-mm', { async: true })
 });

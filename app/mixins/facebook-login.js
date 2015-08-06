@@ -305,14 +305,19 @@ export default Ember.Mixin.create({
              shield.save().then(shield => {
                  rocket.set('shield', shield);
                  rocket.save();
+                 this.loadShieldModel(shield);
              });
            }
            else {
              shield = shields.get('firstObject');
              rocket.set('shield', shield);
              rocket.save();
+             this.loadShieldModel(shield);
            }
          });
+       }
+       else {
+         this.loadShieldModel(shield);
        }
       });
     }
@@ -322,7 +327,93 @@ export default Ember.Mixin.create({
       shield.save().then(shield => {
           rocket.set('shield', shield);
           rocket.save();
+          this.loadShieldModel(shield);
       });
+    }
+  },
+
+  loadShieldModel: function(shield) {
+    if(shield.get('selectedShieldModelMm')) {
+      shield.get('selectedShieldModelMm').then(shieldModelMm => {
+       if(Ember.isEmpty(shieldModelMm)) {
+         this.store.query('shieldModelMm', { shield: shield.get('id') }).then(shieldModelMms => {
+           if(Ember.isEmpty(shieldModelMms)) {
+             this.store.query('shieldModel', { model: 1 }).then(shieldModels => {
+               shieldModelMm = this.store.createRecord('shield-model-mm', {
+                 shield: shield,
+                 shieldModel: shieldModels.get('firstObject'),
+                 status: 'unlocked'
+               });
+               shieldModelMm.save().then(shieldModelMm => {
+                 shield.set('selectedShieldModelMm', shieldModelMm);
+                 shield.save();
+                 this.loadShieldModelCapacityLevel(shieldModelMm);
+                //  this.loadShieldModelRechargeLevel(shieldModelMm);
+               });
+             });
+           }
+           else {
+             this.loadShieldModelCapacityLevel(shieldModelMms.get('firstObject'));
+            //  this.loadShieldModelRechargeLevel(shieldModelMm);
+           }
+         });
+       }
+       else {
+         this.loadShieldModelCapacityLevel(shieldModelMm);
+        //  this.loadShieldModelRechargeLevel(shieldModelMm);
+       }
+      });
+    }
+    else {
+      this.store.query('shieldModel', { model: 1 }).then(shieldModels => {
+        var shieldModelMm = this.store.createRecord('shield-model-mm', {
+          shield: shield,
+          shieldModel: shieldModels.get('firstObject'),
+          status: 'unlocked'
+        });
+        shieldModelMm.save().then(shieldModelMm => {
+          shield.set('selectedShieldModelMm', shieldModelMm);
+          shield.save();
+          this.loadShieldModelCapacityLevel(shieldModelMm);
+          // this.loadShieldModelRechargeLevel(shieldModelMm);
+        });
+      });
+    }
+  },
+
+  loadShieldModelCapacityLevel: function(shieldModelMm) {
+    if(shieldModelMm.get('shieldModelCapacityLevelMm')) {
+      shieldModelMm.get('shieldModelCapacityLevelMm').then(shieldModelCapacityLevelMm => {
+        if(Ember.isEmpty(shieldModelCapacityLevelMm)) {
+          shieldModelMm.get('shieldModel').then(shieldModel => {
+            this.store.query('shieldModelCapacityLevel', {
+              level: 1,
+              shieldModel: shieldModel.get('id')
+            }).then(shieldModelCapacityLevels => {
+              this.store.query('shieldModelCapacityLevelMm', {
+                shieldModelMm: shieldModelMm.get('id'),
+                shieldModelCapacityLevel: shieldModelCapacityLevels.get('firstObject').get('id')
+              }).then(shieldModelCapacityLevelMms => {
+                if(Ember.isEmpty(shieldModelCapacityLevelMms)) {
+                  shieldModelCapacityLevelMm = this.store.createRecord('shield-model-capacity-level-mm', {
+                     shieldModelMm: shieldModelMm,
+                     shieldModelCapacityLevel: shieldModelCapacityLevels.get('firstObject'),
+                     construction_start: 0,
+                     status: 'unlocked'
+                  });
+                  shieldModelCapacityLevelMm.save().then(shieldModelCapacityLevelMm => {
+                     shieldModelMm.set('shieldModelCapacityLevelMm', shieldModelCapacityLevelMm);
+                     shieldModelMm.save();
+                  });
+                }
+              });
+            });
+          });
+        }
+      });
+    }
+    else {
+      console.log('test');
     }
   },
 
