@@ -875,7 +875,7 @@ export default Ember.Component.extend({
             rocket.get('canon').then(canon => {
 
                 if(canon.get('status') === 'unlocked') {
-                  Q.state.set('bullets', canon.get('capacity'));
+                  Q.state.set('bullets', canon.get('selectedCanonModelMm').get('canonModelAmmoLevelMm').get('canonModelAmmoLevel').get('capacity'));
                 }
                 else {
                   Q.state.set('bullets', 0);
@@ -1495,7 +1495,7 @@ export default Ember.Component.extend({
                 Q.state.set('bullets', 0);
               }
               else {
-                Q.state.set('bullets', this.get('rocket').get('canon').get('capacity'));
+                Q.state.set('bullets', this.get('rocket').get('canon').get('selectedCanonModelMm').get('canonModelAmmoLevelMm').get('canonModelAmmoLevel').get('capacity'));
               }
 
               Q.load
