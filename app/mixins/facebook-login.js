@@ -188,10 +188,20 @@ export default Ember.Mixin.create({
                canonModelMm.save().then(canonModelMm => {
                  canon.set('selectedCanonModelMm', canonModelMm);
                  canon.save();
+                 this.loadCanonModelAmmoLevel(canonModelMm);
+                 this.loadCanonModelBPSLevel(canonModelMm);
                });
              });
            }
+           else {
+             this.loadCanonModelAmmoLevel(canonModelMm);
+             this.loadCanonModelBPSLevel(canonModelMm);
+           }
          });
+       }
+       else {
+         this.loadCanonModelAmmoLevel(canonModelMm);
+         this.loadCanonModelBPSLevel(canonModelMm);
        }
       });
     }
@@ -205,8 +215,89 @@ export default Ember.Mixin.create({
         canonModelMm.save().then(canonModelMm => {
           canon.set('selectedCanonModelMm', canonModelMm);
           canon.save();
+          this.loadCanonModelAmmoLevel(canonModelMm);
+          this.loadCanonModelBPSLevel(canonModelMm);
         });
       });
+    }
+  },
+
+  loadCanonModelAmmoLevel: function(canonModelMm) {
+    if(canonModelMm.get('canonModelAmmoLevelMm')) {
+      canonModelMm.get('canonModelAmmoLevelMm').then(canonModelAmmoLevelMm => {
+        if(Ember.isEmpty(canonModelAmmoLevelMm)) {
+          canonModelMm.get('canonModel').then(canonModel => {
+            this.store.query('canonModelAmmoLevel', {
+              level: 1,
+              canonModel: canonModel.get('id')
+            }).then(canonModelAmmoLevels => {
+              this.store.query('canonModelAmmoLevelMm', {
+                canonModelMm: canonModelMm.get('id'),
+                canonModelAmmoLevel: canonModelAmmoLevels.get('firstObject').get('id')
+              }).then(canonModelAmmoLevelMms => {
+                if(Ember.isEmpty(canonModelAmmoLevelMms)) {
+                  console.log('test1');
+                  canonModelAmmoLevelMm = this.store.createRecord('canon-model-ammo-level-mm', {
+                     canonModelMm: canonModelMm,
+                     canonModelAmmoLevel: canonModelAmmoLevels.get('firstObject'),
+                     construction_start: 0,
+                     status: 'unlocked'
+                  });
+                  canonModelAmmoLevelMm.save().then(canonModelAmmoLevelMm => {
+                     canonModelMm.set('canonModelAmmoLevelMm', canonModelAmmoLevelMm);
+                     canonModelMm.save();
+                  });
+                }
+              });
+            });
+          });
+        }
+      });
+    }
+    else {
+      console.log('test');
+    }
+  },
+
+  loadCanonModelBPSLevel: function(canonModelMm) {
+    if(canonModelMm.get('canonModelBpsLevelMm')) {
+      canonModelMm.get('canonModelBpsLevelMm').then(canonModelBpsLevelMm => {
+        if(Ember.isEmpty(canonModelBpsLevelMm)) {
+          this.store.query('canonModelBpsLevelMm', { canonModelMm: canonModelMm.get('id') }).then(canonModelBpsLevelMms => {
+            if(Ember.isEmpty(canonModelBpsLevelMms)) {
+              console.log('test1');
+    //             this.store.query('canonModelLevel', { level: 1 }).then(canonModelLevels => {
+    //               console.log('test1');
+        //          canonModelMm = this.store.createRecord('canon-model-mm', {
+        //            canon: canon,
+        //            canonModel: canonModels.get('firstObject'),
+        //            status: 'unlocked'
+        //          });
+        //          canonModelMm.save().then(canonModelMm => {
+        //            canon.set('selectedCanonModelMm', canonModelMm);
+        //            canon.save();
+        //            this.loadCanonModelLevel();
+        //          });
+      //           });
+            }
+          });
+        }
+      });
+    }
+    else {
+      console.log('test2');
+      // this.store.query('canonModel', { model: 1 }).then(canonModels => {
+      //   var canonModelMm = this.store.createRecord('canon-model-mm', {
+      //     canon: canon,
+      //     canonModel: canonModels.get('firstObject'),
+      //     status: 'unlocked'
+      //   });
+      //   canonModelMm.save().then(canonModelMm => {
+      //     canon.set('selectedCanonModelMm', canonModelMm);
+      //     canon.save();
+      //     this.loadCanonModelLevel();
+      //   });
+      // });
     }
   },
 

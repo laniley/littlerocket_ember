@@ -78,13 +78,12 @@ body
     .info {
       position: absolute;
       bottom: 3px;
-      right: 3px;
-      padding: 5px;
+      right: 1px;
+      padding: 3px;
       font-size: 18px;
       line-height: 0.7rem;
-      color: white;
-      background-color: #666;
-      border-radius: 3px;
+      color: $primary-text-color;
+      font-weight: bold;
     }
 	}
 
@@ -304,7 +303,7 @@ body
 
   .locked
   {
-    color: $alert-color;
+    color: #666;
     margin-top: 15px;
     margin-left: 15px;
     cursor: pointer;
