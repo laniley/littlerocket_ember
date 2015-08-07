@@ -8,7 +8,6 @@ export default Ember.Component.extend({
   rocket: null,
   canonReloadingTimeout: null,
   isLoading: true,
-  isPaused: true,
 
   didInsertElement: function() {
 
@@ -161,75 +160,72 @@ export default Ember.Component.extend({
 
     	step: function(dt)
     	{
-    		if(self.get('isPaused') === false)
-    		{
-    			this.p.lastSpeedUp += dt;
+  			this.p.lastSpeedUp += dt;
 
-    			if(this.p.lastSpeedUp > 1)
-    			{
-            Q.state.set('speed', Q.state.get('speed') + 1);
+  			if(this.p.lastSpeedUp > 1)
+  			{
+          Q.state.set('speed', Q.state.get('speed') + 1);
 
-    				this.p.speed = Q.state.get('speed');
+  				this.p.speed = Q.state.get('speed');
 
-    				Q.state.set("distanceToGoal", Q.state.get("distanceToGoal") - 1);
-    				Q.state.set("distance", Q.state.get("distance") + 1);
+  				Q.state.set("distanceToGoal", Q.state.get("distanceToGoal") - 1);
+  				Q.state.set("distance", Q.state.get("distance") + 1);
 
-    				this.p.lastSpeedUp = 0;
-    			}
+  				this.p.lastSpeedUp = 0;
+  			}
 
 
-    			if(Q.state.get("distanceToGoal") <= 0)
-    			{
-    				this.levelUp();
-    			}
+  			if(Q.state.get("distanceToGoal") <= 0)
+  			{
+  				this.levelUp();
+  			}
 
-    			// rocket can't leave the screen
-    			if(
-    					 this.p.x > Q.width - 30 && this.p.vx > 0 ||
-               this.p.x < 30 && this.p.vx < 0
-    			 )
-    			{
-    				this.p.vx = 0;
-    			}
+  			// rocket can't leave the screen
+  			if(
+  					 this.p.x > Q.width - 30 && this.p.vx > 0 ||
+             this.p.x < 30 && this.p.vx < 0
+  			 )
+  			{
+  				this.p.vx = 0;
+  			}
 
-    		  // rotate the rocket
-    		  // based on our velocity
-    		  if(this.p.vx > 0 && this.p.angle < 45) // nach rechts drehen
-    		  {
-    				this.rotate(this.p.angle + 5);
-    		  }
-    		  else if(this.p.vx < 0 && this.p.angle > -45) // nach links drehen
-    		  {
-    				this.rotate(this.p.angle - 5);
-    		  }
-    		  else if(this.p.vx === 0)
-    		  {
-    				if(this.p.angle > 0)
-    				{
-    					 if(this.p.angle - 5 < 0) {
-    						this.rotate(0);
-              }
-    					else {
-    						this.rotate(this.p.angle - 5);
-              }
-    				}
-    				else
-    				{
-    					if(this.p.angle + 5 > 0) {
-    						this.rotate(0);
-              }
-    					else {
-    						this.rotate(this.p.angle + 5);
-              }
-    				}
-    		  }
+  		  // rotate the rocket
+  		  // based on our velocity
+  		  if(this.p.vx > 0 && this.p.angle < 45) // nach rechts drehen
+  		  {
+  				this.rotate(this.p.angle + 5);
+  		  }
+  		  else if(this.p.vx < 0 && this.p.angle > -45) // nach links drehen
+  		  {
+  				this.rotate(this.p.angle - 5);
+  		  }
+  		  else if(this.p.vx === 0)
+  		  {
+  				if(this.p.angle > 0)
+  				{
+  					 if(this.p.angle - 5 < 0) {
+  						this.rotate(0);
+            }
+  					else {
+  						this.rotate(this.p.angle - 5);
+            }
+  				}
+  				else
+  				{
+  					if(this.p.angle + 5 > 0) {
+  						this.rotate(0);
+            }
+  					else {
+  						this.rotate(this.p.angle + 5);
+            }
+  				}
+  		  }
 
-    		  	// fire Canon
-    		  	if(Q.inputs['up'] && this.p.hasACanon)
-    		  	{
-    		    	this.trigger("fireCanon");
-    		  	}
-    		}
+		  	// fire Canon
+		  	if(Q.inputs['up'] && this.p.hasACanon)
+		  	{
+		    	this.trigger("fireCanon");
+		  	}
     	},
 
     	fireCanon: function()
@@ -251,7 +247,6 @@ export default Ember.Component.extend({
 
     	destroy: function()
     	{
-        self.set('isPaused', true);
     		Q.pauseGame();
     	},
 
@@ -469,7 +464,7 @@ export default Ember.Component.extend({
      	{
     	  	this.p.launch -= dt;
 
-    	  	if(!self.get('isPaused') && this.p.launch < 0)
+    	  	if(this.p.launch < 0)
     	  	{
     			this.stage.insert(new Q.Ufo());
     			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
@@ -583,7 +578,7 @@ export default Ember.Component.extend({
     	 {
     		  this.p.launch -= dt;
 
-    		  if(!self.get('isPaused') && this.p.launch < 0)
+    		  if(this.p.launch < 0)
     		  {
     				this.stage.insert(new Q.Star());
     				this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
@@ -775,7 +770,7 @@ export default Ember.Component.extend({
      	{
     	  	this.p.launch -= dt;
 
-    	  	if(!self.get('isPaused') && this.p.launch < 0) {
+    	  	if(this.p.launch < 0) {
       			this.stage.insert(new Q.NormalAsteroid());
       			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
     		  }
@@ -798,7 +793,7 @@ export default Ember.Component.extend({
     	{
     		this.p.launch -= dt;
 
-    		if(!self.get('isPaused') && this.p.launch < 0)
+    		if(this.p.launch < 0)
     		{
     			this.stage.insert(new Q.ExplodingAsteroid( {size : 50} ));
     			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
@@ -902,11 +897,10 @@ export default Ember.Component.extend({
 
   	Q.scene("mainMenu",function(stage)
   	{
-  		self.set('isPaused', true);
   		Q.pauseGame();
 
-  		Q.audio.stop('rocket.mp3');
-  		Q.audio.stop('racing.mp3');
+  		// Q.audio.stop('rocket.mp3');
+  		// Q.audio.stop('racing.mp3');
 
   		stage.insert(new Q.Rocket({x: Q.width/2, y: rocket_y }));
 
@@ -1028,11 +1022,10 @@ export default Ember.Component.extend({
 
     Q.scene("levelSelection", function(stage)
     {
-    	self.set('isPaused', true);
     	Q.pauseGame();
 
-    	Q.audio.stop('rocket.mp3');
-    	Q.audio.stop('racing.mp3');
+    	// Q.audio.stop('rocket.mp3');
+    	// Q.audio.stop('racing.mp3');
 
     	stage.insert(new Q.Level_Selection());
 
@@ -1224,7 +1217,6 @@ export default Ember.Component.extend({
 
   	Q.scene("level", stage => {
 
-      this.set('isPaused', false);
   		Q.unpauseGame();
 
   		Q.audio.play('rocket.mp3', { loop: true });
@@ -1276,12 +1268,10 @@ export default Ember.Component.extend({
 		  		if(Q.loop)
 		  		{
 		  			Q.pauseGame();
-		  			self.set('isPaused', true);
 		  		}
 		  		else if(!Q.loop)
 		  		{
 		  			Q.unpauseGame();
-		  			self.set('isPaused', false);
 		  		}
   		});
 
@@ -1292,16 +1282,17 @@ export default Ember.Component.extend({
 
   	Q.scene("gameOver", function(stage) {
 
+      Q.pauseGame();
+
+      Q.audio.stop('rocket.mp3');
+  		Q.audio.stop('racing.mp3');
+
       Q.state.set('speed', 0);
       Q.state.set('canon_is_reloading', false);
-      self.set('isPaused', true);
 
       if(self.get('canonReloadingTimeout')) {
         clearTimeout(self.get('canonReloadingTimeout'));
       }
-
-  		Q.audio.stop('rocket.mp3');
-  		Q.audio.stop('racing.mp3');
 
   		var scoreInfo = "Your score:\n\n";
 
