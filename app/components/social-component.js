@@ -24,13 +24,6 @@ export default Ember.Component.extend({
   actions: {
     openSection: function(section) {
       this.set('socialSection', section);
-    },
-    inviteFriends: function() {
-      FB.ui ({
-       method: 'apprequests',
-       message: 'Little Rocket is great fun! Just fly as far as you can!',
-       filters: ['app_non_users']
-      });
     }
   }
 });

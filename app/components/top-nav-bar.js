@@ -19,6 +19,13 @@ export default Ember.Component.extend(FacebookLoginMixin, {
       FB.login(function() {
         self.checkLoginState();
       }, { scope: self.get('scope') });
+    },
+    inviteFriends: function() {
+      FB.ui ({
+       method: 'apprequests',
+       message: 'Little Rocket is great fun! Just fly as far as you can!',
+       filters: ['app_non_users']
+      });
     }
   }
 });

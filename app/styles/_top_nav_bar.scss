@@ -14,7 +14,7 @@
 			}
 		}
 	}
-  .like-button, .donate-button, .user-img {
+  .invite-button, .like-button, .donate-button, .user-img {
     @media screen and (max-width:640px)
 		{
 			padding: 0 15px;
@@ -24,6 +24,17 @@
 			margin: 0 15px;
       background-color: $topbar-bg-color;
 		}
+  }
+  .invite-button {
+    // background-color: $topbar-bg-color;
+    button {
+      top: 10px;
+      font-weight: bold;
+      font-size: 11px;
+      line-height: 0px;
+      height: 22px;
+      padding: 6px;
+    }
   }
   .donate-button {
     input[type="image"] {

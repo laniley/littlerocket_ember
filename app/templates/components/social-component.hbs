@@ -10,13 +10,7 @@
 {{#if me.isLoggedIn}}
   <div class="content">
     {{!-- {{unbound fa-icon "fa-globe"}} --}}
-    <!-- invite -->
-     <div id="fb-challenge-container">
-       <button id="fb-challenge" class="fb-button confirm" {{action 'inviteFriends'}}>
-         {{unbound fa-icon "facebook-square" size="lg"}} Invite your friends
-       </button>
-     </div>
-     {{#if (if-equals socialSection 'leaderboard') }}
+    {{#if (if-equals socialSection 'leaderboard') }}
         <div class="leaderboard_list scrollable_list">
            {{#each leaderboard.players as |top_player|}}
               <div class="list-item">
@@ -33,9 +27,9 @@
               </div>
            {{/each}}
         </div>
-     {{else}}
+    {{else}}
         {{fb-comments}}
-     {{/if}}
+    {{/if}}
   </div>
 {{else}}
   <div class="login-info">
