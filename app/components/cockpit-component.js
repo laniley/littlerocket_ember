@@ -55,13 +55,6 @@ export default Ember.Component.extend({
     }
   }.property('user.rocket.canon.status', 'user.rocket.canon.bps'),
 
-  canon_tooltip: function() {
-    return    "<u><b>Canon</b></u><br />Max. Ammo: " +
-              this.get('me').get('user').get('rocket').get('canon').get('capacity') +
-              "<br />BPS (Bullets per second): " +
-              this.get('me').get('user').get('rocket').get('canon').get('bps');
-  }.property('me.user.rocket.canon.capacity'),
-
   buyComponent: function(user, component) {
     if(user.get('stars') >= component.get('costs')) {
 
