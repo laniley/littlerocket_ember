@@ -37,7 +37,6 @@
 
       .img_container {
         float: left;
-        margin-right: 10px;
         height: 90px;
         width: 90px;
         background-color: $darkblue;
@@ -104,8 +103,17 @@
   }
 }
 
+.info-table {
+  width: 60%;
+  float: right;
+  margin-right: 20px;
+}
+
 .stats-table {
   width: 100%;
+}
+
+.stats-table, .info-table {
   tr {
     td {
       padding: 0.34rem 0.625rem;

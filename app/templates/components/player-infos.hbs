@@ -3,14 +3,27 @@
     <div class="img_container">
       <img src={{me.user.img_url}} />
     </div>
-    <div class="name">{{me.user.name}}</div>
-    <div class="score_container">
-      <span class="cockpit_score score"><b>Score</b> {{me.user.score}}</span>
-    </div>
-    <div><i class="fa fa-star"></i> <span class="stars">{{me.user.stars}}</span></div>
-    <div class="rank_container">
-        <span class="cockpit_rank rank">{{me.user.rank}}</span>. in the leaderboard
-    </div>
+    <table class="info-table">
+      <tr>
+        <td>
+          <div class="score_container">
+            <span class="cockpit_score score"><b>Score</b> {{me.user.score}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <i class="fa fa-star"></i> <span class="stars">{{me.user.stars}}</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="rank_container">
+              <span class="cockpit_rank rank">{{me.user.rank}}</span>. in the leaderboard
+          </div>
+        </td>
+      </tr>
+    </table>
   </div>
   <div class="right-column">
     <table class="stats-table">
