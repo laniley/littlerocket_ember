@@ -50,6 +50,9 @@
     }
 
     #workbench {
+
+      margin-bottom: 5px;
+
       img {
         height: 100%;
       }
@@ -71,6 +74,32 @@
         left: 163px;
         bottom: 35px;
       }
+    }
+  }
+
+  .upgrade-infos {
+
+    height: 205px;
+    margin-bottom: 5px;
+
+    h2 {
+      text-transform: capitalize;
+    }
+
+    .upgrade-content {
+      position: relative;
+      top: 5px;
+      height: 160px;
+      overflow: auto;
+    }
+
+    .block-button {
+      margin-bottom: 5px;
+    }
+
+    .locked-info {
+      padding: 18px 0;
+      margin-bottom: 5px;
     }
   }
 }

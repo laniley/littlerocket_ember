@@ -165,9 +165,21 @@
               {{/if}}
             </div>
           </div>
-          <div id="upgrade-infos">
+          <div class="upgrade-infos">
             {{#if (if-equals currentLabSection 'canon') }}
-              Canon
+              {{component-upgrades
+                componentType=currentLabSection
+                component=me.user.rocket.canon}}
+            {{/if}}
+            {{#if (if-equals currentLabSection 'shield') }}
+              {{component-upgrades
+                componentType=currentLabSection
+                component=me.user.rocket.shield}}
+            {{/if}}
+            {{#if (if-equals currentLabSection 'engine') }}
+              {{component-upgrades
+                componentType=currentLabSection
+                component=me.user.rocket.engine}}
             {{/if}}
           </div>
         {{else}}

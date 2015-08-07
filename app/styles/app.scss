@@ -75,16 +75,6 @@ body
       margin-top: 15px;
       margin-left: 3px;
     }
-    .info {
-      position: absolute;
-      bottom: 3px;
-      right: 1px;
-      padding: 3px;
-      font-size: 18px;
-      line-height: 0.7rem;
-      color: $primary-text-color;
-      font-weight: bold;
-    }
 	}
 
   #game_container {
@@ -257,6 +247,20 @@ table {
       margin-top: 15px;
       margin-left: 3px;
     }
+  }
+}
+
+.block-button {
+  .info {
+    position: relative;
+    bottom: 23px;
+    right: -21px;
+    padding: 3px;
+    font-size: 18px;
+    line-height: 0.7rem;
+    color: $primary-text-color;
+    font-weight: bold;
+    display: block;
   }
 }
 

@@ -1,0 +1,18 @@
+<h2>{{controller.componentType}}</h2>
+<div class="upgrade-content">
+  {{#if (if-equals controller.component.status 'unlocked') }}
+    {{#each controller.models as |model|}}
+      <div class="block-button">
+        {{unbound fa-icon "fa-bullseye"}}
+        <div class="info">
+          {{model.model}}
+        </div>
+      </div>
+    {{/each}}
+  {{else}}
+    <div class="locked-info">
+      <div>{{unbound fa-icon "fa-lock"}}</div>
+      <div>Locked</div>
+    </div>
+  {{/if}}
+</div>
