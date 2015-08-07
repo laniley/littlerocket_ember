@@ -39,7 +39,7 @@
     font-size: 18px;
 
 		.list-item {
-			height: 	60px;
+			height: 	65px;
 			margin-left: 0px !important;
 
       .rank_container {
@@ -54,7 +54,7 @@
       .img_container {
   			float: left;
   			margin-right: 10px;
-  			line-height: 50px;
+  			// line-height: 50px;
 
         img {
     			width: 50px;
@@ -63,7 +63,12 @@
 
       .name {
   			font-size: 22px;
+        line-height: 1.5rem;
   		}
+
+      .score_container {
+        line-height: 1.5rem;
+      }
 		}
 
 	}
