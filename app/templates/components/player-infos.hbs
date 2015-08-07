@@ -1,0 +1,71 @@
+<div class="player-infos">
+  <div class="left-column">
+    <div class="img_container">
+      <img src={{me.user.img_url}} />
+    </div>
+    <div class="name">{{me.user.name}}</div>
+    <div class="score_container">
+      <span class="cockpit_score score"><b>Score</b> {{me.user.score}}</span>
+    </div>
+    <div><i class="fa fa-star"></i> <span class="stars">{{me.user.stars}}</span></div>
+    <div class="rank_container">
+        <span class="cockpit_rank rank">{{me.user.rank}}</span>. in the leaderboard
+    </div>
+  </div>
+  <div class="right-column">
+    <table class="stats-table">
+      <tr>
+        <td>
+          <b>Ammo:</b>
+          {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
+            {{me.user.rocket.canon.selectedCanonModelMm.canonModelAmmoLevelMm.canonModelAmmoLevel.capacity}}
+          {{else}}
+            0
+          {{/if}}
+        </td>
+        <td>
+          {{#tooltip-component tooltip="BPS = <u>B</u>ullets <u>P</u>er <u>S</u>econd<br /> A higher BPS means, that your canon reloads faster."}}
+            BPS:
+          {{/tooltip-component}}
+          {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
+            {{me.user.rocket.canon.selectedCanonModelMm.canonModelBpsLevelMm.canonModelBpsLevel.bps}}
+          {{else}}
+            0
+          {{/if}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <b>Shield:</b>
+          {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
+            {{me.user.rocket.shield.selectedShieldModelMm.shieldModelCapacityLevelMm.shieldModelCapacityLevel.capacity}}
+          {{else}}
+            0
+          {{/if}}
+        </td>
+        <td>
+          {{#tooltip-component tooltip="SRR = <u>S</u>hield <u>R</u>echarge <u>R</u>ate<br /> A higher SRR means, that your shield reloads faster."}}
+            SRR:
+          {{/tooltip-component}}
+          {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
+            {{me.user.rocket.shield.selectedShieldModelMm.shieldModelRechargeLevelMm.shieldModelRechargeLevel.recharge_rate}}
+          {{else}}
+            0
+          {{/if}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <b>Slowdowns:</b>
+          0
+        </td>
+        <td>
+          {{#tooltip-component tooltip="SRR = <u>S</u>hield <u>R</u>echarge <u>R</u>ate<br /> A higher SRR means, that your shield reloads faster."}}
+            SDRR:
+          {{/tooltip-component}}
+          0
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
