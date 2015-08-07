@@ -109,7 +109,9 @@
           <div class="tab-container">
             <div id="canon-upgrades" class="tab">
               {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
-                {{unbound fa-icon "fa-bullseye"}}
+                {{#link-to 'index' (query-params lab_section="canon")}}
+                  {{unbound fa-icon "fa-bullseye"}}
+                {{/link-to}}
               {{else}}
                 {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
                   {{unbound fa-icon "fa-bullseye"}}
@@ -126,7 +128,9 @@
             </div>
             <div id="shield-upgrades" class="tab">
               {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
-                {{unbound fa-icon "fa-shield"}}
+                {{#link-to 'index' (query-params lab_section="shield")}}
+                  {{unbound fa-icon "fa-shield"}}
+                {{/link-to}}
               {{else}}
                 {{#if (if-equals me.user.rocket.shield.status 'under_construction') }}
                   {{unbound fa-icon "fa-shield"}}
@@ -143,7 +147,9 @@
             </div>
             <div id="drive-upgrades" class="tab">
               {{#if (if-equals me.user.rocket.drive.status 'unlocked') }}
-                {{unbound fa-icon "fa-forward"}}
+                {{#link-to 'index' (query-params lab_section="engine")}}
+                  {{unbound fa-icon "fa-forward"}}
+                {{/link-to}}
               {{else}}
                 {{#if (if-equals me.user.rocket.drive.status 'under_construction') }}
                   {{unbound fa-icon "fa-forward"}}
@@ -159,7 +165,11 @@
               {{/if}}
             </div>
           </div>
-          <div id="canon-upgrades-infos"></div>
+          <div id="upgrade-infos">
+            {{#if (if-equals currentLabSection 'canon') }}
+              Canon
+            {{/if}}
+          </div>
         {{else}}
           <div class="locked-info">
             <div>{{unbound fa-icon "fa-lock"}}</div>

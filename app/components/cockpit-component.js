@@ -4,6 +4,7 @@ export default Ember.Component.extend({
 
   me: null,
   currentSection: 'workbench',
+  currentLabSection: 'canon',
   show_not_enough_stars_alert: false,
 
   store: function() {
