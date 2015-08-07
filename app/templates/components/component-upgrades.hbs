@@ -3,7 +3,7 @@
   {{#if (if-equals controller.component.status 'unlocked') }}
     {{#each controller.models as |model|}}
       <div class="block-button">
-        {{unbound fa-icon "fa-bullseye"}}
+        {{unbound fa-icon controller.icon}}
         <div class="info">
           {{model.model}}
         </div>

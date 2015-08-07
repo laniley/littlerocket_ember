@@ -73,8 +73,8 @@
           {{/if}}
           {{!-- SHIELD --}}
           {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
-            <span id="shield" class="fa-stack block-button">
-              {{unbound fa-icon "fa-shield" stack=1}}
+            <span id="shield" class="block-button">
+              {{unbound fa-icon "fa-shield"}}
               <div class="info">
                 {{me.user.rocket.shield.selectedShieldModelMm.shieldModel.model}}
               </div>
