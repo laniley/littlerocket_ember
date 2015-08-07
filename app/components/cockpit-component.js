@@ -93,16 +93,15 @@ export default Ember.Component.extend({
         });
       });
     },
-    buyDrive: function() {
-      console.log('buyDrive');
-      // var me = this.get('targetObject.store').peekRecord('me', 1);
-      // me.get('user').then(user => {
-      //   user.get('rocket').then(rocket => {
-      //     rocket.get('shield').then(component => {
-      //       this.buyComponent(user, component);
-      //     });
-      //   });
-      // });
+    buyEngine: function() {
+      var me = this.get('targetObject.store').peekRecord('me', 1);
+      me.get('user').then(user => {
+        user.get('rocket').then(rocket => {
+          rocket.get('engine').then(component => {
+            this.buyComponent(user, component);
+          });
+        });
+      });
     },
     buyLab: function() {
       var me = this.get('targetObject.store').peekRecord('me', 1);
