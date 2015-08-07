@@ -63,11 +63,11 @@
                 {{timer-component type='canon' component=me.user.rocket.canon}}
               </span>
             {{else}}
-              <span id="canon" class="fa-stack block-button"
-                title="You need 500 stars to unlock the canon!"
-                {{action 'buyCanon'}}>
+              <span id="canon" class="fa-stack block-button" {{action 'buyCanon'}}>
                 {{unbound fa-icon "fa-bullseye" stack=1}}
-                {{unbound fa-icon "fa-lock locked" stack=1}}
+                {{#tooltip-component tooltip="You need 500 stars to unlock the canon!"}}
+                  {{unbound fa-icon "fa-lock locked" stack=1}}
+                {{/tooltip-component}}
               </span>
             {{/if}}
           {{/if}}
@@ -75,10 +75,8 @@
           {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
             <span id="shield" class="fa-stack block-button">
               {{unbound fa-icon "fa-shield" stack=1}}
-              <div class="workbench-item-tooltip">
-                {{#tooltip-component tooltip=shield_tooltip}}
-                  {{unbound fa-icon "fa-exclamation-circle info" stack=1}}
-                {{/tooltip-component}}
+              <div class="info">
+                {{me.user.rocket.shield.selectedShieldModelMm.shieldModel.model}}
               </div>
             </span>
           {{else}}
@@ -88,18 +86,37 @@
                 {{timer-component type='shield' component=me.user.rocket.shield}}
               </span>
             {{else}}
-              <span id="shield" class="fa-stack block-button"
-                title="You need 500 stars to unlock the shield!"
-                {{action 'buyShield'}}>
+              <span id="shield" class="fa-stack block-button" {{action 'buyShield'}}>
                 {{unbound fa-icon "fa-shield" stack=1}}
-                {{unbound fa-icon "fa-lock locked" stack=1}}
+                {{#tooltip-component tooltip="You need 500 stars to unlock the shield!"}}
+                  {{unbound fa-icon "fa-lock locked" stack=1}}
+                {{/tooltip-component}}
               </span>
             {{/if}}
           {{/if}}
-          <span id="drive" class="fa-stack block-button" title="You need 500 stars to unlock the engine!">
-            {{unbound fa-icon "fa-forward" stack=1}}
-            {{unbound fa-icon "fa-lock locked" stack=1}}
-          </span>
+          {{!-- ENGINE --}}
+          {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
+            <span id="engine" class="block-button">
+              {{unbound fa-icon "fa-forward"}}
+              <div class="info">
+                {{me.user.rocket.engine.selectedEngineModelMm.engineModel.model}}
+              </div>
+            </span>
+          {{else}}
+            {{#if (if-equals me.user.rocket.engine.status 'under_construction') }}
+              <span id="engine" class="fa-stack block-button">
+                {{unbound fa-icon "fa-forward" stack=1}}
+                {{timer-component type='engine' component=me.user.rocket.engine}}
+              </span>
+            {{else}}
+              <span id="engine" class="fa-stack block-button" {{action 'buyEngine'}}>
+                {{unbound fa-icon "fa-forward" stack=1}}
+                {{#tooltip-component tooltip="You need 500 stars to unlock the engine!"}}
+                  {{unbound fa-icon "fa-lock locked" stack=1}}
+                {{/tooltip-component}}
+              </span>
+            {{/if}}
+          {{/if}}
         </div>
       </div>
     {{else}}

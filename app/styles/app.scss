@@ -67,16 +67,6 @@ body
 		}
 	}
 
-	.item-container
-	{
-    .has-tip {
-      position: absolute;
-      height: 2.5rem;
-      margin-top: 15px;
-      margin-left: 3px;
-    }
-	}
-
   #game_container {
     width: 100%;
     text-align: center;
@@ -242,25 +232,6 @@ table {
   margin-bottom: 15px;
   .tab {
     display: inline-block;
-    .has-tip {
-      height: 2.5rem;
-      margin-top: 15px;
-      margin-left: 3px;
-    }
-  }
-}
-
-.block-button {
-  .info {
-    position: relative;
-    bottom: 23px;
-    right: -21px;
-    padding: 3px;
-    font-size: 18px;
-    line-height: 0.7rem;
-    color: $primary-text-color;
-    font-weight: bold;
-    display: block;
   }
 }
 
@@ -272,6 +243,12 @@ table {
   line-height: 65px;
   text-align: center;
   color: $darkblue;
+
+  &:hover
+  {
+    background-color: white;
+    cursor: pointer;
+  }
 
   a {
     display: inline-block;
@@ -295,10 +272,22 @@ table {
     }
   }
 
-  &:hover
-  {
-    background-color: white;
-    cursor: pointer;
+  .has-tip {
+    height: 2.5rem;
+    margin-top: 15px;
+    margin-left: 3px;
+  }
+
+  .info {
+    position: relative;
+    bottom: 23px;
+    right: -21px;
+    padding: 3px;
+    font-size: 18px;
+    line-height: 0.7rem;
+    color: $primary-text-color;
+    font-weight: bold;
+    display: block;
   }
 
   .fa-stack {
