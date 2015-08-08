@@ -74,10 +74,8 @@ export default Ember.Component.extend({
                   }
                 });
                 var isSelected = false;
-
                 if(aModel.get('id') === selectedModel.get('id')) {
                   isSelected = true;
-                  console.log(selectedModel.get('id'), 'true');
                 }
                 var model = {
                   model: aModel.get('model'),
@@ -96,21 +94,28 @@ export default Ember.Component.extend({
       return DS.PromiseArray.create({
         promise: store.findAll('shield-model').then(models => {
           return this.get('myModels').then(myModels => {
-            var array = [];
-            models.forEach(function(aModel) {
-              var status = 'locked';
-              myModels.forEach(function(aMyModel) {
-                if(aMyModel.get('shieldModel').get('id') === aModel.get('id')) {
-                  status = aMyModel.get('status');
+            return this.get('selectedModel').then(selectedModel => {
+              var array = [];
+              models.forEach(function(aModel) {
+                var status = 'locked';
+                myModels.forEach(function(aMyModel) {
+                  if(aMyModel.get('shieldModel').get('id') === aModel.get('id')) {
+                    status = aMyModel.get('status');
+                  }
+                });
+                var isSelected = false;
+                if(aModel.get('id') === selectedModel.get('id')) {
+                  isSelected = true;
                 }
+                var model = {
+                  model: aModel.get('model'),
+                  status: status,
+                  isSelected: isSelected
+                };
+                array.push(model);
               });
-              var model = {
-                model: aModel.get('model'),
-                status: status
-              };
-              array.push(model);
+              return array;
             });
-            return array;
           });
         })
       });
@@ -119,21 +124,28 @@ export default Ember.Component.extend({
       return DS.PromiseArray.create({
         promise: store.findAll('engine-model').then(models => {
           return this.get('myModels').then(myModels => {
-            var array = [];
-            models.forEach(function(aModel) {
-              var status = 'locked';
-              myModels.forEach(function(aMyModel) {
-                if(aMyModel.get('engineModel').get('id') === aModel.get('id')) {
-                  status = aMyModel.get('status');
+            return this.get('selectedModel').then(selectedModel => {
+              var array = [];
+              models.forEach(function(aModel) {
+                var status = 'locked';
+                myModels.forEach(function(aMyModel) {
+                  if(aMyModel.get('engineModel').get('id') === aModel.get('id')) {
+                    status = aMyModel.get('status');
+                  }
+                });
+                var isSelected = false;
+                if(aModel.get('id') === selectedModel.get('id')) {
+                  isSelected = true;
                 }
+                var model = {
+                  model: aModel.get('model'),
+                  status: status,
+                  isSelected: isSelected
+                };
+                array.push(model);
               });
-              var model = {
-                model: aModel.get('model'),
-                status: status
-              };
-              array.push(model);
+              return array;
             });
-            return array;
           });
         })
       });
