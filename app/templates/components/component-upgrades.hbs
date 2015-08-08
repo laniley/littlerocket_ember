@@ -2,10 +2,15 @@
 <div class="upgrade-content">
   {{#if (if-equals controller.component.status 'unlocked') }}
     {{#each controller.models as |model|}}
-      <div class="block-button">
-        {{unbound fa-icon controller.icon}}
-        <div class="info">
-          {{model.model}}
+      <div class="list-item">
+        <div class="block-button list-item-column">
+          {{unbound fa-icon controller.icon}}
+          <div class="info">
+            {{model.model}}
+          </div>
+        </div>
+        <div class="list-item-column">
+          {{model.status}}
         </div>
       </div>
     {{/each}}
