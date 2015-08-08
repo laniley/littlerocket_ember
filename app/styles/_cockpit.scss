@@ -129,4 +129,20 @@
   .list-item-column {
     float: left;
   }
+
+  .button-column {
+    float: right;
+    margin-right: 5px;
+    height: 65px;
+
+    .button {
+      padding: 10px 15px;
+      width: 100px;
+      background-color: $darkblue;
+
+      &:hover {
+        background-color: lighten($darkblue, 5%);
+      }
+    }
+  }
 }

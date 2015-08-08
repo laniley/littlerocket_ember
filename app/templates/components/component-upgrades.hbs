@@ -1,16 +1,29 @@
-<h2>{{controller.componentType}}</h2>
+<h2>{{componentType}}</h2>
 <div class="upgrade-content">
-  {{#if (if-equals controller.component.status 'unlocked') }}
-    {{#each controller.models as |model|}}
+  {{#if (if-equals component.status 'unlocked') }}
+    {{#each models as |model|}}
       <div class="list-item">
-        <div class="block-button list-item-column">
-          {{unbound fa-icon controller.icon}}
+        <div class="block-button list-item-column {{if model.isSelected 'active'}}">
+          {{unbound fa-icon icon}}
           <div class="info">
             {{model.model}}
           </div>
         </div>
         <div class="list-item-column">
-          {{model.status}}
+          Upgrade infos
+        </div>
+        <div class="list-item-column button-column">
+          {{#if (if-equals model.status 'locked') }}
+            <div class="button">
+              {{unbound fa-icon "fa-lock locked"}} unlock
+            </div>
+          {{else}}
+            {{#unless model.isSelected}}
+              <div class="button">
+                select
+              </div>
+            {{/unless}}
+          {{/if}}
         </div>
       </div>
     {{/each}}
