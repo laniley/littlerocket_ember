@@ -467,7 +467,7 @@ export default Ember.Component.extend({
      	{
     	  	this.p.launch -= dt;
 
-    	  	if(this.p.launch < 0)
+    	  	if(!Q.state.get('isPaused') && this.p.launch < 0)
     	  	{
     			this.stage.insert(new Q.Ufo());
     			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
@@ -581,7 +581,7 @@ export default Ember.Component.extend({
     	 {
     		  this.p.launch -= dt;
 
-    		  if(this.p.launch < 0)
+    		  if(!Q.state.get('isPaused') && this.p.launch < 0)
     		  {
     				this.stage.insert(new Q.Star());
     				this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
@@ -773,7 +773,7 @@ export default Ember.Component.extend({
      	{
     	  	this.p.launch -= dt;
 
-    	  	if(this.p.launch < 0) {
+    	  	if(!Q.state.get('isPaused') && this.p.launch < 0) {
       			this.stage.insert(new Q.NormalAsteroid());
       			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
     		  }
@@ -796,7 +796,7 @@ export default Ember.Component.extend({
     	{
     		this.p.launch -= dt;
 
-    		if(this.p.launch < 0)
+    		if(!Q.state.get('isPaused') && this.p.launch < 0)
     		{
     			this.stage.insert(new Q.ExplodingAsteroid( {size : 50} ));
     			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
@@ -1222,8 +1222,8 @@ export default Ember.Component.extend({
 
   		Q.unpauseGame();
 
+      Q.audio.play('racing.mp3', { loop: true });
   		Q.audio.play('rocket.mp3', { loop: true });
-  		Q.audio.play('racing.mp3', { loop: true });
 
   		Q.state.set('distance', 0);
   		Q.state.set('stars', 0);
