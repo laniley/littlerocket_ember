@@ -160,72 +160,75 @@ export default Ember.Component.extend({
 
     	step: function(dt)
     	{
-  			this.p.lastSpeedUp += dt;
+        if(!Q.state.get('isPaused')) {
 
-  			if(this.p.lastSpeedUp > 1)
-  			{
-          Q.state.set('speed', Q.state.get('speed') + 1);
+    			this.p.lastSpeedUp += dt;
 
-  				this.p.speed = Q.state.get('speed');
+    			if(this.p.lastSpeedUp > 1)
+    			{
+            Q.state.set('speed', Q.state.get('speed') + 1);
 
-  				Q.state.set("distanceToGoal", Q.state.get("distanceToGoal") - 1);
-  				Q.state.set("distance", Q.state.get("distance") + 1);
+    				this.p.speed = Q.state.get('speed');
 
-  				this.p.lastSpeedUp = 0;
-  			}
+    				Q.state.set("distanceToGoal", Q.state.get("distanceToGoal") - 1);
+    				Q.state.set("distance", Q.state.get("distance") + 1);
+
+    				this.p.lastSpeedUp = 0;
+    			}
 
 
-  			if(Q.state.get("distanceToGoal") <= 0)
-  			{
-  				this.levelUp();
-  			}
+    			if(Q.state.get("distanceToGoal") <= 0)
+    			{
+    				this.levelUp();
+    			}
 
-  			// rocket can't leave the screen
-  			if(
-  					 this.p.x > Q.width - 30 && this.p.vx > 0 ||
-             this.p.x < 30 && this.p.vx < 0
-  			 )
-  			{
-  				this.p.vx = 0;
-  			}
+    			// rocket can't leave the screen
+    			if(
+    					 this.p.x > Q.width - 30 && this.p.vx > 0 ||
+               this.p.x < 30 && this.p.vx < 0
+    			 )
+    			{
+    				this.p.vx = 0;
+    			}
 
-  		  // rotate the rocket
-  		  // based on our velocity
-  		  if(this.p.vx > 0 && this.p.angle < 45) // nach rechts drehen
-  		  {
-  				this.rotate(this.p.angle + 5);
-  		  }
-  		  else if(this.p.vx < 0 && this.p.angle > -45) // nach links drehen
-  		  {
-  				this.rotate(this.p.angle - 5);
-  		  }
-  		  else if(this.p.vx === 0)
-  		  {
-  				if(this.p.angle > 0)
-  				{
-  					 if(this.p.angle - 5 < 0) {
-  						this.rotate(0);
-            }
-  					else {
-  						this.rotate(this.p.angle - 5);
-            }
-  				}
-  				else
-  				{
-  					if(this.p.angle + 5 > 0) {
-  						this.rotate(0);
-            }
-  					else {
-  						this.rotate(this.p.angle + 5);
-            }
-  				}
-  		  }
+    		  // rotate the rocket
+    		  // based on our velocity
+    		  if(this.p.vx > 0 && this.p.angle < 45) // nach rechts drehen
+    		  {
+    				this.rotate(this.p.angle + 5);
+    		  }
+    		  else if(this.p.vx < 0 && this.p.angle > -45) // nach links drehen
+    		  {
+    				this.rotate(this.p.angle - 5);
+    		  }
+    		  else if(this.p.vx === 0)
+    		  {
+    				if(this.p.angle > 0)
+    				{
+    					 if(this.p.angle - 5 < 0) {
+    						this.rotate(0);
+              }
+    					else {
+    						this.rotate(this.p.angle - 5);
+              }
+    				}
+    				else
+    				{
+    					if(this.p.angle + 5 > 0) {
+    						this.rotate(0);
+              }
+    					else {
+    						this.rotate(this.p.angle + 5);
+              }
+    				}
+    		  }
 
-		  	// fire Canon
-		  	if(Q.inputs['up'] && this.p.hasACanon)
-		  	{
-		    	this.trigger("fireCanon");
-		  	}
+  		  	// fire Canon
+  		  	if(Q.inputs['up'] && this.p.hasACanon)
+  		  	{
+  		    	this.trigger("fireCanon");
+  		  	}
+        }
     	},
 
     	fireCanon: function()
@@ -899,8 +902,8 @@ export default Ember.Component.extend({
   	{
   		Q.pauseGame();
 
-  		// Q.audio.stop('rocket.mp3');
-  		// Q.audio.stop('racing.mp3');
+  		Q.audio.stop('rocket.mp3');
+  		Q.audio.stop('racing.mp3');
 
   		stage.insert(new Q.Rocket({x: Q.width/2, y: rocket_y }));
 
@@ -1020,12 +1023,12 @@ export default Ember.Component.extend({
 
   	});
 
-    Q.scene("levelSelection", function(stage)
-    {
+    Q.scene("levelSelection", function(stage) {
+
     	Q.pauseGame();
 
-    	// Q.audio.stop('rocket.mp3');
-    	// Q.audio.stop('racing.mp3');
+    	Q.audio.stop('rocket.mp3');
+    	Q.audio.stop('racing.mp3');
 
     	stage.insert(new Q.Level_Selection());
 
