@@ -1,6 +1,6 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('shield-model', 'Unit | Model | shield model', {
+moduleForModel('rocket-component-model-capacity-level-mm', 'Unit | Model | rocket component model capacity level mm', {
   // Specify the other units that are required for this test.
   needs: []
 });

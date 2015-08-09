@@ -1,6 +1,6 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('shield-model-capacity-level', 'Unit | Model | shield model capacity level', {
+moduleForModel('rocket-component-model-recharge-rate-level', 'Unit | Model | rocket component model recharge rate level', {
   // Specify the other units that are required for this test.
   needs: []
 });

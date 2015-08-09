@@ -1,6 +1,6 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('shield-model-mm', 'Unit | Model | shield model mm', {
+moduleForModel('rocket-component-model-mm', 'Unit | Model | rocket component model mm', {
   // Specify the other units that are required for this test.
   needs: []
 });

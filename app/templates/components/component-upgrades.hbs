@@ -4,7 +4,16 @@
     {{#each models as |model|}}
       <div class="list-item">
         <div class="block-button list-item-column {{if model.isSelected 'active'}}">
-          {{unbound fa-icon icon}}
+          {{#if (if-equals model.status 'locked') }}
+            <span class="fa-stack">
+              {{unbound fa-icon icon stack=1}}
+              {{#tooltip-component tooltip=model.tooltip}}
+                {{unbound fa-icon "fa-lock locked" stack=1}}
+              {{/tooltip-component}}
+            </span>
+          {{else}}
+            {{unbound fa-icon icon}}
+          {{/if}}
           <div class="info">
             {{model.model}}
           </div>
@@ -15,7 +24,7 @@
         <div class="list-item-column button-column">
           {{#if (if-equals model.status 'locked') }}
             <div class="button">
-              {{unbound fa-icon "fa-lock locked"}} unlock
+              {{unbound fa-icon "fa-star"}} {{model.costs}}
             </div>
           {{else}}
             {{#unless model.isSelected}}

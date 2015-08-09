@@ -79,6 +79,8 @@ export default Ember.Component.extend({
                 }
                 var model = {
                   model: aModel.get('model'),
+                  costs: aModel.get('costs'),
+                  tooltip: "You need " + aModel.get('costs') + " stars to unlock this canon model.",
                   status: status,
                   isSelected: isSelected
                 };
@@ -109,6 +111,8 @@ export default Ember.Component.extend({
                 }
                 var model = {
                   model: aModel.get('model'),
+                  costs: aModel.get('costs'),
+                  tooltip: "You need " + aModel.get('costs') + " stars to unlock this shield model.",
                   status: status,
                   isSelected: isSelected
                 };
@@ -139,6 +143,8 @@ export default Ember.Component.extend({
                 }
                 var model = {
                   model: aModel.get('model'),
+                  costs: aModel.get('costs'),
+                  tooltip: "You need " + aModel.get('costs') + " stars to unlock this engine model.",
                   status: status,
                   isSelected: isSelected
                 };

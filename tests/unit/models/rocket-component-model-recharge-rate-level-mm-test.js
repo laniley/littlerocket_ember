@@ -1,6 +1,6 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('canon-model-bps-level-mm', 'Unit | Model | canon model bps level mm', {
+moduleForModel('rocket-component-model-recharge-rate-level-mm', 'Unit | Model | rocket component model recharge rate level mm', {
   // Specify the other units that are required for this test.
   needs: []
 });

@@ -868,7 +868,7 @@ export default Ember.Component.extend({
             rocket.get('canon').then(canon => {
 
                 if(canon.get('status') === 'unlocked') {
-                  Q.state.set('bullets', canon.get('selectedCanonModelMm').get('canonModelAmmoLevelMm').get('canonModelAmmoLevel').get('capacity'));
+                  Q.state.set('bullets', canon.get('selectedRocketComponentModelMm').get('rocketComponentModelCapacityLevelMm').get('rocketComponentModelCapacityLevel').get('capacity'));
                 }
                 else {
                   Q.state.set('bullets', 0);
@@ -1486,23 +1486,25 @@ export default Ember.Component.extend({
               var Q = this.get('Q');
 
               rocket.get('canon').then(canon => {
-                if(canon.get('status') === 'locked') {
-                  Q.state.set('bullets', 0);
-                  Q.state.set('bps', 0);
-                }
-                else {
-                  canon.get('selectedCanonModelMm').then(selectedCanonModelMm => {
-                    selectedCanonModelMm.get('canonModelAmmoLevelMm').then(canonModelAmmoLevelMm => {
-                      canonModelAmmoLevelMm.get('canonModelAmmoLevel').then(canonModelAmmoLevel => {
-                        Q.state.set('bullets', canonModelAmmoLevel.get('capacity'));
+                if(!Ember.isEmpty(canon)) {
+                  if(canon.get('status') === 'locked') {
+                    Q.state.set('bullets', 0);
+                    Q.state.set('bps', 0);
+                  }
+                  else {
+                    canon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+                      selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+                        rocketComponentModelCapacityLevelMm.get('rocketComponentModelCapacityLevel').then(rocketComponentModelCapacityLevel => {
+                          Q.state.set('bullets', rocketComponentModelCapacityLevel.get('capacity'));
+                        });
+                      });
+                      selectedRocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
+                        rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelRechargeRateLevel').then(rocketComponentModelRechargeRateLevel => {
+                          Q.state.set('bps', rocketComponentModelRechargeRateLevel.get('recharge_rate'));
+                        });
                       });
                     });
-                    selectedCanonModelMm.get('canonModelBpsLevelMm').then(canonModelBpsLevelMm => {
-                      canonModelBpsLevelMm.get('canonModelBpsLevel').then(canonModelBpsLevel => {
-                        Q.state.set('bps', canonModelBpsLevel.get('bps'));
-                      });
-                    });
-                  });
+                  }
                 }
               });
 
@@ -1583,6 +1585,6 @@ export default Ember.Component.extend({
 
     }
 
-  }.observes('me.user').on('init')
+  }.observes('me.user.rocket.canon').on('init')
 
 });

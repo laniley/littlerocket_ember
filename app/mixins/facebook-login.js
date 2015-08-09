@@ -115,8 +115,10 @@ export default Ember.Mixin.create({
             });
           }
           else {
-             rocket = rockets.get('firstObject');
-             this.loadRocketCallback(user, rocket);
+            rocket = rockets.get('firstObject');
+            user.set('rocket', rocket);
+            user.save();
+            this.loadRocketCallback(user, rocket);
           }
         });
       }
@@ -131,326 +133,182 @@ export default Ember.Mixin.create({
     var me = this.store.peekRecord('me', 1);
     me.set('user', user);
 
-    this.loadCanon(user, rocket);
-    this.loadShield(user, rocket);
+    this.loadRocketComponent('canon', 500, 120, user, rocket);
+    this.loadRocketComponent('shield', 750, 240, user, rocket);
+    this.loadRocketComponent('engine', 1000, 600, user, rocket);
   },
 
-  loadCanon: function(user, rocket) {
-    if(rocket.get('canon')) {
-      rocket.get('canon').then(canon => {
-       if(Ember.isEmpty(canon)) {
-         this.store.query('canon', { rocket: rocket.get('id') }).then(canons => {
-           if(Ember.isEmpty(canons)) {
-             canon = this.store.createRecord('canon');
-             canon.set('rocket', rocket);
-             canon.save().then(canon => {
-                 rocket.set('canon', canon);
+  loadRocketComponent: function(type, costs, construction_time, user, rocket) {
+    rocket.get(type).then(component => {
+       if(Ember.isEmpty(component)) {
+         this.store.query('rocket-component', {
+           type: type,
+           rocket: rocket.get('id')
+         }).then(components => {
+           if(Ember.isEmpty(components)) {
+             component = this.store.createRecord('rocket-component');
+             component.set('type', type);
+             component.set('costs', costs);
+             component.set('construction_time', construction_time);
+             component.set('rocket', rocket);
+             component.save().then(component => {
+                 rocket.set(type, component);
                  rocket.save();
-                 this.loadCanonModel(canon);
+                 this.loadSelectedRocketComponentModelMM(component);
              });
            }
            else {
-             canon = canons.get('firstObject');
-             rocket.set('canon', canon);
+             component = components.get('firstObject');
+             rocket.set(type, component);
              rocket.save();
-             this.loadCanonModel(canon);
+             this.loadSelectedRocketComponentModelMM(component);
            }
          });
        }
        else {
-         this.loadCanonModel(canon);
+         this.loadSelectedRocketComponentModelMM(component);
+       }
+    });
+  },
+
+  loadSelectedRocketComponentModelMM: function(component) {
+    if(component.get('selectedRocketComponentModelMm')) {
+      component.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+       if(Ember.isEmpty(selectedRocketComponentModelMm)) {
+         this.setSelectedRocketComponentModelMM(1, component);
+       }
+       else {
+          this.loadRocketComponentModelCapacityLevelMM(selectedRocketComponentModelMm);
+          this.loadRocketComponentModelRechargeRateLevelMM(selectedRocketComponentModelMm);
        }
       });
     }
     else {
-      var canon = this.store.createRecord('canon');
-      canon.set('rocket', rocket);
-      canon.save().then(canon => {
-          rocket.set('canon', canon);
-          rocket.save();
-          this.loadCanonModel(canon);
-      });
+      this.setSelectedRocketComponentModelMM(1, component);
     }
   },
 
-  loadCanonModel: function(canon) {
-    if(canon.get('selectedCanonModelMm')) {
-      canon.get('selectedCanonModelMm').then(canonModelMm => {
-       if(Ember.isEmpty(canonModelMm)) {
-         this.store.query('canonModelMm', { canon: canon.get('id') }).then(canonModelMms => {
-           if(Ember.isEmpty(canonModelMms)) {
-             this.store.query('canonModel', { model: 1 }).then(canonModels => {
-               canonModelMm = this.store.createRecord('canon-model-mm', {
-                 canon: canon,
-                 canonModel: canonModels.get('firstObject'),
-                 status: 'unlocked'
-               });
-               canonModelMm.save().then(canonModelMm => {
-                 canon.set('selectedCanonModelMm', canonModelMm);
-                 canon.save();
-                 this.loadCanonModelAmmoLevel(canonModelMm);
-                 this.loadCanonModelBPSLevel(canonModelMm);
-               });
+  setSelectedRocketComponentModelMM: function(model, component) {
+    this.store.query('rocketComponentModel', {
+      type: component.get('type'),
+      model: model
+    }).then(rocketComponentModels => {
+      if(Ember.isEmpty(rocketComponentModels)) {
+        console.log('ERROR: No rocketComponentModel found in the DB for type ' + component.get('type') + ' and model ' + model);
+      }
+      else {
+         this.store.query('rocketComponentModelMm', {
+           rocketComponent: component.get('id'),
+           rocketComponentModel: rocketComponentModels.get('firstObject').get('id')
+         }).then(rocketComponentModelMms => {
+
+           var rocketComponentModelMm = {};
+
+           if(Ember.isEmpty(rocketComponentModelMms)) {
+             rocketComponentModelMm = this.store.createRecord('rocket-component-model-mm', {
+               rocketComponent: component,
+               rocketComponentModel: rocketComponentModels.get('firstObject'),
+               status: 'unlocked'
+             });
+             rocketComponentModelMm.save().then(rocketComponentModelMm => {
+               component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
+               component.save();
+               this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMm);
+               this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
              });
            }
            else {
-             this.loadCanonModelAmmoLevel(canonModelMm);
-             this.loadCanonModelBPSLevel(canonModelMm);
+             rocketComponentModelMm = rocketComponentModelMms.get('firstObject');
+             component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
+             component.save();
+             this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMms.get('firstObject'));
+             this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMms.get('firstObject'));
            }
          });
        }
-       else {
-         this.loadCanonModelAmmoLevel(canonModelMm);
-         this.loadCanonModelBPSLevel(canonModelMm);
-       }
-      });
-    }
-    else {
-      this.store.query('canonModel', { model: 1 }).then(canonModels => {
-        var canonModelMm = this.store.createRecord('canon-model-mm', {
-          canon: canon,
-          canonModel: canonModels.get('firstObject'),
-          status: 'unlocked'
-        });
-        canonModelMm.save().then(canonModelMm => {
-          canon.set('selectedCanonModelMm', canonModelMm);
-          canon.save();
-          this.loadCanonModelAmmoLevel(canonModelMm);
-          this.loadCanonModelBPSLevel(canonModelMm);
-        });
-      });
-    }
+    });
   },
 
-  loadCanonModelAmmoLevel: function(canonModelMm) {
-    if(canonModelMm.get('canonModelAmmoLevelMm')) {
-      canonModelMm.get('canonModelAmmoLevelMm').then(canonModelAmmoLevelMm => {
-        if(Ember.isEmpty(canonModelAmmoLevelMm)) {
-          canonModelMm.get('canonModel').then(canonModel => {
-            this.store.query('canonModelAmmoLevel', {
-              level: 1,
-              canonModel: canonModel.get('id')
-            }).then(canonModelAmmoLevels => {
-              this.store.query('canonModelAmmoLevelMm', {
-                canonModelMm: canonModelMm.get('id'),
-                canonModelAmmoLevel: canonModelAmmoLevels.get('firstObject').get('id')
-              }).then(canonModelAmmoLevelMms => {
-                if(Ember.isEmpty(canonModelAmmoLevelMms)) {
-                  canonModelAmmoLevelMm = this.store.createRecord('canon-model-ammo-level-mm', {
-                     canonModelMm: canonModelMm,
-                     canonModelAmmoLevel: canonModelAmmoLevels.get('firstObject'),
-                     construction_start: 0,
-                     status: 'unlocked'
-                  });
-                  canonModelAmmoLevelMm.save().then(canonModelAmmoLevelMm => {
-                     canonModelMm.set('canonModelAmmoLevelMm', canonModelAmmoLevelMm);
-                     canonModelMm.save();
-                  });
-                }
-              });
-            });
-          });
+  loadRocketComponentModelCapacityLevelMM: function(rocketComponentModelMm) {
+    if(rocketComponentModelMm.get('rocketComponentModelCapacityLevelMm')) {
+      rocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+        if(Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
+          this.setRocketComponentModelCapacityLevelMM(1, rocketComponentModelMm);
         }
       });
     }
     else {
-      console.log('test');
+      this.setRocketComponentModelCapacityLevelMM(1, rocketComponentModelMm);
     }
   },
 
-  loadCanonModelBPSLevel: function(canonModelMm) {
-    if(canonModelMm.get('canonModelBpsLevelMm')) {
-      canonModelMm.get('canonModelBpsLevelMm').then(canonModelBpsLevelMm => {
-        if(Ember.isEmpty(canonModelBpsLevelMm)) {
-          canonModelMm.get('canonModel').then(canonModel => {
-            this.store.query('canonModelBpsLevel', {
-              level: 1,
-              canonModel: canonModel.get('id')
-            }).then(canonModelBpsLevels => {
-              this.store.query('canonModelBpsLevelMm', {
-                canonModelMm: canonModelMm.get('id'),
-                canonModelBpsLevel: canonModelBpsLevels.get('firstObject').get('id')
-              }).then(canonModelBpsLevelMms => {
-                if(Ember.isEmpty(canonModelBpsLevelMms)) {
-                  canonModelBpsLevelMm = this.store.createRecord('canon-model-bps-level-mm', {
-                     canonModelMm: canonModelMm,
-                     canonModelBpsLevel: canonModelBpsLevels.get('firstObject'),
-                     construction_start: 0,
-                     status: 'unlocked'
-                  });
-                  canonModelBpsLevelMm.save().then(canonModelBpsLevelMm => {
-                     canonModelMm.set('canonModelBpsLevelMm', canonModelBpsLevelMm);
-                     canonModelMm.save();
-                  });
-                }
-              });
+  setRocketComponentModelCapacityLevelMM: function(level, rocketComponentModelMm) {
+    rocketComponentModelMm.get('rocketComponentModel').then(rocketComponentModel => {
+      this.store.query('rocketComponentModelCapacityLevel', {
+        level: 1,
+        rocketComponentModel: rocketComponentModel.get('id')
+      }).then(rocketComponentModelCapacityLevels => {
+        this.store.query('rocketComponentModelCapacityLevelMm', {
+          rocketComponentModelMm: rocketComponentModelMm.get('id'),
+          rocketComponentModelCapacityLevel: rocketComponentModelCapacityLevels.get('firstObject').get('id')
+        }).then(rocketComponentModelCapacityLevelMms => {
+          if(Ember.isEmpty(rocketComponentModelCapacityLevelMms)) {
+            var rocketComponentModelCapacityLevelMm = this.store.createRecord('rocket-component-model-capacity-level-mm', {
+               rocketComponentModelMm: rocketComponentModelMm,
+               rocketComponentModelCapacityLevel: rocketComponentModelCapacityLevels.get('firstObject'),
+               construction_start: 0,
+               status: 'unlocked'
             });
-          });
-        }
-      });
-    }
-    else {
-      console.log('test2');
-    }
-  },
-
-  loadShield: function(user, rocket) {
-    if(rocket.get('shield')) {
-      rocket.get('shield').then(shield => {
-       if(Ember.isEmpty(shield)) {
-         this.store.query('shield', { rocket: rocket.get('id') }).then(shields => {
-           if(Ember.isEmpty(shields)) {
-             shield = this.store.createRecord('shield');
-             shield.set('rocket', rocket);
-             shield.save().then(shield => {
-                 rocket.set('shield', shield);
-                 rocket.save();
-                 this.loadShieldModel(shield);
-             });
-           }
-           else {
-             shield = shields.get('firstObject');
-             rocket.set('shield', shield);
-             rocket.save();
-             this.loadShieldModel(shield);
-           }
-         });
-       }
-       else {
-         this.loadShieldModel(shield);
-       }
-      });
-    }
-    else {
-      var shield = this.store.createRecord('shield');
-      shield.set('rocket', rocket);
-      shield.save().then(shield => {
-          rocket.set('shield', shield);
-          rocket.save();
-          this.loadShieldModel(shield);
-      });
-    }
-  },
-
-  loadShieldModel: function(shield) {
-    if(shield.get('selectedShieldModelMm')) {
-      shield.get('selectedShieldModelMm').then(shieldModelMm => {
-       if(Ember.isEmpty(shieldModelMm)) {
-         this.store.query('shieldModelMm', { shield: shield.get('id') }).then(shieldModelMms => {
-           if(Ember.isEmpty(shieldModelMms)) {
-             this.store.query('shieldModel', { model: 1 }).then(shieldModels => {
-               shieldModelMm = this.store.createRecord('shield-model-mm', {
-                 shield: shield,
-                 shieldModel: shieldModels.get('firstObject'),
-                 status: 'unlocked'
-               });
-               shieldModelMm.save().then(shieldModelMm => {
-                 shield.set('selectedShieldModelMm', shieldModelMm);
-                 shield.save();
-                 this.loadShieldModelCapacityLevel(shieldModelMm);
-                //  this.loadShieldModelRechargeLevel(shieldModelMm);
-               });
-             });
-           }
-           else {
-             this.loadShieldModelCapacityLevel(shieldModelMms.get('firstObject'));
-             this.loadShieldModelRechargeLevel(shieldModelMms.get('firstObject'));
-           }
-         });
-       }
-       else {
-         this.loadShieldModelCapacityLevel(shieldModelMm);
-         this.loadShieldModelRechargeLevel(shieldModelMm);
-       }
-      });
-    }
-    else {
-      this.store.query('shieldModel', { model: 1 }).then(shieldModels => {
-        var shieldModelMm = this.store.createRecord('shield-model-mm', {
-          shield: shield,
-          shieldModel: shieldModels.get('firstObject'),
-          status: 'unlocked'
-        });
-        shieldModelMm.save().then(shieldModelMm => {
-          shield.set('selectedShieldModelMm', shieldModelMm);
-          shield.save();
-          this.loadShieldModelCapacityLevel(shieldModelMm);
-          this.loadShieldModelRechargeLevel(shieldModelMm);
+            rocketComponentModelCapacityLevelMm.save().then(rocketComponentModelCapacityLevelMm => {
+               rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
+               rocketComponentModelMm.save();
+            });
+          }
         });
       });
-    }
+    });
   },
 
-  loadShieldModelCapacityLevel: function(shieldModelMm) {
-    if(shieldModelMm.get('shieldModelCapacityLevelMm')) {
-      shieldModelMm.get('shieldModelCapacityLevelMm').then(shieldModelCapacityLevelMm => {
-        if(Ember.isEmpty(shieldModelCapacityLevelMm)) {
-          shieldModelMm.get('shieldModel').then(shieldModel => {
-            this.store.query('shieldModelCapacityLevel', {
-              level: 1,
-              shieldModel: shieldModel.get('id')
-            }).then(shieldModelCapacityLevels => {
-              this.store.query('shieldModelCapacityLevelMm', {
-                shieldModelMm: shieldModelMm.get('id'),
-                shieldModelCapacityLevel: shieldModelCapacityLevels.get('firstObject').get('id')
-              }).then(shieldModelCapacityLevelMms => {
-                if(Ember.isEmpty(shieldModelCapacityLevelMms)) {
-                  shieldModelCapacityLevelMm = this.store.createRecord('shield-model-capacity-level-mm', {
-                     shieldModelMm: shieldModelMm,
-                     shieldModelCapacityLevel: shieldModelCapacityLevels.get('firstObject'),
-                     construction_start: 0,
-                     status: 'unlocked'
-                  });
-                  shieldModelCapacityLevelMm.save().then(shieldModelCapacityLevelMm => {
-                     shieldModelMm.set('shieldModelCapacityLevelMm', shieldModelCapacityLevelMm);
-                     shieldModelMm.save();
-                  });
-                }
-              });
-            });
-          });
+  loadRocketComponentModelRechargeRateLevelMM: function(rocketComponentModelMm) {
+    if(rocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm')) {
+      rocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
+        if(Ember.isEmpty(rocketComponentModelRechargeRateLevelMm)) {
+          this.setRocketComponentModelRechargeRateLevelMM(1, rocketComponentModelMm);
+        }
+        else {
         }
       });
     }
     else {
-      console.log('test');
+      this.setRocketComponentModelRechargeRateLevelMM(1, rocketComponentModelMm);
     }
   },
 
-  loadShieldModelRechargeLevel: function(shieldModelMm) {
-    if(shieldModelMm.get('shieldModelRechargeLevelMm')) {
-      shieldModelMm.get('shieldModelRechargeLevelMm').then(shieldModelRechargeLevelMm => {
-        if(Ember.isEmpty(shieldModelRechargeLevelMm)) {
-          shieldModelMm.get('shieldModel').then(shieldModel => {
-            this.store.query('shieldModelRechargeLevel', {
-              level: 1,
-              shieldModel: shieldModel.get('id')
-            }).then(shieldModelRechargeLevels => {
-              this.store.query('shieldModelRechargeLevelMm', {
-                shieldModelMm: shieldModelMm.get('id'),
-                shieldModelRechargeLevel: shieldModelRechargeLevels.get('firstObject').get('id')
-              }).then(shieldModelRechargeLevelMms => {
-                if(Ember.isEmpty(shieldModelRechargeLevelMms)) {
-                  shieldModelRechargeLevelMm = this.store.createRecord('shield-model-recharge-level-mm', {
-                     shieldModelMm: shieldModelMm,
-                     shieldModelRechargeLevel: shieldModelRechargeLevels.get('firstObject'),
-                     construction_start: 0,
-                     status: 'unlocked'
-                  });
-                  shieldModelRechargeLevelMm.save().then(shieldModelRechargeLevelMm => {
-                     shieldModelMm.set('shieldModelRechargeLevelMm', shieldModelRechargeLevelMm);
-                     shieldModelMm.save();
-                  });
-                }
-              });
+  setRocketComponentModelRechargeRateLevelMM: function(level, rocketComponentModelMm) {
+    rocketComponentModelMm.get('rocketComponentModel').then(rocketComponentModel => {
+      this.store.query('rocketComponentModelRechargeRateLevel', {
+        level: 1,
+        rocketComponentModel: rocketComponentModel.get('id')
+      }).then(rocketComponentModelRechargeRateLevels => {
+        this.store.query('rocketComponentModelRechargeRateLevelMm', {
+          rocketComponentModelMm: rocketComponentModelMm.get('id'),
+          rocketComponentModelRechargeRateLevel: rocketComponentModelRechargeRateLevels.get('firstObject').get('id')
+        }).then(rocketComponentModelRechargeRateLevelMms => {
+          if(Ember.isEmpty(rocketComponentModelRechargeRateLevelMms)) {
+            var rocketComponentModelRechargeRateLevelMm = this.store.createRecord('rocket-component-model-recharge-rate-level-mm', {
+               rocketComponentModelMm: rocketComponentModelMm,
+               rocketComponentModelRechargeRateLevel: rocketComponentModelRechargeRateLevels.get('firstObject'),
+               construction_start: 0,
+               status: 'unlocked'
             });
-          });
-        }
+            rocketComponentModelRechargeRateLevelMm.save().then(rocketComponentModelRechargeRateLevelMm => {
+               rocketComponentModelMm.set('rocketComponentModelRechargeRateLevelMm', rocketComponentModelRechargeRateLevelMm);
+               rocketComponentModelMm.save();
+            });
+          }
+        });
       });
-    }
-    else {
-      console.log('test');
-    }
+    });
   },
 
   loadLab: function(user) {
