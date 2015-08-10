@@ -7,5 +7,9 @@ export default DS.Model.extend({
   construction_time: DS.attr('number', { defaultValue: 240 }),
   construction_start: DS.attr('number', { defaultValue: 0 }),
   status: DS.attr('String', { defaultValue: 'locked' }),
-  selectedRocketComponentModelMm: DS.belongsTo('rocket-component-model-mm', { async: true })
+  selectedRocketComponentModelMm: DS.belongsTo('rocket-component-model-mm', { async: true }),
+
+  tooltip: function() {
+    return "You need " + this.get('costs') + " stars to unlock the " + this.get('type') + "!";
+  }.property('costs')
 });
