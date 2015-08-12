@@ -67,11 +67,11 @@ export default Ember.Mixin.create({
     var self = this;
     var store = this.store;
 
-  	FB.api('/me', {fields: 'id,first_name,last_name,picture.width(120).height(120)'}, function(response)
+  	FB.api('/me', {fields: 'id,email,first_name,last_name,picture.width(120).height(120),gender'}, function(response)
   	{
   		if( !response.error )
   		{
-        console.log('Successful login for: ' + response.first_name + " " + response.last_name);
+        console.log('Successful login for: ' + response.first_name + " " + response.last_name, response);
 
         var user = store.query('user', { fb_id: response.id }).then(users => {
 
@@ -83,9 +83,11 @@ export default Ember.Mixin.create({
             }
 
             user.set('fb_id', response.id);
+            user.set('email', response.email);
             user.set('first_name', response.first_name);
             user.set('last_name', response.last_name);
             user.set('img_url', response.picture.data.url);
+            user.set('gender', response.gender);
 
             user.save().then(user => {
               self.loadRocket(user);
@@ -179,7 +181,7 @@ export default Ember.Mixin.create({
        }
        else {
           this.loadRocketComponentModelCapacityLevelMM(selectedRocketComponentModelMm);
-          this.loadRocketComponentModelRechargeRateLevelMM(selectedRocketComponentModelMm);
+          // this.loadRocketComponentModelRechargeRateLevelMM(selectedRocketComponentModelMm);
        }
       });
     }
@@ -205,6 +207,7 @@ export default Ember.Mixin.create({
            var rocketComponentModelMm = {};
 
            if(Ember.isEmpty(rocketComponentModelMms)) {
+             console.log('test1 - empty');
              rocketComponentModelMm = this.store.createRecord('rocket-component-model-mm', {
                rocketComponent: component,
                rocketComponentModel: rocketComponentModels.get('firstObject'),
@@ -214,15 +217,16 @@ export default Ember.Mixin.create({
                component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
                component.save();
                this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMm);
-               this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
+              //  this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
              });
            }
            else {
+             console.log('test2', rocketComponentModelMms.get('firstObject').get('id'));
              rocketComponentModelMm = rocketComponentModelMms.get('firstObject');
              component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
              component.save();
              this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMms.get('firstObject'));
-             this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMms.get('firstObject'));
+        //     //  this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMms.get('firstObject'));
            }
          });
        }
@@ -252,17 +256,26 @@ export default Ember.Mixin.create({
           rocketComponentModelMm: rocketComponentModelMm.get('id'),
           rocketComponentModelCapacityLevel: rocketComponentModelCapacityLevels.get('firstObject').get('id')
         }).then(rocketComponentModelCapacityLevelMms => {
+
+          var rocketComponentModelCapacityLevelMm = {};
+
           if(Ember.isEmpty(rocketComponentModelCapacityLevelMms)) {
-            var rocketComponentModelCapacityLevelMm = this.store.createRecord('rocket-component-model-capacity-level-mm', {
+            rocketComponentModelCapacityLevelMm = this.store.createRecord('rocket-component-model-capacity-level-mm', {
                rocketComponentModelMm: rocketComponentModelMm,
                rocketComponentModelCapacityLevel: rocketComponentModelCapacityLevels.get('firstObject'),
                construction_start: 0,
                status: 'unlocked'
             });
-            rocketComponentModelCapacityLevelMm.save().then(rocketComponentModelCapacityLevelMm => {
-               rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
-               rocketComponentModelMm.save();
-            });
+
+            // rocketComponentModelCapacityLevelMm.save().then(rocketComponentModelCapacityLevelMm => {
+              //  rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
+              //  rocketComponentModelMm.save();
+            // });
+          }
+          else {
+            rocketComponentModelCapacityLevelMm = rocketComponentModelCapacityLevelMms.get('firstObject');
+            // rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
+            // rocketComponentModelMm.save();
           }
         });
       });
@@ -294,18 +307,25 @@ export default Ember.Mixin.create({
           rocketComponentModelMm: rocketComponentModelMm.get('id'),
           rocketComponentModelRechargeRateLevel: rocketComponentModelRechargeRateLevels.get('firstObject').get('id')
         }).then(rocketComponentModelRechargeRateLevelMms => {
+
+          var rocketComponentModelRechargeRateLevelMm = {};
+
           if(Ember.isEmpty(rocketComponentModelRechargeRateLevelMms)) {
-            var rocketComponentModelRechargeRateLevelMm = this.store.createRecord('rocket-component-model-recharge-rate-level-mm', {
+            rocketComponentModelRechargeRateLevelMm = this.store.createRecord('rocket-component-model-recharge-rate-level-mm', {
                rocketComponentModelMm: rocketComponentModelMm,
                rocketComponentModelRechargeRateLevel: rocketComponentModelRechargeRateLevels.get('firstObject'),
                construction_start: 0,
                status: 'unlocked'
             });
-            rocketComponentModelRechargeRateLevelMm.save().then(rocketComponentModelRechargeRateLevelMm => {
-               rocketComponentModelMm.set('rocketComponentModelRechargeRateLevelMm', rocketComponentModelRechargeRateLevelMm);
-               rocketComponentModelMm.save();
-            });
           }
+          else {
+            rocketComponentModelRechargeRateLevelMm = rocketComponentModelRechargeRateLevelMms.get('firstObject');
+          }
+
+          rocketComponentModelRechargeRateLevelMm.save().then(rocketComponentModelRechargeRateLevelMm => {
+             rocketComponentModelMm.set('rocketComponentModelRechargeRateLevelMm', rocketComponentModelRechargeRateLevelMm);
+             rocketComponentModelMm.save();
+          });
         });
       });
     });
