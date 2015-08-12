@@ -74,25 +74,25 @@ export default Ember.Mixin.create({
         console.log('Successful login for: ' + response.first_name + " " + response.last_name, response);
 
         var user = store.query('user', { fb_id: response.id }).then(users => {
-
-            if(Ember.isEmpty(users)) {
-              user = store.createRecord('user');
-            }
-            else {
-              user = users.get('firstObject');
-            }
-
-            user.set('fb_id', response.id);
-            user.set('email', response.email);
-            user.set('first_name', response.first_name);
-            user.set('last_name', response.last_name);
-            user.set('img_url', response.picture.data.url);
-            user.set('gender', response.gender);
-
-            user.save().then(user => {
-              self.loadRocket(user);
-              self.loadLab(user);
-            });
+      //
+      //       if(Ember.isEmpty(users)) {
+      //         user = store.createRecord('user');
+      //       }
+      //       else {
+      //         user = users.get('firstObject');
+      //       }
+      //
+      //       user.set('fb_id', response.id);
+      //       user.set('email', response.email);
+      //       user.set('first_name', response.first_name);
+      //       user.set('last_name', response.last_name);
+      //       user.set('img_url', response.picture.data.url);
+      //       user.set('gender', response.gender);
+      //
+      //       user.save().then(user => {
+      //         // self.loadRocket(user);
+      //         // self.loadLab(user);
+      //       });
         });
   		}
   		else
