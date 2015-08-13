@@ -266,9 +266,9 @@ export default Ember.Component.extend({
         Q.state.set('maxSpeed', Q.state.get('maxSpeedRef'));
 
         self.get('me').get('user').then(user => {
-          if(Q.state.get('level') > user.get('max_level') && Q.state.get('level') < 4)
+          if(Q.state.get('level') > user.get('reached_level') && Q.state.get('level') < 4)
           {
-            user.set('max_level', Q.state.get('level'));
+            user.set('reached_level', Q.state.get('level'));
             user.save();
           }
         });

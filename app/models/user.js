@@ -11,7 +11,7 @@ export default DS.Model.extend({
   rank: DS.attr('number'),
   score: DS.attr('number', { defaultValue: 0 }),
   stars: DS.attr('number', { defaultValue: 0 }),
-  max_level: DS.attr('number', { defaultValue: 1 }),
+  reached_level: DS.attr('number', { defaultValue: 1 }),
 
   lab: DS.belongsTo('lab', { async: true}),
   rocket: DS.belongsTo('rocket', { async: true }),
