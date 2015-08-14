@@ -95,7 +95,7 @@ export default Ember.Mixin.create({
               me.set('user', user);
 
               // self.loadRocket(user);
-              // self.loadLab(user);
+              self.loadLab(user);
             });
         });
   		}
@@ -332,34 +332,26 @@ export default Ember.Mixin.create({
   },
 
   loadLab: function(user) {
-    if(user.get('lab')) {
-      user.get('lab').then(lab => {
-        if(Ember.isEmpty(lab)) {
-          this.store.query('lab', { user: user.get('id') }).then(labs => {
-            if(Ember.isEmpty(labs)) {
-              var lab = this.store.createRecord('lab');
-              lab.set('user', user);
-              lab.save().then(lab => {
-                user.set('lab', lab);
-                user.save();
-              });
-            }
-          });
-        }
-      });
-    }
-    else {
-      this.store.query('lab', { user: user.get('id') }).then(labs => {
-        if(Ember.isEmpty(labs)) {
-          var lab = this.store.createRecord('lab');
-          lab.set('user', user);
-          lab.save().then(lab => {
+    user.get('lab').then(lab => {
+      if(Ember.isEmpty(lab)) {
+        this.store.query('lab', { user: user.get('id') }).then(labs => {
+          var lab = null;
+          if(Ember.isEmpty(labs)) {
+            lab = this.store.createRecord('lab');
+            lab.set('user', user);
+            lab.save().then(lab => {
+              user.set('lab', lab);
+              user.save();
+            });
+          }
+          else {
+            lab = labs.get('firstObject');
             user.set('lab', lab);
             user.save();
-          });
-        }
-      });
-    }
+          }
+        });
+      }
+    });
   }
 
 });
