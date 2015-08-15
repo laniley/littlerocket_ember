@@ -94,7 +94,7 @@ export default Ember.Mixin.create({
               var me = store.peekRecord('me', 1);
               me.set('user', user);
 
-              // self.loadRocket(user);
+              self.loadRocket(user);
               self.loadLab(user);
             });
         });
@@ -115,15 +115,12 @@ export default Ember.Mixin.create({
             rocket.set('user', user);
             rocket.save().then(rocket => {
               user.set('rocket', rocket);
-              user.save().then(user => {
                 this.loadRocketCallback(user, rocket);
-              });
             });
           }
           else {
             rocket = rockets.get('firstObject');
             user.set('rocket', rocket);
-            user.save();
             this.loadRocketCallback(user, rocket);
           }
         });
