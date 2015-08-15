@@ -115,18 +115,18 @@ export default Ember.Mixin.create({
             rocket.set('user', user);
             rocket.save().then(rocket => {
               user.set('rocket', rocket);
-                // this.loadRocketCallback(user, rocket);
+                this.loadRocketCallback(user, rocket);
             });
           }
           else {
             rocket = rockets.get('firstObject');
             user.set('rocket', rocket);
-            // this.loadRocketCallback(user, rocket);
+            this.loadRocketCallback(user, rocket);
           }
         });
       }
       else {
-        // this.loadRocketCallback(user, rocket);
+        this.loadRocketCallback(user, rocket);
       }
     });
   },
@@ -139,37 +139,28 @@ export default Ember.Mixin.create({
 
   loadRocketComponent: function(type, costs, construction_time, user, rocket) {
     rocket.get(type).then(component => {
-       if(Ember.isEmpty(component)) {
+      if(Ember.isEmpty(component)) {
          this.store.query('rocket-component', {
            type: type,
            rocket: rocket.get('id')
          }).then(components => {
            if(Ember.isEmpty(components)) {
-             console.log(type, 'empty');
-
-        //      component = this.store.createRecord('rocket-component');
-        //      component.set('type', type);
-        //      component.set('costs', costs);
-        //      component.set('construction_time', construction_time);
-        //      component.set('rocket', rocket);
-        //      component.save().then(component => {
-        //          rocket.set(type, component);
-        //          rocket.save();
-        //          this.loadSelectedRocketComponentModelMM(component);
-        //      });
+             component = this.store.createRecord('rocket-component');
+             component.set('type', type);
+             component.set('costs', costs);
+             component.set('construction_time', construction_time);
+             component.set('rocket', rocket);
+             component.save().then(component => {
+                //  this.loadSelectedRocketComponentModelMM(component);
+             });
            }
            else {
-             console.log(type, 'not empty');
-
-        //      component = components.get('firstObject');
-        //      rocket.set(type, component);
-        //      rocket.save();
-        //      this.loadSelectedRocketComponentModelMM(component);
+             component = components.get('firstObject');
+            //  this.loadSelectedRocketComponentModelMM(component);
            }
          });
        }
        else {
-         console.log(type, 'not empty');
         //  this.loadSelectedRocketComponentModelMM(component);
        }
     });
