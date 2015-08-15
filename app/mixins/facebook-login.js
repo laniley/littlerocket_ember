@@ -338,13 +338,11 @@ export default Ember.Mixin.create({
             lab.set('user', user);
             lab.save().then(lab => {
               user.set('lab', lab);
-              user.save();
             });
           }
           else {
             lab = labs.get('firstObject');
             user.set('lab', lab);
-            user.save();
           }
         });
       }
