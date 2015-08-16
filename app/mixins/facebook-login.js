@@ -172,8 +172,8 @@ export default Ember.Mixin.create({
          this.setSelectedRocketComponentModelMM(1, component);
        }
        else {
-          // this.loadRocketComponentModelCapacityLevelMM(selectedRocketComponentModelMm);
-          // this.loadRocketComponentModelRechargeRateLevelMM(selectedRocketComponentModelMm);
+          this.loadRocketComponentModelCapacityLevelMM(selectedRocketComponentModelMm);
+          this.loadRocketComponentModelRechargeRateLevelMM(selectedRocketComponentModelMm);
        }
     });
   },
@@ -203,16 +203,16 @@ export default Ember.Mixin.create({
              rocketComponentModelMm.save().then(rocketComponentModelMm => {
                component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
                component.save();
-              //  this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMm);
-              //  this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
+               this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMm);
+               this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
              });
            }
            else {
              rocketComponentModelMm = rocketComponentModelMms.get('firstObject');
              component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
              component.save();
-            //  this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMms.get('firstObject'));
-            //  this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMms.get('firstObject'));
+             this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMms.get('firstObject'));
+             this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMms.get('firstObject'));
            }
          });
        }
@@ -220,98 +220,88 @@ export default Ember.Mixin.create({
   },
 
   loadRocketComponentModelCapacityLevelMM: function(rocketComponentModelMm) {
-    if(rocketComponentModelMm.get('rocketComponentModelCapacityLevelMm')) {
-      rocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
-        if(Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
-          this.setRocketComponentModelCapacityLevelMM(1, rocketComponentModelMm);
-        }
-      });
-    }
-    else {
-      this.setRocketComponentModelCapacityLevelMM(1, rocketComponentModelMm);
-    }
+    rocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+      if(Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
+        this.setRocketComponentModelCapacityLevelMM(1, rocketComponentModelMm);
+      }
+    });
   },
 
   setRocketComponentModelCapacityLevelMM: function(level, rocketComponentModelMm) {
     rocketComponentModelMm.get('rocketComponentModel').then(rocketComponentModel => {
-      this.store.query('rocketComponentModelCapacityLevel', {
+      this.store.query('rocketComponentModelLevel', {
+        type: 'capacity',
         level: 1,
         rocketComponentModel: rocketComponentModel.get('id')
       }).then(rocketComponentModelCapacityLevels => {
-        this.store.query('rocketComponentModelCapacityLevelMm', {
+        this.store.query('rocketComponentModelLevelMm', {
           rocketComponentModelMm: rocketComponentModelMm.get('id'),
-          rocketComponentModelCapacityLevel: rocketComponentModelCapacityLevels.get('firstObject').get('id')
+          rocketComponentModelLevel: rocketComponentModelCapacityLevels.get('firstObject').get('id')
         }).then(rocketComponentModelCapacityLevelMms => {
-
-          var rocketComponentModelCapacityLevelMm = {};
-
-          if(Ember.isEmpty(rocketComponentModelCapacityLevelMms)) {
-            rocketComponentModelCapacityLevelMm = this.store.createRecord('rocket-component-model-capacity-level-mm', {
-               rocketComponentModelMm: rocketComponentModelMm,
-               rocketComponentModelCapacityLevel: rocketComponentModelCapacityLevels.get('firstObject'),
-               construction_start: 0,
-               status: 'unlocked'
-            });
-
-            // rocketComponentModelCapacityLevelMm.save().then(rocketComponentModelCapacityLevelMm => {
-              //  rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
-              //  rocketComponentModelMm.save();
-            // });
-          }
-          else {
-            rocketComponentModelCapacityLevelMm = rocketComponentModelCapacityLevelMms.get('firstObject');
-            // rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
-            // rocketComponentModelMm.save();
-          }
+      //
+      //     var rocketComponentModelCapacityLevelMm = {};
+      //
+      //     if(Ember.isEmpty(rocketComponentModelCapacityLevelMms)) {
+      //       rocketComponentModelCapacityLevelMm = this.store.createRecord('rocket-component-model-capacity-level-mm', {
+      //          rocketComponentModelMm: rocketComponentModelMm,
+      //          rocketComponentModelCapacityLevel: rocketComponentModelCapacityLevels.get('firstObject'),
+      //          construction_start: 0,
+      //          status: 'unlocked'
+      //       });
+      //
+      //       // rocketComponentModelCapacityLevelMm.save().then(rocketComponentModelCapacityLevelMm => {
+      //         //  rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
+      //         //  rocketComponentModelMm.save();
+      //       // });
+      //     }
+      //     else {
+      //       rocketComponentModelCapacityLevelMm = rocketComponentModelCapacityLevelMms.get('firstObject');
+      //       // rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
+      //       // rocketComponentModelMm.save();
+      //     }
         });
       });
     });
   },
 
   loadRocketComponentModelRechargeRateLevelMM: function(rocketComponentModelMm) {
-    if(rocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm')) {
-      rocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
-        if(Ember.isEmpty(rocketComponentModelRechargeRateLevelMm)) {
-          this.setRocketComponentModelRechargeRateLevelMM(1, rocketComponentModelMm);
-        }
-        else {
-        }
-      });
-    }
-    else {
-      this.setRocketComponentModelRechargeRateLevelMM(1, rocketComponentModelMm);
-    }
+    rocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
+      if(Ember.isEmpty(rocketComponentModelRechargeRateLevelMm)) {
+        this.setRocketComponentModelRechargeRateLevelMM(1, rocketComponentModelMm);
+      }
+    });
   },
 
   setRocketComponentModelRechargeRateLevelMM: function(level, rocketComponentModelMm) {
     rocketComponentModelMm.get('rocketComponentModel').then(rocketComponentModel => {
-      this.store.query('rocketComponentModelRechargeRateLevel', {
+      this.store.query('rocketComponentModelLevel', {
+        type: 'recharge_rate',
         level: 1,
         rocketComponentModel: rocketComponentModel.get('id')
       }).then(rocketComponentModelRechargeRateLevels => {
-        this.store.query('rocketComponentModelRechargeRateLevelMm', {
+        this.store.query('rocketComponentModelLevelMm', {
           rocketComponentModelMm: rocketComponentModelMm.get('id'),
-          rocketComponentModelRechargeRateLevel: rocketComponentModelRechargeRateLevels.get('firstObject').get('id')
+          rocketComponentModelLevel: rocketComponentModelRechargeRateLevels.get('firstObject').get('id')
         }).then(rocketComponentModelRechargeRateLevelMms => {
-
-          var rocketComponentModelRechargeRateLevelMm = {};
-
-          if(Ember.isEmpty(rocketComponentModelRechargeRateLevelMms)) {
-            rocketComponentModelRechargeRateLevelMm = this.store.createRecord('rocket-component-model-recharge-rate-level-mm', {
-               rocketComponentModelMm: rocketComponentModelMm,
-               rocketComponentModelRechargeRateLevel: rocketComponentModelRechargeRateLevels.get('firstObject'),
-               construction_start: 0,
-               status: 'unlocked'
-            });
-          }
-          else {
-            rocketComponentModelRechargeRateLevelMm = rocketComponentModelRechargeRateLevelMms.get('firstObject');
-          }
-
-          rocketComponentModelRechargeRateLevelMm.save().then(rocketComponentModelRechargeRateLevelMm => {
-             rocketComponentModelMm.set('rocketComponentModelRechargeRateLevelMm', rocketComponentModelRechargeRateLevelMm);
-             rocketComponentModelMm.save();
-          });
+    //   //
+    //   //     var rocketComponentModelRechargeRateLevelMm = {};
+    //   //
+    //   //     if(Ember.isEmpty(rocketComponentModelRechargeRateLevelMms)) {
+    //   //       rocketComponentModelRechargeRateLevelMm = this.store.createRecord('rocket-component-model-recharge-rate-level-mm', {
+    //   //          rocketComponentModelMm: rocketComponentModelMm,
+    //   //          rocketComponentModelRechargeRateLevel: rocketComponentModelRechargeRateLevels.get('firstObject'),
+    //   //          construction_start: 0,
+    //   //          status: 'unlocked'
+    //   //       });
+    //   //     }
+    //   //     else {
+    //   //       rocketComponentModelRechargeRateLevelMm = rocketComponentModelRechargeRateLevelMms.get('firstObject');
+    //   //     }
+    //   //
+    //   //     rocketComponentModelRechargeRateLevelMm.save().then(rocketComponentModelRechargeRateLevelMm => {
+    //   //        rocketComponentModelMm.set('rocketComponentModelRechargeRateLevelMm', rocketComponentModelRechargeRateLevelMm);
+    //   //        rocketComponentModelMm.save();
+    //   //     });
         });
       });
     });
