@@ -187,36 +187,34 @@ export default Ember.Mixin.create({
         console.log('ERROR: No rocketComponentModel found in the DB for type ' + component.get('type') + ' and model ' + model);
       }
       else {
-      //    this.store.query('rocketComponentModelMm', {
-      //      rocketComponent: component.get('id'),
-      //      rocketComponentModel: rocketComponentModels.get('firstObject').get('id')
-      //    }).then(rocketComponentModelMms => {
-      //
-      //      var rocketComponentModelMm = {};
-      //
-      //      if(Ember.isEmpty(rocketComponentModelMms)) {
-      //        console.log('test1 - empty');
-      //        rocketComponentModelMm = this.store.createRecord('rocket-component-model-mm', {
-      //          rocketComponent: component,
-      //          rocketComponentModel: rocketComponentModels.get('firstObject'),
-      //          status: 'unlocked'
-      //        });
-      //        rocketComponentModelMm.save().then(rocketComponentModelMm => {
-      //          component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
-      //          component.save();
-      //          this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMm);
-      //         //  this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
-      //        });
-      //      }
-      //      else {
-      //        console.log('test2', rocketComponentModelMms.get('firstObject').get('id'));
-      //        rocketComponentModelMm = rocketComponentModelMms.get('firstObject');
-      //        component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
-      //        component.save();
-      //        this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMms.get('firstObject'));
-      //   //     //  this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMms.get('firstObject'));
-      //      }
-      //    });
+         this.store.query('rocketComponentModelMm', {
+           rocketComponent: component.get('id'),
+           rocketComponentModel: rocketComponentModels.get('firstObject').get('id')
+         }).then(rocketComponentModelMms => {
+
+           var rocketComponentModelMm = {};
+
+           if(Ember.isEmpty(rocketComponentModelMms)) {
+             rocketComponentModelMm = this.store.createRecord('rocket-component-model-mm', {
+               rocketComponent: component,
+               rocketComponentModel: rocketComponentModels.get('firstObject'),
+               status: 'unlocked'
+             });
+             rocketComponentModelMm.save().then(rocketComponentModelMm => {
+               component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
+               component.save();
+              //  this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMm);
+              //  this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
+             });
+           }
+           else {
+             rocketComponentModelMm = rocketComponentModelMms.get('firstObject');
+             component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
+             component.save();
+            //  this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMms.get('firstObject'));
+            //  this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMms.get('firstObject'));
+           }
+         });
        }
     });
   },
