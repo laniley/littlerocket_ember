@@ -31,7 +31,7 @@
         <td>
           <b>Ammo:</b>
           {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
-            {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModelCapacityLevelMm.rocketComponentModelCapacityLevel.capacity}}
+            {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
           {{else}}
             0
           {{/if}}
@@ -41,7 +41,7 @@
             BPS:
           {{/tooltip-component}}
           {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
-            {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModelRechargeRateLevelMm.rocketComponentModelRechargeRateLevel.recharge_rate}}
+            {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
           {{else}}
             0
           {{/if}}
