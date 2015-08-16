@@ -238,27 +238,27 @@ export default Ember.Mixin.create({
           rocketComponentModelMm: rocketComponentModelMm.get('id'),
           rocketComponentModelLevel: rocketComponentModelCapacityLevels.get('firstObject').get('id')
         }).then(rocketComponentModelCapacityLevelMms => {
-      //
-      //     var rocketComponentModelCapacityLevelMm = {};
-      //
-      //     if(Ember.isEmpty(rocketComponentModelCapacityLevelMms)) {
-      //       rocketComponentModelCapacityLevelMm = this.store.createRecord('rocket-component-model-capacity-level-mm', {
-      //          rocketComponentModelMm: rocketComponentModelMm,
-      //          rocketComponentModelCapacityLevel: rocketComponentModelCapacityLevels.get('firstObject'),
-      //          construction_start: 0,
-      //          status: 'unlocked'
-      //       });
-      //
-      //       // rocketComponentModelCapacityLevelMm.save().then(rocketComponentModelCapacityLevelMm => {
-      //         //  rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
-      //         //  rocketComponentModelMm.save();
-      //       // });
-      //     }
-      //     else {
-      //       rocketComponentModelCapacityLevelMm = rocketComponentModelCapacityLevelMms.get('firstObject');
-      //       // rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
-      //       // rocketComponentModelMm.save();
-      //     }
+
+          var rocketComponentModelCapacityLevelMm = {};
+
+          if(Ember.isEmpty(rocketComponentModelCapacityLevelMms)) {
+            rocketComponentModelCapacityLevelMm = this.store.createRecord('rocket-component-model-level-mm', {
+               rocketComponentModelMm: rocketComponentModelMm,
+               rocketComponentModelLevel: rocketComponentModelCapacityLevels.get('firstObject'),
+               construction_start: 0,
+               status: 'unlocked'
+            });
+
+            rocketComponentModelCapacityLevelMm.save().then(rocketComponentModelCapacityLevelMm => {
+               rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
+               rocketComponentModelMm.save();
+            });
+          }
+          else {
+            rocketComponentModelCapacityLevelMm = rocketComponentModelCapacityLevelMms.get('firstObject');
+            rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
+            rocketComponentModelMm.save();
+          }
         });
       });
     });
@@ -283,25 +283,27 @@ export default Ember.Mixin.create({
           rocketComponentModelMm: rocketComponentModelMm.get('id'),
           rocketComponentModelLevel: rocketComponentModelRechargeRateLevels.get('firstObject').get('id')
         }).then(rocketComponentModelRechargeRateLevelMms => {
-    //   //
-    //   //     var rocketComponentModelRechargeRateLevelMm = {};
-    //   //
-    //   //     if(Ember.isEmpty(rocketComponentModelRechargeRateLevelMms)) {
-    //   //       rocketComponentModelRechargeRateLevelMm = this.store.createRecord('rocket-component-model-recharge-rate-level-mm', {
-    //   //          rocketComponentModelMm: rocketComponentModelMm,
-    //   //          rocketComponentModelRechargeRateLevel: rocketComponentModelRechargeRateLevels.get('firstObject'),
-    //   //          construction_start: 0,
-    //   //          status: 'unlocked'
-    //   //       });
-    //   //     }
-    //   //     else {
-    //   //       rocketComponentModelRechargeRateLevelMm = rocketComponentModelRechargeRateLevelMms.get('firstObject');
-    //   //     }
-    //   //
-    //   //     rocketComponentModelRechargeRateLevelMm.save().then(rocketComponentModelRechargeRateLevelMm => {
-    //   //        rocketComponentModelMm.set('rocketComponentModelRechargeRateLevelMm', rocketComponentModelRechargeRateLevelMm);
-    //   //        rocketComponentModelMm.save();
-    //   //     });
+
+          var rocketComponentModelRechargeRateLevelMm = {};
+
+          if(Ember.isEmpty(rocketComponentModelRechargeRateLevelMms)) {
+            rocketComponentModelRechargeRateLevelMm = this.store.createRecord('rocket-component-model-level-mm', {
+               rocketComponentModelMm: rocketComponentModelMm,
+               rocketComponentModelLevel: rocketComponentModelRechargeRateLevels.get('firstObject'),
+               construction_start: 0,
+               status: 'unlocked'
+            });
+
+            rocketComponentModelRechargeRateLevelMm.save().then(rocketComponentModelRechargeRateLevelMm => {
+               rocketComponentModelMm.set('rocketComponentModelRechargeRateLevelMm', rocketComponentModelRechargeRateLevelMm);
+               rocketComponentModelMm.save();
+            });
+          }
+          else {
+            rocketComponentModelRechargeRateLevelMm = rocketComponentModelRechargeRateLevelMms.get('firstObject');
+            rocketComponentModelMm.set('rocketComponentModelRechargeRateLevelMm', rocketComponentModelRechargeRateLevelMm);
+            rocketComponentModelMm.save();
+          }
         });
       });
     });
