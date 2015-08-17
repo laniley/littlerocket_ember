@@ -701,4 +701,27 @@ Quintus.UI = function(Q)
     }
   });
 
+  Q.UI.Text.extend("ShieldText",
+  {
+    init: function(container)
+    {
+      this._super
+      ({
+         x: 0,
+         y: Q.state.get('scale') * 0,
+         label: "Shield: " + Q.state.get('shield') + "\n",
+         color: "black",
+         size: Q.state.get('scale') * 20,
+         outlineWidth: container.width
+      });
+
+      Q.state.on("change.shield",this,"updateText");
+    },
+
+    updateText: function(newVal)
+    {
+      this.p.label = "Shield: " + newVal + "\n";
+    }
+  });
+
 };

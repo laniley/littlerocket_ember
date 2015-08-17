@@ -858,6 +858,28 @@ export default Ember.Component.extend({
   			)
   		);
 
+      var containerReloading = stage.insert
+  		(
+  			new Q.UI.Container
+  			(
+  			  {
+  					x: Q.state.get('scale') * 300,
+  					y: Q.state.get('scale') * 50
+  			  }
+  			)
+  		);
+
+      var containerShield = stage.insert
+  		(
+  			new Q.UI.Container
+  			(
+  			  {
+  					x: Q.state.get('scale') * 300,
+  					y: Q.state.get('scale') * 80
+  			  }
+  			)
+  		);
+
       self.get('me').get('user').then(user => {
 
         if(!Ember.isEmpty(user)) {
@@ -882,24 +904,35 @@ export default Ember.Component.extend({
                 containerAmmo.insert(new Q.BulletsText(containerAmmo));
             });
 
+            rocket.get('shield').then(shield => {
+
+                if(shield.get('status') === 'unlocked') {
+                  shield.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+                    selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+                      rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
+                        Q.state.set('shield', rocketComponentModelLevel.get('value'));
+                      });
+                    });
+                  });
+                }
+                else {
+                  Q.state.set('shield', 0);
+                }
+
+                containerShield.insert(new Q.ShieldText(containerShield));
+            });
+
           });
 
         }
 
       });
 
-      var containerReloading = stage.insert
-  		(
-  			new Q.UI.Container
-  			(
-  			  {
-  					x: Q.state.get('scale') * 300,
-  					y: Q.state.get('scale') * 50
-  			  }
-  			)
-  		);
-
       containerReloading.insert(new Q.CanonIsReloadingText(containerReloading));
+
+      containerAmmo.fit(0);
+      containerShield.fit(0);
+      containerReloading.fit(0);
 
     });
 
@@ -1517,6 +1550,30 @@ export default Ember.Component.extend({
                   }
                 }
               });
+
+              rocket.get('shield').then(shield => {
+
+                if(!Ember.isEmpty(shield)) {
+                  if(shield.get('status') === 'locked') {
+                    Q.state.set('shield', 0);
+                    Q.state.set('srr', 0);
+                  }
+                  else {
+                    shield.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+                      selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+                        rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
+                          Q.state.set('shield', rocketComponentModelCapacityLevel.get('value'));
+                        });
+                      });
+                      selectedRocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
+                        rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelRechargeRateLevel => {
+                          Q.state.set('srr', rocketComponentModelRechargeRateLevel.get('value'));
+                        });
+                      });
+                    });
+                  }
+                }
+              });
             }
           });
         }
@@ -1578,8 +1635,8 @@ export default Ember.Component.extend({
 
         Q.stageScene("levelSelection");
 
-        // Q.debug = true;
-        // Q.debugFill = true;
+        Q.debug = true;
+        Q.debugFill = true;
       },
 
       {
