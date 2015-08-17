@@ -804,8 +804,7 @@ export default Ember.Component.extend({
     	}
     });
 
-  	Q.scene('hud',function(stage)
-  	{
+  	Q.scene('hud',function(stage) {
   		// Icons
   		stage.insert(new Q.DistanceIcon());
   		stage.insert(new Q.LevelIcon());
@@ -868,7 +867,13 @@ export default Ember.Component.extend({
             rocket.get('canon').then(canon => {
 
                 if(canon.get('status') === 'unlocked') {
-                  Q.state.set('bullets', canon.get('selectedRocketComponentModelMm').get('rocketComponentModelCapacityLevelMm').get('rocketComponentModelCapacityLevel').get('capacity'));
+                  canon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+                    selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+                      rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
+                        Q.state.set('bullets', rocketComponentModelLevel.get('value'));
+                      });
+                    });
+                  });
                 }
                 else {
                   Q.state.set('bullets', 0);
@@ -898,8 +903,8 @@ export default Ember.Component.extend({
 
     });
 
-  	Q.scene("mainMenu",function(stage)
-  	{
+  	Q.scene("mainMenu",function(stage) {
+
   		Q.pauseGame();
 
   		Q.audio.stop('rocket.mp3');
@@ -1467,9 +1472,11 @@ export default Ember.Component.extend({
 
     this.set('Q', Q);
 
+    this.loadGameCanvas();
+
   },
 
-  loadGame: function() {
+  loadGameStates: function() {
 
     var self = this;
 
@@ -1485,8 +1492,6 @@ export default Ember.Component.extend({
 
               this.set('rocket', rocket);
 
-              this.loadGameCanvas();
-
               var Q = this.get('Q');
 
               rocket.get('canon').then(canon => {
@@ -1499,13 +1504,13 @@ export default Ember.Component.extend({
                   else {
                     canon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
                       selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
-                        rocketComponentModelCapacityLevelMm.get('rocketComponentModelCapacityLevel').then(rocketComponentModelCapacityLevel => {
-                          Q.state.set('bullets', rocketComponentModelCapacityLevel.get('capacity'));
+                        rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
+                          Q.state.set('bullets', rocketComponentModelCapacityLevel.get('value'));
                         });
                       });
                       selectedRocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
-                        rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelRechargeRateLevel').then(rocketComponentModelRechargeRateLevel => {
-                          Q.state.set('bps', rocketComponentModelRechargeRateLevel.get('recharge_rate'));
+                        rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelRechargeRateLevel => {
+                          Q.state.set('bps', rocketComponentModelRechargeRateLevel.get('value'));
                         });
                       });
                     });
@@ -1517,7 +1522,7 @@ export default Ember.Component.extend({
         }
       });
     }
-  }.observes('me.user.rocket').on('init'),
+  }.observes('me.user.rocket.canon.status','me.user.rocket.canon.selectedRocketComponentModelMm').on('init'),
 
   loadGameCanvas: function() {
     var Q = this.get('Q');
