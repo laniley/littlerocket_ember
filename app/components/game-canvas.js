@@ -1040,13 +1040,13 @@ export default Ember.Component.extend({
     	// assets
     	var assetLevel2 = 'star_locked.png';
 
-    	if(self.get('me').get('user').get('max_level') > 1) {
+    	if(self.get('me').get('user').get('reached_level') > 1) {
     		assetLevel2 = 'star.png';
       }
 
     	var assetLevel3 = 'star_locked.png';
 
-    	if(self.get('me').get('user').get('max_level') > 2) {
+    	if(self.get('me').get('user').get('reached_level') > 2) {
     		assetLevel3 = 'star.png';
       }
 
@@ -1090,7 +1090,7 @@ export default Ember.Component.extend({
 
       level2Button.on("click", function()
     	{
-      		if(self.get('me').get('user').get('max_level') > 1)
+      		if(self.get('me').get('user').get('reached_level') > 1)
       		{
             Q.state.set('level', 2);
       			Q.clearStages();
@@ -1112,7 +1112,7 @@ export default Ember.Component.extend({
 
       level3Button.on("click", function()
       {
-      		if(self.get('me').get('user').get('max_level') > 2)
+      		if(self.get('me').get('user').get('reached_level') > 2)
       		{
             Q.state.set('level', 3);
       			Q.clearStages();
@@ -1328,7 +1328,7 @@ export default Ember.Component.extend({
           user.set('score', new_score);
     		}
 
-        var new_stars_amount = user.get('stars') + parseInt(Q.state.get('stars'));
+        var new_stars_amount = user.get('stars') + (parseInt(Q.state.get('stars')) * parseInt(Q.state.get('level')));
         user.set('stars', new_stars_amount);
 
         user.save().then(() => {
