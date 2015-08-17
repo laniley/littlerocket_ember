@@ -5,8 +5,7 @@ import FacebookLoginMixin from './../mixins/facebook-login';
 export default Ember.Component.extend(FacebookLoginMixin, {
 
   store: null,
-  scope: 'public_profile,user_friends',
-  // scope: 'public_profile,publish_actions,user_friends',
+  scope: 'public_profile,email,user_friends,publish_actions',
 
   didInsertElement: function() {
     Ember.$(document).foundation();
