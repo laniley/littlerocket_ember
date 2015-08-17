@@ -386,29 +386,35 @@ export default Ember.Component.extend({
     	// When an ufo is hit..
     	sensor: function(colObj)
     	{
-    		// Destroy it
-    		if(colObj.isA('Rocket') && !colObj.collided)
+        // Destroy it
+    		if(colObj.isA('Rocket') && !colObj.collided && !this.collided)
     		{
-    			colObj.collided = true;
+          this.collided = true;
 
-    			Q.audio.stop('rocket.mp3');
-    			Q.audio.stop('racing.mp3');
-    			Q.audio.play('explosion.mp3');
+    			if(Q.state.get('shield') === 0) {
 
-    			globalSpeedRef = 0;
-    			colObj.play('explosion');
+            colObj.collided = true;
 
-    			Q.stageScene("gameOver", 2);
+      			Q.audio.stop('rocket.mp3');
+      			Q.audio.stop('racing.mp3');
+      			Q.audio.play('explosion.mp3');
+
+      			globalSpeedRef = 0;
+
+      			Q.stageScene("gameOver", 2);
+          }
+    			else {
+            Q.state.set('shield', Q.state.get('shield') - 1);
+          }
     		}
     		else if(colObj.isA('Bullet') && !colObj.collided)
     		{
     			colObj.collided = true;
-
-    			Q.audio.play('explosion.mp3');
-
     			colObj.destroy();
-    			this.destroy();
     		}
+
+        Q.audio.play('explosion.mp3');
+        this.destroy();
     	}
     });
 
@@ -598,28 +604,34 @@ export default Ember.Component.extend({
     	sensor: function(colObj)
     	{
     		// Destroy it
-    		if(colObj.isA('Rocket') && !colObj.collided)
+    		if(colObj.isA('Rocket') && !colObj.collided && !this.collided)
     		{
-    			colObj.collided = true;
+          this.collided = true;
 
-    			Q.audio.stop('rocket.mp3');
-    			Q.audio.stop('racing.mp3');
-    			Q.audio.play('explosion.mp3');
+    			if(Q.state.get('shield') === 0) {
 
-    			globalSpeedRef = 0;
-    			colObj.play('explosion');
+            colObj.collided = true;
 
-    			Q.stageScene("gameOver", 2);
+      			Q.audio.stop('rocket.mp3');
+      			Q.audio.stop('racing.mp3');
+      			Q.audio.play('explosion.mp3');
+
+      			globalSpeedRef = 0;
+
+      			Q.stageScene("gameOver", 2);
+          }
+    			else {
+            Q.state.set('shield', Q.state.get('shield') - 1);
+          }
     		}
     		else if(colObj.isA('Bullet') && !colObj.collided)
     		{
     			colObj.collided = true;
-
-    			Q.audio.play('explosion.mp3');
-
     			colObj.destroy();
-    			this.destroy();
     		}
+
+        Q.audio.play('explosion.mp3');
+        this.destroy();
     	}
     });
 
@@ -1638,8 +1650,8 @@ export default Ember.Component.extend({
 
         Q.stageScene("levelSelection");
 
-        Q.debug = true;
-        Q.debugFill = true;
+        // Q.debug = true;
+        // Q.debugFill = true;
       },
 
       {
