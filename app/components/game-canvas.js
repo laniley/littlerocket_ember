@@ -229,6 +229,9 @@ export default Ember.Component.extend({
   		    	this.trigger("fireCanon");
   		  	}
         }
+        else {
+          this.p.speed = 0;
+        }
     	},
 
     	fireCanon: function()
