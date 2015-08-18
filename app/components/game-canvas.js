@@ -8,6 +8,7 @@ export default Ember.Component.extend({
   rocket: null,
   canonReloadingTimeout: null,
   isLoading: true,
+  gameCanvasIsLoaded: false,
 
   didInsertElement: function() {
 
@@ -1519,9 +1520,6 @@ export default Ember.Component.extend({
     });
 
     this.set('Q', Q);
-
-    this.loadGameCanvas();
-
   },
 
   loadGameStates: function() {
@@ -1533,6 +1531,11 @@ export default Ember.Component.extend({
       this.get('me').get('user').then(user => {
 
         if(!Ember.isEmpty(user)) {
+
+          // now that the user is loaded, all relevant data for the game to load is present, e.g. the reached level
+          if(!this.get('gameCanvasIsLoaded')) {
+            this.loadGameCanvas();
+          }
 
           user.get('rocket').then(rocket => {
 
@@ -1599,6 +1602,9 @@ export default Ember.Component.extend({
   loadGameCanvas: function() {
     var Q = this.get('Q');
     var self = this;
+
+    this.set('gameCanvasIsLoaded', true);
+
     Q.load
     (
       [
