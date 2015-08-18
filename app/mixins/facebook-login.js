@@ -151,11 +151,13 @@ export default Ember.Mixin.create({
              component.set('construction_time', construction_time);
              component.set('rocket', rocket);
              component.save().then(component => {
-                 this.loadSelectedRocketComponentModelMM(component);
+               rocket.set(type, component);
+               this.loadSelectedRocketComponentModelMM(component);
              });
            }
            else {
              component = components.get('firstObject');
+             rocket.set(type, component);
              this.loadSelectedRocketComponentModelMM(component);
            }
          });
