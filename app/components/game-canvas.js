@@ -927,6 +927,28 @@ export default Ember.Component.extend({
   			)
   		);
 
+      var containerEngine = stage.insert
+  		(
+  			new Q.UI.Container
+  			(
+  			  {
+  					x: Q.state.get('scale') * 300,
+  					y: Q.state.get('scale') * 140
+  			  }
+  			)
+  		);
+
+      var containerEngineReloading = stage.insert
+  		(
+  			new Q.UI.Container
+  			(
+  			  {
+  					x: Q.state.get('scale') * 300,
+  					y: Q.state.get('scale') * 170
+  			  }
+  			)
+  		);
+
       self.get('me').get('user').then(user => {
 
         if(!Ember.isEmpty(user)) {
@@ -969,6 +991,24 @@ export default Ember.Component.extend({
                 containerShield.insert(new Q.ShieldText(containerShield));
             });
 
+            rocket.get('engine').then(engine => {
+
+                if(engine.get('status') === 'unlocked') {
+                  engine.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+                    selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+                      rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
+                        Q.state.set('slowdowns', rocketComponentModelLevel.get('value'));
+                      });
+                    });
+                  });
+                }
+                else {
+                  Q.state.set('slowdowns', 0);
+                }
+
+                containerEngine.insert(new Q.EngineText(containerEngine));
+            });
+
           });
 
         }
@@ -977,11 +1017,14 @@ export default Ember.Component.extend({
 
       containerAmmoReloading.insert(new Q.CanonIsReloadingText(containerAmmoReloading));
       containerShieldReloading.insert(new Q.ShieldIsReloadingText(containerShieldReloading));
+      containerEngineReloading.insert(new Q.EngineIsReloadingText(containerEngineReloading));
 
       containerAmmo.fit(0);
       containerShield.fit(0);
+      containerEngine.fit(0);
       containerAmmoReloading.fit(0);
       containerShieldReloading.fit(0);
+      containerEngineReloading.fit(0);
 
     });
 

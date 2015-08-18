@@ -7025,6 +7025,57 @@ Quintus.UI = function(Q)
     }
   });
 
+  Q.UI.Text.extend("EngineText",
+  {
+    init: function(container)
+    {
+      this._super
+      ({
+         x: 0,
+         y: Q.state.get('scale') * 0,
+         label: "SDs: " + Q.state.get('slowdowns') + "\n",
+         color: "black",
+         size: Q.state.get('scale') * 20,
+         outlineWidth: container.width
+      });
+
+      Q.state.on("change.slowdowns",this,"updateText");
+    },
+
+    updateText: function(newVal)
+    {
+      this.p.label = "SDs: " + newVal + "\n";
+    }
+  });
+
+  Q.UI.Text.extend("EngineIsReloadingText",
+  {
+    init: function(container)
+    {
+      this._super
+      ({
+         x: 0,
+         y: Q.state.get('scale') * 0,
+         label: "\n",
+         color: "black",
+         size: Q.state.get('scale') * 20,
+         outlineWidth: container.width
+      });
+
+      Q.state.on("change.engine_is_reloading",this,"updateText");
+    },
+
+    updateText: function(newVal)
+    {
+      if(Q.state.get("engine_is_reloading")) {
+        this.p.label = "Reloading\n";
+      }
+      else {
+        this.p.label = " \n";
+      }
+    }
+  });
+
 };
 
 /*global Quintus:false, AudioContext:false, window:false */
