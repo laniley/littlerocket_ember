@@ -16,7 +16,7 @@
       <div class="lab tab coming_soon">
         <span class="fa-stack">
           {{unbound fa-icon "fa-flask" stack=1}}
-          {{#tooltip-component tooltip="coming soon"}}
+          {{#tooltip-component tooltip="The lab is coming soon..."}}
             {{unbound fa-icon "fa-clock-o tooltip-icon" stack=1}}
           {{/tooltip-component}}
         </span>
@@ -56,14 +56,27 @@
         <h2>Workbench</h2>
         <div id="workbench-item-container" class="item-container">
           <img src="assets/images/rocket_workbench.png" />
+
           {{!-- CANON --}}
           {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
-            <span id="canon" class="block-button">
+            <span id="canon" class="block-button" {{action "toggleComponentModelSelection" me.user.rocket.canon}}>
               {{unbound fa-icon "fa-bullseye"}}
               <div class="info">
                 {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModel.model}}
               </div>
             </span>
+            {{#if showCanonModels}}
+              <div class="models canon-models">
+                <span class="block-button coming_soon">
+                  <span class="fa-stack">
+                    {{unbound fa-icon "fa-bullseye" stack=1}}
+                    {{#tooltip-component tooltip="Upgrades are coming soon..."}}
+                      {{unbound fa-icon "fa-clock-o tooltip-icon" stack=1}}
+                    {{/tooltip-component}}
+                  </span>
+                </span>
+              </div>
+            {{/if}}
           {{else}}
             {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
               <span id="canon" class="fa-stack block-button">
@@ -85,14 +98,27 @@
               {{/if}}
             {{/if}}
           {{/if}}
+
           {{!-- SHIELD --}}
           {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
-            <span id="shield" class="block-button">
+            <span id="shield" class="block-button" {{action "toggleComponentModelSelection" me.user.rocket.shield}}>
               {{unbound fa-icon "fa-shield"}}
               <div class="info">
                 {{me.user.rocket.shield.selectedRocketComponentModelMm.rocketComponentModel.model}}
               </div>
             </span>
+            {{#if showShieldModels}}
+              <div class="models shield-models">
+                <span class="block-button coming_soon">
+                  <span class="fa-stack">
+                    {{unbound fa-icon "fa-shield" stack=1}}
+                    {{#tooltip-component tooltip="Upgrades are coming soon..."}}
+                      {{unbound fa-icon "fa-clock-o tooltip-icon" stack=1}}
+                    {{/tooltip-component}}
+                  </span>
+                </span>
+              </div>
+            {{/if}}
           {{else}}
             {{#if (if-equals me.user.rocket.shield.status 'under_construction') }}
               <span id="shield" class="fa-stack block-button">
@@ -116,12 +142,24 @@
           {{/if}}
           {{!-- ENGINE --}}
           {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
-            <span id="engine" class="block-button">
+            <span id="engine" class="block-button" {{action "toggleComponentModelSelection" me.user.rocket.engine}}>
               {{unbound fa-icon "fa-forward"}}
               <div class="info">
                 {{me.user.rocket.engine.selectedRocketComponentModelMm.rocketComponentModel.model}}
               </div>
             </span>
+            {{#if showEngineModels}}
+              <div class="models engine-models">
+                <span class="block-button coming_soon">
+                  <span class="fa-stack">
+                    {{unbound fa-icon "fa-forward" stack=1}}
+                    {{#tooltip-component tooltip="Upgrades are coming soon..."}}
+                      {{unbound fa-icon "fa-clock-o tooltip-icon" stack=1}}
+                    {{/tooltip-component}}
+                  </span>
+                </span>
+              </div>
+            {{/if}}
           {{else}}
             {{#if (if-equals me.user.rocket.engine.status 'under_construction') }}
               <span id="engine" class="fa-stack block-button">
