@@ -161,10 +161,10 @@ export default Ember.Component.extend({
 
     		  this.on('exploded', this, 'destroy');
     		  this.on('fireCanon', this, 'fireCanon');
+          this.on('slowdown', this, 'slowdown');
     	},
 
-    	step: function(dt)
-    	{
+    	step: function(dt) {
         if(!Q.state.get('isPaused')) {
 
     			this.p.lastSpeedUp += dt;
@@ -233,14 +233,19 @@ export default Ember.Component.extend({
   		  	{
   		    	this.trigger("fireCanon");
   		  	}
+
+          // slowdown
+  		  	if(Q.inputs['down'])
+  		  	{
+  		    	this.trigger("slowdown");
+  		  	}
         }
         else {
           this.p.speed = 0;
         }
     	},
 
-    	fireCanon: function()
-    	{
+    	fireCanon: function() {
     		if(this.p.hasACanon && !Q.state.get('canon_is_reloading') && Q.state.get('bullets') > 0)
     		{
           this.stage.insert(new Q.Bullet());
@@ -256,8 +261,28 @@ export default Ember.Component.extend({
     	  }
     	},
 
-    	destroy: function()
-    	{
+      slowdown: function() {
+        if(!Q.state.get('engine_is_reloading') && Q.state.get('slowdowns') > 0)
+    		{
+          Q.state.set('engine_is_reloading', true);
+          Q.state.set('slowdowns', Q.state.get('slowdowns') - 1);
+
+          var currentSpeed = Q.state.get('speed');
+          var percent = currentSpeed * 0.1;
+
+          while(Q.state.get('speed') > (currentSpeed - percent)) {
+            Q.state.set('speed', Q.state.get('speed') - 1);
+          }
+
+          var timeout = setTimeout(function() {
+            Q.state.set('engine_is_reloading', false);
+          }, 1000 / Q.state.get('sdrr'));
+
+          self.set('engineReloadingTimeout', timeout);
+    	  }
+      },
+
+    	destroy: function() {
     		Q.pauseGame();
     	},
 
@@ -1698,12 +1723,53 @@ export default Ember.Component.extend({
                   }
                 }
               });
+
+              rocket.get('engine').then(engine => {
+
+                if(!Ember.isEmpty(engine)) {
+                  if(engine.get('status') === 'locked') {
+                    Q.state.set('slowdowns', 0);
+                    Q.state.set('sdrr', 0);
+                  }
+                  else {
+                    engine.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+                      if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
+                        selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+                          if(!Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
+                            rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
+                              if(!Ember.isEmpty(rocketComponentModelCapacityLevel)) {
+                                Q.state.set('slowdowns', rocketComponentModelCapacityLevel.get('value'));
+                              }
+                            });
+                          }
+                        });
+                        selectedRocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
+                          if(!Ember.isEmpty(rocketComponentModelRechargeRateLevelMm)) {
+                            rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelRechargeRateLevel => {
+                              if(!Ember.isEmpty(rocketComponentModelRechargeRateLevel)) {
+                                Q.state.set('sdrr', rocketComponentModelRechargeRateLevel.get('value'));
+                              }
+                            });
+                          }
+                        });
+                      }
+                    });
+                  }
+                }
+              });
             }
           });
         }
       });
     }
-  }.observes('me.user.rocket.canon.status','me.user.rocket.canon.selectedRocketComponentModelMm').on('init'),
+  }.observes(
+    'me.user.rocket.canon.status',
+    'me.user.rocket.canon.selectedRocketComponentModelMm',
+    'me.user.rocket.shield.status',
+    'me.user.rocket.shield.selectedRocketComponentModelMm',
+    'me.user.rocket.engine.status',
+    'me.user.rocket.engine.selectedRocketComponentModelMm'
+  ).on('init'),
 
   loadGameCanvas: function() {
     var Q = this.get('Q');
