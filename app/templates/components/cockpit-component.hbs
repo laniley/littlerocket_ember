@@ -188,7 +188,7 @@
               {{else}}
                 {{#if (if-equals me.user.rocket.engine.status 'under_construction') }}
                   {{unbound fa-icon "fa-forward"}}
-                  {{timer-component type='drive' component=me.user.rocket.engine}}
+                  {{timer-component type='engine' component=me.user.rocket.engine}}
                 {{else}}
                   <span class="fa-stack" {{action 'buyEngine'}}>
                     {{unbound fa-icon "fa-forward" stack=1}}
