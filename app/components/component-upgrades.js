@@ -32,9 +32,9 @@ export default Ember.Component.extend({
         return this.get('componentModels').then(componentModels => {
           return this.get('selectedModel').then(selectedModel => {
             var array = [];
-            models.forEach(function(aModel) {
+            models.forEach(aModel => {
               var status = 'locked';
-              componentModels.forEach(function(aComponentModel) {
+              componentModels.forEach(aComponentModel => {
                 if(aComponentModel.get('rocketComponentModel').get('id') === aModel.get('id')) {
                   status = aComponentModel.get('status');
                 }
