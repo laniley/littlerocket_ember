@@ -40,7 +40,6 @@
                     if (state.fill) {
                         $this.addClass('fill');
                     }
-                    $this.pietimer('start');
                 }
             });
         },
@@ -93,7 +92,7 @@
                 data.timerFinish = new Date().getTime()+(data.timerSeconds*1000); // now + remaining_construction_time
                 var percentage = (data.timerCurrent/data.timerSeconds)*100;
                 $(this).pietimer('drawTimer', percentage);
-                data.timer = setInterval("$this.pietimer('stopWatch')", 50);
+                data.timer = setInterval('Ember.$("' + $(this).selector + '").pietimer("stopWatch")', 50);
             }
         },
 

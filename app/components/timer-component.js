@@ -28,6 +28,8 @@ export default Ember.Component.extend({
         }
       }
     );
+
+    Ember.$('#' + this.get('elementId')).pietimer('start');
   },
 
   onTimerReady: function() {
