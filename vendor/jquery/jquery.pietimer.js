@@ -56,12 +56,12 @@
                     data.callback();
                 } else {
                     var percent = (data.timerCurrent/data.timerSeconds)*100;
-                    $(this).pietimer('drawTimer', percent);
+                    $(this).pietimer('drawTimer', percent, seconds);
                 }
             }
         },
 
-        drawTimer : function (percent) {
+        drawTimer : function (percent, seconds) {
             $this = $(this);
             var data = $this.data('pietimer');
             if (data) {
@@ -73,7 +73,23 @@
                     '-o-transform':'rotate('+deg+'deg)',
                     'transform':'rotate('+deg+'deg)'
                 });
-                $this.find('.percent').html(Math.round(percent)+'%');
+                // $this.find('.percent').html(Math.round(percent)+'%');
+                if(seconds >= 60) {
+                  var minutes = seconds/60;
+                  var seconds = seconds%60;
+                  if(minutes >= 60) {
+                    var hours = minutes/60;
+                    minutes = minutes%60;
+                    $this.find('.percent').html(Math.round(hours)+'h'+Math.round(minutes)+'m');
+                  }
+                  else {
+                    $this.find('.percent').html(Math.round(minutes)+'m'+Math.round(seconds)+'s');
+                  }
+                }
+                else {
+                  $this.find('.percent').html(Math.round(seconds)+'s');
+                }
+
                 if (data.showPercentage) {
                     $this.find('.percent').show();
                 }
@@ -91,7 +107,7 @@
             if (data) {
                 data.timerFinish = new Date().getTime()+(data.timerSeconds*1000); // now + remaining_construction_time
                 var percentage = (data.timerCurrent/data.timerSeconds)*100;
-                $(this).pietimer('drawTimer', percentage);
+                $(this).pietimer('drawTimer', percentage, data.timerCurrent);
                 data.timer = setInterval('Ember.$("' + $(this).selector + '").pietimer("stopWatch")', 50);
             }
         },
@@ -101,7 +117,7 @@
             if (data) {
                 clearInterval(data.timer);
                 var percentage = (data.timerCurrent/data.timerSeconds)*100;
-                $(this).pietimer('drawTimer', percentage);
+                $(this).pietimer('drawTimer', percentage, data.timerCurrent);
             }
         }
 
