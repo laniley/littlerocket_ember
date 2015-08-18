@@ -34,7 +34,7 @@
           <div class="lab tab" {{action 'buyLab'}}>
             <span class="fa-stack">
               {{unbound fa-icon "fa-flask" stack=1}}
-              {{#tooltip-component tooltip="You need 1000 stars to unlock the lab!"}}
+              {{#tooltip-component tooltip=me.user.lab.tooltip}}
                 {{unbound fa-icon "fa-lock locked" stack=1}}
               {{/tooltip-component}}
             </span>
