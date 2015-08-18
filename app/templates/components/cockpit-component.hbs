@@ -13,7 +13,15 @@
           </span>
         {{/link-to}}
       </div>
-      {{#if (if-equals me.user.lab.status 'unlocked') }}
+      <div class="lab tab">
+        <span class="fa-stack">
+          {{unbound fa-icon "fa-flask" stack=1}}
+          {{#tooltip-component tooltip="coming soon"}}
+            {{unbound fa-icon "fa-clock-o locked" stack=1}}
+          {{/tooltip-component}}
+        </span>
+      </div>
+      {{!-- {{#if (if-equals me.user.lab.status 'unlocked') }}
         <div class="lab tab">
           {{#link-to 'index' (query-params cockpit_section="lab")}}
             <span id="lab-tab" class="fa-stack">
@@ -40,7 +48,7 @@
             </span>
           </div>
         {{/if}}
-      {{/if}}
+      {{/if}} --}}
     </div>
 
     {{#if (if-equals currentSection 'workbench') }}
