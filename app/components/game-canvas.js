@@ -7,6 +7,8 @@ export default Ember.Component.extend({
   me: null,
   rocket: null,
   canonReloadingTimeout: null,
+  shieldReloadingTimeout: null,
+  engineReloadingTimeout: null,
   isLoading: true,
   gameCanvasIsLoaded: false,
 
@@ -81,6 +83,8 @@ export default Ember.Component.extend({
     Q.state.set('distance', 0);
     Q.state.set('stars', 0);
     Q.state.set('canon_is_reloading', false);
+    Q.state.set('shield_is_reloading', false);
+    Q.state.set('engine_is_reloading', false);
 
     var distanceToGoalRef = 50;
     Q.state.set('distanceToGoal', 50);
@@ -392,7 +396,7 @@ export default Ember.Component.extend({
     		{
           this.collided = true;
 
-    			if(Q.state.get('shield') === 0) {
+    			if(Q.state.get('shield') === 0 || Q.state.get('shield_is_reloading')) {
 
             colObj.collided = true;
 
@@ -405,7 +409,15 @@ export default Ember.Component.extend({
       			Q.stageScene("gameOver", 2);
           }
     			else {
+            Q.state.set('shield_is_reloading', true);
+
             Q.state.set('shield', Q.state.get('shield') - 1);
+
+            var timeout = setTimeout(function() {
+              Q.state.set('shield_is_reloading', false);
+            }, 1000 / Q.state.get('srr'));
+
+            self.set('shieldReloadingTimeout', timeout);
           }
     		}
     		else if(colObj.isA('Bullet') && !colObj.collided)
@@ -609,7 +621,7 @@ export default Ember.Component.extend({
     		{
           this.collided = true;
 
-    			if(Q.state.get('shield') === 0) {
+    			if(Q.state.get('shield') === 0 || Q.state.get('shield_is_reloading')) {
 
             colObj.collided = true;
 
@@ -622,7 +634,15 @@ export default Ember.Component.extend({
       			Q.stageScene("gameOver", 2);
           }
     			else {
+            Q.state.set('shield_is_reloading', true);
+
             Q.state.set('shield', Q.state.get('shield') - 1);
+
+            var timeout = setTimeout(function() {
+              Q.state.set('shield_is_reloading', false);
+            }, 1000 / Q.state.get('srr'));
+
+            self.set('shieldReloadingTimeout', timeout);
           }
     		}
     		else if(colObj.isA('Bullet') && !colObj.collided)
@@ -874,7 +894,7 @@ export default Ember.Component.extend({
   			)
   		);
 
-      var containerReloading = stage.insert
+      var containerAmmoReloading = stage.insert
   		(
   			new Q.UI.Container
   			(
@@ -892,6 +912,17 @@ export default Ember.Component.extend({
   			  {
   					x: Q.state.get('scale') * 300,
   					y: Q.state.get('scale') * 80
+  			  }
+  			)
+  		);
+
+      var containerShieldReloading = stage.insert
+  		(
+  			new Q.UI.Container
+  			(
+  			  {
+  					x: Q.state.get('scale') * 300,
+  					y: Q.state.get('scale') * 110
   			  }
   			)
   		);
@@ -944,11 +975,13 @@ export default Ember.Component.extend({
 
       });
 
-      containerReloading.insert(new Q.CanonIsReloadingText(containerReloading));
+      containerAmmoReloading.insert(new Q.CanonIsReloadingText(containerAmmoReloading));
+      containerShieldReloading.insert(new Q.ShieldIsReloadingText(containerShieldReloading));
 
       containerAmmo.fit(0);
       containerShield.fit(0);
-      containerReloading.fit(0);
+      containerAmmoReloading.fit(0);
+      containerShieldReloading.fit(0);
 
     });
 
@@ -1346,9 +1379,19 @@ export default Ember.Component.extend({
 
       Q.state.set('speed', 0);
       Q.state.set('canon_is_reloading', false);
+      Q.state.set('shield_is_reloading', false);
+      Q.state.set('engine_is_reloading', false);
 
       if(self.get('canonReloadingTimeout')) {
         clearTimeout(self.get('canonReloadingTimeout'));
+      }
+
+      if(self.get('shieldReloadingTimeout')) {
+        clearTimeout(self.get('shieldReloadingTimeout'));
+      }
+
+      if(self.get('engineReloadingTimeout')) {
+        clearTimeout(self.get('engineReloadingTimeout'));
       }
 
   		var scoreInfo = "Your score:\n\n";
