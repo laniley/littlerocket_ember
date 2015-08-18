@@ -320,6 +320,19 @@ table {
     cursor: pointer;
   }
 
+  &.coming_soon {
+    cursor: default;
+    .tooltip-icon {
+      color: #666;
+      margin-top: 13px;
+      margin-left: 13px;
+    }
+
+    &:hover {
+      background: none;
+    }
+  }
+
   .under_construction
   {
     color: orange;
