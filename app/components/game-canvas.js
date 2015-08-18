@@ -1554,16 +1554,26 @@ export default Ember.Component.extend({
                   }
                   else {
                     canon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-                      selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
-                        rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
-                          Q.state.set('bullets', rocketComponentModelCapacityLevel.get('value'));
+                      if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
+                        selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+                          if(!Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
+                            rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
+                              if(!Ember.isEmpty(rocketComponentModelCapacityLevel)) {
+                                  Q.state.set('bullets', rocketComponentModelCapacityLevel.get('value'));
+                              }
+                            });
+                          }
                         });
-                      });
-                      selectedRocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
-                        rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelRechargeRateLevel => {
-                          Q.state.set('bps', rocketComponentModelRechargeRateLevel.get('value'));
+                        selectedRocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
+                          if(!Ember.isEmpty(rocketComponentModelRechargeRateLevelMm)) {
+                            rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelRechargeRateLevel => {
+                              if(!Ember.isEmpty(rocketComponentModelRechargeRateLevel)) {
+                                Q.state.set('bps', rocketComponentModelRechargeRateLevel.get('value'));
+                              }
+                            });
+                          }
                         });
-                      });
+                      }
                     });
                   }
                 }
@@ -1578,16 +1588,26 @@ export default Ember.Component.extend({
                   }
                   else {
                     shield.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-                      selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
-                        rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
-                          Q.state.set('shield', rocketComponentModelCapacityLevel.get('value'));
+                      if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
+                        selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+                          if(!Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
+                            rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
+                              if(!Ember.isEmpty(rocketComponentModelCapacityLevel)) {
+                                Q.state.set('shield', rocketComponentModelCapacityLevel.get('value'));
+                              }
+                            });
+                          }
                         });
-                      });
-                      selectedRocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
-                        rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelRechargeRateLevel => {
-                          Q.state.set('srr', rocketComponentModelRechargeRateLevel.get('value'));
+                        selectedRocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
+                          if(!Ember.isEmpty(rocketComponentModelRechargeRateLevelMm)) {
+                            rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelRechargeRateLevel => {
+                              if(!Ember.isEmpty(rocketComponentModelRechargeRateLevel)) {
+                                Q.state.set('srr', rocketComponentModelRechargeRateLevel.get('value'));
+                              }
+                            });
+                          }
                         });
-                      });
+                      }
                     });
                   }
                 }
