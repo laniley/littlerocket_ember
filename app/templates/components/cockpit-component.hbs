@@ -181,14 +181,14 @@
               {{/if}}
             </div>
             <div id="drive-upgrades" class="tab">
-              {{#if (if-equals me.user.rocket.drive.status 'unlocked') }}
+              {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
                 {{#link-to 'index' (query-params lab_section="engine")}}
                   {{unbound fa-icon "fa-forward"}}
                 {{/link-to}}
               {{else}}
-                {{#if (if-equals me.user.rocket.drive.status 'under_construction') }}
+                {{#if (if-equals me.user.rocket.engine.status 'under_construction') }}
                   {{unbound fa-icon "fa-forward"}}
-                  {{timer-component type='drive' component=me.user.rocket.drive}}
+                  {{timer-component type='drive' component=me.user.rocket.engine}}
                 {{else}}
                   <span class="fa-stack" {{action 'buyEngine'}}>
                     {{unbound fa-icon "fa-forward" stack=1}}
