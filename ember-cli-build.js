@@ -3,6 +3,9 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
+    'fingerprint': {
+      'exclude': ['images']
+    },
     'ember-cli-foundation-sass': {
       'modernizr': true,
       'fastclick': true,
