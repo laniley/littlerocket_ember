@@ -8,7 +8,11 @@
 			<div class="row">
 
 				<div class="columns hud-container cockpit">
-					{{cockpit-component me=model currentSection=cockpit_section currentLabSection=lab_section}}
+					{{player-hud-component
+						me=model
+						currentSection=player_hud_section
+						currentCockpitSection=cockpit_section
+						currentLabSection=lab_section}}
 				</div>
 
 				<div class="columns game">

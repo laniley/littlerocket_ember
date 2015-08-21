@@ -1,0 +1,28 @@
+<div class="title">
+  <div class={{if (if-equals currentSection 'cockpit') 'active item' 'item' }} {{action 'openSection' 'cockpit'}}>
+    {{unbound fa-icon "fa-dashboard"}} Cockpit
+  </div>
+  <div class={{if (if-equals currentSection 'achievements') 'active item' 'item' }}>
+    <span class="fa-stack">
+      {{unbound fa-icon "fa-circle-o" stack=2}}
+      {{unbound fa-icon "fa-star" stack=1}}
+    </span>
+    Achievements
+  </div>
+</div>
+
+{{#if me.isLoggedIn}}
+  <div class="content">
+
+    {{cockpit-component
+        me=me
+        currentSection=currentCockpitSection
+        currentLabSection=currentLabSection}}
+
+  </div>
+{{else}}
+  <div class="login-info">
+    <div>{{unbound fa-icon "fa-lock"}}</div>
+    <div>Please log in.</div>
+  </div>
+{{/if}}
