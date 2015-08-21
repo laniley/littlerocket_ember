@@ -1,0 +1,39 @@
+<div class="title">
+  <div class={{if (if-equals socialSection 'leaderboard') 'active item' 'item' }} {{action 'openSection' 'leaderboard'}}>
+    {{unbound fa-icon "fa-trophy"}} Leaderboard
+  </div>
+  <div class={{if (if-equals socialSection 'comments') 'active item' 'item' }} {{action 'openSection' 'comments'}}>
+    {{unbound fa-icon "fa-pencil"}} Comments
+  </div>
+</div>
+
+{{#if me.isLoggedIn}}
+  <div class="content">
+    {{!-- {{unbound fa-icon "fa-globe"}} --}}
+    {{#if (if-equals socialSection 'leaderboard') }}
+        <div class="leaderboard_list scrollable_list">
+           {{#each leaderboard.players as |top_player|}}
+              <div class="list-item">
+                <div class="rank_container">
+                  <span class="rank">{{top_player.rank}}</span>
+                </div>
+                <div class="img_container">
+                  <img src="http://graph.facebook.com/{{top_player.fb_id}}/picture" class="profile small" />
+                </div>
+                <div class="name">{{top_player.name}}</div>
+                <div class="score_container">
+                  <span class="score">{{top_player.score}}</span> Points
+                </div>
+              </div>
+           {{/each}}
+        </div>
+    {{else}}
+        {{fb-comments}}
+    {{/if}}
+  </div>
+{{else}}
+  <div class="login-info">
+    <div>{{unbound fa-icon "fa-lock"}}</div>
+    <div>Please log in.</div>
+  </div>
+{{/if}}

@@ -1,0 +1,94 @@
+<div class="player-infos">
+  <div class="left-column">
+    {{!-- <div class="img_container">
+      <img src={{me.user.img_url}} />
+    </div> --}}
+    <div class="info-table-container">
+      <table class="info-table">
+        <tr>
+          <td>
+            <div class="score_container">
+              <span class="cockpit_score score"><b>Score</b> {{me.user.score}}</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <i class="fa fa-star"></i> <span class="stars">{{me.user.stars}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="rank_container">
+                <span class="cockpit_rank rank">{{me.user.rank}}</span>. in the leaderboard
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="right-column">
+    <table class="stats-table">
+      <tr>
+        <td>
+          <b>Ammo:</b>
+          {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
+            {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
+          {{else}}
+            0
+          {{/if}}
+        </td>
+        <td>
+          {{#tooltip-component tooltip="BPS = <u>B</u>ullets <u>P</u>er <u>S</u>econd<br /> A higher BPS means, that your canon reloads faster."}}
+            BPS:
+          {{/tooltip-component}}
+          {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
+            {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
+          {{else}}
+            0
+          {{/if}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <b>Shield:</b>
+          {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
+            {{me.user.rocket.shield.selectedRocketComponentModelMm.rocketComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
+          {{else}}
+            0
+          {{/if}}
+        </td>
+        <td>
+          {{#tooltip-component tooltip="SRR = <u>S</u>hield <u>R</u>echarge <u>R</u>ate<br /> A higher SRR means, that your shield reloads faster."}}
+            SRR:
+          {{/tooltip-component}}
+          {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
+            {{me.user.rocket.shield.selectedRocketComponentModelMm.rocketComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
+          {{else}}
+            0
+          {{/if}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <b>Slowdowns:</b>
+          {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
+            {{me.user.rocket.engine.selectedRocketComponentModelMm.rocketComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
+          {{else}}
+            0
+          {{/if}}
+        </td>
+        <td>
+          {{#tooltip-component tooltip="SDRR = <u>S</u>low<u>d</u>own <u>R</u>echarge <u>R</u>ate<br /> A higher SDRR means, that your slowdown reloads faster."}}
+            SDRR:
+          {{/tooltip-component}}
+          {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
+            {{me.user.rocket.engine.selectedRocketComponentModelMm.rocketComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
+          {{else}}
+            0
+          {{/if}}
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

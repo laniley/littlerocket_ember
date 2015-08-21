@@ -1,0 +1,15 @@
+{
+  "name": "quintus",
+  "homepage": "https://github.com/cykod/Quintus",
+  "version": "0.1.5",
+  "_release": "0.1.5",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.1.5",
+    "commit": "05175ea683f5e224827fe39b31b33d21b2aa866a"
+  },
+  "_source": "git://github.com/cykod/Quintus.git",
+  "_target": "~0.1.5",
+  "_originalSource": "quintus",
+  "_direct": true
+}

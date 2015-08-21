@@ -1,0 +1,54 @@
+<div class="fixed">
+	<nav class="top-bar" data-topbar role="navigation">
+	  <ul class="title-area">
+	    <li class="name">
+	      <h1>{{#link-to 'index'}}<img src="assets/images/top_nav_logo_64x64.png" width="42px" /> little rocket{{/link-to}}</h1>
+	    </li>
+	    <li class="toggle-topbar menu-icon">{{#link-to 'index'}}<span></span>{{/link-to}}</li>
+	  </ul>
+
+	  <section class="top-bar-section">
+	    <!-- Right Nav Section -->
+	    <ul class="right">
+				<!-- invite -->
+	     	<li class="invite-button">
+	       	<button id="fb-challenge" class="fb-button confirm" {{action 'inviteFriends'}}>
+	         	{{unbound fa-icon "facebook-square" size="lg"}} Invite your friends
+	       	</button>
+	     	</li>
+				<!-- like -->
+				<li class="like-button">
+					{{fb-like-button}}
+				</li>
+				<!-- donate -->
+				<li class="donate-button">
+					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+						<input type="hidden" name="cmd" value="_s-xclick">
+						<input type="hidden" name="hosted_button_id" value="J29L63ZSAF48G">
+						<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
+						<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+					</form>
+				</li>
+				<!-- login -->
+				{{#if me.isLoggedIn}}
+					<li class="user-img">
+						<img src={{me.user.img_url}} />
+					</li>
+				{{else}}
+		      <li {{action 'login'}}>
+						<a href="#">
+							{{unbound fa-icon "facebook-square"}} login
+						</a>
+					</li>
+				{{/if}}
+	    </ul>
+	  </section>
+	</nav>
+</div>
+
+{{#unless me.isLoggedIn}}
+	<div data-alert class="no-login alert-box alert">
+		You need to be logged in to save your progress and to use great social features like your cockpit and the leaderboard.
+	  <a href="#" class="close">&times;</a>
+	</div>
+{{/unless}}

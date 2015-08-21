@@ -1,0 +1,168 @@
+.cockpit {
+  @media (max-width: 800px)
+  {
+    display: none;
+  }
+
+  @media (min-width: 801px) and (max-width: 1442px)
+  {
+    @include grid-column(
+      // Control the number of columns
+      $columns:6
+    );
+  }
+
+  @media (min-width: 1443px)
+  {
+    @include grid-column(
+      // Control the number of columns
+      $columns:4
+    );
+  }
+
+  .content {
+    .player-infos {
+      height: 110px;
+      border-bottom: $border;
+
+      .left-column {
+        width: 55%;
+        margin-right: 5%;
+        float: left;
+      }
+
+      .right-column {
+        width: 40%;
+        float: left;
+      }
+
+      // .img_container {
+      //   float: left;
+      //   height: 90px;
+      //   width: 90px;
+      //   margin-right: 5%;
+      //   background-color: $darkblue;
+      //
+      //   @media (min-width: 801px) and (max-width: 1442px)
+      //   {
+      //     display: none;
+      //   }
+      // }
+    }
+
+    #workbench {
+
+      margin-bottom: 5px;
+
+      img {
+        height: 100%;
+      }
+
+      #canon {
+        position: absolute;
+        left: 71px;
+        bottom: 221px;
+      }
+
+      .canon-models {
+        position: relative;
+        top: -222px;
+        left: 56px;
+      }
+      .shield-models {
+        position: relative;
+        top: -218px;
+        left: 359px;
+      }
+      .engine-models {
+        position: relative;
+        top: -36px;
+        left: 148px;
+      }
+
+      #shield {
+        position: absolute;
+        bottom: 217px;
+        left: 374px;
+      }
+
+      #engine {
+        position: absolute;
+        left: 163px;
+        bottom: 35px;
+      }
+    }
+  }
+
+  .upgrade-infos {
+
+    height: 205px;
+    margin-bottom: 5px;
+
+    h2 {
+      text-transform: capitalize;
+    }
+
+    .upgrade-content {
+      position: relative;
+      top: 5px;
+      height: 160px;
+      overflow: auto;
+    }
+
+    .block-button {
+      margin-right: 5px;
+    }
+
+    .locked-info {
+      padding: 12px 0;
+    }
+  }
+
+  .info-table {
+    margin-right: 20px;
+    width: 100%;
+  }
+
+  .stats-table {
+    width: 100%;
+  }
+
+  .stats-table, .info-table {
+    tr {
+      td {
+        padding: 0.34rem 0.625rem;
+      }
+    }
+  }
+
+  .tab-container {
+    clear: both;
+  }
+
+  .list-item {
+    line-height: 65px;
+    width: 100%;
+    height: 70px;
+  }
+
+  .list-item-column {
+    float: left;
+  }
+
+  .button-column {
+    float: right;
+    margin-right: 5px;
+    height: 65px;
+
+    .button {
+      padding: 10px 15px;
+      width: 100px;
+      background-color: $darkblue;
+
+      &:hover {
+        background-color: lighten($darkblue, 5%);
+      }
+    }
+  }
+}
