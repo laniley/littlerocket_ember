@@ -159,13 +159,6 @@ table {
   }
 }
 
-.title {
-  .fa-stack {
-    font-size: 18px;
-    top: -3px;
-  }
-}
-
 #main {
 	position: absolute;
 
@@ -197,20 +190,27 @@ table {
 .hud-container {
   .title {
     font-size: 1.75rem;
-    line-height: 2.5rem;
   	margin: 15px 0;
   	color: rgb(127, 154, 163);
-  	padding-left: 5px;
     border-bottom: $border-thick;
     .item {
       display: inline-block;
       margin-right: 20px;
+      &.active {
+        background-color: #8AA8B2;
+        color: white;
+        padding: 0 9px;
+      }
       &:not(.active) {
         color: #b8b8b8;
         cursor: pointer;
         &:hover {
           color: #666;
         }
+      }
+      .fa-stack {
+        font-size: 18px;
+        top: -3px;
       }
     }
   }
