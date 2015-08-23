@@ -1,4 +1,5 @@
 /* global Quintus */
+/* global FB */
 import Ember from 'ember';
 
 export default Ember.Component.extend({
@@ -1486,6 +1487,7 @@ export default Ember.Component.extend({
     		{
     			scoreInfo = "You beat your own highscore!\n\n";
           user.set('score', new_score);
+          self.sendScoreToFB(new_score);
     		}
 
         var new_stars_amount = user.get('stars') + (parseInt(Q.state.get('stars')) * parseInt(Q.state.get('level')));
@@ -1659,7 +1661,7 @@ export default Ember.Component.extend({
               rocket.get('canon').then(canon => {
 
                 if(!Ember.isEmpty(canon)) {
-                  if(canon.get('status') === 'locked') {
+                  if(canon.get('status') !== 'unlocked') {
                     Q.state.set('bullets', 0);
                     Q.state.set('bps', 0);
                   }
@@ -1693,7 +1695,7 @@ export default Ember.Component.extend({
               rocket.get('shield').then(shield => {
 
                 if(!Ember.isEmpty(shield)) {
-                  if(shield.get('status') === 'locked') {
+                  if(shield.get('status') !== 'unlocked') {
                     Q.state.set('shield', 0);
                     Q.state.set('srr', 0);
                   }
@@ -1727,7 +1729,7 @@ export default Ember.Component.extend({
               rocket.get('engine').then(engine => {
 
                 if(!Ember.isEmpty(engine)) {
-                  if(engine.get('status') === 'locked') {
+                  if(engine.get('status') !== 'unlocked') {
                     Q.state.set('slowdowns', 0);
                     Q.state.set('sdrr', 0);
                   }
@@ -1845,6 +1847,44 @@ export default Ember.Component.extend({
         }
       }
     );
+  },
+
+  sendScoreToFB: function(score) {
+    FB.api('/me/permissions', function(response)
+  	{
+	    if( !response.error )
+	    {
+        var hasPermission = false;
+
+        for( var i=0; i < response.data.length; i++ )
+      	{
+      	    if(response.data[i].permission === 'publish_actions' && response.data[i].status === 'granted' ) {
+              hasPermission = true;
+            }
+      	}
+
+      	if(hasPermission) {
+          FB.api('/me/scores/', 'post', { score: score }, function(response)
+        	{
+        		if( response.error )
+      	  	{
+      			  console.error('sendScoreToFB failed', response);
+      	  	}
+      	  	else
+      	  	{
+      	  		console.log('Score posted to Facebook', response);
+      	  	}
+        	});
+        }
+        else {
+          console.error('publish_actions permission not grantes - score not posted to FB');
+        }
+	    }
+	    else
+	    {
+	      	console.error('ERROR - /me/permissions', response);
+	    }
+  	});
   }
 
 });
