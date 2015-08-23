@@ -96,6 +96,122 @@
        id="linearGradient6478"
        xlink:href="#linearGradient4979-4-3"
        inkscape:collect="always" />
+    <linearGradient
+       y2="143.84879"
+       x2="89.529045"
+       y1="136.50583"
+       x1="152.28294"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient5002-7"
+       xlink:href="#linearGradient4979-4-4"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient4979-4-4">
+      <stop
+         style="stop-color:#ffff00;stop-opacity:1;"
+         offset="0"
+         id="stop4981-5-0" />
+      <stop
+         style="stop-color:#ff9e00;stop-opacity:1;"
+         offset="1"
+         id="stop4983-4-9" />
+    </linearGradient>
+    <linearGradient
+       y2="143.84879"
+       x2="89.529045"
+       y1="136.50583"
+       x1="152.28294"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient3033"
+       xlink:href="#linearGradient4979-4-4"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="143.84879"
+       x2="89.529045"
+       y1="136.50583"
+       x1="152.28294"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient6478-8"
+       xlink:href="#linearGradient4979-4-3-8"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient4979-4-3-8">
+      <stop
+         style="stop-color:#cdcdbb;stop-opacity:1;"
+         offset="0"
+         id="stop4981-5-5-2" />
+      <stop
+         style="stop-color:#726c62;stop-opacity:1;"
+         offset="1"
+         id="stop4983-4-2-4" />
+    </linearGradient>
+    <linearGradient
+       y2="143.84879"
+       x2="89.529045"
+       y1="136.50583"
+       x1="152.28294"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient3068"
+       xlink:href="#linearGradient4979-4-3-8"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="143.84879"
+       x2="89.529045"
+       y1="136.50583"
+       x1="152.28294"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient5002-1"
+       xlink:href="#linearGradient4979-4-7"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient4979-4-7">
+      <stop
+         style="stop-color:#ffff00;stop-opacity:1;"
+         offset="0"
+         id="stop4981-5-1" />
+      <stop
+         style="stop-color:#ff9e00;stop-opacity:1;"
+         offset="1"
+         id="stop4983-4-1" />
+    </linearGradient>
+    <linearGradient
+       y2="143.84879"
+       x2="89.529045"
+       y1="136.50583"
+       x1="152.28294"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient3104"
+       xlink:href="#linearGradient4979-4-7"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="143.84879"
+       x2="89.529045"
+       y1="136.50583"
+       x1="152.28294"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient6478-2"
+       xlink:href="#linearGradient4979-4-3-7"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient4979-4-3-7">
+      <stop
+         style="stop-color:#cdcdbb;stop-opacity:1;"
+         offset="0"
+         id="stop4981-5-5-6" />
+      <stop
+         style="stop-color:#726c62;stop-opacity:1;"
+         offset="1"
+         id="stop4983-4-2-1" />
+    </linearGradient>
+    <linearGradient
+       y2="143.84879"
+       x2="89.529045"
+       y1="136.50583"
+       x1="152.28294"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient3139"
+       xlink:href="#linearGradient4979-4-3-7"
+       inkscape:collect="always" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -176,7 +292,7 @@
     <path
        inkscape:export-ydpi="90"
        inkscape:export-xdpi="90"
-       inkscape:export-filename="C:\xampp\htdocs\LittleRocket\images\star_locked.png"
+       inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\star_locked.png"
        inkscape:transform-center-y="-9.3085338"
        inkscape:transform-center-x="0.85961512"
        transform="matrix(0.48694702,-0.32954722,0.31377895,0.51141744,-7.7884195,249.6103)"
@@ -200,8 +316,89 @@
        clip-rule="evenodd"
        d="m 108.8535,277.60096 v 4.84798 h -2.07772 c -1.53062,0 -2.77042,1.23973 -2.77042,2.77034 v 13.85178 c 0,1.53054 1.2398,2.77019 2.77042,2.77019 h 22.16257 c 1.53054,0 2.77057,-1.23965 2.77057,-2.77019 v -13.85178 c 0,-1.53061 -1.24003,-2.77034 -2.77057,-2.77034 h -2.07757 v -4.84798 c 0,-4.97262 -4.03118,-9.00357 -9.00364,-9.00357 -4.97246,0 -9.00364,4.03088 -9.00364,9.00357 z m 3.46296,4.84798 v -4.84798 c 0,-3.06116 2.47937,-5.54076 5.5406,-5.54076 3.06124,0 5.54076,2.4796 5.54076,5.54076 v 4.84798 h -11.08136 z m 2.77026,7.61848 c 0,-1.53054 1.23973,-2.77027 2.77034,-2.77027 1.53062,0 2.77027,1.23973 2.77027,2.77027 0,0.97665 -0.50571,1.83553 -1.26732,2.32721 0,0 0.27061,1.63483 0.57492,3.55985 0,0.57462 -0.46401,1.03863 -1.03893,1.03863 h -2.07787 c -0.57485,0 -1.03878,-0.46401 -1.03878,-1.03863 l 0.57492,-3.55985 c -0.76169,-0.49168 -1.26755,-1.35064 -1.26755,-2.32721 z"
        id="path3"
+       inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\star_locked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#c9991b;stroke-opacity:1"
+       inkscape:connector-curvature="0"
+       clip-rule="evenodd"
+       d="m 246.71065,381.17239 v 4.84798 h -2.07772 c -1.53062,0 -2.77042,1.23973 -2.77042,2.77034 v 13.85178 c 0,1.53054 1.2398,2.77019 2.77042,2.77019 h 22.16257 c 1.53054,0 2.77057,-1.23965 2.77057,-2.77019 v -13.85178 c 0,-1.53061 -1.24003,-2.77034 -2.77057,-2.77034 h -2.07757 v -4.84798 c 0,-4.97262 -4.03118,-9.00357 -9.00364,-9.00357 -4.97246,0 -9.00364,4.03088 -9.00364,9.00357 z m 3.46296,4.84798 v -4.84798 c 0,-3.06116 2.47937,-5.54076 5.5406,-5.54076 3.06124,0 5.54076,2.4796 5.54076,5.54076 v 4.84798 h -11.08136 z m 2.77026,7.61848 c 0,-1.53054 1.23973,-2.77027 2.77034,-2.77027 1.53062,0 2.77027,1.23973 2.77027,2.77027 0,0.97665 -0.50571,1.83553 -1.26732,2.32721 0,0 0.27061,1.63483 0.57492,3.55985 0,0.57462 -0.46401,1.03863 -1.03893,1.03863 h -2.07787 c -0.57485,0 -1.03878,-0.46401 -1.03878,-1.03863 l 0.57492,-3.55985 c -0.76169,-0.49168 -1.26755,-1.35064 -1.26755,-2.32721 z"
+       id="path3-1"
        inkscape:export-filename="C:\xampp\htdocs\LittleRocket\images\star_locked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\star_locked.png"
+       inkscape:transform-center-y="-9.3085338"
+       inkscape:transform-center-x="0.85961512"
+       transform="matrix(0.48694702,-0.32954722,0.31377895,0.51141744,-7.7884194,344.97791)"
+       d="m 202.07729,154.1734 -35.2602,6.81331 -13.99543,33.07311 -17.37584,-31.42901 -35.779229,-3.09029 24.521339,-26.23751 -8.11735,-34.983022 32.53087,15.213342 30.76243,-18.530403 -4.41616,35.639873 z"
+       inkscape:randomized="0"
+       inkscape:rounded="0"
+       inkscape:flatsided="false"
+       sodipodi:arg2="0.89011792"
+       sodipodi:arg1="0.26179939"
+       sodipodi:r2="26.722624"
+       sodipodi:r1="53.914379"
+       sodipodi:cy="140.21933"
+       sodipodi:cx="150"
+       sodipodi:sides="5"
+       id="path3959-0-9-8-5"
+       style="fill:url(#linearGradient3068);fill-opacity:1;stroke:#908f8b;stroke-opacity:1"
+       sodipodi:type="star" />
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\star_locked.png"
+       inkscape:transform-center-y="-9.3085338"
+       inkscape:transform-center-x="0.85961512"
+       transform="matrix(0.48694702,-0.32954722,0.31377895,0.51141744,-7.7884229,344.61029)"
+       d="m 202.07729,154.1734 -35.2602,6.81331 -13.99543,33.07311 -17.37584,-31.42901 -35.779229,-3.09029 24.521339,-26.23751 -8.11735,-34.983022 32.53087,15.213342 30.76243,-18.530403 -4.41616,35.639873 z"
+       inkscape:randomized="0"
+       inkscape:rounded="0"
+       inkscape:flatsided="false"
+       sodipodi:arg2="0.89011792"
+       sodipodi:arg1="0.26179939"
+       sodipodi:r2="26.722624"
+       sodipodi:r1="53.914379"
+       sodipodi:cy="140.21933"
+       sodipodi:cx="150"
+       sodipodi:sides="5"
+       id="path3959-0-9-5"
+       style="fill:url(#linearGradient3104);fill-opacity:1;stroke:#ffc800;stroke-opacity:1"
+       sodipodi:type="star" />
+    <path
+       style="fill:#999999;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-opacity:1"
+       inkscape:connector-curvature="0"
+       clip-rule="evenodd"
+       d="m 108.8535,372.96857 v 4.84798 h -2.07772 c -1.53062,0 -2.77042,1.23973 -2.77042,2.77034 v 13.85178 c 0,1.53054 1.2398,2.77019 2.77042,2.77019 h 22.16257 c 1.53054,0 2.77057,-1.23965 2.77057,-2.77019 v -13.85178 c 0,-1.53061 -1.24003,-2.77034 -2.77057,-2.77034 h -2.07757 v -4.84798 c 0,-4.97262 -4.03118,-9.00357 -9.00364,-9.00357 -4.97246,0 -9.00364,4.03088 -9.00364,9.00357 z m 3.46296,4.84798 v -4.84798 c 0,-3.06116 2.47937,-5.54076 5.5406,-5.54076 3.06124,0 5.54076,2.4796 5.54076,5.54076 v 4.84798 h -11.08136 z m 2.77026,7.61848 c 0,-1.53054 1.23973,-2.77027 2.77034,-2.77027 1.53062,0 2.77027,1.23973 2.77027,2.77027 0,0.97665 -0.50571,1.83553 -1.26732,2.32721 0,0 0.27061,1.63483 0.57492,3.55985 0,0.57462 -0.46401,1.03863 -1.03893,1.03863 h -2.07787 c -0.57485,0 -1.03878,-0.46401 -1.03878,-1.03863 l 0.57492,-3.55985 c -0.76169,-0.49168 -1.26755,-1.35064 -1.26755,-2.32721 z"
+       id="path3-5"
+       inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\star_locked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\star_coming_soon.png"
+       inkscape:transform-center-y="-9.3085338"
+       inkscape:transform-center-x="0.85961512"
+       transform="matrix(0.48694702,-0.32954722,0.31377895,0.51141744,-15.645562,113.54933)"
+       d="m 202.07729,154.1734 -35.2602,6.81331 -13.99543,33.07311 -17.37584,-31.42901 -35.779229,-3.09029 24.521339,-26.23751 -8.11735,-34.983022 32.53087,15.213342 30.76243,-18.530403 -4.41616,35.639873 z"
+       inkscape:randomized="0"
+       inkscape:rounded="0"
+       inkscape:flatsided="false"
+       sodipodi:arg2="0.89011792"
+       sodipodi:arg1="0.26179939"
+       sodipodi:r2="26.722624"
+       sodipodi:r1="53.914379"
+       sodipodi:cy="140.21933"
+       sodipodi:cx="150"
+       sodipodi:sides="5"
+       id="path3959-0-9-8-4"
+       style="fill:url(#linearGradient3139);fill-opacity:1;stroke:#908f8b;stroke-opacity:1"
+       sodipodi:type="star" />
   </g>
 </svg>

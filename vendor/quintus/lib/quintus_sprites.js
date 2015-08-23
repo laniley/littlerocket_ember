@@ -759,7 +759,7 @@ Quintus.Sprites = function(Q)
      this._super(p,
      {
        name:  "Level_Selection",
-       asset: "level_selection.png",
+       asset: "level_selection_coming_soon.png",
        x: 		 210,
        y: 		 300,
        scale:  Q.state.get('scale')

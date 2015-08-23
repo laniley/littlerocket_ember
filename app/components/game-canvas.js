@@ -286,8 +286,7 @@ export default Ember.Component.extend({
     		Q.pauseGame();
     	},
 
-    	levelUp: function()
-    	{
+    	levelUp: function() {
     		Q.state.set('level', Q.state.get('level') + 1);
 
     		distanceToGoalRef *= 1.2;
@@ -299,7 +298,7 @@ export default Ember.Component.extend({
         Q.state.set('maxSpeed', Q.state.get('maxSpeedRef'));
 
         self.get('me').get('user').then(user => {
-          if(Q.state.get('level') > user.get('reached_level') && Q.state.get('level') < 4)
+          if(Q.state.get('level') > user.get('reached_level') && Q.state.get('level') < 6)
           {
             user.set('reached_level', Q.state.get('level'));
             user.save();
@@ -648,7 +647,25 @@ export default Ember.Component.extend({
     			else {
             Q.state.set('shield_is_reloading', true);
 
-            Q.state.set('shield', Q.state.get('shield') - this.p.hitPoints);
+            if(Q.state.get('shield') - this.p.hitPoints > 0) {
+              Q.state.set('shield', Q.state.get('shield') - this.p.hitPoints);
+            }
+            else if(Q.state.get('shield') - this.p.hitPoints < 0) {
+              Q.state.set('shield', Q.state.get('shield') - this.p.hitPoints);
+
+              colObj.collided = true;
+
+        			Q.audio.stop('rocket.mp3');
+        			Q.audio.stop('racing.mp3');
+        			Q.audio.play('explosion.mp3');
+
+        			globalSpeedRef = 0;
+
+        			Q.stageScene("gameOver", 2);
+            }
+            else {
+              Q.state.set('shield', 0);
+            }
 
             var timeout = setTimeout(function() {
               Q.state.set('shield_is_reloading', false);
@@ -684,6 +701,7 @@ export default Ember.Component.extend({
     			tileW:  70,
     			tileH:  70,
     			scale: Q.state.get('scale'),
+          speedFactor: 1.2,
           hitPoints: 1,
     			points: []
     		});
@@ -729,6 +747,7 @@ export default Ember.Component.extend({
 
     			scale: Q.state.get('scale'),
     			points: [],
+          speedFactor: 1,
           hitPoints: 2,
     			isExploded: false
     		});
@@ -779,13 +798,14 @@ export default Ember.Component.extend({
     			y:      0,
 
     			scale: Q.state.get('scale'),
+          speedFactor: 1,
           hitPoints: 3,
     			points: [],
     			isExploded: false
     		});
 
     		// collision points berechnen
-    		var radius = this.p.tileW / 2 - 3;
+    		var radius = this.p.tileW / 4;
     		var winkel = 0;
 
     		for(var i = 0; i < 10; i++)
@@ -806,7 +826,23 @@ export default Ember.Component.extend({
 
     	explode: function()
     	{
-    		this.play('explosion');
+        var winkel = 0;
+        var radiusStart = this.p.tileW / 4;
+        var radiusEnd = this.p.tileW / 2;
+
+        for(var radius = radiusStart; radius < radiusEnd; radius++) {
+          this.p.point = [];
+          for(var i = 0; i < 10; i++) {
+      			winkel += (Math.PI * 2) / 10;
+
+      			var x = Math.floor(Math.sin(winkel) * radius);
+      			var y = Math.floor(Math.cos(winkel) * radius);
+
+      			this.p.points.push([x, y]);
+      		}
+        }
+
+        this.play('explosion');
     	}
     });
 
@@ -840,7 +876,7 @@ export default Ember.Component.extend({
     		switch(p.direction)
     		{
     			case "down":
-              p.vy = Q.state.get('speed') * 1.2;
+              p.vy = Q.state.get('speed') * p.speedFactor;
     					break;
     		}
 
@@ -851,7 +887,7 @@ export default Ember.Component.extend({
     		  	this.entity.explode();
     		}
 
-    		else if(p.y > Q.height)
+        if(p.y > Q.height)
     		{
     			  this.entity.destroy();
     		}
@@ -887,7 +923,7 @@ export default Ember.Component.extend({
     	{
     		this.p =
     		{
-    			launchDelay: 0.8 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed')),
+    			launchDelay: 1 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed')),
     			launchRandomFactor: 1,
     			launch: 1
     		};
@@ -897,7 +933,7 @@ export default Ember.Component.extend({
     	{
     		this.p.launch -= dt;
 
-    		if(!Q.state.get('isPaused') && this.p.launch < 0)
+    		if(!Q.state.get('isPaused') && this.p.isActive && this.p.launch < 0)
     		{
     			this.stage.insert(new Q.BigAsteroid());
     			this.p.launch = this.p.launchDelay + this.p.launchRandomFactor * Math.random();
@@ -1264,12 +1300,22 @@ export default Ember.Component.extend({
     		assetLevel3 = 'star.png';
       }
 
-    	var assetLevel4 = 'star_locked.png';
-    	var assetLevel5 = 'star_locked.png';
-    	var assetLevel6 = 'star_locked.png';
-    	var assetLevel7 = 'star_locked.png';
-    	var assetLevel8 = 'star_locked.png';
-    	var assetLevel9 = 'star_locked.png';
+      var assetLevel4 = 'star_locked.png';
+
+    	if(self.get('me').get('user').get('reached_level') > 3) {
+    		assetLevel4 = 'star.png';
+      }
+
+      var assetLevel5 = 'star_locked.png';
+
+    	if(self.get('me').get('user').get('reached_level') > 4) {
+    		assetLevel5 = 'star.png';
+      }
+
+    	var assetLevel6 = 'star_coming_soon.png';
+    	var assetLevel7 = 'star_coming_soon.png';
+    	var assetLevel8 = 'star_coming_soon.png';
+    	var assetLevel9 = 'star_coming_soon.png';
 
       // Level 1
       var level1Button = stage.insert(new Q.UI.Button
@@ -1326,46 +1372,56 @@ export default Ember.Component.extend({
 
       level3Button.on("click", function()
       {
-      		if(self.get('me').get('user').get('reached_level') > 2)
-      		{
-            Q.state.set('level', 3);
-      			Q.clearStages();
-      			Q.stageScene("mainMenu");
-      		}
+    		if(self.get('me').get('user').get('reached_level') > 2)
+    		{
+          Q.state.set('level', 3);
+    			Q.clearStages();
+    			Q.stageScene("mainMenu");
+    		}
       });
 
     	// Level 4
     	var level4Button = stage.insert(new Q.UI.Button
     	(
-    		{
-    	      asset: 	assetLevel4,
-    	      x: 		323,
-    	      y: 		370,
-    	      scale: 	0.7,
-    	      label: 	'4'
-        	}
-       ));
+  		  {
+  	      asset: 	assetLevel4,
+  	      x: 		323,
+  	      y: 		370,
+  	      scale: 	0.7,
+  	      label: 	'4'
+      	}
+      ));
 
-       level4Button.on("click", function()
-    	{
-
-    	});
+      level4Button.on("click", function()
+      {
+        if(self.get('me').get('user').get('reached_level') > 3)
+      	{
+          Q.state.set('level', 4);
+      		Q.clearStages();
+      		Q.stageScene("mainMenu");
+      	}
+      });
 
     	// Level 5
     	var level5Button = stage.insert(new Q.UI.Button
     	(
     		{
-    	      asset: 	assetLevel5,
-    	      x: 		210,
-    	      y: 		335,
-    	      scale: 	0.7,
-    	      label: 	'5'
-        	}
-       ));
+  	      asset: 	assetLevel5,
+  	      x: 		210,
+  	      y: 		335,
+  	      scale: 	0.7,
+  	      label: 	'5'
+        }
+      ));
 
-       level5Button.on("click", function()
+      level5Button.on("click", function()
     	{
-
+        if(self.get('me').get('user').get('reached_level') > 4)
+      	{
+          Q.state.set('level', 5);
+      		Q.clearStages();
+      		Q.stageScene("mainMenu");
+      	}
     	});
 
     	// Level 6
@@ -1837,11 +1893,12 @@ export default Ember.Component.extend({
     Q.load
     (
       [
-        "level_selection.png",
+        "level_selection_coming_soon.png",
         "rocket.png",
         "bullet.png",
         "star.png",
         "star_locked.png",
+        "star_coming_soon.png",
         "asteroid.png",
         "bigAsteroid.png",
         "explodingAsteroid.png",
@@ -1912,6 +1969,7 @@ export default Ember.Component.extend({
 
     var asteroidMaker = Q.state.get('asteroidMaker');
     var bigAsteroidMaker = Q.state.get('bigAsteroidMaker');
+    var explodingAsteroidMaker = Q.state.get('explodingAsteroidMaker');
     var ufoMaker = Q.state.get('ufoMaker');
 
     asteroidMaker.p.launchRandomFactor = 0.53;
@@ -1938,8 +1996,30 @@ export default Ember.Component.extend({
       Q.stage().insert(bigAsteroidMaker);
 
       asteroidMaker.p.launchRandomFactor = 0.8;
-      bigAsteroidMaker.p.launchRandomFactor = 0.8;
+      bigAsteroidMaker.p.launchRandomFactor = 0.9;
       ufoMaker.p.isActive = 0;
+      bigAsteroidMaker.p.isActive = 1;
+    }
+    if(level >= 4)
+    {
+      asteroidMaker.p.launchRandomFactor = 1.3;
+      bigAsteroidMaker.p.launchRandomFactor = 1.6;
+      ufoMaker.p.isActive = 1;
+      bigAsteroidMaker.p.isActive = 1;
+    }
+    if(level >= 5)
+    {
+      if(!explodingAsteroidMaker) {
+        explodingAsteroidMaker = new Q.ExplodingAsteroidMaker();
+        Q.state.set('explodingAsteroidMaker', explodingAsteroidMaker);
+      }
+
+      Q.stage().insert(explodingAsteroidMaker);
+
+      asteroidMaker.p.launchRandomFactor = 1.3;
+      bigAsteroidMaker.p.launchRandomFactor = 1.6;
+      ufoMaker.p.isActive = 1;
+      bigAsteroidMaker.p.isActive = 0;
     }
   },
 
