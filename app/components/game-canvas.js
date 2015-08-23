@@ -66,7 +66,6 @@ export default Ember.Component.extend({
     Q.SPRITE_ROCKET   = 1;
     Q.SPRITE_STAR     = 2;
     Q.SPRITE_ASTEROID = 4;
-    // Q.MENU_ICON       = 8;
     Q.SPRITE_BULLET	  = 16;
 
     Q.state.set('scale', 1);
@@ -307,16 +306,7 @@ export default Ember.Component.extend({
           }
         });
 
-    		if(Q.state.get('level') === 2)
-    		{
-    			Q.stage().insert(new Q.UfoMaker());
-    			asteroidMaker.p.launchDelay = 0.6 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed'));
-    		}
-
-    		if(Q.state.get('level') === 3)
-    		{
-    			Q.stage().insert(new Q.ExplodingAsteroidMaker());
-    		}
+        self.setupLevel(Q.state.get('level'));
     	}
     });
 
@@ -499,24 +489,20 @@ export default Ember.Component.extend({
     	}
     });
 
-    Q.GameObject.extend("UfoMaker",
-    {
-    	init: function()
-    	{
+    Q.GameObject.extend("UfoMaker", {
+    	init: function() {
     		this.p =
     		{
     			launchDelay: 1.2 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed')),
     			launchRandom: 1,
-    			launch: 1
+    			launch: 1,
+          isActive: 1
     		};
     	},
+     	update: function(dt) {
+  	  	this.p.launch -= dt;
 
-     	update: function(dt)
-     	{
-    	  	this.p.launch -= dt;
-
-    	  	if(!Q.state.get('isPaused') && this.p.launch < 0)
-    	  	{
+  	  	if(!Q.state.get('isPaused') && this.p.isActive && this.p.launch < 0) {
     			this.stage.insert(new Q.Ufo());
     			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
     		}
@@ -825,8 +811,8 @@ export default Ember.Component.extend({
     	{
     		this.p =
     		{
-    			launchDelay: 0.4 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed')),
-    			launchRandom: 1,
+    			launchDelay: (Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed'))) * 0.3,
+          launchRandomFactor: Math.random() * 0.6,
     			launch: 1
     		};
     	},
@@ -837,7 +823,7 @@ export default Ember.Component.extend({
 
     	  	if(!Q.state.get('isPaused') && this.p.launch < 0) {
       			this.stage.insert(new Q.NormalAsteroid());
-      			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
+      			this.p.launch = this.p.launchDelay + this.p.launchRandomFactor * Math.random();
     		  }
      	}
     });
@@ -1403,21 +1389,13 @@ export default Ember.Component.extend({
 
   		stage.insert(new Q.StarMaker());
 
-  		asteroidMaker = new Q.AsteroidMaker();
+      var asteroidMaker = new Q.AsteroidMaker();
+      Q.state.set('asteroidMaker', asteroidMaker);
   		stage.insert(asteroidMaker);
 
   		stage.insert(new Q.Rocket({x: Q.width/2, y: rocket_y }));
 
-  		if(Q.state.get('level') > 1)
-  		{
-  			asteroidMaker.p.launchDelay = 0.6 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed'));
-  			Q.stage().insert(new Q.UfoMaker());
-  		}
-
-  		if(Q.state.get('level') > 2)
-  		{
-  			Q.stage().insert(new Q.ExplodingAsteroidMaker());
-  		}
+      self.setupLevel(Q.state.get('level'));
 
   		Q.stageScene('hud', 3, Q('Rocket').first().p);
 
@@ -1847,6 +1825,38 @@ export default Ember.Component.extend({
         }
       }
     );
+  },
+
+  setupLevel: function(level) {
+
+    var Q = this.get('Q');
+
+    var asteroidMaker = Q.state.get('asteroidMaker');
+    var ufoMaker = Q.state.get('ufoMaker');
+
+    asteroidMaker.p.launchRandomFactor = 0.53;
+
+    if(level >= 2)
+    {
+      if(!ufoMaker) {
+        ufoMaker = new Q.UfoMaker();
+        Q.state.set('ufoMaker', ufoMaker);
+      }
+
+      Q.stage().insert(ufoMaker);
+
+      asteroidMaker.p.launchRandomFactor = 0.7;
+      ufoMaker.p.isActive = 1;
+    }
+    if(level >= 3)
+    {
+      Q.stage().insert(new Q.ExplodingAsteroidMaker());
+
+      asteroidMaker.p.launchRandomFactor = 0.8;
+      ufoMaker.p.isActive = 0;
+    }
+
+    console.log('test2',asteroidMaker.p.launchRandomFactor);
   },
 
   sendScoreToFB: function(score) {
