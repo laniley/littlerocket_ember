@@ -1,18 +1,36 @@
 <div class="row">
 
-  <canvas id='game' width='420' height='600'>
-    Your browser doesn't support this game. :(
-  </canvas>
+  <div id="game_canvas_container" style="width: 420px; margin: 0px auto; position: relative;">
 
-  {{#if isLoading}}
-    <div id='loading'>
-      <div id='loading_container'>
-        <div id='loading_progress'>
-          <span>loading...</span>
+    <canvas id='game' width='420' height='600'>
+      Your browser doesn't support this game. :(
+    </canvas>
+
+    {{#if isLoading}}
+      <div id='loading'>
+        <div id='loading_container'>
+          <div id='loading_progress'>
+            <span>loading...</span>
+          </div>
         </div>
       </div>
-    </div>
-  {{/if}}
+    {{/if}}
+
+    {{#if (if-equals currentScene 'gameOver') }}
+      <div class="gameOver">
+        {{#if newHighscore }}
+          You beat your own highscore! <br /><br />
+        {{else}}
+          Your score: <br /><br />
+        {{/if}}
+        {{new_score}} <br /><br />
+        distance: {{distance}} <br />
+        stars: {{stars}} <br />
+        x {{level}} ( level )
+      </div>
+    {{/if}}
+
+  </div>
 
 </div>
 

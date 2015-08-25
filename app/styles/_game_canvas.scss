@@ -1,0 +1,19 @@
+.gameOver {
+
+  position: absolute;
+  bottom: 45%;
+  left: 50%;
+  margin-left: -25%;
+  width: 50%;
+  border-radius: 5px;
+  padding: 15px;
+
+  background-color: #576C73;
+  opacity: 0.85;
+  color: white;
+
+  font-weight: 700;
+  font-size: 1.2rem;
+  font-family: Helvetica;
+  text-align: center;
+}

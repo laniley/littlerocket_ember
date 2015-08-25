@@ -12,6 +12,12 @@ export default Ember.Component.extend({
   engineReloadingTimeout: null,
   isLoading: true,
   gameCanvasIsLoaded: false,
+  currentScene: null,
+  newHighscore: false,
+  new_score: 0,
+  distance: 0,
+  stars: 0,
+  level: 0,
 
   didInsertElement: function() {
 
@@ -1155,6 +1161,8 @@ export default Ember.Component.extend({
 
   	Q.scene("mainMenu",function(stage) {
 
+      self.set('currentScene', 'mainMenu');
+
   		Q.pauseGame();
 
   		Q.audio.stop('rocket.mp3');
@@ -1279,6 +1287,8 @@ export default Ember.Component.extend({
   	});
 
     Q.scene("levelSelection", function(stage) {
+
+      self.set('currentScene', 'levelSelection');
 
     	Q.pauseGame();
 
@@ -1495,6 +1505,8 @@ export default Ember.Component.extend({
 
   	Q.scene("level", stage => {
 
+      self.set('currentScene', 'level');
+
   		Q.unpauseGame();
 
       Q.audio.play('racing.mp3', { loop: true });
@@ -1574,32 +1586,24 @@ export default Ember.Component.extend({
         clearTimeout(self.get('engineReloadingTimeout'));
       }
 
-  		var scoreInfo = "Your score:\n\n";
-
-      var containerText = stage.insert(new Q.UI.Container
-      ({
-          x: Q.width/2, y: Q.height/3 + 70, fill: "rgba(0,0,0,0.5)"
-      }));
-
-      var color = 'white';
-      var size = 20;
-
-      if(Q.state.get('scale') > 1)
-      {
-        color = 'black';
-        size = 30;
-      }
-
-      var new_score = (parseInt(Q.state.get('distance')) + parseInt(Q.state.get('stars'))) * parseInt(Q.state.get('level'));
+      self.set('new_score', (parseInt(Q.state.get('distance')) + parseInt(Q.state.get('stars'))) * parseInt(Q.state.get('level')));
 
       self.get('me').get('user').then(user => {
 
-        if(new_score > user.get('score'))
-    		{
-    			scoreInfo = "You beat your own highscore!\n\n";
-          user.set('score', new_score);
-          self.sendScoreToFB(new_score);
+        if(self.get('new_score') > user.get('score')) {
+          user.set('score', self.get('new_score'));
+          self.sendScoreToFB(self.get('new_score'));
+          self.set('newHighscore', true);
     		}
+        else {
+          self.set('newHighscore', false);
+        }
+
+        self.set('distance', parseInt(Q.state.get('distance')));
+        self.set('stars', parseInt(Q.state.get('stars')));
+        self.set('level', parseInt(Q.state.get('level')));
+
+        self.set('currentScene', 'gameOver');
 
         var new_stars_amount = user.get('stars') + (parseInt(Q.state.get('stars')) * parseInt(Q.state.get('level')));
         user.set('stars', new_stars_amount);
@@ -1611,51 +1615,28 @@ export default Ember.Component.extend({
           });
         });
 
-    		stage.insert(new Q.UI.Text
-    		({
-    				label: scoreInfo + new_score + "\n\n" +
-                   'distance: ' + (parseInt(Q.state.get('distance')) + '\n' +
-                   'stars: ' + parseInt(Q.state.get('stars'))) + '\n' +
-                   'x ' + parseInt(Q.state.get('level')) + ' (level)',
-    				color: color,
-    				x: 0,
-    				y: 0,
-    				size: size,
-    				align: 'center',
-    				scale: Q.state.get('scale')
-    		}), containerText);
-
-    		if(Q.state.get('scale') === 1) {
-          containerText.fit(20);
-        }
-
       });
 
       // Try again
-      var container = stage.insert(new Q.UI.Container
-      ({
-          x: Q.width/2, y: (Q.height/2 + 130 * Q.state.get('scale'))
+      var container = stage.insert( new Q.UI.Container ({
+          x: Q.width/2,
+          y: (Q.height/2 + 130 * Q.state.get('scale'))
       }));
 
-      var buttonTryAgain = container.insert
-      (
-        new Q.UI.Button
-        ({
-          x: 0,
-          y: 0,
-          fontColor: Q.state.get('buttonTextColorSelected'),
-          stroke: Q.state.get('buttonTextColorSelected'),
-  				fill: Q.state.get('buttonFillColorSelected'),
-          shadow: 5,
-          shadowColor: "rgba(0,0,0,0.5)",
-          label: "Try level again",
-          border: 2,
-          scale: Q.state.get('scale')
-       })
-      );
+      var buttonTryAgain = container.insert ( new Q.UI.Button ({
+        x: 0,
+        y: 0,
+        fontColor: Q.state.get('buttonTextColorSelected'),
+        stroke: Q.state.get('buttonTextColorSelected'),
+				fill: Q.state.get('buttonFillColorSelected'),
+        shadow: 5,
+        shadowColor: "rgba(0,0,0,0.5)",
+        label: "Try level again",
+        border: 2,
+        scale: Q.state.get('scale')
+      }));
 
-      buttonTryAgain.on("click",function()
-      {
+      buttonTryAgain.on("click",function() {
           Q.clearStages();
           Q.stageScene('level');
           Q.stageScene('hud', 3, Q('Rocket').first().p);
@@ -1664,15 +1645,12 @@ export default Ember.Component.extend({
       container.fit(20);
 
       // Select level
-      var containerSelectLevel = stage.insert(new Q.UI.Container
-      ({
-          x: Q.width/2, y: (Q.height/2 + 200 * Q.state.get('scale'))
+      var containerSelectLevel = stage.insert( new Q.UI.Container ({
+          x: Q.width/2,
+          y: (Q.height/2 + 200 * Q.state.get('scale'))
       }));
 
-      var buttonSelectLevel = containerSelectLevel.insert
-      (
-        new Q.UI.Button
-        ({
+      var buttonSelectLevel = containerSelectLevel.insert ( new Q.UI.Button ({
           x: 0,
           y: 0,
           fill: "#CCCCCC",
@@ -1680,11 +1658,9 @@ export default Ember.Component.extend({
           shadowColor: "rgba(0,0,0,0.5)",
           border: 2,
           scale: Q.state.get('scale')
-       })
-      );
+      }));
 
-      buttonSelectLevel.on("click",function()
-      {
+      buttonSelectLevel.on("click",function() {
           Q.clearStages();
           Q.stageScene('levelSelection');
       });
@@ -1694,8 +1670,7 @@ export default Ember.Component.extend({
       var currentSelectedButton = 'buttonTryAgain';
 
       // inputs
-  		Q.input.on("enter", this, function()
-  		{
+  		Q.input.on("enter", this, function() {
         if(currentSelectedButton === 'buttonTryAgain') {
           Q.clearStages();
           Q.stageScene('level');
@@ -1707,8 +1682,7 @@ export default Ember.Component.extend({
         }
   		});
 
-      Q.input.on("up", this, function()
-  		{
+      Q.input.on("up", this, function() {
           buttonSelectLevel.p.fill = Q.state.get('buttonFillColorUnselected');
           buttonTryAgain.p.fill = Q.state.get('buttonFillColorSelected');
 
@@ -1724,8 +1698,7 @@ export default Ember.Component.extend({
           currentSelectedButton = 'buttonTryAgain';
   		});
 
-      Q.input.on("down", this, function()
-  		{
+      Q.input.on("down", this, function() {
 		  		buttonTryAgain.p.fill = Q.state.get('buttonFillColorUnselected');
           buttonSelectLevel.p.fill = Q.state.get('buttonFillColorSelected');
 
@@ -1740,9 +1713,7 @@ export default Ember.Component.extend({
 
           currentSelectedButton = 'buttonSelectLevel';
   		});
-
     });
-
     this.set('Q', Q);
   },
 
