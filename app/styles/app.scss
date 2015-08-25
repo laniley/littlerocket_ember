@@ -413,6 +413,13 @@ table {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c69ba', endColorstr='#4c69ba',GradientType=0 ); /* IE6-9 */
 	}
 
+  &.post {
+    font-size: 1.2rem;
+    padding: 3px;
+    border: 1px solid #2C2B54;
+    margin-top: 20px;
+  }
+
   .fa {
     margin-right: 5px;
   }

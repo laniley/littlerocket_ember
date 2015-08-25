@@ -27,6 +27,13 @@
         distance: {{distance}} <br />
         stars: {{stars}} <br />
         x {{level}} ( level )
+
+        {{#if newHighscore }}
+          {{#unless hasPostPermission}}
+            <div class="fb-button post" {{action 'postScoreToFB'}}>{{unbound fa-icon "facebook-square"}} post</div>
+          {{/unless}}
+        {{/if}}
+
       </div>
     {{/if}}
 

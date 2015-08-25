@@ -6,6 +6,7 @@ export default Ember.Component.extend({
 
   Q: null,
   me: null,
+  hasPostPermission: false,
   rocket: null,
   canonReloadingTimeout: null,
   shieldReloadingTimeout: null,
@@ -14,6 +15,7 @@ export default Ember.Component.extend({
   gameCanvasIsLoaded: false,
   currentScene: null,
   newHighscore: false,
+  old_score: 0,
   new_score: 0,
   distance: 0,
   stars: 0,
@@ -1590,6 +1592,8 @@ export default Ember.Component.extend({
 
       self.get('me').get('user').then(user => {
 
+        self.set('old_score', user.get('score'));
+
         if(self.get('new_score') > user.get('score')) {
           user.set('score', self.get('new_score'));
           self.sendScoreToFB(self.get('new_score'));
@@ -1995,20 +1999,20 @@ export default Ember.Component.extend({
   },
 
   sendScoreToFB: function(score) {
-    FB.api('/me/permissions', function(response)
-  	{
-	    if( !response.error )
-	    {
-        var hasPermission = false;
 
-        for( var i=0; i < response.data.length; i++ )
-      	{
+    FB.api('/me/permissions', response => {
+
+      if( !response.error ) {
+
+        this.set('hasPostPermission', false);
+
+        for( var i=0; i < response.data.length; i++ ) {
       	    if(response.data[i].permission === 'publish_actions' && response.data[i].status === 'granted' ) {
-              hasPermission = true;
+              this.set('hasPostPermission', true);
             }
       	}
 
-      	if(hasPermission) {
+      	if(this.get('hasPostPermission')) {
           FB.api('/me/scores/', 'post', { score: score }, function(response)
         	{
         		if( response.error )
@@ -2022,7 +2026,7 @@ export default Ember.Component.extend({
         	});
         }
         else {
-          console.error('publish_actions permission not grantes - score not posted to FB');
+          // show post to FB button
         }
 	    }
 	    else
@@ -2030,6 +2034,26 @@ export default Ember.Component.extend({
 	      	console.error('ERROR - /me/permissions', response);
 	    }
   	});
+  },
+
+  actions: {
+    postScoreToFB: function() {
+
+      var old_score = this.get('old_score');
+      var new_score = this.get('new_score');
+
+      FB.ui({
+        method: 'share_open_graph',
+        action_type: 'games.highscores',
+        action_properties: JSON.stringify({
+          game:'https://apps.facebook.com/little_rocket/',
+          old_high_score: old_score,
+          new_high_score: new_score
+        })
+      }, function(response){
+        console.log(response);
+      });
+    }
   }
 
 });
