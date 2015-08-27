@@ -12,6 +12,11 @@
   src:  url('/assets/fonts/agency_fb.ttf') format('truetype') /* Safari, Android, iOS, Chrome, Firefox */
 }
 
+$bp-xs-max: 950px;
+$bp-md-min: 951px;
+$bp-md-max: 1442px;
+$bp-lg-min: 1443px;
+
 body
 {
 	margin: 			0px;
@@ -352,16 +357,13 @@ table {
   display: block;
 }
 
-.game {
-  @media (max-width: 800px)
+.cockpit {
+  @media (max-width: $bp-xs-max)
   {
-    @include grid-column(
-      // Control the number of columns
-      $columns:12
-    );
+    display: none;
   }
 
-  @media (min-width: 801px) and (max-width: 1442px)
+  @media (min-width: $bp-md-min) and (max-width: $bp-md-max)
   {
     @include grid-column(
       // Control the number of columns
@@ -369,7 +371,58 @@ table {
     );
   }
 
-  @media (min-width: 1443px)
+  @media (min-width: $bp-lg-min)
+  {
+    @include grid-column(
+      // Control the number of columns
+      $columns:4
+    );
+  }
+}
+
+.game {
+  @media (max-width: $bp-xs-max)
+  {
+    @include grid-column(
+      // Control the number of columns
+      $columns:12
+    );
+  }
+
+  @media (min-width: $bp-md-min) and (max-width: $bp-md-max)
+  {
+    @include grid-column(
+      // Control the number of columns
+      $columns:6
+    );
+  }
+
+  @media (min-width: $bp-lg-min)
+  {
+    @include grid-column(
+      // Control the number of columns
+      $columns:4
+    );
+  }
+}
+
+.leaderboard {
+  @media (max-width: $bp-xs-max)
+  {
+    display: none;
+  }
+
+  @media (min-width: $bp-md-min) and (max-width: $bp-md-max)
+  {
+    @include grid-column(
+      // Control the number of columns
+      $columns:6,
+      // Specify how many columns to pull this element past
+			$pull:3
+    );
+  }
+
+  @media (min-width: $bp-lg-min)
   {
     @include grid-column(
       // Control the number of columns

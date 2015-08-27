@@ -4,28 +4,6 @@
 }
 
 .leaderboard {
-  @media (max-width: 800px)
-  {
-    display: none;
-  }
-
-  @media (min-width: 801px) and (max-width: 1442px)
-  {
-    @include grid-column(
-      // Control the number of columns
-      $columns:6,
-      // Specify how many columns to pull this element past
-			$pull:6
-    );
-  }
-
-  @media (min-width: 1443px)
-  {
-    @include grid-column(
-      // Control the number of columns
-      $columns:4
-    );
-  }
 
   .fb-publish-actions-not-granted {
 		margin-bottom: 20px;

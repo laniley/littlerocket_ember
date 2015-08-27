@@ -1,25 +1,4 @@
 .cockpit {
-  @media (max-width: 800px)
-  {
-    display: none;
-  }
-
-  @media (min-width: 801px) and (max-width: 1442px)
-  {
-    @include grid-column(
-      // Control the number of columns
-      $columns:6
-    );
-  }
-
-  @media (min-width: 1443px)
-  {
-    @include grid-column(
-      // Control the number of columns
-      $columns:4
-    );
-  }
-
   .content {
     .player-infos {
       height: 110px;
@@ -27,27 +6,14 @@
 
       .left-column {
         width: 55%;
-        margin-right: 5%;
+        margin-right: 2%;
         float: left;
       }
 
       .right-column {
-        width: 40%;
+        width: 43%;
         float: left;
       }
-
-      // .img_container {
-      //   float: left;
-      //   height: 90px;
-      //   width: 90px;
-      //   margin-right: 5%;
-      //   background-color: $darkblue;
-      //
-      //   @media (min-width: 801px) and (max-width: 1442px)
-      //   {
-      //     display: none;
-      //   }
-      // }
     }
 
     #workbench {
