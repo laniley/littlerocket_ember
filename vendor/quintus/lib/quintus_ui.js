@@ -504,35 +504,11 @@ Quintus.UI = function(Q)
       }
 
       // Center?
-      var totalSepartion = this.p.h - totalHeight;
 
       // Make sure all elements have the same space between them
     }
   });
 
-  Q.UI.Text.extend("ScoreText",
-  {
-    init: function(container)
-    {
-      this._super
-      ({
-         x: 0,
-         y: 0,
-         label: "0\n",
-         color: "black",
-         size: Q.state.get('scale') * 25,
-         outlineWidth: container.width
-      });
-
-      Q.state.on("change.distance",this,"updateText");
-    	Q.state.on("change.stars",this,"updateText");
-    },
-
-    updateText: function(newVal)
-    {
-        this.p.label = (parseInt(Q.state.get("stars")) + parseInt(Q.state.get("distance"))) + "\n";
-    }
-  });
 
   Q.UI.Text.extend("DistanceText",
   {
@@ -605,8 +581,7 @@ Quintus.UI = function(Q)
 
   Q.UI.Text.extend("SpeedText",
   {
-     init: function(container, p)
-     {
+     init: function(container) {
         this._super
         ({
            x: 0,
@@ -644,7 +619,7 @@ Quintus.UI = function(Q)
       Q.state.on("change.distanceToGoal",this,"updateText");
     },
 
-     updateText: function(newVal)
+     updateText: function()
      {
         this.p.label = parseInt(Q.state.get('distanceToGoal')) + "\n";
      }
@@ -690,7 +665,7 @@ Quintus.UI = function(Q)
       Q.state.on("change.canon_is_reloading",this,"updateText");
     },
 
-    updateText: function(newVal)
+    updateText: function()
     {
       if(Q.state.get("canon_is_reloading")) {
         this.p.label = "Reloading\n";
@@ -741,7 +716,7 @@ Quintus.UI = function(Q)
       Q.state.on("change.shield_is_reloading",this,"updateText");
     },
 
-    updateText: function(newVal)
+    updateText: function()
     {
       if(Q.state.get("shield_is_reloading")) {
         this.p.label = "Reloading\n";
@@ -792,7 +767,7 @@ Quintus.UI = function(Q)
       Q.state.on("change.engine_is_reloading",this,"updateText");
     },
 
-    updateText: function(newVal)
+    updateText: function()
     {
       if(Q.state.get("engine_is_reloading")) {
         this.p.label = "Reloading\n";

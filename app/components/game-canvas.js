@@ -16,12 +16,17 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   isLoading: true,
   gameCanvasIsLoaded: false,
   currentScene: null,
+  showHud: false,
   newHighscore: false,
   old_score: 0,
-  new_score: 0,
   distance: 0,
   stars: 0,
-  level: 0,
+  level: 1,
+
+  new_score: function() {
+    return (this.get('distance') + this.get('stars')) * this.get('level');
+  }.property('distance', 'stars', 'level'),
+
 
   didInsertElement: function() {
 
@@ -188,6 +193,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
     				Q.state.set("distanceToGoal", Q.state.get("distanceToGoal") - 1);
     				Q.state.set("distance", Q.state.get("distance") + 1);
+            self.set('distance', self.get('distance') + 1);
 
     				this.p.lastSpeedUp = 0;
     			}
@@ -299,6 +305,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
     	levelUp: function() {
     		Q.state.set('level', Q.state.get('level') + 1);
+        self.set('level', self.get('level') + 1);
 
     		distanceToGoalRef *= 1.2;
     		globalSpeedRef    *= 1.2;
@@ -553,6 +560,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
     				// Destroy it and count up score
     				colObj.p.stars++;
+            self.set('stars', self.get('stars') + 1);
 
     				Q.state.set("stars", colObj.p.stars);
 
@@ -984,21 +992,6 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   		stage.insert(new Q.SpeedIcon());
   		stage.insert(new Q.GoalIcon());
 
-  		var scoreContainer = stage.insert
-  		(
-  			new Q.UI.Container
-  			(
-  			  {
-  					x: Q.state.get('scale') * 10,
-  					y: Q.state.get('scale') * 10
-  			  }
-  			)
-  		);
-
-  		scoreContainer.insert(new Q.ScoreText(scoreContainer));
-
-  		scoreContainer.fit(0);
-
   		// Values
   		var container = stage.insert
   		(
@@ -1167,6 +1160,10 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   	Q.scene("mainMenu",function(stage) {
 
       self.set('currentScene', 'mainMenu');
+      self.set('showHud', true);
+
+      self.set('distance', 0);
+      self.set('stars', 0);
 
   		Q.pauseGame();
 
@@ -1294,6 +1291,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
     Q.scene("levelSelection", function(stage) {
 
       self.set('currentScene', 'levelSelection');
+      self.set('showHud', false);
 
     	Q.pauseGame();
 
@@ -1347,6 +1345,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
       level1Button.on("click", function()
       {
           Q.state.set('level', 1);
+          self.set('level', 1);
       		Q.clearStages();
       		Q.stageScene("mainMenu");
       });
@@ -1368,6 +1367,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
       		if(self.get('me').get('user').get('reached_level') > 1)
       		{
             Q.state.set('level', 2);
+            self.set('level', 2);
       			Q.clearStages();
       			Q.stageScene("mainMenu");
       		}
@@ -1390,6 +1390,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
     		if(self.get('me').get('user').get('reached_level') > 2)
     		{
           Q.state.set('level', 3);
+          self.set('level', 3);
     			Q.clearStages();
     			Q.stageScene("mainMenu");
     		}
@@ -1412,6 +1413,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
         if(self.get('me').get('user').get('reached_level') > 3)
       	{
           Q.state.set('level', 4);
+          self.set('level', 4);
       		Q.clearStages();
       		Q.stageScene("mainMenu");
       	}
@@ -1434,6 +1436,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
         if(self.get('me').get('user').get('reached_level') > 4)
       	{
           Q.state.set('level', 5);
+          self.set('level', 5);
       		Q.clearStages();
       		Q.stageScene("mainMenu");
       	}
@@ -1511,6 +1514,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   	Q.scene("level", stage => {
 
       self.set('currentScene', 'level');
+      self.set('showHud', true);
 
   		Q.unpauseGame();
 
@@ -1518,7 +1522,9 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   		Q.audio.play('rocket.mp3', { loop: true });
 
   		Q.state.set('distance', 0);
+      self.set('distance', 0);
   		Q.state.set('stars', 0);
+      self.set('stars', 0);
 
   		distanceToGoalRef = 50;
   		globalSpeedRef    = 250;
@@ -1569,6 +1575,8 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
   	Q.scene("gameOver", function(stage) {
 
+      self.set('showHud', true);
+
       Q.pauseGame();
 
       Q.audio.stop('rocket.mp3');
@@ -1591,8 +1599,6 @@ export default Ember.Component.extend(FacebookLoginMixin, {
         clearTimeout(self.get('engineReloadingTimeout'));
       }
 
-      self.set('new_score', (parseInt(Q.state.get('distance')) + parseInt(Q.state.get('stars'))) * parseInt(Q.state.get('level')));
-
       self.get('me').get('user').then(user => {
 
         self.set('old_score', user.get('score'));
@@ -1605,10 +1611,6 @@ export default Ember.Component.extend(FacebookLoginMixin, {
         else {
           self.set('newHighscore', false);
         }
-
-        self.set('distance', parseInt(Q.state.get('distance')));
-        self.set('stars', parseInt(Q.state.get('stars')));
-        self.set('level', parseInt(Q.state.get('level')));
 
         self.set('currentScene', 'gameOver');
 
@@ -1961,7 +1963,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
       Q.stage().insert(ufoMaker);
 
-      asteroidMaker.p.launchRandomFactor = 0.7;
+      asteroidMaker.p.launchRandomFactor = 0.8;
       ufoMaker.p.isActive = 1;
     }
     if(level >= 3)
