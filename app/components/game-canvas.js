@@ -1,11 +1,13 @@
 /* global Quintus */
 /* global FB */
 import Ember from 'ember';
+import FacebookLoginMixin from './../mixins/facebook-login';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(FacebookLoginMixin, {
 
   Q: null,
   me: null,
+  store: null,
   hasPostPermission: false,
   rocket: null,
   canonReloadingTimeout: null,
@@ -24,6 +26,7 @@ export default Ember.Component.extend({
   didInsertElement: function() {
 
     var self = this;
+    this.set('store', this.get('targetObject.store'));
 
     var Q = window.Q = new Quintus({
       development: false,
@@ -103,7 +106,7 @@ export default Ember.Component.extend({
     Q.state.set('maxSpeed',100);
     Q.state.set('maxSpeedRef', 100);
 
-    var asteroidMaker = null;
+    // var asteroidMaker = null;
 
     // COLORS
     Q.state.set('buttonFillColorUnselected', '#CCC');
@@ -327,7 +330,7 @@ export default Ember.Component.extend({
     				sheet:         "bullet",
     				tileW:         20,
     				tileH:         20,
-    				x:             Q('Rocket').first().p.x, // x location of the center
+    				x:             new Q('Rocket').first().p.x, // x location of the center
     				y:             400, // y location of the center
     				type:          Q.SPRITE_BULLET,
     				collisionMask: Q.SPRITE_ASTEROID,
@@ -355,7 +358,7 @@ export default Ember.Component.extend({
     		this.entity.on("step",this,"step");
     	},
 
-    	step: function(dt)
+    	step: function(/*dt*/)
     	{
     		// grab the entity's properties
     		// for easy reference
@@ -1235,7 +1238,7 @@ export default Ember.Component.extend({
 
       Q.state.set('speed', 0);
 
-  		Q.stageScene('hud', 3, Q('Rocket').first().p);
+  		Q.stageScene('hud', 3, new Q('Rocket').first().p);
 
       var currentSelectedButton = 'buttonStartLevel';
 
@@ -1544,7 +1547,7 @@ export default Ember.Component.extend({
 
       self.setupLevel(Q.state.get('level'));
 
-  		Q.stageScene('hud', 3, Q('Rocket').first().p);
+  		Q.stageScene('hud', 3, new Q('Rocket').first().p);
 
   		// inputs
   		Q.input.on("space", this, function()
@@ -1643,7 +1646,7 @@ export default Ember.Component.extend({
       buttonTryAgain.on("click",function() {
           Q.clearStages();
           Q.stageScene('level');
-          Q.stageScene('hud', 3, Q('Rocket').first().p);
+          Q.stageScene('hud', 3, new Q('Rocket').first().p);
       });
 
       container.fit(20);
@@ -1678,7 +1681,7 @@ export default Ember.Component.extend({
         if(currentSelectedButton === 'buttonTryAgain') {
           Q.clearStages();
           Q.stageScene('level');
-          Q.stageScene('hud', 3, Q('Rocket').first().p);
+          Q.stageScene('hud', 3, new Q('Rocket').first().p);
         }
         else {
           Q.clearStages();
@@ -1723,7 +1726,7 @@ export default Ember.Component.extend({
 
   loadGameStates: function() {
 
-    var self = this;
+    // var self = this;
 
     if(!Ember.isEmpty(this.get('me'))) {
 
@@ -2037,6 +2040,9 @@ export default Ember.Component.extend({
   },
 
   actions: {
+    login: function() {
+      this.login();
+    },
     postScoreToFB: function() {
 
       var old_score = this.get('old_score');

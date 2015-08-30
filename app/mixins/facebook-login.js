@@ -4,6 +4,11 @@ import Ember from 'ember';
 export default Ember.Mixin.create({
 
   me: null,
+  scope: 'public_profile,email,user_friends,publish_actions',
+
+  login: function() {
+    FB.login(() => { this.checkLoginState(); }, { scope: this.get('scope') });
+  },
 
   checkLoginState: function() {
     FB.getLoginStatus(response => {
@@ -19,26 +24,25 @@ export default Ember.Mixin.create({
 
     console.log('fb login status', response);
 
-    var store = this.store;
-    this.set('me', store.peekRecord('me', 1));
+    this.set('me', this.get('store').peekRecord('me', 1));
 
     if (response.status === 'connected')
   	{
   			// Logged into your app and Facebook.
         if(Ember.isEmpty(this.get('me'))) {
-          this.store.createRecord('me', { id: 1, isLoggedIn: true });
+          this.get('store').createRecord('me', { id: 1, isLoggedIn: true });
         }
         else {
           this.get('me').set('isLoggedIn', true);
         }
 
-  			this.getUserDataFromFB(this.store);
+  			this.getUserDataFromFB(this.get('store'));
   	}
   	else if (response.status === 'not_authorized')
   	{
   			// The person is logged into Facebook, but not your app.
         if(Ember.isEmpty(this.me)) {
-          this.store.createRecord('me', { id: 1, isLoggedIn: false });
+          this.get('store').createRecord('me', { id: 1, isLoggedIn: false });
         }
         else {
           this.get('me').set('isLoggedIn', false);
@@ -48,8 +52,8 @@ export default Ember.Mixin.create({
   	{
   			// The person is not logged into Facebook, so we're not sure if
   			// they are logged into this app or not.
-        if(Ember.isEmpty(this.me)) {
-          this.store.createRecord('me', { id: 1, isLoggedIn: false });
+        if(Ember.isEmpty(this.get('me'))) {
+          this.get('store').createRecord('me', { id: 1, isLoggedIn: false });
         }
         else {
           this.get('me').set('isLoggedIn', false);
@@ -65,7 +69,7 @@ export default Ember.Mixin.create({
     console.log('Welcome!  Fetching your information.... ');
 
     var self = this;
-    var store = this.store;
+    var store = this.get('store');
 
   	FB.api('/me', {fields: 'id,email,first_name,last_name,picture.width(120).height(120),gender'}, function(response)
   	{

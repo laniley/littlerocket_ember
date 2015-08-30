@@ -1,3 +1,29 @@
+#game-canvas-container {
+  .fb-button {
+    font-size: 1.2rem;
+    padding: 3px;
+    border: 1px solid #2C2B54;
+    text-align: center;
+    &.post {
+      margin-top: 20px;
+    }
+    &.login {
+      position: absolute;
+      margin-top: 90px;
+      width: 50%;
+      left: 50%;
+      margin-left: -25%;
+    }
+  }
+}
+
+.login-container {
+  position: absolute;
+  top: 27%;
+  left: 50%;
+  margin-left: -136px;
+}
+
 .gameOver {
 
   position: absolute;
