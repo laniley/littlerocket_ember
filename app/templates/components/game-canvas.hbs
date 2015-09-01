@@ -32,7 +32,7 @@
 
           {{#if newHighscore }}
             {{#unless hasPostPermission}}
-              <div class="fb-button post" {{action 'postScoreToFB'}}>{{unbound fa-icon "facebook-square"}} post</div>
+              <div class="fb-button post" {{action 'postScoreToFB'}}>{{unbound (fa-icon "facebook-square")}} post</div>
             {{/unless}}
           {{/if}}
 
@@ -49,7 +49,7 @@
 
       <div class="login-container">
         <img src="assets/images/store_images/large_mobile_banner_272x167.png" />
-        <div class="fb-button login" {{action 'login'}}>{{unbound fa-icon "facebook-square"}} login</div>
+        <div class="fb-button login" {{action 'login'}}>{{unbound (fa-icon "facebook-square")}} login</div>
       </div>
 
     {{/if}}

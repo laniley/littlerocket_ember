@@ -4,23 +4,15 @@
   <div class="workbench tab">
     {{#link-to 'index' (query-params cockpit_section="workbench")}}
       <span class="fa-stack">
-        {{unbound fa-icon "fa-rocket" stack=1}}
+        {{unbound (fa-icon "fa-rocket" stack=1)}}
       </span>
     {{/link-to}}
   </div>
-  <div class="lab tab coming_soon">
-    <span class="fa-stack">
-      {{unbound fa-icon "fa-flask" stack=1}}
-      {{#tooltip-component tooltip="The lab is coming soon..."}}
-        {{unbound fa-icon "fa-clock-o tooltip-icon" stack=1}}
-      {{/tooltip-component}}
-    </span>
-  </div>
-  {{!-- {{#if (if-equals me.user.lab.status 'unlocked') }}
+  {{#if (if-equals me.user.lab.status 'unlocked') }}
     <div class="lab tab">
       {{#link-to 'index' (query-params cockpit_section="lab")}}
         <span id="lab-tab" class="fa-stack">
-          {{unbound fa-icon "fa-flask" stack=1}}
+          {{unbound (fa-icon "fa-flask" stack=1)}}
           {{timer-component type='lab-tab' component=me.user.lab}}
         </span>
       {{/link-to}}
@@ -29,21 +21,21 @@
     {{#if (if-equals me.user.lab.status 'under_construction') }}
       <div class="lab tab">
         <span id="lab-tab" class="fa-stack">
-          {{unbound fa-icon "fa-flask" stack=1}}
+          {{unbound (fa-icon "fa-flask" stack=1)}}
           {{timer-component type='lab-tab' component=me.user.lab}}
         </span>
       </div>
     {{else}}
       <div class="lab tab" {{action 'buyLab'}}>
         <span class="fa-stack">
-          {{unbound fa-icon "fa-flask" stack=1}}
+          {{fa-icon "fa-flask" stack=1}}
           {{#tooltip-component tooltip=me.user.lab.tooltip}}
-            {{unbound fa-icon "fa-lock locked" stack=1}}
+            {{unbound (fa-icon "fa-lock locked" stack=1)}}
           {{/tooltip-component}}
         </span>
       </div>
     {{/if}}
-  {{/if}} --}}
+  {{/if}}
 </div>
 
 {{#if (if-equals currentSection 'workbench') }}
@@ -55,7 +47,7 @@
       {{!-- CANON --}}
       {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
         <span id="canon" class="block-button" {{action "toggleComponentModelSelection" me.user.rocket.canon}}>
-          {{unbound fa-icon "fa-bullseye"}}
+          {{unbound (fa-icon "fa-bullseye")}}
           <div class="info">
             {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModel.model}}
           </div>
@@ -64,9 +56,9 @@
           <div class="models canon-models">
             <span class="block-button coming_soon">
               <span class="fa-stack">
-                {{unbound fa-icon "fa-bullseye" stack=1}}
+                {{unbound (fa-icon "fa-bullseye" stack=1)}}
                 {{#tooltip-component tooltip="Upgrades are coming soon..."}}
-                  {{unbound fa-icon "fa-clock-o tooltip-icon" stack=1}}
+                  {{unbound (fa-icon "fa-clock-o tooltip-icon" stack=1)}}
                 {{/tooltip-component}}
               </span>
             </span>
@@ -75,20 +67,20 @@
       {{else}}
         {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
           <span id="canon" class="fa-stack block-button">
-            {{unbound fa-icon "fa-bullseye" stack=1}}
+            {{unbound (fa-icon "fa-bullseye" stack=1)}}
             {{timer-component type='canon' component=me.user.rocket.canon}}
           </span>
         {{else}}
           {{#if me.user.rocket.canon}}
             <span id="canon" class="fa-stack block-button" {{action 'buyCanon'}}>
-              {{unbound fa-icon "fa-bullseye" stack=1}}
+              {{unbound (fa-icon "fa-bullseye" stack=1)}}
               {{#tooltip-component tooltip=me.user.rocket.canon.tooltip}}
-                {{unbound fa-icon "fa-lock locked" stack=1}}
+                {{unbound (fa-icon "fa-lock locked" stack=1)}}
               {{/tooltip-component}}
             </span>
           {{else}}
             <span id="canon" class="fa-stack block-button">
-              {{unbound fa-icon "fa-circle-o-notch" spin=true}}
+              {{unbound (fa-icon "fa-circle-o-notch" spin=true)}}
             </span>
           {{/if}}
         {{/if}}
@@ -97,7 +89,7 @@
       {{!-- SHIELD --}}
       {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
         <span id="shield" class="block-button" {{action "toggleComponentModelSelection" me.user.rocket.shield}}>
-          {{unbound fa-icon "fa-shield"}}
+          {{unbound (fa-icon "fa-shield")}}
           <div class="info">
             {{me.user.rocket.shield.selectedRocketComponentModelMm.rocketComponentModel.model}}
           </div>
@@ -106,9 +98,9 @@
           <div class="models shield-models">
             <span class="block-button coming_soon">
               <span class="fa-stack">
-                {{unbound fa-icon "fa-shield" stack=1}}
+                {{unbound (fa-icon "fa-shield" stack=1)}}
                 {{#tooltip-component tooltip="Upgrades are coming soon..."}}
-                  {{unbound fa-icon "fa-clock-o tooltip-icon" stack=1}}
+                  {{unbound (fa-icon "fa-clock-o tooltip-icon" stack=1)}}
                 {{/tooltip-component}}
               </span>
             </span>
@@ -117,20 +109,20 @@
       {{else}}
         {{#if (if-equals me.user.rocket.shield.status 'under_construction') }}
           <span id="shield" class="fa-stack block-button">
-            {{unbound fa-icon "fa-shield" stack=1}}
+            {{unbound (fa-icon "fa-shield" stack=1)}}
             {{timer-component type='shield' component=me.user.rocket.shield}}
           </span>
         {{else}}
           {{#if me.user.rocket.shield}}
             <span id="shield" class="fa-stack block-button" {{action 'buyShield'}}>
-              {{unbound fa-icon "fa-shield" stack=1}}
+              {{unbound (fa-icon "fa-shield" stack=1)}}
               {{#tooltip-component tooltip=me.user.rocket.shield.tooltip}}
-                {{unbound fa-icon "fa-lock locked" stack=1}}
+                {{unbound (fa-icon "fa-lock locked" stack=1)}}
               {{/tooltip-component}}
             </span>
           {{else}}
             <span id="shield" class="fa-stack block-button">
-              {{unbound fa-icon "fa-circle-o-notch" spin=true}}
+              {{unbound (fa-icon "fa-circle-o-notch" spin=true)}}
             </span>
           {{/if}}
         {{/if}}
@@ -138,7 +130,7 @@
       {{!-- ENGINE --}}
       {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
         <span id="engine" class="block-button" {{action "toggleComponentModelSelection" me.user.rocket.engine}}>
-          {{unbound fa-icon "fa-forward"}}
+          {{unbound (fa-icon "fa-forward")}}
           <div class="info">
             {{me.user.rocket.engine.selectedRocketComponentModelMm.rocketComponentModel.model}}
           </div>
@@ -147,9 +139,9 @@
           <div class="models engine-models">
             <span class="block-button coming_soon">
               <span class="fa-stack">
-                {{unbound fa-icon "fa-forward" stack=1}}
+                {{unbound (fa-icon "fa-forward" stack=1)}}
                 {{#tooltip-component tooltip="Upgrades are coming soon..."}}
-                  {{unbound fa-icon "fa-clock-o tooltip-icon" stack=1}}
+                  {{unbound (fa-icon "fa-clock-o tooltip-icon" stack=1)}}
                 {{/tooltip-component}}
               </span>
             </span>
@@ -158,20 +150,20 @@
       {{else}}
         {{#if (if-equals me.user.rocket.engine.status 'under_construction') }}
           <span id="engine" class="fa-stack block-button">
-            {{unbound fa-icon "fa-forward" stack=1}}
+            {{unbound (fa-icon "fa-forward" stack=1)}}
             {{timer-component type='engine' component=me.user.rocket.engine}}
           </span>
         {{else}}
           {{#if me.user.rocket.engine}}
             <span id="engine" class="fa-stack block-button" {{action 'buyEngine'}}>
-              {{unbound fa-icon "fa-forward" stack=1}}
+              {{unbound (fa-icon "fa-forward" stack=1)}}
               {{#tooltip-component tooltip=me.user.rocket.engine.tooltip}}
-                {{unbound fa-icon "fa-lock locked" stack=1}}
+                {{unbound (fa-icon "fa-lock locked" stack=1)}}
               {{/tooltip-component}}
             </span>
           {{else}}
             <span id="engine" class="fa-stack block-button">
-              {{unbound fa-icon "fa-circle-o-notch" spin=true}}
+              {{unbound (fa-icon "fa-circle-o-notch" spin=true)}}
             </span>
           {{/if}}
         {{/if}}
@@ -186,17 +178,17 @@
         <div id="canon-upgrades" class="tab">
           {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
             {{#link-to 'index' (query-params lab_section="canon")}}
-              {{unbound fa-icon "fa-bullseye"}}
+              {{unbound (fa-icon "fa-bullseye")}}
             {{/link-to}}
           {{else}}
             {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
-              {{unbound fa-icon "fa-bullseye"}}
+              {{unbound (fa-icon "fa-bullseye")}}
               {{timer-component type='canon' component=me.user.rocket.canon}}
             {{else}}
               <span class="fa-stack" {{action 'buyCanon'}}>
-                {{unbound fa-icon "fa-bullseye" stack=1}}
+                {{unbound (fa-icon "fa-bullseye" stack=1)}}
                 {{#tooltip-component tooltip=me.user.rocket.canon.tooltip}}
-                  {{unbound fa-icon "fa-lock locked" stack=1}}
+                  {{unbound (fa-icon "fa-lock locked" stack=1)}}
                 {{/tooltip-component}}
               </span>
             {{/if}}
@@ -205,17 +197,17 @@
         <div id="shield-upgrades" class="tab">
           {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
             {{#link-to 'index' (query-params lab_section="shield")}}
-              {{unbound fa-icon "fa-shield"}}
+              {{unbound (fa-icon "fa-shield")}}
             {{/link-to}}
           {{else}}
             {{#if (if-equals me.user.rocket.shield.status 'under_construction') }}
-              {{unbound fa-icon "fa-shield"}}
+              {{unbound (fa-icon "fa-shield")}}
               {{timer-component type='shield' component=me.user.rocket.shield}}
             {{else}}
               <span class="fa-stack" {{action 'buyShield'}}>
-                {{unbound fa-icon "fa-shield" stack=1}}
+                {{unbound (fa-icon "fa-shield" stack=1)}}
                 {{#tooltip-component tooltip=me.user.rocket.shield.tooltip}}
-                  {{unbound fa-icon "fa-lock locked" stack=1}}
+                  {{unbound (fa-icon "fa-lock locked" stack=1)}}
                 {{/tooltip-component}}
               </span>
             {{/if}}
@@ -224,17 +216,17 @@
         <div id="drive-upgrades" class="tab">
           {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
             {{#link-to 'index' (query-params lab_section="engine")}}
-              {{unbound fa-icon "fa-forward"}}
+              {{unbound (fa-icon "fa-forward")}}
             {{/link-to}}
           {{else}}
             {{#if (if-equals me.user.rocket.engine.status 'under_construction') }}
-              {{unbound fa-icon "fa-forward"}}
+              {{unbound (fa-icon "fa-forward")}}
               {{timer-component type='engine' component=me.user.rocket.engine}}
             {{else}}
               <span class="fa-stack" {{action 'buyEngine'}}>
-                {{unbound fa-icon "fa-forward" stack=1}}
+                {{unbound (fa-icon "fa-forward" stack=1)}}
                 {{#tooltip-component tooltip=me.user.rocket.engine.tooltip}}
-                  {{unbound fa-icon "fa-lock locked" stack=1}}
+                  {{unbound (fa-icon "fa-lock locked" stack=1)}}
                 {{/tooltip-component}}
               </span>
             {{/if}}
@@ -260,7 +252,7 @@
       </div>
     {{else}}
       <div class="locked-info">
-        <div>{{unbound fa-icon "fa-lock"}}</div>
+        <div>{{unbound (fa-icon "fa-lock")}}</div>
         <div>Locked</div>
       </div>
     {{/if}}

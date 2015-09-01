@@ -1,15 +1,15 @@
 <div class="title">
   <div class={{if (if-equals socialSection 'leaderboard') 'active item' 'item' }} {{action 'openSection' 'leaderboard'}}>
-    {{unbound fa-icon "fa-trophy"}} Leaderboard
+    {{unbound (fa-icon "fa-trophy")}} Leaderboard
   </div>
   <div class={{if (if-equals socialSection 'comments') 'active item' 'item' }} {{action 'openSection' 'comments'}}>
-    {{unbound fa-icon "fa-pencil"}} Comments
+    {{unbound (fa-icon "fa-pencil")}} Comments
   </div>
 </div>
 
 {{#if me.isLoggedIn}}
   <div class="content">
-    {{!-- {{unbound fa-icon "fa-globe"}} --}}
+    {{!-- {{fa-icon "fa-globe"}} --}}
     {{#if (if-equals socialSection 'leaderboard') }}
         <div class="leaderboard_list scrollable_list">
            {{#each leaderboard.players as |top_player|}}
@@ -33,7 +33,7 @@
   </div>
 {{else}}
   <div class="login-info">
-    <div>{{unbound fa-icon "fa-lock"}}</div>
+    <div>{{unbound (fa-icon "fa-lock")}}</div>
     <div>Please log in.</div>
   </div>
 {{/if}}

@@ -13,7 +13,7 @@
 				<!-- invite -->
 	     	<li class="invite-button">
 	       	<button id="fb-challenge" class="fb-button confirm" {{action 'inviteFriends'}}>
-	         	{{unbound fa-icon "facebook-square" size="lg"}} Invite your friends
+	         	{{unbound (fa-icon "facebook-square" size="lg")}} Invite your friends
 	       	</button>
 	     	</li>
 				<!-- like -->
@@ -37,7 +37,7 @@
 				{{else}}
 		      <li {{action 'login'}}>
 						<a href="#">
-							{{unbound fa-icon "facebook-square"}} login
+							{{unbound (fa-icon "facebook-square")}} login
 						</a>
 					</li>
 				{{/if}}
