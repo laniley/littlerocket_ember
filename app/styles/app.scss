@@ -201,22 +201,29 @@ table {
     border-bottom: $border-thick;
     .item {
       display: inline-block;
-      margin-right: 10px;
-      &.active {
-        background-color: #8AA8B2;
-        color: white;
-        padding: 0 9px;
-      }
-      &:not(.active) {
-        color: #b8b8b8;
-        cursor: pointer;
-        &:hover {
-          color: #666;
-        }
+      padding: 0 10px;
+      width: 47px;
+      height: 43px;
+      &.coming_soon {
+        background-color: #d6d6d6;
+        color: #888;
       }
       .fa-stack {
-        font-size: 18px;
-        top: -3px;
+        line-height: 1rem;
+        height: 100%;
+        top: 10px;
+        right: 15px;
+        .tooltip-component {
+          left: 3px;
+          position: relative;
+          top: 10px;
+        }
+        .fa-star {
+          font-size: 0.8em;
+        }
+        .fa-circle-o {
+          font-size: 1.4em;
+        }
       }
     }
   }
@@ -249,11 +256,29 @@ table {
 }
 
 .block-button, .tab {
-  border: $border;
   font-size: 2.4em;
   width: 65px;
   height: 65px;
   line-height: 65px;
+  border-bottom: $border;
+
+  .fa-stack {
+    width: 100%;
+    height: 100%;
+    line-height: 50px;
+  }
+
+  .locked
+  {
+    margin-top: 15px;
+    margin-left: 15px;
+  }
+}
+
+.block-button, .tab, .title .item {
+  border-left: $border;
+  border-top: $border;
+  border-right: $border;
   text-align: center;
   color: $darkblue;
   background-color: #EBF3F6;
@@ -269,6 +294,11 @@ table {
     height: 100%;
     width: 100%;
     color: $darkblue;
+
+    span {
+      top: -6px;
+      padding: 5px;
+    }
 
     &.active {
       background-color: $darkblue;
@@ -313,12 +343,6 @@ table {
     display: block;
   }
 
-  .fa-stack {
-    width: 100%;
-    height: 100%;
-    line-height: 50px;
-  }
-
   .fa-check
   {
     color: #2bc253;
@@ -329,8 +353,6 @@ table {
   .locked
   {
     color: #666;
-    margin-top: 15px;
-    margin-left: 15px;
     cursor: pointer;
   }
 

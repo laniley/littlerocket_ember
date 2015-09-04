@@ -1,20 +1,48 @@
 <div class="title">
-  <div class={{if (if-equals currentSection 'cockpit') 'active item' 'item' }} {{action 'openSection' 'cockpit'}}>
-    {{unbound (fa-icon "fa-dashboard")}} Cockpit
-  </div>
-  {{!-- <div class={{if (if-equals currentSection 'achievements') 'active item' 'item' }} {{action 'openSection' 'achievements'}}>
-    <span class="fa-stack">
-      {{unbound (fa-icon "fa-circle-o" stack=2)}}
-      {{unbound (fa-icon "fa-star" stack=1)}}
-    </span>
-    Achievements
-  </div> --}}
+  {{#link-to 'index' (query-params player_hud_section="rocket")}}
+    <div class={{if (if-equals currentSection 'rocket') 'active item' 'item' }}>
+      {{unbound (fa-icon "fa-rocket")}}
+    </div>
+  {{/link-to}}
+  {{#if (if-equals me.user.lab.status 'unlocked') }}
+    {{#link-to 'index' (query-params player_hud_section="lab")}}
+      <div class={{if (if-equals currentSection 'lab') 'active item' 'item' }}>
+        {{unbound (fa-icon "fa-flask")}}
+      </div>
+    {{/link-to}}
+  {{else}}
+    {{#if (if-equals me.user.lab.status 'under_construction') }}
+      <div class="item">
+        <span id="lab-tab" class="fa-stack">
+          {{unbound (fa-icon "fa-flask" stack=1)}}
+          {{timer-component type='lab-tab' component=me.user.lab}}
+        </span>
+      </div>
+    {{else}}
+      <div class="item" {{action 'buyLab'}}>
+        <span class="fa-stack">
+          {{unbound (fa-icon "fa-flask" stack=1)}}
+          {{#tooltip-component tooltip=me.user.lab.tooltip}}
+            {{unbound (fa-icon "fa-lock locked" stack=1)}}
+          {{/tooltip-component}}
+        </span>
+      </div>
+    {{/if}}
+  {{/if}}
+  {{#tooltip-component tooltip="Achievements are coming soon..."}}
+    <div class='item coming_soon'>
+      <span class="fa-stack">
+        {{unbound (fa-icon "fa-circle-o" stack=1)}}
+        {{unbound (fa-icon "fa-star" stack=1)}}
+      </span>
+    </div>
+  {{/tooltip-component}}
 </div>
 
 {{#if me.isLoggedIn}}
   <div class="content">
 
-    {{#if (if-equals currentSection 'cockpit') }}
+    {{#if (if-equals currentSection 'rocket') }}
       {{cockpit-component
           me=me
           currentSection=currentCockpitSection

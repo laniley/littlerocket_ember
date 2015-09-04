@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['tooltip-component'],
   tagName: 'span',
+  hover_delay: 50,
   tooltip: '',
   id: '',
 
