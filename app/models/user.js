@@ -12,6 +12,7 @@ export default DS.Model.extend({
   score: DS.attr('number', { defaultValue: 0 }),
   stars: DS.attr('number', { defaultValue: 0 }),
   reached_level: DS.attr('number', { defaultValue: 1 }),
+  experience: DS.attr('number', { defaultValue: 0 }),
 
   lab: DS.belongsTo('lab', { async: true}),
   rocket: DS.belongsTo('rocket', { async: true }),
