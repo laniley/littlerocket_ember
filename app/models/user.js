@@ -19,5 +19,13 @@ export default DS.Model.extend({
 
   name: function() {
     return this.get('first_name') + ' ' + this.get('last_name');
-  }.property('first_name', 'last_name')
+  }.property('first_name', 'last_name'),
+
+  exp_level: function() {
+    return Math.floor(Math.sqrt(this.get('experience')/500)) + 1;
+  }.property('experience'),
+
+  needed_exp_for_next_level: function() {
+    return 500 * Math.pow(this.get('exp_level'), 2);
+  }.property('exp_level')
 });

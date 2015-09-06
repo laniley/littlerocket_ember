@@ -1,21 +1,9 @@
 .cockpit {
+  .info-prompt {
+    position: absolute;
+    width: 95%;
+  }
   .content {
-    .player-infos {
-      height: 110px;
-      border-bottom: $border;
-
-      .left-column {
-        width: 55%;
-        margin-right: 2%;
-        float: left;
-      }
-
-      .right-column {
-        width: 43%;
-        float: left;
-      }
-    }
-
     #workbench {
 
       margin-bottom: 5px;

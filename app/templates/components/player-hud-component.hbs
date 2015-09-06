@@ -39,6 +39,14 @@
   {{/tooltip-component}}
 </div>
 
+<div class="info-prompt">
+  {{#if show_not_enough_stars_alert}}
+    {{#prompt-component}}
+  		Not enough stars!
+  	{{/prompt-component}}
+  {{/if}}
+</div>
+
 {{#if me.isLoggedIn}}
   <div class="content">
 

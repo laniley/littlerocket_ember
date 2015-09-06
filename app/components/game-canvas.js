@@ -1615,7 +1615,9 @@ export default Ember.Component.extend(FacebookLoginMixin, {
         self.set('currentScene', 'gameOver');
 
         var new_stars_amount = user.get('stars') + (parseInt(Q.state.get('stars')) * parseInt(Q.state.get('level')));
+        var new_experience = user.get('experience') + self.get('new_score');
         user.set('stars', new_stars_amount);
+        user.set('experience', new_experience);
 
         user.save().then(() => {
           self.get('targetObject.store').query('user', { 'mode': 'leaderboard' }).then(users => {

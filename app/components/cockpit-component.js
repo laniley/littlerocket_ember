@@ -63,14 +63,6 @@ export default Ember.Component.extend({
         });
       });
     },
-    buyLab: function() {
-      var me = this.get('targetObject.store').peekRecord('me', 1);
-      me.get('user').then(user => {
-        user.get('lab').then(component => {
-          this.buyComponent(user, component);
-        });
-      });
-    },
     toggleComponentModelSelection: function(component) {
       if(component.get('type') === 'canon') {
         this.toggleProperty('showCanonModels');
