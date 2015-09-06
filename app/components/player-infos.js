@@ -18,9 +18,7 @@ export default Ember.Component.extend({
     this.get('me').get('user').then(user => {
       if(!Ember.isEmpty(user)) {
         this.get('needed_exp_for_prev_level').then(needed_exp_for_prev_level => {
-          console.log(needed_exp_for_prev_level);
           var percentage = ((user.get('experience') - needed_exp_for_prev_level) / user.get('needed_exp_for_next_level')) * 100;
-          console.log(percentage);
           Ember.$('.exp-meter-progress').width((percentage-0.5) + '%');
         });
       }

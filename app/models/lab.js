@@ -8,6 +8,6 @@ export default DS.Model.extend({
   user: DS.belongsTo('user', { async: true }),
 
   tooltip: function() {
-    return "You need " + this.get('costs') + " stars to unlock the lab!";
+    return "You need " + this.get('costs') + " stars and level 3 to unlock the lab!";
   }.property('costs')
 });
