@@ -3,8 +3,6 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
   me: null,
-  currentSection: 'workbench',
-  currentLabSection: 'canon',
   show_not_enough_stars_alert: false,
 
   showCanonModels: false,
@@ -62,23 +60,6 @@ export default Ember.Component.extend({
           });
         });
       });
-    },
-    toggleComponentModelSelection: function(component) {
-      if(component.get('type') === 'canon') {
-        this.toggleProperty('showCanonModels');
-        this.set('showShieldModels', false);
-        this.set('showEngineModels', false);
-      }
-      else if(component.get('type') === 'shield') {
-        this.toggleProperty('showShieldModels');
-        this.set('showCanonModels', false);
-        this.set('showEngineModels', false);
-      }
-      else if(component.get('type') === 'engine') {
-        this.toggleProperty('showEngineModels');
-        this.set('showShieldModels', false);
-        this.set('showCanonModels', false);
-      }
     }
   }
 });

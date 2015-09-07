@@ -1,225 +1,136 @@
 {{player-infos me=me}}
 
-{{#if (if-equals currentSection 'workbench') }}
-  <div id="workbench">
-    <h2>Workbench</h2>
-    <div id="workbench-item-container" class="item-container">
-      <img src="assets/images/rocket_workbench.png" />
+<div id="workbench">
+  <h2>Workbench</h2>
+  <div id="workbench-item-container" class="item-container">
+    <img src="assets/images/rocket_workbench.png" />
 
-      {{!-- CANON --}}
-      {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
-        <span id="canon" class="block-button" {{action "toggleComponentModelSelection" me.user.rocket.canon}}>
-          {{unbound (fa-icon "fa-bullseye")}}
-          <div class="info">
-            {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModel.model}}
-          </div>
-        </span>
-        {{#if showCanonModels}}
-          <div class="models canon-models">
-            <span class="block-button coming_soon">
-              <span class="fa-stack">
-                {{unbound (fa-icon "fa-bullseye" stack=1)}}
-                {{#tooltip-component tooltip="Upgrades are coming soon..."}}
-                  {{unbound (fa-icon "fa-clock-o tooltip-icon" stack=1)}}
-                {{/tooltip-component}}
-              </span>
-            </span>
-          </div>
-        {{/if}}
-      {{else}}
-        {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
-          <span id="canon" class="fa-stack block-button">
-            {{unbound (fa-icon "fa-bullseye" stack=1)}}
-            {{timer-component type='canon' component=me.user.rocket.canon}}
-          </span>
-        {{else}}
-          {{#if me.user.rocket.canon}}
-            <span id="canon" class="fa-stack block-button" {{action 'buyCanon'}}>
+    {{!-- CANON --}}
+    {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
+      <span id="canon" class="block-button" {{action "toggleComponentModelSelection" me.user.rocket.canon}}>
+        {{unbound (fa-icon "fa-bullseye")}}
+        <div class="info">
+          {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModel.model}}
+        </div>
+      </span>
+      {{#if showCanonModels}}
+        <div class="models canon-models">
+          <span class="block-button coming_soon">
+            <span class="fa-stack">
               {{unbound (fa-icon "fa-bullseye" stack=1)}}
-              {{#tooltip-component tooltip=me.user.rocket.canon.tooltip}}
-                {{unbound (fa-icon "fa-lock locked" stack=1)}}
+              {{#tooltip-component tooltip="Upgrades are coming soon..."}}
+                {{unbound (fa-icon "fa-clock-o tooltip-icon" stack=1)}}
               {{/tooltip-component}}
             </span>
-          {{else}}
-            <span id="canon" class="fa-stack block-button">
-              {{unbound (fa-icon "fa-circle-o-notch" spin=true)}}
-            </span>
-          {{/if}}
-        {{/if}}
-      {{/if}}
-
-      {{!-- SHIELD --}}
-      {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
-        <span id="shield" class="block-button" {{action "toggleComponentModelSelection" me.user.rocket.shield}}>
-          {{unbound (fa-icon "fa-shield")}}
-          <div class="info">
-            {{me.user.rocket.shield.selectedRocketComponentModelMm.rocketComponentModel.model}}
-          </div>
-        </span>
-        {{#if showShieldModels}}
-          <div class="models shield-models">
-            <span class="block-button coming_soon">
-              <span class="fa-stack">
-                {{unbound (fa-icon "fa-shield" stack=1)}}
-                {{#tooltip-component tooltip="Upgrades are coming soon..."}}
-                  {{unbound (fa-icon "fa-clock-o tooltip-icon" stack=1)}}
-                {{/tooltip-component}}
-              </span>
-            </span>
-          </div>
-        {{/if}}
-      {{else}}
-        {{#if (if-equals me.user.rocket.shield.status 'under_construction') }}
-          <span id="shield" class="fa-stack block-button">
-            {{unbound (fa-icon "fa-shield" stack=1)}}
-            {{timer-component type='shield' component=me.user.rocket.shield}}
           </span>
-        {{else}}
-          {{#if me.user.rocket.shield}}
-            <span id="shield" class="fa-stack block-button" {{action 'buyShield'}}>
-              {{unbound (fa-icon "fa-shield" stack=1)}}
-              {{#tooltip-component tooltip=me.user.rocket.shield.tooltip}}
-                {{unbound (fa-icon "fa-lock locked" stack=1)}}
-              {{/tooltip-component}}
-            </span>
-          {{else}}
-            <span id="shield" class="fa-stack block-button">
-              {{unbound (fa-icon "fa-circle-o-notch" spin=true)}}
-            </span>
-          {{/if}}
-        {{/if}}
+        </div>
       {{/if}}
-      {{!-- ENGINE --}}
-      {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
-        <span id="engine" class="block-button" {{action "toggleComponentModelSelection" me.user.rocket.engine}}>
-          {{unbound (fa-icon "fa-forward")}}
-          <div class="info">
-            {{me.user.rocket.engine.selectedRocketComponentModelMm.rocketComponentModel.model}}
-          </div>
-        </span>
-        {{#if showEngineModels}}
-          <div class="models engine-models">
-            <span class="block-button coming_soon">
-              <span class="fa-stack">
-                {{unbound (fa-icon "fa-forward" stack=1)}}
-                {{#tooltip-component tooltip="Upgrades are coming soon..."}}
-                  {{unbound (fa-icon "fa-clock-o tooltip-icon" stack=1)}}
-                {{/tooltip-component}}
-              </span>
-            </span>
-          </div>
-        {{/if}}
-      {{else}}
-        {{#if (if-equals me.user.rocket.engine.status 'under_construction') }}
-          <span id="engine" class="fa-stack block-button">
-            {{unbound (fa-icon "fa-forward" stack=1)}}
-            {{timer-component type='engine' component=me.user.rocket.engine}}
-          </span>
-        {{else}}
-          {{#if me.user.rocket.engine}}
-            <span id="engine" class="fa-stack block-button" {{action 'buyEngine'}}>
-              {{unbound (fa-icon "fa-forward" stack=1)}}
-              {{#tooltip-component tooltip=me.user.rocket.engine.tooltip}}
-                {{unbound (fa-icon "fa-lock locked" stack=1)}}
-              {{/tooltip-component}}
-            </span>
-          {{else}}
-            <span id="engine" class="fa-stack block-button">
-              {{unbound (fa-icon "fa-circle-o-notch" spin=true)}}
-            </span>
-          {{/if}}
-        {{/if}}
-      {{/if}}
-    </div>
-  </div>
-{{else}}
-  <div id="lab">
-    <h2>Lab</h2>
-    {{#if (if-equals me.user.lab.status 'unlocked') }}
-      <div class="tab-container">
-        <div id="canon-upgrades" class="tab">
-          {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
-            {{#link-to 'index' (query-params lab_section="canon")}}
-              {{unbound (fa-icon "fa-bullseye")}}
-            {{/link-to}}
-          {{else}}
-            {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
-              {{unbound (fa-icon "fa-bullseye")}}
-              {{timer-component type='canon' component=me.user.rocket.canon}}
-            {{else}}
-              <span class="fa-stack" {{action 'buyCanon'}}>
-                {{unbound (fa-icon "fa-bullseye" stack=1)}}
-                {{#tooltip-component tooltip=me.user.rocket.canon.tooltip}}
-                  {{unbound (fa-icon "fa-lock locked" stack=1)}}
-                {{/tooltip-component}}
-              </span>
-            {{/if}}
-          {{/if}}
-        </div>
-        <div id="shield-upgrades" class="tab">
-          {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
-            {{#link-to 'index' (query-params lab_section="shield")}}
-              {{unbound (fa-icon "fa-shield")}}
-            {{/link-to}}
-          {{else}}
-            {{#if (if-equals me.user.rocket.shield.status 'under_construction') }}
-              {{unbound (fa-icon "fa-shield")}}
-              {{timer-component type='shield' component=me.user.rocket.shield}}
-            {{else}}
-              <span class="fa-stack" {{action 'buyShield'}}>
-                {{unbound (fa-icon "fa-shield" stack=1)}}
-                {{#tooltip-component tooltip=me.user.rocket.shield.tooltip}}
-                  {{unbound (fa-icon "fa-lock locked" stack=1)}}
-                {{/tooltip-component}}
-              </span>
-            {{/if}}
-          {{/if}}
-        </div>
-        <div id="drive-upgrades" class="tab">
-          {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
-            {{#link-to 'index' (query-params lab_section="engine")}}
-              {{unbound (fa-icon "fa-forward")}}
-            {{/link-to}}
-          {{else}}
-            {{#if (if-equals me.user.rocket.engine.status 'under_construction') }}
-              {{unbound (fa-icon "fa-forward")}}
-              {{timer-component type='engine' component=me.user.rocket.engine}}
-            {{else}}
-              <span class="fa-stack" {{action 'buyEngine'}}>
-                {{unbound (fa-icon "fa-forward" stack=1)}}
-                {{#tooltip-component tooltip=me.user.rocket.engine.tooltip}}
-                  {{unbound (fa-icon "fa-lock locked" stack=1)}}
-                {{/tooltip-component}}
-              </span>
-            {{/if}}
-          {{/if}}
-        </div>
-      </div>
-      <div class="upgrade-infos">
-        {{#if (if-equals currentLabSection 'canon') }}
-          {{component-upgrades
-            componentType=currentLabSection
-            component=me.user.rocket.canon}}
-        {{/if}}
-        {{#if (if-equals currentLabSection 'shield') }}
-          {{component-upgrades
-            componentType=currentLabSection
-            component=me.user.rocket.shield}}
-        {{/if}}
-        {{#if (if-equals currentLabSection 'engine') }}
-          {{component-upgrades
-            componentType=currentLabSection
-            component=me.user.rocket.engine}}
-        {{/if}}
-      </div>
     {{else}}
-      <div class="locked-info">
-        <div>{{unbound (fa-icon "fa-lock")}}</div>
-        <div>Locked</div>
-      </div>
+      {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
+        <span id="canon" class="fa-stack block-button">
+          {{unbound (fa-icon "fa-bullseye" stack=1)}}
+          {{timer-component type='canon' component=me.user.rocket.canon}}
+        </span>
+      {{else}}
+        {{#if me.user.rocket.canon}}
+          <span id="canon" class="fa-stack block-button" {{action 'buyCanon'}}>
+            {{unbound (fa-icon "fa-bullseye" stack=1)}}
+            {{#tooltip-component tooltip=me.user.rocket.canon.tooltip}}
+              {{unbound (fa-icon "fa-lock locked" stack=1)}}
+            {{/tooltip-component}}
+          </span>
+        {{else}}
+          <span id="canon" class="fa-stack block-button">
+            {{unbound (fa-icon "fa-circle-o-notch" spin=true)}}
+          </span>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+
+    {{!-- SHIELD --}}
+    {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
+      <span id="shield" class="block-button" {{action "toggleComponentModelSelection" me.user.rocket.shield}}>
+        {{unbound (fa-icon "fa-shield")}}
+        <div class="info">
+          {{me.user.rocket.shield.selectedRocketComponentModelMm.rocketComponentModel.model}}
+        </div>
+      </span>
+      {{#if showShieldModels}}
+        <div class="models shield-models">
+          <span class="block-button coming_soon">
+            <span class="fa-stack">
+              {{unbound (fa-icon "fa-shield" stack=1)}}
+              {{#tooltip-component tooltip="Upgrades are coming soon..."}}
+                {{unbound (fa-icon "fa-clock-o tooltip-icon" stack=1)}}
+              {{/tooltip-component}}
+            </span>
+          </span>
+        </div>
+      {{/if}}
+    {{else}}
+      {{#if (if-equals me.user.rocket.shield.status 'under_construction') }}
+        <span id="shield" class="fa-stack block-button">
+          {{unbound (fa-icon "fa-shield" stack=1)}}
+          {{timer-component type='shield' component=me.user.rocket.shield}}
+        </span>
+      {{else}}
+        {{#if me.user.rocket.shield}}
+          <span id="shield" class="fa-stack block-button" {{action 'buyShield'}}>
+            {{unbound (fa-icon "fa-shield" stack=1)}}
+            {{#tooltip-component tooltip=me.user.rocket.shield.tooltip}}
+              {{unbound (fa-icon "fa-lock locked" stack=1)}}
+            {{/tooltip-component}}
+          </span>
+        {{else}}
+          <span id="shield" class="fa-stack block-button">
+            {{unbound (fa-icon "fa-circle-o-notch" spin=true)}}
+          </span>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+    {{!-- ENGINE --}}
+    {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
+      <span id="engine" class="block-button" {{action "toggleComponentModelSelection" me.user.rocket.engine}}>
+        {{unbound (fa-icon "fa-forward")}}
+        <div class="info">
+          {{me.user.rocket.engine.selectedRocketComponentModelMm.rocketComponentModel.model}}
+        </div>
+      </span>
+      {{#if showEngineModels}}
+        <div class="models engine-models">
+          <span class="block-button coming_soon">
+            <span class="fa-stack">
+              {{unbound (fa-icon "fa-forward" stack=1)}}
+              {{#tooltip-component tooltip="Upgrades are coming soon..."}}
+                {{unbound (fa-icon "fa-clock-o tooltip-icon" stack=1)}}
+              {{/tooltip-component}}
+            </span>
+          </span>
+        </div>
+      {{/if}}
+    {{else}}
+      {{#if (if-equals me.user.rocket.engine.status 'under_construction') }}
+        <span id="engine" class="fa-stack block-button">
+          {{unbound (fa-icon "fa-forward" stack=1)}}
+          {{timer-component type='engine' component=me.user.rocket.engine}}
+        </span>
+      {{else}}
+        {{#if me.user.rocket.engine}}
+          <span id="engine" class="fa-stack block-button" {{action 'buyEngine'}}>
+            {{unbound (fa-icon "fa-forward" stack=1)}}
+            {{#tooltip-component tooltip=me.user.rocket.engine.tooltip}}
+              {{unbound (fa-icon "fa-lock locked" stack=1)}}
+            {{/tooltip-component}}
+          </span>
+        {{else}}
+          <span id="engine" class="fa-stack block-button">
+            {{unbound (fa-icon "fa-circle-o-notch" spin=true)}}
+          </span>
+        {{/if}}
+      {{/if}}
     {{/if}}
   </div>
-{{/if}}
+</div>
 
 {{#if show_not_enough_stars_alert}}
   {{#prompt-component}}

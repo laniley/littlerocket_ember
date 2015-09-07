@@ -19,14 +19,18 @@
         </span>
       </div>
     {{else}}
-      <div class="item" {{action 'buyLab'}}>
-        <span class="fa-stack">
-          {{unbound (fa-icon "fa-flask" stack=1)}}
-          {{#tooltip-component tooltip=me.user.lab.tooltip}}
-            {{unbound (fa-icon "fa-lock locked" stack=1)}}
-          {{/tooltip-component}}
-        </span>
-      </div>
+      {{#if (if-equals me.user.lab.status 'locked') }}
+        <div class="item" {{action 'buyLab'}}>
+          <span class="fa-stack">
+            {{unbound (fa-icon "fa-flask" stack=1)}}
+            {{#if me.isLoggedIn}}
+              {{#tooltip-component tooltip=me.user.lab.tooltip}}
+                {{unbound (fa-icon "fa-lock locked" stack=1)}}
+              {{/tooltip-component}}
+            {{/if}}
+          </span>
+        </div>
+        {{/if}}
     {{/if}}
   {{/if}}
   {{#tooltip-component tooltip="Achievements are coming soon..."}}
@@ -56,6 +60,9 @@
           currentSection=currentCockpitSection
           currentLabSection=currentLabSection}}
     {{else}}
+      {{player-hud-components/lab-component
+          me=me
+          currentLabSection=currentLabSection}}
     {{/if}}
 
   </div>

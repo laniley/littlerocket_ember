@@ -23,5 +23,5 @@ export default Ember.Component.extend({
         });
       }
     });
-  }.observes('me.user', 'me.user.experience', 'me.user.needed_exp_for_next_level', 'needed_exp_for_prev_level')
+  }.observes('me.user', 'me.user.experience', 'me.user.needed_exp_for_next_level', 'needed_exp_for_prev_level').on('init')
 });

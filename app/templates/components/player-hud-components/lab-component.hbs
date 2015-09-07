@@ -1,0 +1,91 @@
+<div id="lab">
+  <h2>
+    Lab
+    <span class="currency_info">
+      <div class="stars"><i class="fa fa-star"></i>  {{me.user.stars}}</div>
+    </span>
+  </h2>
+  {{#if (if-equals me.user.lab.status 'unlocked') }}
+    <div class="tab-container">
+      <div id="canon-upgrades" class="tab">
+        {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
+          {{#link-to 'index' (query-params lab_section="canon")}}
+            {{unbound (fa-icon "fa-bullseye")}}
+          {{/link-to}}
+        {{else}}
+          {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
+            {{unbound (fa-icon "fa-bullseye")}}
+            {{timer-component type='canon' component=me.user.rocket.canon}}
+          {{else}}
+            <span class="fa-stack" {{action 'buyCanon'}}>
+              {{unbound (fa-icon "fa-bullseye" stack=1)}}
+              {{#tooltip-component tooltip=me.user.rocket.canon.tooltip}}
+                {{unbound (fa-icon "fa-lock locked" stack=1)}}
+              {{/tooltip-component}}
+            </span>
+          {{/if}}
+        {{/if}}
+      </div>
+      <div id="shield-upgrades" class="tab">
+        {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
+          {{#link-to 'index' (query-params lab_section="shield")}}
+            {{unbound (fa-icon "fa-shield")}}
+          {{/link-to}}
+        {{else}}
+          {{#if (if-equals me.user.rocket.shield.status 'under_construction') }}
+            {{unbound (fa-icon "fa-shield")}}
+            {{timer-component type='shield' component=me.user.rocket.shield}}
+          {{else}}
+            <span class="fa-stack" {{action 'buyShield'}}>
+              {{unbound (fa-icon "fa-shield" stack=1)}}
+              {{#tooltip-component tooltip=me.user.rocket.shield.tooltip}}
+                {{unbound (fa-icon "fa-lock locked" stack=1)}}
+              {{/tooltip-component}}
+            </span>
+          {{/if}}
+        {{/if}}
+      </div>
+      <div id="drive-upgrades" class="tab">
+        {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
+          {{#link-to 'index' (query-params lab_section="engine")}}
+            {{unbound (fa-icon "fa-forward")}}
+          {{/link-to}}
+        {{else}}
+          {{#if (if-equals me.user.rocket.engine.status 'under_construction') }}
+            {{unbound (fa-icon "fa-forward")}}
+            {{timer-component type='engine' component=me.user.rocket.engine}}
+          {{else}}
+            <span class="fa-stack" {{action 'buyEngine'}}>
+              {{unbound (fa-icon "fa-forward" stack=1)}}
+              {{#tooltip-component tooltip=me.user.rocket.engine.tooltip}}
+                {{unbound (fa-icon "fa-lock locked" stack=1)}}
+              {{/tooltip-component}}
+            </span>
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
+    <div class="upgrade-infos">
+      {{#if (if-equals currentLabSection 'canon') }}
+        {{player-hud-components/component-upgrades
+          componentType=currentLabSection
+          component=me.user.rocket.canon}}
+      {{/if}}
+      {{#if (if-equals currentLabSection 'shield') }}
+        {{player-hud-components/component-upgrades
+          componentType=currentLabSection
+          component=me.user.rocket.shield}}
+      {{/if}}
+      {{#if (if-equals currentLabSection 'engine') }}
+        {{player-hud-components/component-upgrades
+          componentType=currentLabSection
+          component=me.user.rocket.engine}}
+      {{/if}}
+    </div>
+  {{else}}
+    <div class="locked-info">
+      <div>{{unbound (fa-icon "fa-lock")}}</div>
+      <div>Locked</div>
+    </div>
+  {{/if}}
+</div>

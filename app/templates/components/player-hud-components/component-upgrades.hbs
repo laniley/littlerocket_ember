@@ -1,0 +1,79 @@
+<h2>{{componentType}}</h2>
+<div class="upgrade-content">
+  {{#if (if-equals component.status 'unlocked') }}
+    {{#each preparedModels as |model|}}
+      <div class="list-item">
+        {{#if (if-equals model.status 'unlocked') }}
+          {{#if model.isSelected}}
+            <div class="block-button list-item-column active">
+              {{unbound (fa-icon icon)}}
+              <div class="info">
+                {{model.model}}
+              </div>
+            </div>
+          {{else}}
+            <div class="block-button list-item-column" {{action 'selectComponentModel' model}}>
+              {{unbound (fa-icon icon)}}
+              <div class="info">
+                {{model.model}}
+              </div>
+            </div>
+          {{/if}}
+        {{else}}
+          {{#if (if-equals model.status 'locked') }}
+            <div class="block-button list-item-column" {{action 'buyComponentModel' model}}>
+              <span class="fa-stack">
+                {{unbound (fa-icon icon stack=1)}}
+                {{#tooltip-component tooltip=model.tooltip}}
+                  {{unbound (fa-icon "fa-lock locked" stack=1)}}
+                {{/tooltip-component}}
+              </span>
+              <div class="info">
+                {{model.model}}
+              </div>
+            </div>
+          {{else}}
+            <div class="block-button list-item-column">
+              {{unbound (fa-icon icon)}}
+              <div class="info">
+                {{model.model}}
+              </div>
+              {{timer-component
+                type='componentModel'
+                construction_start=model.construction_start
+                construction_time=model.construction_time
+                component=model.reference}}
+            </div>
+          {{/if}}
+        {{/if}}
+        <div class="list-item-column">
+          Upgrade infos
+        </div>
+        <div class="list-item-column button-column">
+          {{#if (if-equals model.status 'locked') }}
+            <div class="button" {{action 'buyComponentModel' model}}>
+              {{unbound (fa-icon "fa-star")}} {{model.costs}}
+            </div>
+          {{else}}
+            {{#if (if-equals model.status 'unlocked') }}
+              {{#if model.isSelected}}
+                <div class="button selected">
+                  active
+                </div>
+              {{else}}
+                <div class="button" {{action 'selectComponentModel' model}}>
+                  select
+                </div>
+              {{/if}}
+            {{/if}}
+          {{/if}}
+        </div>
+      </div>
+    {{/each}}
+  {{else}}
+    <div class="locked-info">
+      <div>{{unbound (fa-icon "fa-lock")}}</div>
+      <div>Locked</div>
+    </div>
+  {{/if}}
+</div>
