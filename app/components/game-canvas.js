@@ -1977,8 +1977,8 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
       Q.stage().insert(bigAsteroidMaker);
 
-      asteroidMaker.p.launchRandomFactor = 0.8;
-      bigAsteroidMaker.p.launchRandomFactor = 0.9;
+      asteroidMaker.p.launchRandomFactor = 0.9;
+      bigAsteroidMaker.p.launchRandomFactor = 1.1;
       ufoMaker.p.isActive = 0;
       bigAsteroidMaker.p.isActive = 1;
     }

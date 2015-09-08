@@ -2,12 +2,31 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 export default Ember.Component.extend({
+  me: null,
   componentType: '',
   component: null,
 
   store: function() {
     return this.get('targetObject.store');
   }.property(),
+
+  myRocketComponents: function() {
+    var components = [];
+    return this.get('me').get('user').then(user => {
+      return user.get('rocket').then(rocket => {
+        return rocket.get('canon').then(component => {
+          components.push(component);
+          return rocket.get('shield').then(component => {
+            components.push(component);
+            return rocket.get('engine').then(component => {
+              components.push(component);
+              return components;
+            });
+          });
+        });
+      });
+    });
+  }.property('me.user.rocket.canon', 'me.user.rocket.shield', 'me.user.rocket.engine'),
 
   allComponentModels: function() {
     return this.get('targetObject.store').query('rocket-component-model', { 'type': this.get('componentType') }).then(models => {
@@ -16,11 +35,18 @@ export default Ember.Component.extend({
   }.property(),
 
   myComponentModels: function() {
-    return this.get('targetObject.store').query('rocket-component-model-mm', {
-      'rocketComponent': this.get('component').get('id')
-    }).then(models => {
-      return models;
+    return this.get('myRocketComponents').then(myRocketComponents => {
+      return myRocketComponents.map(rocketComponent => {
+        return rocketComponent.get('rocketComponentModelMms').then(rocketComponentModelMms => {
+          return rocketComponentModelMms;
+        });
+      });
     });
+    // return this.get('targetObject.store').query('rocket-component-model-mm', {
+    //   'rocketComponent': this.get('component').get('id')
+    // }).then(models => {
+    //   return models;
+    // });
   }.property(),
 
   selectedModel: function() {
@@ -35,6 +61,7 @@ export default Ember.Component.extend({
     return DS.PromiseArray.create({
       promise: this.get('allComponentModels').then(models => {
         return this.get('myComponentModels').then(componentModels => {
+          console.log('comp_models', componentModels);
           return this.get('selectedModel').then(selectedModel => {
             return models.map(aModel => {
               var status = 'locked';
@@ -42,12 +69,15 @@ export default Ember.Component.extend({
               var construction_time = 0;
               var reference = null;
               componentModels.forEach(aComponentModel => {
-                if(aComponentModel.get('rocketComponentModel').get('id') === aModel.get('id')) {
-                  status = aComponentModel.get('status');
-                  construction_start = aComponentModel.get('construction_start');
-                  construction_time = aModel.get('construction_time');
-                  reference = aComponentModel;
-                }
+                aComponentModel.get('rocketComponentModel').then(rocketComponentModel => {
+                  console.log('model', rocketComponentModel);
+                  if(aComponentModel.get('rocketComponentModel').get('id') === aModel.get('id')) {
+                    status = aComponentModel.get('status');
+                    construction_start = aComponentModel.get('construction_start');
+                    construction_time = aModel.get('construction_time');
+                    reference = aComponentModel;
+                  }
+                });
               });
               return {
                 id: aModel.get('id'),
@@ -65,7 +95,7 @@ export default Ember.Component.extend({
         });
       })
     });
-  }.property('selectedModel'),
+  }.property('myComponentModels.@each.status','selectedModel'),
 
   icon: function() {
     if(this.get('componentType') === 'canon') {
@@ -190,14 +220,25 @@ export default Ember.Component.extend({
     componentModelMm.save().then(() => {
       user.set('stars', user.get('stars') - costs);
       user.save();
+      this.get('preparedModels').then(preparedModels => {
+        preparedModels.forEach(preparedModel => {
+           componentModelMm.get('rocketCompoenentModel').then(rocketComponentModel => {
+             if(preparedModel.get('id') === rocketComponentModel.get('id')) {
+               preparedModel.set('status', 'under_construction');
+               preparedModel.set('construction_start', now);
+             }
+           });
+        });
+      });
     });
   },
 
   actions: {
     buyComponentModel: function(componentModel) {
       var me = this.get('targetObject.me');
+      var costs = componentModel.costs;
       me.get('user').then(user => {
-        if(user.get('stars') >= componentModel.costs) {
+        if(user.get('stars') >= costs) {
           this.get('targetObject.store').query(
             'rocket-component-model-mm', {
               'rocketComponent': this.get('component').get('id'),
@@ -211,12 +252,12 @@ export default Ember.Component.extend({
                   rocketComponentModel: componentModel
                 });
                 componentModelMm.save().then(componentModelMm => {
-                  this.buyComponentModelCallback(user, componentModelMm, componentModel.costs);
+                  this.buyComponentModelCallback(user, componentModelMm, costs);
                 });
               });
             }
             else {
-              this.buyComponentModelCallback(user, componentModelMms.get('firstObject'), componentModel.costs);
+              this.buyComponentModelCallback(user, componentModelMms.get('firstObject'), costs);
             }
           });
         }

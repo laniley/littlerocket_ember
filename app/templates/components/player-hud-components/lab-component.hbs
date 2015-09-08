@@ -68,16 +68,19 @@
     <div class="upgrade-infos">
       {{#if (if-equals currentLabSection 'canon') }}
         {{player-hud-components/component-upgrades
+          me=me
           componentType=currentLabSection
           component=me.user.rocket.canon}}
       {{/if}}
       {{#if (if-equals currentLabSection 'shield') }}
         {{player-hud-components/component-upgrades
+          me=me
           componentType=currentLabSection
           component=me.user.rocket.shield}}
       {{/if}}
       {{#if (if-equals currentLabSection 'engine') }}
         {{player-hud-components/component-upgrades
+          me=me
           componentType=currentLabSection
           component=me.user.rocket.engine}}
       {{/if}}
