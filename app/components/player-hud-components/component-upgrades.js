@@ -10,36 +10,16 @@ export default Ember.Component.extend({
     return this.get('targetObject.store');
   }.property(),
 
-  myRocketComponents: function() {
-    var components = [];
-    return this.get('me').get('user').then(user => {
-      return user.get('rocket').then(rocket => {
-        return rocket.get('canon').then(component => {
-          components.push(component);
-          return rocket.get('shield').then(component => {
-            components.push(component);
-            return rocket.get('engine').then(component => {
-              components.push(component);
-              return components;
-            });
-          });
-        });
-      });
-    });
-  }.property('me.user.rocket.canon', 'me.user.rocket.shield', 'me.user.rocket.engine'),
-
   allComponentModels: function() {
     return this.get('targetObject.store').query('rocket-component-model', { 'type': this.get('componentType') }).then(models => {
       return models;
     });
   }.property(),
 
-  myComponentModels: function() {
-    return this.get('myRocketComponents').then(myRocketComponents => {
-      return myRocketComponents.map(rocketComponent => {
-        return rocketComponent.get('rocketComponentModelMms').then(rocketComponentModelMms => {
-          return rocketComponentModelMms;
-        });
+  myComponentModelMms: function() {
+    return this.get('component').then(component => {
+      return component.get('rocketComponentModelMms').then(rocketComponentModelMms => {
+        return rocketComponentModelMms;
       });
     });
     // return this.get('targetObject.store').query('rocket-component-model-mm', {
@@ -47,7 +27,7 @@ export default Ember.Component.extend({
     // }).then(models => {
     //   return models;
     // });
-  }.property(),
+  }.property('component.rocketComponentModelMms'),
 
   selectedModel: function() {
     return this.get('component').get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
@@ -60,42 +40,40 @@ export default Ember.Component.extend({
   preparedModels: function() {
     return DS.PromiseArray.create({
       promise: this.get('allComponentModels').then(models => {
-        return this.get('myComponentModels').then(componentModels => {
-          console.log('comp_models', componentModels);
+        return this.get('myComponentModelMms').then(componentModels => {
           return this.get('selectedModel').then(selectedModel => {
             return models.map(aModel => {
-              var status = 'locked';
-              var construction_start = 0;
-              var construction_time = 0;
-              var reference = null;
-              componentModels.forEach(aComponentModel => {
-                aComponentModel.get('rocketComponentModel').then(rocketComponentModel => {
-                  console.log('model', rocketComponentModel);
-                  if(aComponentModel.get('rocketComponentModel').get('id') === aModel.get('id')) {
-                    status = aComponentModel.get('status');
-                    construction_start = aComponentModel.get('construction_start');
+              return componentModels.forEach(aComponentModel => {
+                return aComponentModel.get('rocketComponentModel').then(rocketComponentModel => {
+                  var status = 'locked';
+                  var construction_start = 0;
+                  var construction_time = 0;
+                  var reference = null;
+                  if(rocketComponentModel.get('id') === aModel.get('id')) {
+                    status = rocketComponentModel.get('status');
+                    construction_start = rocketComponentModel.get('construction_start');
                     construction_time = aModel.get('construction_time');
-                    reference = aComponentModel;
+                    reference = rocketComponentModel;
                   }
+                  return {
+                    id: aModel.get('id'),
+                    model: aModel.get('model'),
+                    costs: aModel.get('costs'),
+                    tooltip: "You need " + aModel.get('costs') + " stars to unlock this canon model.",
+                    status: status,
+                    isSelected: aModel.get('id') === selectedModel.get('id'),
+                    construction_start: construction_start,
+                    construction_time: construction_time,
+                    reference: reference
+                  };
                 });
               });
-              return {
-                id: aModel.get('id'),
-                model: aModel.get('model'),
-                costs: aModel.get('costs'),
-                tooltip: "You need " + aModel.get('costs') + " stars to unlock this canon model.",
-                status: status,
-                isSelected: aModel.get('id') === selectedModel.get('id'),
-                construction_start: construction_start,
-                construction_time: construction_time,
-                reference: reference
-              };
             });
           });
         });
       })
     });
-  }.property('myComponentModels.@each.status','selectedModel'),
+  }.property('myComponentModelMms','selectedModel'),
 
   icon: function() {
     if(this.get('componentType') === 'canon') {
