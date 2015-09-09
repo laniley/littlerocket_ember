@@ -22,11 +22,6 @@ export default Ember.Component.extend({
         return rocketComponentModelMms;
       });
     });
-    // return this.get('targetObject.store').query('rocket-component-model-mm', {
-    //   'rocketComponent': this.get('component').get('id')
-    // }).then(models => {
-    //   return models;
-    // });
   }.property('component.rocketComponentModelMms'),
 
   selectedModel: function() {
@@ -40,32 +35,25 @@ export default Ember.Component.extend({
   preparedModels: function() {
     return DS.PromiseArray.create({
       promise: this.get('allComponentModels').then(models => {
-        return this.get('myComponentModelMms').then(componentModels => {
+        return this.get('myComponentModelMms').then(myComponentModelMms => {
           return this.get('selectedModel').then(selectedModel => {
-            return models.map(aModel => {
-              return componentModels.forEach(aComponentModel => {
-                return aComponentModel.get('rocketComponentModel').then(rocketComponentModel => {
+            return models.forEach(aModel => {
+              myComponentModelMms.forEach(aMyComponentModelMm => {
+                aMyComponentModelMm.get('rocketComponentModel').then(currentRocketComponentModel => {
                   var status = 'locked';
                   var construction_start = 0;
                   var construction_time = 0;
-                  var reference = null;
-                  if(rocketComponentModel.get('id') === aModel.get('id')) {
-                    status = rocketComponentModel.get('status');
-                    construction_start = rocketComponentModel.get('construction_start');
+                  if(currentRocketComponentModel.get('id') === aModel.get('id')) {
+                    status = aMyComponentModelMm.get('status');
+                    construction_start = currentRocketComponentModel.get('construction_start');
                     construction_time = aModel.get('construction_time');
-                    reference = rocketComponentModel;
                   }
-                  return {
-                    id: aModel.get('id'),
-                    model: aModel.get('model'),
-                    costs: aModel.get('costs'),
-                    tooltip: "You need " + aModel.get('costs') + " stars to unlock this canon model.",
-                    status: status,
-                    isSelected: aModel.get('id') === selectedModel.get('id'),
-                    construction_start: construction_start,
-                    construction_time: construction_time,
-                    reference: reference
-                  };
+                  aModel.set('tooltip', "You need " + aModel.get('costs') + " stars to unlock this canon model.");
+                  aModel.set('status', status);
+                  aModel.set('isSelected', aModel.get('id') === selectedModel.get('id'));
+                  aModel.set('construction_start', construction_start);
+                  aModel.set('construction_time', construction_time);
+                  aModel.set('myComponentModelMm', aMyComponentModelMm);
                 });
               });
             });
@@ -198,46 +186,14 @@ export default Ember.Component.extend({
     componentModelMm.save().then(() => {
       user.set('stars', user.get('stars') - costs);
       user.save();
-      this.get('preparedModels').then(preparedModels => {
-        preparedModels.forEach(preparedModel => {
-           componentModelMm.get('rocketCompoenentModel').then(rocketComponentModel => {
-             if(preparedModel.get('id') === rocketComponentModel.get('id')) {
-               preparedModel.set('status', 'under_construction');
-               preparedModel.set('construction_start', now);
-             }
-           });
-        });
-      });
     });
   },
 
   actions: {
     buyComponentModel: function(componentModel) {
-      var me = this.get('targetObject.me');
-      var costs = componentModel.costs;
-      me.get('user').then(user => {
-        if(user.get('stars') >= costs) {
-          this.get('targetObject.store').query(
-            'rocket-component-model-mm', {
-              'rocketComponent': this.get('component').get('id'),
-              'rocketComponentModel': componentModel.id
-            }
-          ).then(componentModelMms => {
-            if(Ember.isEmpty(componentModelMms)) {
-              this.get('targetObject.store').find('rocketComponentModel', componentModel.id).then(componentModel => {
-                var componentModelMm = this.get('targetObject.store').createRecord('rocket-component-model-mm', {
-                  rocketComponent: this.get('component'),
-                  rocketComponentModel: componentModel
-                });
-                componentModelMm.save().then(componentModelMm => {
-                  this.buyComponentModelCallback(user, componentModelMm, costs);
-                });
-              });
-            }
-            else {
-              this.buyComponentModelCallback(user, componentModelMms.get('firstObject'), costs);
-            }
-          });
+      this.get('targetObject.me').get('user').then(user => {
+        if(user.get('stars') >= componentModel.get('costs')) {
+          this.buyComponentModelCallback(user, componentModel.get('myComponentModelMm'), componentModel.get('costs'));
         }
         else {
           this.set('show_not_enough_stars_alert', true);
