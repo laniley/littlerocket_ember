@@ -42,17 +42,14 @@ export default Ember.Component.extend({
                 aMyComponentModelMm.get('rocketComponentModel').then(currentRocketComponentModel => {
                   var status = 'locked';
                   var construction_start = 0;
-                  var construction_time = 0;
                   if(currentRocketComponentModel.get('id') === aModel.get('id')) {
                     status = aMyComponentModelMm.get('status');
                     construction_start = currentRocketComponentModel.get('construction_start');
-                    construction_time = aModel.get('construction_time');
                   }
                   aModel.set('tooltip', "You need " + aModel.get('costs') + " stars to unlock this canon model.");
                   aModel.set('status', status);
                   aModel.set('isSelected', aModel.get('id') === selectedModel.get('id'));
                   aModel.set('construction_start', construction_start);
-                  aModel.set('construction_time', construction_time);
                   aModel.set('myComponentModelMm', aMyComponentModelMm);
                 });
               });
