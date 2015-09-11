@@ -7,6 +7,17 @@ export default Ember.Component.extend({
   construction_start: 0,
   construction_time: 0,
 
+  construction_duration: function() {
+    if(this.get('type') === 'componentModel') {
+      return this.get('component').get('rocketComponentModel').then(rocketComponentModel => {
+        return rocketComponentModel.get('construction_time');
+      });
+    }
+    else {
+      return this.get('construction_time');
+    }
+  }.property('construction_time'),
+
   didInsertElement: function() {
 
     var self = this;
@@ -17,31 +28,28 @@ export default Ember.Component.extend({
       start_time = this.get('component').get('construction_start');
     }
 
-    var construction_duration = this.get('construction_time');
-    if(this.get('component').get('construction_time')) {
-      construction_duration = this.get('component').get('construction_time');
-    }
+    this.get('construction_duration').then(construction_duration => {
+      var elapsed_construction_time = now - start_time;
+      var remaining_construction_time = construction_duration - elapsed_construction_time;
 
-    var elapsed_construction_time = now - start_time;
-    var remaining_construction_time = construction_duration - elapsed_construction_time;
-
-    Ember.$('#' + this.get('elementId')).pietimer
-    (
-      {
-        timerStart: start_time,
-        timerCurrent: elapsed_construction_time,
-      	timerSeconds: remaining_construction_time,
-      	color: 'rgb(20, 208, 69)',
-      	height: 50,
-      	width: 50,
-        showPercentage: true,
-        callback: function() {
-          self.onTimerReady();
+      Ember.$('#' + this.get('elementId')).pietimer
+      (
+        {
+          timerStart: start_time,
+          timerCurrent: elapsed_construction_time,
+        	timerSeconds: remaining_construction_time,
+        	color: 'rgb(20, 208, 69)',
+        	height: 50,
+        	width: 50,
+          showPercentage: true,
+          callback: function() {
+            self.onTimerReady();
+          }
         }
-      }
-    );
+      );
 
-    Ember.$('#' + this.get('elementId')).pietimer('start');
+      Ember.$('#' + this.get('elementId')).pietimer('start');
+    });
   },
 
   onTimerReady: function() {
@@ -56,7 +64,7 @@ export default Ember.Component.extend({
         });
       }
       else if(this.get('type') === 'componentModel') {
-        this.get('component').get('myComponentModelMm').set('status', 'unlocked').save();
+        this.get('component').set('status', 'unlocked').save();
       }
       else {
         me.get('user').then(user => {

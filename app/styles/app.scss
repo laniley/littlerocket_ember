@@ -174,22 +174,25 @@ table {
     top: -82px;
   }
   .button {
-    padding: 10px 15px;
-    width: 100px;
-    background-color: $darkblue;
-    &.selected {
-      cursor: default;
-      &:hover {
-        background-color: $darkblue;
-      }
+      width: 100px;
+  }
+}
+
+.button {
+  padding: 10px 15px;
+  background-color: $darkblue;
+  &.selected {
+    cursor: default;
+    &:hover {
+      background-color: $darkblue;
     }
-    &:not(.selected) {
-      background-color: #EBF3F6;
-      color: $primary-text-color;
-      border: $border;
-      &:hover {
-        background-color: white;
-      }
+  }
+  &:not(.selected) {
+    background-color: #EBF3F6;
+    color: $primary-text-color;
+    border: $border;
+    &:hover {
+      background-color: white;
     }
   }
 }
