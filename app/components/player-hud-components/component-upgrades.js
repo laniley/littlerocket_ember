@@ -196,10 +196,10 @@ export default Ember.Component.extend({
       this.loadRocketComponentModelRechargeRateLevelMM(componentModel.get('myComponentModelMm'));
       componentModel.get('myComponentModelMm').set('construction_start', now);
       componentModel.get('myComponentModelMm').set('status', 'under_construction');
-      // componentModel.get('myComponentModelMm').save().then(() => {
-      //   user.set('stars', user.get('stars') - costs);
-      //   user.save();
-      // });
+      componentModel.get('myComponentModelMm').save().then(() => {
+        user.set('stars', user.get('stars') - costs);
+        user.save();
+      });
     }
   },
 

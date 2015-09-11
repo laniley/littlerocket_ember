@@ -16,6 +16,18 @@ export default Ember.Mixin.create({
     });
   },
 
+  getAllComponentModels: function(component) {
+    return this.store.query('rocket-component-model', { 'type': component.get('type') }).then(models => {
+      return models;
+    });
+  },
+
+  getMyComponentModelMms: function(component) {
+    return component.get('rocketComponentModelMms').then(rocketComponentModelMms => {
+      return rocketComponentModelMms;
+    });
+  },
+
   // The response object is returned with a status field that lets the
   // app know the current login status of the person.
   // Full docs on the response object can be found in the documentation
@@ -172,14 +184,40 @@ export default Ember.Mixin.create({
     });
   },
 
+  loadMyRocketComponentModelMms: function(component) {
+    this.getAllComponentModels(component).then(models => {
+      this.getMyComponentModelMms(component).then(myComponentModelMms => {
+        models.forEach(aModel => {
+          var matchingMyComponentModelMm = null;
+          myComponentModelMms.forEach(aMyComponentModelMm => {
+            if(aMyComponentModelMm.get('rocketComponentModel').get('id') === aModel.get('id')) {
+              matchingMyComponentModelMm = aMyComponentModelMm;
+            }
+          });
+          if(Ember.isEmpty(matchingMyComponentModelMm)) {
+            var newComponentModelMm = this.store.createRecord('rocket-component-model-mm', {
+              rocketComponent: component,
+              rocketComponentModel: aModel
+            });
+            newComponentModelMm.save().then(rocketComponentModelMm => {
+              this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMm);
+              this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
+            });
+          }
+        });
+      });
+    });
+  },
+
   loadSelectedRocketComponentModelMM: function(component) {
     component.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
        if(Ember.isEmpty(selectedRocketComponentModelMm)) {
          this.setSelectedRocketComponentModelMM(1, component);
        }
        else {
-          this.loadRocketComponentModelCapacityLevelMM(selectedRocketComponentModelMm);
-          this.loadRocketComponentModelRechargeRateLevelMM(selectedRocketComponentModelMm);
+         this.loadMyRocketComponentModelMms(component);
+         this.loadRocketComponentModelCapacityLevelMM(selectedRocketComponentModelMm);
+         this.loadRocketComponentModelRechargeRateLevelMM(selectedRocketComponentModelMm);
        }
     });
   },
@@ -209,6 +247,7 @@ export default Ember.Mixin.create({
              rocketComponentModelMm.save().then(rocketComponentModelMm => {
                component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
                component.save();
+               this.loadMyRocketComponentModelMms(component);
                this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMm);
                this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
              });
@@ -217,6 +256,7 @@ export default Ember.Mixin.create({
              rocketComponentModelMm = rocketComponentModelMms.get('firstObject');
              component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
              component.save();
+             this.loadMyRocketComponentModelMms(component);
              this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMms.get('firstObject'));
              this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMms.get('firstObject'));
            }
