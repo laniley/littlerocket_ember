@@ -45,6 +45,7 @@ export default Ember.Component.extend({
   },
 
   onTimerReady: function() {
+    console.log('type', this.get('type'), this.get('component').get('myComponentModelMm'));
     if(this.get('component').get('status') === 'under_construction') {
       this.get('component').set('status', 'unlocked');
       var me = this.get('targetObject.store').peekRecord('me', 1);
@@ -56,7 +57,7 @@ export default Ember.Component.extend({
         });
       }
       else if(this.get('type') === 'componentModel') {
-        this.get('component').save();
+        this.get('component').get('myComponentModelMm').set('status', 'unlocked').save();
       }
       else {
         me.get('user').then(user => {
