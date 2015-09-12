@@ -5,10 +5,6 @@ export default Ember.Component.extend({
   me: null,
   show_not_enough_stars_alert: false,
 
-  showCanonModels: false,
-  showShieldModels: false,
-  showEngineModels: false,
-
   store: function() {
     return this.get('targetObject.store');
   }.property(),

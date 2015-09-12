@@ -41,7 +41,6 @@
               {{timer-component
                 type='componentModel'
                 construction_start=myComponentModelMm.construction_start
-                construction_time=myComponentModelMm.rocketComponentModel.construction_time
                 component=myComponentModelMm}}
             </div>
           {{/if}}
@@ -73,10 +72,22 @@
   {{else}}
     <div class="locked-info rocket-component">
       <div>{{unbound (fa-icon icon)}}</div>
-      <div>{{unbound (fa-icon "fa-lock")}} Locked</div>
-      <div class="button" {{action 'buyComponent' component}}>
-        Buy for {{unbound (fa-icon "fa-star")}} {{component.costs}}
-      </div>
+      {{#if (if-equals component.status 'locked') }}
+        <div>{{unbound (fa-icon "fa-lock")}} Locked</div>
+        <div class="button" {{action 'buyComponent' component}}>
+          Buy for {{unbound (fa-icon "fa-star")}} {{component.costs}}
+        </div>
+      {{else}}
+        <div>{{unbound (fa-icon "fa-wrench")}} Under Construction</div>
+      {{/if}}
     </div>
+  {{/if}}
+</div>
+
+<div class="info-prompt">
+  {{#if show_not_enough_stars_alert}}
+    {{#prompt-component}}
+  		{{missing_requirements_message}}
+  	{{/prompt-component}}
   {{/if}}
 </div>

@@ -2,22 +2,19 @@
   .info-prompt {
     position: absolute;
     width: 95%;
+    top: 620px;
   }
   .content {
     #workbench {
-
       margin-bottom: 5px;
-
       img {
         height: 100%;
       }
-
       #canon {
         position: absolute;
         left: 71px;
         bottom: 221px;
       }
-
       .canon-models {
         position: relative;
         top: -222px;

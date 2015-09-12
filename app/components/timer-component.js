@@ -5,21 +5,19 @@ export default Ember.Component.extend({
   type: null,
   component: null,
   construction_start: 0,
-  construction_time: 0,
 
-  construction_duration: function() {
+  didInsertElement: function() {
     if(this.get('type') === 'componentModel') {
-      return this.get('component').get('rocketComponentModel').then(rocketComponentModel => {
-        return rocketComponentModel.get('construction_time');
+      this.get('component').get('rocketComponentModel').then(rocketComponentModel => {
+          this.setupTimer(rocketComponentModel.get('construction_time'));
       });
     }
     else {
-      return this.get('construction_time');
+      this.setupTimer(this.get('component').get('construction_time'));
     }
-  }.property('construction_time'),
+  },
 
-  didInsertElement: function() {
-
+  setupTimer: function(construction_duration) {
     var self = this;
     var now = Math.floor(new Date().getTime() / 1000); // current timestamp in seconds
 
@@ -28,35 +26,33 @@ export default Ember.Component.extend({
       start_time = this.get('component').get('construction_start');
     }
 
-    this.get('construction_duration').then(construction_duration => {
-      var elapsed_construction_time = now - start_time;
-      var remaining_construction_time = construction_duration - elapsed_construction_time;
+    var elapsed_construction_time = now - start_time;
+    var remaining_construction_time = construction_duration - elapsed_construction_time;
 
-      Ember.$('#' + this.get('elementId')).pietimer
-      (
-        {
-          timerStart: start_time,
-          timerCurrent: elapsed_construction_time,
-        	timerSeconds: remaining_construction_time,
-        	color: 'rgb(20, 208, 69)',
-        	height: 50,
-        	width: 50,
-          showPercentage: true,
-          callback: function() {
-            self.onTimerReady();
-          }
+    Ember.$('#' + this.get('elementId')).pietimer
+    (
+      {
+        timerStart: start_time,
+        timerCurrent: elapsed_construction_time,
+      	timerSeconds: remaining_construction_time,
+      	color: 'rgb(20, 208, 69)',
+      	height: 50,
+      	width: 50,
+        showPercentage: true,
+        callback: function() {
+          self.onTimerReady();
         }
-      );
+      }
+    );
 
-      Ember.$('#' + this.get('elementId')).pietimer('start');
-    });
+    Ember.$('#' + this.get('elementId')).pietimer('start');
   },
 
   onTimerReady: function() {
     if(this.get('component').get('status') === 'under_construction') {
       this.get('component').set('status', 'unlocked');
       var me = this.get('targetObject.store').peekRecord('me', 1);
-      if(this.get('type') === 'lab-tab') {
+      if(this.get('type') === 'lab') {
         me.get('user').then(user => {
           user.get('lab').then(lab => {
             lab.save();

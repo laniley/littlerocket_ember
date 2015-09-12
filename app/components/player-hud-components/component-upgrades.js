@@ -5,10 +5,30 @@ export default Ember.Component.extend({
   me: null,
   componentType: '',
   component: null,
+  show_not_enough_stars_alert: false,
+  not_enough_stars: false,
+  level_not_reached: false,
+  needed_level: 0,
+  needed_stars: 0,
 
   store: function() {
     return this.get('targetObject.store');
   }.property(),
+
+  missing_requirements_message: function() {
+    var text = 'You need ';
+    if(this.get('not_enough_stars')) {
+      text += this.get('needed_stars') + ' stars';
+      if(this.get('level_not_reached')) {
+        text += ' and';
+      }
+    }
+    if(this.get('level_not_reached')) {
+      text += ' to reach level ' + this.get('needed_level');
+    }
+    text += '!';
+    return text;
+  }.property('not_enough_stars', 'level_not_reached', 'needed_stars', 'needed_level'),
 
   selectedRocketComponentModelMm: function() {
     return this.get('component').get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
@@ -61,6 +81,17 @@ export default Ember.Component.extend({
   }.property(),
 
   actions: {
+    buyComponent: function(component) {
+      if(component.get('type') === 'canon') {
+        this.get('targetObject').send('buyCanon', component);
+      }
+      else if(component.get('type') === 'shield') {
+        this.get('targetObject').send('buyShield', component);
+      }
+      else if(component.get('type') === 'engine') {
+        this.get('targetObject').send('buyEngine', component);
+      }
+    },
     buyComponentModelMm: function(componentModelMm) {
       this.get('targetObject.me').get('user').then(user => {
         componentModelMm.get('rocketComponentModel').then(componentModel => {
@@ -74,6 +105,8 @@ export default Ember.Component.extend({
             });
           }
           else {
+            this.set('not_enough_stars', true);
+            this.set('needed_stars', componentModel.get('costs'));
             this.set('show_not_enough_stars_alert', true);
           }
         });

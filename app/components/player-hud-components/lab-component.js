@@ -7,6 +7,9 @@ export default Ember.Component.extend({
     return this.get('targetObject.store');
   }.property(),
   actions: {
+    buyLab: function() {
+      this.get('targetObject').send('buyLab');
+    },
     buyCanon: function() {
       var me = this.get('targetObject.store').peekRecord('me', 1);
       me.get('user').then(user => {

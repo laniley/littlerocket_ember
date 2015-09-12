@@ -324,10 +324,18 @@ table {
   color: $darkblue;
   background-color: #EBF3F6;
 
-  &:hover
-  {
+  &:hover {
     background-color: white;
     cursor: pointer;
+  }
+
+  &.active {
+    background-color: $darkblue;
+    cursor: default;
+    color: white;
+    .info {
+      color: white;
+    }
   }
 
   a {
@@ -351,18 +359,40 @@ table {
     {
       &:hover
       {
-        background-color: white;
-        cursor: pointer;
+        :not(.locked) {
+          background-color: white;
+          cursor: pointer;
+        }
       }
     }
   }
 
-  &.active {
-    background-color: $darkblue;
-    cursor: default;
-    color: white;
-    .info {
-      color: white;
+  .link-overlay {
+    a {
+      display: inline-block;
+      height: 100%;
+      width: 100%;
+      color: $darkblue;
+
+      span {
+        top: -6px;
+        padding: 5px;
+      }
+
+      &.active {
+        background: none;
+        cursor: default;
+        color: white;
+      }
+
+      &:not(.active)
+      {
+        &:hover
+        {
+          background: none;
+          cursor: pointer;
+        }
+      }
     }
   }
 
