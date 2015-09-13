@@ -1761,7 +1761,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
                   else {
                     canon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
                       if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
-                        selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+                        selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
                           if(!Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
                             rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
                               if(!Ember.isEmpty(rocketComponentModelCapacityLevel)) {
@@ -1770,7 +1770,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
                             });
                           }
                         });
-                        selectedRocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
+                        selectedRocketComponentModelMm.get('selectedRocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
                           if(!Ember.isEmpty(rocketComponentModelRechargeRateLevelMm)) {
                             rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelRechargeRateLevel => {
                               if(!Ember.isEmpty(rocketComponentModelRechargeRateLevel)) {
@@ -1795,7 +1795,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
                   else {
                     shield.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
                       if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
-                        selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+                        selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
                           if(!Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
                             rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
                               if(!Ember.isEmpty(rocketComponentModelCapacityLevel)) {
@@ -1804,7 +1804,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
                             });
                           }
                         });
-                        selectedRocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
+                        selectedRocketComponentModelMm.get('selectedRocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
                           if(!Ember.isEmpty(rocketComponentModelRechargeRateLevelMm)) {
                             rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelRechargeRateLevel => {
                               if(!Ember.isEmpty(rocketComponentModelRechargeRateLevel)) {
@@ -1829,7 +1829,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
                   else {
                     engine.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
                       if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
-                        selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+                        selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
                           if(!Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
                             rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
                               if(!Ember.isEmpty(rocketComponentModelCapacityLevel)) {
@@ -1838,7 +1838,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
                             });
                           }
                         });
-                        selectedRocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
+                        selectedRocketComponentModelMm.get('selectedRocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
                           if(!Ember.isEmpty(rocketComponentModelRechargeRateLevelMm)) {
                             rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelRechargeRateLevel => {
                               if(!Ember.isEmpty(rocketComponentModelRechargeRateLevel)) {

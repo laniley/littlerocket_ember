@@ -272,19 +272,16 @@ export default Ember.Mixin.create({
   },
 
   loadSelectedRocketComponentModelCapacityLevelMM: function(rocketComponentModelMm) {
-    rocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
-      if(Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
+    rocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(selectedRocketComponentModelCapacityLevelMm => {
+      if(Ember.isEmpty(selectedRocketComponentModelCapacityLevelMm)) {
         this.setSelectedRocketComponentModelCapacityLevelMM(rocketComponentModelMm);
       }
       else {
-        if(rocketComponentModelCapacityLevelMm.get('status') !== 'unlocked') {
-          rocketComponentModelCapacityLevelMm.set('status', 'unlocked');
-          rocketComponentModelCapacityLevelMm.save();
+        if(selectedRocketComponentModelCapacityLevelMm.get('status') !== 'unlocked') {
+          selectedRocketComponentModelCapacityLevelMm.set('status', 'unlocked');
+          selectedRocketComponentModelCapacityLevelMm.save();
         }
-        rocketComponentModelCapacityLevelMm.set('isSelected', 'true');
-        this.get('me').get('rocketComponentModelCapacityLevelMms').then(rocketComponentModelCapacityLevelMms => {
-          rocketComponentModelCapacityLevelMms.pushObject(rocketComponentModelCapacityLevelMm);
-        });
+        selectedRocketComponentModelCapacityLevelMm.set('isSelected', 'true');
         rocketComponentModelMm.get('rocketComponentModel').then(rocketComponentModel => {
           this.loadAllRocketComponentModelCapacityLevelMMs(rocketComponentModelMm, rocketComponentModel);
         });
@@ -316,9 +313,6 @@ export default Ember.Mixin.create({
                rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
                rocketComponentModelMm.save();
             });
-            this.get('me').get('rocketComponentModelCapacityLevelMms').then(rocketComponentModelCapacityLevelMms => {
-              rocketComponentModelCapacityLevelMms.pushObject(rocketComponentModelCapacityLevelMm);
-            });
             this.loadAllRocketComponentModelCapacityLevelMMs(rocketComponentModelMm, rocketComponentModel);
           }
           else {
@@ -327,9 +321,6 @@ export default Ember.Mixin.create({
             rocketComponentModelCapacityLevelMm.set('isSelected', 'true');
             rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
             rocketComponentModelMm.save();
-            this.get('me').get('rocketComponentModelCapacityLevels').then(rocketComponentModelCapacityLevelMms => {
-              rocketComponentModelCapacityLevelMms.pushObject(rocketComponentModelCapacityLevelMm);
-            });
             this.loadAllRocketComponentModelCapacityLevelMMs(rocketComponentModelMm, rocketComponentModel);
           }
         });
@@ -351,16 +342,6 @@ export default Ember.Mixin.create({
                construction_start: 0
             });
             rocketComponentModelCapacityLevelMm.save();
-            this.get('me').get('rocketComponentModelCapacityLevelMms').then(myRocketComponentModelCapacityLevelMms => {
-              myRocketComponentModelCapacityLevelMms.pushObject(rocketComponentModelCapacityLevelMm);
-            });
-          }
-          else {
-            this.get('me').get('rocketComponentModelCapacityLevelMms').then(myRocketComponentModelCapacityLevelMms => {
-              rocketComponentModelLevelMms.forEach(rocketComponentModelCapacityLevelMm => {
-                myRocketComponentModelCapacityLevelMms.pushObject(rocketComponentModelCapacityLevelMm);
-              });
-            });
           }
         });
       });
@@ -368,19 +349,16 @@ export default Ember.Mixin.create({
   },
 
   loadSelectedRocketComponentModelRechargeRateLevelMM: function(rocketComponentModelMm) {
-    rocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
-      if(Ember.isEmpty(rocketComponentModelRechargeRateLevelMm)) {
+    rocketComponentModelMm.get('selectedRocketComponentModelRechargeRateLevelMm').then(selectedRocketComponentModelRechargeRateLevelMm => {
+      if(Ember.isEmpty(selectedRocketComponentModelRechargeRateLevelMm)) {
         this.setSelectedRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
       }
       else {
-        if(rocketComponentModelRechargeRateLevelMm.get('status') !== 'unlocked') {
-          rocketComponentModelRechargeRateLevelMm.set('status', 'unlocked');
-          rocketComponentModelRechargeRateLevelMm.save();
+        if(selectedRocketComponentModelRechargeRateLevelMm.get('status') !== 'unlocked') {
+          selectedRocketComponentModelRechargeRateLevelMm.set('status', 'unlocked');
+          selectedRocketComponentModelRechargeRateLevelMm.save();
         }
-        rocketComponentModelRechargeRateLevelMm.set('isSelected', 'true');
-        this.get('me').get('rocketComponentModelRechargeRateLevelMms').then(rocketComponentModelRechargeRateLevelMms => {
-          rocketComponentModelRechargeRateLevelMms.pushObject(rocketComponentModelRechargeRateLevelMm);
-        });
+        selectedRocketComponentModelRechargeRateLevelMm.set('isSelected', 'true');
         rocketComponentModelMm.get('rocketComponentModel').then(rocketComponentModel => {
           this.loadAllRocketComponentModelRechargeRateLevelMMs(rocketComponentModelMm, rocketComponentModel);
         });
@@ -412,9 +390,6 @@ export default Ember.Mixin.create({
                rocketComponentModelMm.set('rocketComponentModelRechargeRateLevelMm', rocketComponentModelRechargeRateLevelMm);
                rocketComponentModelMm.save();
             });
-            this.get('me').get('rocketComponentModelRechargeRateLevels').then(rocketComponentModelRechargeRateLevels => {
-              rocketComponentModelRechargeRateLevels.pushObject(rocketComponentModelRechargeRateLevelMm);
-            });
             this.loadAllRocketComponentModelRechargeRateLevelMMs(rocketComponentModelMm, rocketComponentModel);
           }
           else {
@@ -444,16 +419,6 @@ export default Ember.Mixin.create({
                construction_start: 0
             });
             rocketComponentModelRechargeRateLevelMm.save();
-            this.get('me').get('rocketComponentModelRechargeRateLevelMms').then(myRocketComponentModelRechargeRateLevelMms => {
-              myRocketComponentModelRechargeRateLevelMms.pushObject(rocketComponentModelRechargeRateLevelMm);
-            });
-          }
-          else {
-            this.get('me').get('rocketComponentModelRechargeRateLevelMms').then(myRocketComponentModelRechargeRateLevelMms => {
-              rocketComponentModelLevelMms.forEach(rocketComponentModelRechargeRateLevelMm => {
-                myRocketComponentModelRechargeRateLevelMms.pushObject(rocketComponentModelRechargeRateLevelMm);
-              });
-            });
           }
         });
       });

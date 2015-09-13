@@ -1,13 +1,17 @@
-<span>
+<span class="model-upgrades capacity-upgrades {{if modelIsUnlocked 'unlocked'}}">
   Capacity:
-  {{#each allComponentModelCapacityLevelMms as |aComponentModelCapacityLevelMm|}}
-    <span class="{{if aComponentModelCapacityLevelMm.isSelected 'active'}}">{{aComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}</span>
+  {{#each myComponentModelCapacityLevelMms as |aComponentModelCapacityLevelMm|}}
+    <div class="level-upgrade {{if aComponentModelCapacityLevelMm.isSelected 'active'}}">
+      {{aComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
+    </div>
   {{/each}}
 </span>
 
-<span>
+<span class="model-upgrades recharge-rate-upgrades {{if modelIsUnlocked 'unlocked'}}">
   Recharge Rate:
-  {{#each allComponentModelRechargeRateLevelMms as |aComponentModelRechargeRateLevelMm|}}
-    <span class="{{if aComponentModelRechargeRateLevelMm.isSelected 'active'}}">{{aComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}</span>
+  {{#each myComponentModelRechargeRateLevelMms as |aComponentModelRechargeRateLevelMm|}}
+    <div class="level-upgrade {{if aComponentModelRechargeRateLevelMm.isSelected 'active'}}">
+      {{aComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
+    </div>
   {{/each}}
 </span>

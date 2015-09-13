@@ -6,23 +6,28 @@ export default Ember.Component.extend({
   me: null,
   myComponentModelMm: null,
 
-  allComponentModelCapacityLevelMms: function() {
-    return DS.PromiseArray.create({
-      promise: this.get('me').get('rocketComponentModelCapacityLevelMms').then(rocketComponentModelCapacityLevelMms => {
-        return rocketComponentModelCapacityLevelMms.filter(rocketComponentModelCapacityLevelMm => {
-          return rocketComponentModelCapacityLevelMm.get('rocketComponentModelMm').get('id') === this.get('myComponentModelMm').get('id');
-        });
-      })
-    });
-  }.property('me.rocketComponentModelCapacityLevelMms.length', 'me.rocketComponentModelCapacityLevelMms.@each.rocketComponentModelMm'),
+  modelIsUnlocked: function() {
+    if(this.get('myComponentModelMm').get('status') === 'unlocked') {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }.property('myComponentModelMm.status'),
 
-  allComponentModelRechargeRateLevelMms: function() {
+  myComponentModelCapacityLevelMms: function() {
     return DS.PromiseArray.create({
-      promise: this.get('me').get('rocketComponentModelRechargeRateLevelMms').then(rocketComponentModelRechargeRateLevelMms => {
-        return rocketComponentModelRechargeRateLevelMms.filter(rocketComponentModelRechargeRateLevelMm => {
-          return rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelMm').get('id') === this.get('myComponentModelMm').get('id');
-        });
+      promise: this.get('myComponentModelMm').get('rocketComponentModelCapacityLevelMms').then(rocketComponentModelCapacityLevelMms => {
+        return rocketComponentModelCapacityLevelMms;
       })
     });
-  }.property('me.rocketComponentModelRechargeRateLevelMms.length', 'me.rocketComponentModelRechargeRateLevelMms.@each.rocketComponentModelMm')
+  }.property(),
+
+  myComponentModelRechargeRateLevelMms: function() {
+    return DS.PromiseArray.create({
+      promise: this.get('myComponentModelMm').get('rocketComponentModelRechargeRateLevelMms').then(rocketComponentModelRechargeRateLevelMms => {
+        return rocketComponentModelRechargeRateLevelMms;
+      })
+    });
+  }.property()
 });

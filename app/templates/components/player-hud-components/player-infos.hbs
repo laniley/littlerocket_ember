@@ -44,7 +44,7 @@
         <td>
           <b>Ammo:</b>
           {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
-            {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
+            {{me.user.rocket.canon.selectedRocketComponentModelMm.selectedRocketComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
           {{else}}
             0
           {{/if}}
@@ -54,7 +54,7 @@
             BPS:
           {{/tooltip-component}}
           {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
-            {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
+            {{me.user.rocket.canon.selectedRocketComponentModelMm.selectedRocketComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
           {{else}}
             0
           {{/if}}
@@ -64,7 +64,7 @@
         <td>
           <b>Shield:</b>
           {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
-            {{me.user.rocket.shield.selectedRocketComponentModelMm.rocketComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
+            {{me.user.rocket.shield.selectedRocketComponentModelMm.selectedRocketComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
           {{else}}
             0
           {{/if}}
@@ -74,7 +74,7 @@
             SRR:
           {{/tooltip-component}}
           {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
-            {{me.user.rocket.shield.selectedRocketComponentModelMm.rocketComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
+            {{me.user.rocket.shield.selectedRocketComponentModelMm.selectedRocketComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
           {{else}}
             0
           {{/if}}
@@ -84,7 +84,7 @@
         <td>
           <b>Slowdowns:</b>
           {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
-            {{me.user.rocket.engine.selectedRocketComponentModelMm.rocketComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
+            {{me.user.rocket.engine.selectedRocketComponentModelMm.selectedRocketComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
           {{else}}
             0
           {{/if}}
@@ -94,7 +94,7 @@
             SDRR:
           {{/tooltip-component}}
           {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
-            {{me.user.rocket.engine.selectedRocketComponentModelMm.rocketComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
+            {{me.user.rocket.engine.selectedRocketComponentModelMm.selectedRocketComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
           {{else}}
             0
           {{/if}}

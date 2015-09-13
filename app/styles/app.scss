@@ -6,6 +6,7 @@
 @import "game_canvas";
 @import "leaderboard";
 @import "player_infos";
+@import "component_level_upgrades";
 
 @font-face
 {
@@ -17,6 +18,11 @@ $bp-xs-max: 950px;
 $bp-md-min: 951px;
 $bp-md-max: 1442px;
 $bp-lg-min: 1443px;
+
+.active {
+  background-color: $darkblue;
+  color: white;
+}
 
 body
 {
@@ -235,6 +241,9 @@ table {
   	margin: 15px 0;
   	color: rgb(127, 154, 163);
     border-bottom: $border-thick;
+    a {
+      background: none;
+    }
     .item {
       display: inline-block;
       padding: 0 10px;
