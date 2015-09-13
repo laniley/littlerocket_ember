@@ -5,14 +5,14 @@
       <div class="list-item">
         {{#if (if-equals myComponentModelMm.status 'unlocked') }}
           {{#if myComponentModelMm.isSelected}}
-            <div class="block-button list-item-column active">
+            <div class="block-button list-item-column active {{myComponentModelMm.rocketComponentModel.rareness}}">
               {{unbound (fa-icon icon)}}
               <div class="info">
                 {{myComponentModelMm.rocketComponentModel.model}}
               </div>
             </div>
           {{else}}
-            <div class="block-button list-item-column" {{action 'selectComponentModelMm' myComponentModelMm}}>
+            <div class="block-button list-item-column {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'selectComponentModelMm' myComponentModelMm}}>
               {{unbound (fa-icon icon)}}
               <div class="info">
                 {{myComponentModelMm.rocketComponentModel.model}}
@@ -21,7 +21,7 @@
           {{/if}}
         {{else}}
           {{#if (if-equals myComponentModelMm.status 'locked') }}
-            <div class="block-button list-item-column" {{action 'buyComponentModelMm' myComponentModelMm}}>
+            <div class="block-button list-item-column {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'buyComponentModelMm' myComponentModelMm}}>
               <span class="fa-stack">
                 {{unbound (fa-icon icon stack=1)}}
                 {{#tooltip-component tooltip=myComponentModelMm.rocketComponentModel.tooltip}}
@@ -33,7 +33,7 @@
               </div>
             </div>
           {{else}}
-            <div class="block-button list-item-column">
+            <div class="block-button list-item-column {{myComponentModelMm.rocketComponentModel.rareness}}">
               {{unbound (fa-icon icon)}}
               <div class="info">
                 {{myComponentModelMm.rocketComponentModel.model}}
@@ -46,21 +46,22 @@
           {{/if}}
         {{/if}}
         <div class="list-item-column">
-          Upgrade infos
+          {{player-hud-components/component-upgrades/component-level-upgrades
+              me=me myComponentModelMm=myComponentModelMm}}
         </div>
         <div class="list-item-column button-column">
           {{#if (if-equals myComponentModelMm.status 'locked') }}
-            <div class="button" {{action 'buyComponentModelMm' myComponentModelMm}}>
+            <div class="button  {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'buyComponentModelMm' myComponentModelMm}}>
               {{unbound (fa-icon "fa-star")}} {{myComponentModelMm.rocketComponentModel.costs}}
             </div>
           {{else}}
             {{#if (if-equals myComponentModelMm.status 'unlocked') }}
               {{#if myComponentModelMm.isSelected}}
-                <div class="button selected">
+                <div class="button selected {{myComponentModelMm.rocketComponentModel.rareness}}">
                   active
                 </div>
               {{else}}
-                <div class="button" {{action 'selectComponentModelMm' myComponentModelMm}}>
+                <div class="button {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'selectComponentModelMm' myComponentModelMm}}>
                   select
                 </div>
               {{/if}}

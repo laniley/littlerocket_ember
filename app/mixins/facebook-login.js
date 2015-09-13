@@ -184,51 +184,28 @@ export default Ember.Mixin.create({
     });
   },
 
-  loadMyRocketComponentModelMms: function(component) {
-    this.getAllComponentModels(component).then(models => {
-      this.getMyComponentModelMms(component).then(myComponentModelMms => {
-        models.forEach(aModel => {
-          var matchingMyComponentModelMm = null;
-          myComponentModelMms.forEach(aMyComponentModelMm => {
-            if(aMyComponentModelMm.get('rocketComponentModel').get('id') === aModel.get('id')) {
-              matchingMyComponentModelMm = aMyComponentModelMm;
-            }
-          });
-          if(Ember.isEmpty(matchingMyComponentModelMm)) {
-            var newComponentModelMm = this.store.createRecord('rocket-component-model-mm', {
-              rocketComponent: component,
-              rocketComponentModel: aModel
-            });
-            newComponentModelMm.save().then(rocketComponentModelMm => {
-              this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMm);
-              this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
-            });
-          }
-        });
-      });
-    });
-  },
-
   loadSelectedRocketComponentModelMM: function(component) {
     component.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
        if(Ember.isEmpty(selectedRocketComponentModelMm)) {
-         this.setSelectedRocketComponentModelMM(1, component);
+         this.setSelectedRocketComponentModelMM(component);
        }
        else {
+         selectedRocketComponentModelMm.set('status', 'unlocked');
+         selectedRocketComponentModelMm.save();
          this.loadMyRocketComponentModelMms(component);
-         this.loadRocketComponentModelCapacityLevelMM(selectedRocketComponentModelMm);
-         this.loadRocketComponentModelRechargeRateLevelMM(selectedRocketComponentModelMm);
+         this.loadSelectedRocketComponentModelCapacityLevelMM(selectedRocketComponentModelMm);
+         this.loadSelectedRocketComponentModelRechargeRateLevelMM(selectedRocketComponentModelMm);
        }
     });
   },
 
-  setSelectedRocketComponentModelMM: function(model, component) {
+  setSelectedRocketComponentModelMM: function(component) {
     this.store.query('rocketComponentModel', {
       type: component.get('type'),
-      model: model
+      model: 1
     }).then(rocketComponentModels => {
       if(Ember.isEmpty(rocketComponentModels)) {
-        console.log('ERROR: No rocketComponentModel found in the DB for type ' + component.get('type') + ' and model ' + model);
+        console.log('ERROR: No rocketComponentModel found in the DB for type ' + component.get('type') + ' and model 1');
       }
       else {
          this.store.query('rocketComponentModelMm', {
@@ -248,8 +225,8 @@ export default Ember.Mixin.create({
                component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
                component.save();
                this.loadMyRocketComponentModelMms(component);
-               this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMm);
-               this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
+               this.loadSelectedRocketComponentModelCapacityLevelMM(rocketComponentModelMm);
+               this.loadSelectedRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
              });
            }
            else {
@@ -257,23 +234,65 @@ export default Ember.Mixin.create({
              component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
              component.save();
              this.loadMyRocketComponentModelMms(component);
-             this.loadRocketComponentModelCapacityLevelMM(rocketComponentModelMms.get('firstObject'));
-             this.loadRocketComponentModelRechargeRateLevelMM(rocketComponentModelMms.get('firstObject'));
+             this.loadSelectedRocketComponentModelCapacityLevelMM(rocketComponentModelMms.get('firstObject'));
+             this.loadSelectedRocketComponentModelRechargeRateLevelMM(rocketComponentModelMms.get('firstObject'));
            }
          });
        }
     });
   },
 
-  loadRocketComponentModelCapacityLevelMM: function(rocketComponentModelMm) {
+  loadMyRocketComponentModelMms: function(component) {
+    this.getAllComponentModels(component).then(models => {
+      this.getMyComponentModelMms(component).then(myComponentModelMms => {
+        models.forEach(aModel => {
+          var matchingMyComponentModelMm = null;
+          myComponentModelMms.forEach(aMyComponentModelMm => {
+            if(aMyComponentModelMm.get('rocketComponentModel').get('id') === aModel.get('id')) {
+              matchingMyComponentModelMm = aMyComponentModelMm;
+            }
+          });
+          if(Ember.isEmpty(matchingMyComponentModelMm)) {
+            var newComponentModelMm = this.store.createRecord('rocket-component-model-mm', {
+              rocketComponent: component,
+              rocketComponentModel: aModel
+            });
+            newComponentModelMm.save().then(rocketComponentModelMm => {
+              this.loadSelectedRocketComponentModelCapacityLevelMM(rocketComponentModelMm);
+              this.loadSelectedRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
+            });
+          }
+          else {
+            this.loadSelectedRocketComponentModelCapacityLevelMM(matchingMyComponentModelMm);
+            this.loadSelectedRocketComponentModelRechargeRateLevelMM(matchingMyComponentModelMm);
+          }
+        });
+      });
+    });
+  },
+
+  loadSelectedRocketComponentModelCapacityLevelMM: function(rocketComponentModelMm) {
     rocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
       if(Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
-        this.setRocketComponentModelCapacityLevelMM(1, rocketComponentModelMm);
+        this.setSelectedRocketComponentModelCapacityLevelMM(rocketComponentModelMm);
+      }
+      else {
+        if(rocketComponentModelCapacityLevelMm.get('status') !== 'unlocked') {
+          rocketComponentModelCapacityLevelMm.set('status', 'unlocked');
+          rocketComponentModelCapacityLevelMm.save();
+        }
+        rocketComponentModelCapacityLevelMm.set('isSelected', 'true');
+        this.get('me').get('rocketComponentModelCapacityLevelMms').then(rocketComponentModelCapacityLevelMms => {
+          rocketComponentModelCapacityLevelMms.pushObject(rocketComponentModelCapacityLevelMm);
+        });
+        rocketComponentModelMm.get('rocketComponentModel').then(rocketComponentModel => {
+          this.loadAllRocketComponentModelCapacityLevelMMs(rocketComponentModelMm, rocketComponentModel);
+        });
       }
     });
   },
 
-  setRocketComponentModelCapacityLevelMM: function(level, rocketComponentModelMm) {
+  setSelectedRocketComponentModelCapacityLevelMM: function(rocketComponentModelMm) {
     rocketComponentModelMm.get('rocketComponentModel').then(rocketComponentModel => {
       this.store.query('rocketComponentModelLevel', {
         type: 'capacity',
@@ -284,41 +303,92 @@ export default Ember.Mixin.create({
           rocketComponentModelMm: rocketComponentModelMm.get('id'),
           rocketComponentModelLevel: rocketComponentModelCapacityLevels.get('firstObject').get('id')
         }).then(rocketComponentModelCapacityLevelMms => {
-
           var rocketComponentModelCapacityLevelMm = {};
-
           if(Ember.isEmpty(rocketComponentModelCapacityLevelMms)) {
             rocketComponentModelCapacityLevelMm = this.store.createRecord('rocket-component-model-level-mm', {
                rocketComponentModelMm: rocketComponentModelMm,
                rocketComponentModelLevel: rocketComponentModelCapacityLevels.get('firstObject'),
                construction_start: 0,
-               status: 'unlocked'
+               status: 'unlocked',
+               isSelected: true
             });
-
             rocketComponentModelCapacityLevelMm.save().then(rocketComponentModelCapacityLevelMm => {
                rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
                rocketComponentModelMm.save();
             });
+            this.get('me').get('rocketComponentModelCapacityLevelMms').then(rocketComponentModelCapacityLevelMms => {
+              rocketComponentModelCapacityLevelMms.pushObject(rocketComponentModelCapacityLevelMm);
+            });
+            this.loadAllRocketComponentModelCapacityLevelMMs(rocketComponentModelMm, rocketComponentModel);
           }
           else {
             rocketComponentModelCapacityLevelMm = rocketComponentModelCapacityLevelMms.get('firstObject');
+            rocketComponentModelCapacityLevelMm.set('status', 'unlocked');
+            rocketComponentModelCapacityLevelMm.set('isSelected', 'true');
             rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
             rocketComponentModelMm.save();
+            this.get('me').get('rocketComponentModelCapacityLevels').then(rocketComponentModelCapacityLevelMms => {
+              rocketComponentModelCapacityLevelMms.pushObject(rocketComponentModelCapacityLevelMm);
+            });
+            this.loadAllRocketComponentModelCapacityLevelMMs(rocketComponentModelMm, rocketComponentModel);
           }
         });
       });
     });
   },
 
-  loadRocketComponentModelRechargeRateLevelMM: function(rocketComponentModelMm) {
+  loadAllRocketComponentModelCapacityLevelMMs: function(rocketComponentModelMm, rocketComponentModel) {
+    rocketComponentModel.get('rocketComponentModelCapacityLevels').then(rocketComponentModelLevels => {
+      rocketComponentModelLevels.forEach(rocketComponentModelLevel => {
+        this.store.query('rocket-component-model-level-mm', {
+          'rocketComponentModelMm': rocketComponentModelMm.get('id'),
+          'rocketComponentModelLevel': rocketComponentModelLevel.get('id')
+        }).then(rocketComponentModelLevelMms => {
+          if(Ember.isEmpty(rocketComponentModelLevelMms)) {
+            var rocketComponentModelCapacityLevelMm = this.store.createRecord('rocket-component-model-level-mm', {
+               rocketComponentModelMm: rocketComponentModelMm,
+               rocketComponentModelLevel: rocketComponentModelLevel,
+               construction_start: 0
+            });
+            rocketComponentModelCapacityLevelMm.save();
+            this.get('me').get('rocketComponentModelCapacityLevelMms').then(myRocketComponentModelCapacityLevelMms => {
+              myRocketComponentModelCapacityLevelMms.pushObject(rocketComponentModelCapacityLevelMm);
+            });
+          }
+          else {
+            this.get('me').get('rocketComponentModelCapacityLevelMms').then(myRocketComponentModelCapacityLevelMms => {
+              rocketComponentModelLevelMms.forEach(rocketComponentModelCapacityLevelMm => {
+                myRocketComponentModelCapacityLevelMms.pushObject(rocketComponentModelCapacityLevelMm);
+              });
+            });
+          }
+        });
+      });
+    });
+  },
+
+  loadSelectedRocketComponentModelRechargeRateLevelMM: function(rocketComponentModelMm) {
     rocketComponentModelMm.get('rocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
       if(Ember.isEmpty(rocketComponentModelRechargeRateLevelMm)) {
-        this.setRocketComponentModelRechargeRateLevelMM(1, rocketComponentModelMm);
+        this.setSelectedRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
+      }
+      else {
+        if(rocketComponentModelRechargeRateLevelMm.get('status') !== 'unlocked') {
+          rocketComponentModelRechargeRateLevelMm.set('status', 'unlocked');
+          rocketComponentModelRechargeRateLevelMm.save();
+        }
+        rocketComponentModelRechargeRateLevelMm.set('isSelected', 'true');
+        this.get('me').get('rocketComponentModelRechargeRateLevelMms').then(rocketComponentModelRechargeRateLevelMms => {
+          rocketComponentModelRechargeRateLevelMms.pushObject(rocketComponentModelRechargeRateLevelMm);
+        });
+        rocketComponentModelMm.get('rocketComponentModel').then(rocketComponentModel => {
+          this.loadAllRocketComponentModelRechargeRateLevelMMs(rocketComponentModelMm, rocketComponentModel);
+        });
       }
     });
   },
 
-  setRocketComponentModelRechargeRateLevelMM: function(level, rocketComponentModelMm) {
+  setSelectedRocketComponentModelRechargeRateLevelMM: function(rocketComponentModelMm) {
     rocketComponentModelMm.get('rocketComponentModel').then(rocketComponentModel => {
       this.store.query('rocketComponentModelLevel', {
         type: 'recharge_rate',
@@ -329,26 +399,61 @@ export default Ember.Mixin.create({
           rocketComponentModelMm: rocketComponentModelMm.get('id'),
           rocketComponentModelLevel: rocketComponentModelRechargeRateLevels.get('firstObject').get('id')
         }).then(rocketComponentModelRechargeRateLevelMms => {
-
           var rocketComponentModelRechargeRateLevelMm = {};
-
           if(Ember.isEmpty(rocketComponentModelRechargeRateLevelMms)) {
             rocketComponentModelRechargeRateLevelMm = this.store.createRecord('rocket-component-model-level-mm', {
                rocketComponentModelMm: rocketComponentModelMm,
                rocketComponentModelLevel: rocketComponentModelRechargeRateLevels.get('firstObject'),
                construction_start: 0,
-               status: 'unlocked'
+               status: 'unlocked',
+               isSelected: true
             });
-
             rocketComponentModelRechargeRateLevelMm.save().then(rocketComponentModelRechargeRateLevelMm => {
                rocketComponentModelMm.set('rocketComponentModelRechargeRateLevelMm', rocketComponentModelRechargeRateLevelMm);
                rocketComponentModelMm.save();
             });
+            this.get('me').get('rocketComponentModelRechargeRateLevels').then(rocketComponentModelRechargeRateLevels => {
+              rocketComponentModelRechargeRateLevels.pushObject(rocketComponentModelRechargeRateLevelMm);
+            });
+            this.loadAllRocketComponentModelRechargeRateLevelMMs(rocketComponentModelMm, rocketComponentModel);
           }
           else {
             rocketComponentModelRechargeRateLevelMm = rocketComponentModelRechargeRateLevelMms.get('firstObject');
+            rocketComponentModelRechargeRateLevelMm.set('status', 'unlocked');
+            rocketComponentModelRechargeRateLevelMm.set('isSelected', 'true');
             rocketComponentModelMm.set('rocketComponentModelRechargeRateLevelMm', rocketComponentModelRechargeRateLevelMm);
             rocketComponentModelMm.save();
+            this.loadAllRocketComponentModelRechargeRateLevelMMs(rocketComponentModelMm, rocketComponentModel);
+          }
+        });
+      });
+    });
+  },
+
+  loadAllRocketComponentModelRechargeRateLevelMMs: function(rocketComponentModelMm, rocketComponentModel) {
+    rocketComponentModel.get('rocketComponentModelRechargeRateLevels').then(rocketComponentModelLevels => {
+      rocketComponentModelLevels.forEach(rocketComponentModelLevel => {
+        this.store.query('rocket-component-model-level-mm', {
+          'rocketComponentModelMm': rocketComponentModelMm.get('id'),
+          'rocketComponentModelLevel': rocketComponentModelLevel.get('id')
+        }).then(rocketComponentModelLevelMms => {
+          if(Ember.isEmpty(rocketComponentModelLevelMms)) {
+            var rocketComponentModelRechargeRateLevelMm = this.store.createRecord('rocket-component-model-level-mm', {
+               rocketComponentModelMm: rocketComponentModelMm,
+               rocketComponentModelLevel: rocketComponentModelLevel,
+               construction_start: 0
+            });
+            rocketComponentModelRechargeRateLevelMm.save();
+            this.get('me').get('rocketComponentModelRechargeRateLevelMms').then(myRocketComponentModelRechargeRateLevelMms => {
+              myRocketComponentModelRechargeRateLevelMms.pushObject(rocketComponentModelRechargeRateLevelMm);
+            });
+          }
+          else {
+            this.get('me').get('rocketComponentModelRechargeRateLevelMms').then(myRocketComponentModelRechargeRateLevelMms => {
+              rocketComponentModelLevelMms.forEach(rocketComponentModelRechargeRateLevelMm => {
+                myRocketComponentModelRechargeRateLevelMms.pushObject(rocketComponentModelRechargeRateLevelMm);
+              });
+            });
           }
         });
       });

@@ -1,0 +1,13 @@
+<span>
+  Capacity:
+  {{#each allComponentModelCapacityLevelMms as |aComponentModelCapacityLevelMm|}}
+    <span class="{{if aComponentModelCapacityLevelMm.isSelected 'active'}}">{{aComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}</span>
+  {{/each}}
+</span>
+
+<span>
+  Recharge Rate:
+  {{#each allComponentModelRechargeRateLevelMms as |aComponentModelRechargeRateLevelMm|}}
+    <span class="{{if aComponentModelRechargeRateLevelMm.isSelected 'active'}}">{{aComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}</span>
+  {{/each}}
+</span>

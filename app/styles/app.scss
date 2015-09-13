@@ -440,6 +440,57 @@ table {
 
 .block-button {
   display: block;
+  &.uncommon {
+    color: #41BB46;
+    border-color: #41BB46;
+    .info {
+      color: #41BB46;
+    }
+  }
+  &.rare {
+    color: rgb(255, 99, 12);
+    border-color: rgb(255, 99, 12);
+    .info {
+      color: rgb(255, 99, 12);
+    }
+  }
+  &.active {
+    &.uncommon {
+      color: white;
+      background-color: #41BB46;
+      .info {
+        color: white;
+      }
+    }
+    &.rare {
+      color: white;
+      background-color: rgb(255, 99, 12);
+      .info {
+        color: white;
+      }
+    }
+  }
+}
+
+.button-column .button {
+  &.uncommon {
+    color: #41BB46;
+    border-color: #41BB46;
+  }
+  &.rare {
+    color: rgb(255, 99, 12);
+    border-color: rgb(255, 99, 12);
+  }
+  &.selected {
+    &.uncommon {
+      color: white;
+      background-color: #41BB46;
+    }
+    &.rare {
+      color: white;
+      background-color: rgb(255, 99, 12);
+    }
+  }
 }
 
 .cockpit {

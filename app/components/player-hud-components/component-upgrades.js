@@ -68,18 +68,6 @@ export default Ember.Component.extend({
     }
   }.property(),
 
-  status: function() {
-    if(this.get('componentType') === 'canon') {
-      return "fa-bullseye";
-    }
-    else if(this.get('componentType') === 'shield') {
-      return "fa-shield";
-    }
-    else if(this.get('componentType') === 'engine') {
-      return "fa-forward";
-    }
-  }.property(),
-
   actions: {
     buyComponent: function(component) {
       if(component.get('type') === 'canon') {
