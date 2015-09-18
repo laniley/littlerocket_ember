@@ -1,8 +1,16 @@
+.model-upgrades {
+  display: inline-block;
+  &.capacity-upgrades {
+    width: 162px;
+  }
+}
+
 .level-upgrade {
   display: inline-block;
   width: 30px;
   line-height: 2rem;
   text-align: center;
+  font-weight: normal;
   cursor: default;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -10,8 +18,20 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  // .has-tip {
+  //   &:hover {
+  //     color: lighten($primary-text-color, 5%);
+  //   }
+  // }
   &:not(.active) {
     background-color: white;
+  }
+  &.locked {
+    i {
+      top: 15px;
+      left: 11px;
+      z-index: 9999;
+    }
   }
 }
 
@@ -25,14 +45,13 @@
   }
   &:not(.unlocked) {
     .level-upgrade {
-      &:not(.active) {
-        cursor: not-allowed;
-      }
+      background-color: $darkgrey;
+      color: white;
     }
   }
 }
 
 .capacity-upgrades {
   margin-left: 10px;
-  margin-right: 30px;
+  margin-right: 25px;
 }

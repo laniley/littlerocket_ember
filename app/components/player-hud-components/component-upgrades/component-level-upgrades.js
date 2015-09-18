@@ -13,21 +13,5 @@ export default Ember.Component.extend({
     else {
       return false;
     }
-  }.property('myComponentModelMm.status'),
-
-  myComponentModelCapacityLevelMms: function() {
-    return DS.PromiseArray.create({
-      promise: this.get('myComponentModelMm').get('rocketComponentModelCapacityLevelMms').then(rocketComponentModelCapacityLevelMms => {
-        return rocketComponentModelCapacityLevelMms;
-      })
-    });
-  }.property(),
-
-  myComponentModelRechargeRateLevelMms: function() {
-    return DS.PromiseArray.create({
-      promise: this.get('myComponentModelMm').get('rocketComponentModelRechargeRateLevelMms').then(rocketComponentModelRechargeRateLevelMms => {
-        return rocketComponentModelRechargeRateLevelMms;
-      })
-    });
-  }.property()
+  }.property('myComponentModelMm.status')
 });

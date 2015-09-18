@@ -450,54 +450,55 @@ table {
 .block-button {
   display: block;
   &.uncommon {
-    color: #41BB46;
-    border-color: #41BB46;
+    color: $success-color;
+    border-color: $success-color;
     .info {
-      color: #41BB46;
+      color: $success-color;
     }
   }
   &.rare {
-    color: rgb(255, 99, 12);
-    border-color: rgb(255, 99, 12);
+    color: $alert-color;
+    border-color: $alert-color;
     .info {
-      color: rgb(255, 99, 12);
+      color: $alert-color;
     }
   }
-  &.active {
-    &.uncommon {
+}
+
+&.active {
+  &.uncommon {
+    color: white;
+    background-color: $success-color;
+    .info {
       color: white;
-      background-color: #41BB46;
-      .info {
-        color: white;
-      }
     }
-    &.rare {
+  }
+  &.rare {
+    color: white;
+    background-color: $alert-color;
+    .info {
       color: white;
-      background-color: rgb(255, 99, 12);
-      .info {
-        color: white;
-      }
     }
   }
 }
 
 .button-column .button {
   &.uncommon {
-    color: #41BB46;
-    border-color: #41BB46;
+    color: $success-color;
+    border-color: $success-color;
   }
   &.rare {
-    color: rgb(255, 99, 12);
-    border-color: rgb(255, 99, 12);
+    color: $alert-color;
+    border-color: $alert-color;
   }
   &.selected {
     &.uncommon {
       color: white;
-      background-color: #41BB46;
+      background-color: $success-color;
     }
     &.rare {
       color: white;
-      background-color: rgb(255, 99, 12);
+      background-color: $alert-color;
     }
   }
 }

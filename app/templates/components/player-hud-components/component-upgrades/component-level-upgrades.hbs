@@ -1,17 +1,51 @@
 <span class="model-upgrades capacity-upgrades {{if modelIsUnlocked 'unlocked'}}">
   Capacity:
-  {{#each myComponentModelCapacityLevelMms as |aComponentModelCapacityLevelMm|}}
-    <div class="level-upgrade {{if aComponentModelCapacityLevelMm.isSelected 'active'}}">
-      {{aComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
-    </div>
+  {{#each myComponentModelMm.rocketComponentModelCapacityLevelMms.content as |aComponentModelCapacityLevelMm|}}
+    {{#if modelIsUnlocked}}
+      {{#if (if-equals aComponentModelCapacityLevelMm.status 'locked')}}
+        {{#tooltip-component tooltip=aComponentModelCapacityLevelMm.tooltip}}
+          <div class="level-upgrade locked fa-stack">
+            {{unbound (fa-icon "fa-lock" stack=2 classNames="locked")}}
+            <span class="value fa-stack-1x">{{aComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}</span>
+          </div>
+        {{/tooltip-component}}
+      {{else}}
+        <div class="level-upgrade {{myComponentModelMm.rocketComponentModel.rareness}} {{if aComponentModelCapacityLevelMm.isSelected 'active'}}">
+          {{aComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
+        </div>
+      {{/if}}
+    {{else}}
+      {{#tooltip-component tooltip="You need to unlock this model first!"}}
+        <div class="level-upgrade">
+          {{aComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
+        </div>
+      {{/tooltip-component}}
+    {{/if}}
   {{/each}}
 </span>
 
 <span class="model-upgrades recharge-rate-upgrades {{if modelIsUnlocked 'unlocked'}}">
   Recharge Rate:
-  {{#each myComponentModelRechargeRateLevelMms as |aComponentModelRechargeRateLevelMm|}}
-    <div class="level-upgrade {{if aComponentModelRechargeRateLevelMm.isSelected 'active'}}">
-      {{aComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
-    </div>
+  {{#each myComponentModelMm.rocketComponentModelRechargeRateLevelMms.content as |aComponentModelRechargeRateLevelMm|}}
+    {{#if modelIsUnlocked}}
+      {{#if (if-equals aComponentModelRechargeRateLevelMm.status 'locked')}}
+        {{#tooltip-component tooltip=aComponentModelRechargeRateLevelMm.tooltip}}
+          <div class="level-upgrade locked fa-stack">
+            {{unbound (fa-icon "fa-lock" stack=2 classNames="locked")}}
+            <span class="value fa-stack-1x">{{aComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}</span>
+          </div>
+        {{/tooltip-component}}
+      {{else}}
+        <div class="level-upgrade {{myComponentModelMm.rocketComponentModel.rareness}} {{if aComponentModelRechargeRateLevelMm.isSelected 'active'}}">
+          {{aComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
+        </div>
+      {{/if}}
+    {{else}}
+      {{#tooltip-component tooltip="You need to unlock this model first!"}}
+        <div class="level-upgrade">
+          {{aComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
+        </div>
+      {{/tooltip-component}}
+    {{/if}}
   {{/each}}
 </span>

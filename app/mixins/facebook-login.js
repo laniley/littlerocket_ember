@@ -156,7 +156,7 @@ export default Ember.Mixin.create({
   loadRocketComponent: function(type, costs, construction_time, user, rocket) {
     rocket.get(type).then(component => {
       if(Ember.isEmpty(component)) {
-         this.store.query('rocket-component', {
+         this.store.find('rocket-component', {
            type: type,
            rocket: rocket.get('id')
          }).then(components => {
@@ -191,16 +191,15 @@ export default Ember.Mixin.create({
        }
        else {
          selectedRocketComponentModelMm.set('status', 'unlocked');
-         selectedRocketComponentModelMm.save();
-         this.loadMyRocketComponentModelMms(component);
-         this.loadSelectedRocketComponentModelCapacityLevelMM(selectedRocketComponentModelMm);
-         this.loadSelectedRocketComponentModelRechargeRateLevelMM(selectedRocketComponentModelMm);
+         selectedRocketComponentModelMm.save().then(() => {
+            this.loadRocketComponentModelMms(component);
+         });
        }
     });
   },
 
   setSelectedRocketComponentModelMM: function(component) {
-    this.store.query('rocketComponentModel', {
+    this.store.find('rocketComponentModel', {
       type: component.get('type'),
       model: 1
     }).then(rocketComponentModels => {
@@ -208,7 +207,7 @@ export default Ember.Mixin.create({
         console.log('ERROR: No rocketComponentModel found in the DB for type ' + component.get('type') + ' and model 1');
       }
       else {
-         this.store.query('rocketComponentModelMm', {
+         this.store.find('rocketComponentModelMm', {
            rocketComponent: component.get('id'),
            rocketComponentModel: rocketComponentModels.get('firstObject').get('id')
          }).then(rocketComponentModelMms => {
@@ -223,26 +222,24 @@ export default Ember.Mixin.create({
              });
              rocketComponentModelMm.save().then(rocketComponentModelMm => {
                component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
-               component.save();
-               this.loadMyRocketComponentModelMms(component);
-               this.loadSelectedRocketComponentModelCapacityLevelMM(rocketComponentModelMm);
-               this.loadSelectedRocketComponentModelRechargeRateLevelMM(rocketComponentModelMm);
+               component.save().then(component => {
+                 this.loadRocketComponentModelMms(component);
+               });
              });
            }
            else {
              rocketComponentModelMm = rocketComponentModelMms.get('firstObject');
              component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
-             component.save();
-             this.loadMyRocketComponentModelMms(component);
-             this.loadSelectedRocketComponentModelCapacityLevelMM(rocketComponentModelMms.get('firstObject'));
-             this.loadSelectedRocketComponentModelRechargeRateLevelMM(rocketComponentModelMms.get('firstObject'));
+             component.save().then(component => {
+               this.loadRocketComponentModelMms(component);
+             });
            }
          });
        }
     });
   },
 
-  loadMyRocketComponentModelMms: function(component) {
+  loadRocketComponentModelMms: function(component) {
     this.getAllComponentModels(component).then(models => {
       this.getMyComponentModelMms(component).then(myComponentModelMms => {
         models.forEach(aModel => {
@@ -291,39 +288,40 @@ export default Ember.Mixin.create({
 
   setSelectedRocketComponentModelCapacityLevelMM: function(rocketComponentModelMm) {
     rocketComponentModelMm.get('rocketComponentModel').then(rocketComponentModel => {
-      this.store.query('rocketComponentModelLevel', {
-        type: 'capacity',
-        level: 1,
-        rocketComponentModel: rocketComponentModel.get('id')
-      }).then(rocketComponentModelCapacityLevels => {
-        this.store.query('rocketComponentModelLevelMm', {
-          rocketComponentModelMm: rocketComponentModelMm.get('id'),
-          rocketComponentModelLevel: rocketComponentModelCapacityLevels.get('firstObject').get('id')
-        }).then(rocketComponentModelCapacityLevelMms => {
-          var rocketComponentModelCapacityLevelMm = {};
-          if(Ember.isEmpty(rocketComponentModelCapacityLevelMms)) {
-            rocketComponentModelCapacityLevelMm = this.store.createRecord('rocket-component-model-level-mm', {
-               rocketComponentModelMm: rocketComponentModelMm,
-               rocketComponentModelLevel: rocketComponentModelCapacityLevels.get('firstObject'),
-               construction_start: 0,
-               status: 'unlocked',
-               isSelected: true
-            });
-            rocketComponentModelCapacityLevelMm.save().then(rocketComponentModelCapacityLevelMm => {
-               rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
-               rocketComponentModelMm.save();
-            });
-            this.loadAllRocketComponentModelCapacityLevelMMs(rocketComponentModelMm, rocketComponentModel);
-          }
-          else {
-            rocketComponentModelCapacityLevelMm = rocketComponentModelCapacityLevelMms.get('firstObject');
-            rocketComponentModelCapacityLevelMm.set('status', 'unlocked');
-            rocketComponentModelCapacityLevelMm.set('isSelected', 'true');
-            rocketComponentModelMm.set('rocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
-            rocketComponentModelMm.save();
-            this.loadAllRocketComponentModelCapacityLevelMMs(rocketComponentModelMm, rocketComponentModel);
-          }
-        });
+      console.log('setSelectedRocketComponentModelCapacityLevelMM');
+      var rocketComponentModelCapacityLevels = this.store.peekAll('rocketComponentModelLevel');
+      var filteredRocketComponentModelCapacityLevels = rocketComponentModelCapacityLevels.filter(rocketComponentModelCapacityLevel => {
+        return rocketComponentModelCapacityLevel.get('type') === 'capacity' && rocketComponentModelCapacityLevel.get('level') === 1 && rocketComponentModelCapacityLevel.get('rocketComponentModel').get('id') === rocketComponentModel.get('id');
+      });
+      this.store.query('rocketComponentModelLevelMm', {
+        rocketComponentModelMm: rocketComponentModelMm.get('id'),
+        rocketComponentModelLevel: filteredRocketComponentModelCapacityLevels.get('firstObject').get('id')
+      }).then(rocketComponentModelCapacityLevelMms => {
+        var rocketComponentModelCapacityLevelMm = {};
+        if(Ember.isEmpty(rocketComponentModelCapacityLevelMms)) {
+          rocketComponentModelCapacityLevelMm = this.store.createRecord('rocket-component-model-level-mm', {
+             rocketComponentModelMm: rocketComponentModelMm,
+             rocketComponentModelLevel: filteredRocketComponentModelCapacityLevels.get('firstObject'),
+             construction_start: 0,
+             status: 'unlocked',
+             isSelected: true
+          });
+          rocketComponentModelCapacityLevelMm.save().then(rocketComponentModelCapacityLevelMm => {
+             rocketComponentModelMm.set('selectedRocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
+             rocketComponentModelMm.save().then(rocketComponentModelMm => {
+                this.loadAllRocketComponentModelCapacityLevelMMs(rocketComponentModelMm, rocketComponentModel);
+             });
+          });
+        }
+        else {
+          rocketComponentModelCapacityLevelMm = rocketComponentModelCapacityLevelMms.get('firstObject');
+          rocketComponentModelCapacityLevelMm.set('status', 'unlocked');
+          rocketComponentModelCapacityLevelMm.set('isSelected', 'true');
+          rocketComponentModelMm.set('selectedRocketComponentModelCapacityLevelMm', rocketComponentModelCapacityLevelMm);
+          rocketComponentModelMm.save().then(rocketComponentModelMm => {
+             this.loadAllRocketComponentModelCapacityLevelMMs(rocketComponentModelMm, rocketComponentModel);
+          });
+        }
       });
     });
   },
@@ -368,39 +366,37 @@ export default Ember.Mixin.create({
 
   setSelectedRocketComponentModelRechargeRateLevelMM: function(rocketComponentModelMm) {
     rocketComponentModelMm.get('rocketComponentModel').then(rocketComponentModel => {
-      this.store.query('rocketComponentModelLevel', {
-        type: 'recharge_rate',
-        level: 1,
-        rocketComponentModel: rocketComponentModel.get('id')
-      }).then(rocketComponentModelRechargeRateLevels => {
-        this.store.query('rocketComponentModelLevelMm', {
-          rocketComponentModelMm: rocketComponentModelMm.get('id'),
-          rocketComponentModelLevel: rocketComponentModelRechargeRateLevels.get('firstObject').get('id')
-        }).then(rocketComponentModelRechargeRateLevelMms => {
-          var rocketComponentModelRechargeRateLevelMm = {};
-          if(Ember.isEmpty(rocketComponentModelRechargeRateLevelMms)) {
-            rocketComponentModelRechargeRateLevelMm = this.store.createRecord('rocket-component-model-level-mm', {
-               rocketComponentModelMm: rocketComponentModelMm,
-               rocketComponentModelLevel: rocketComponentModelRechargeRateLevels.get('firstObject'),
-               construction_start: 0,
-               status: 'unlocked',
-               isSelected: true
-            });
-            rocketComponentModelRechargeRateLevelMm.save().then(rocketComponentModelRechargeRateLevelMm => {
-               rocketComponentModelMm.set('rocketComponentModelRechargeRateLevelMm', rocketComponentModelRechargeRateLevelMm);
-               rocketComponentModelMm.save();
-            });
-            this.loadAllRocketComponentModelRechargeRateLevelMMs(rocketComponentModelMm, rocketComponentModel);
-          }
-          else {
-            rocketComponentModelRechargeRateLevelMm = rocketComponentModelRechargeRateLevelMms.get('firstObject');
-            rocketComponentModelRechargeRateLevelMm.set('status', 'unlocked');
-            rocketComponentModelRechargeRateLevelMm.set('isSelected', 'true');
-            rocketComponentModelMm.set('rocketComponentModelRechargeRateLevelMm', rocketComponentModelRechargeRateLevelMm);
-            rocketComponentModelMm.save();
-            this.loadAllRocketComponentModelRechargeRateLevelMMs(rocketComponentModelMm, rocketComponentModel);
-          }
-        });
+      var rocketComponentModelRechargeRateLevels = this.store.peekAll('rocketComponentModelLevel');
+      var filteredRocketComponentModelRechargeRateLevels = rocketComponentModelRechargeRateLevels.filter(rocketComponentModelRechargeRateLevel => {
+        return rocketComponentModelRechargeRateLevel.get('type') === 'recharge_rate' && rocketComponentModelRechargeRateLevel.get('level') === 1 && rocketComponentModelRechargeRateLevel.get('rocketComponentModel').get('id') === rocketComponentModel.get('id');
+      });
+      this.store.query('rocketComponentModelLevelMm', {
+        rocketComponentModelMm: rocketComponentModelMm.get('id'),
+        rocketComponentModelLevel: filteredRocketComponentModelRechargeRateLevels.get('firstObject').get('id')
+      }).then(rocketComponentModelRechargeRateLevelMms => {
+        var rocketComponentModelRechargeRateLevelMm = {};
+        if(Ember.isEmpty(rocketComponentModelRechargeRateLevelMms)) {
+          rocketComponentModelRechargeRateLevelMm = this.store.createRecord('rocket-component-model-level-mm', {
+             rocketComponentModelMm: rocketComponentModelMm,
+             rocketComponentModelLevel: filteredRocketComponentModelRechargeRateLevels.get('firstObject'),
+             construction_start: 0,
+             status: 'unlocked',
+             isSelected: true
+          });
+          rocketComponentModelRechargeRateLevelMm.save().then(rocketComponentModelRechargeRateLevelMm => {
+             rocketComponentModelMm.set('selectedRocketComponentModelRechargeRateLevelMm', rocketComponentModelRechargeRateLevelMm);
+             rocketComponentModelMm.save();
+          });
+          this.loadAllRocketComponentModelRechargeRateLevelMMs(rocketComponentModelMm, rocketComponentModel);
+        }
+        else {
+          rocketComponentModelRechargeRateLevelMm = rocketComponentModelRechargeRateLevelMms.get('firstObject');
+          rocketComponentModelRechargeRateLevelMm.set('status', 'unlocked');
+          rocketComponentModelRechargeRateLevelMm.set('isSelected', 'true');
+          rocketComponentModelMm.set('selectedRocketComponentModelRechargeRateLevelMm', rocketComponentModelRechargeRateLevelMm);
+          rocketComponentModelMm.save();
+          this.loadAllRocketComponentModelRechargeRateLevelMMs(rocketComponentModelMm, rocketComponentModel);
+        }
       });
     });
   },
