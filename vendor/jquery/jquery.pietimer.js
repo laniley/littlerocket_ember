@@ -1,3 +1,4 @@
+/* global jQuery */
 (function( $ ){
 
     $.fn.pietimer = function( method ) {
@@ -55,14 +56,14 @@
                     $(this).pietimer('drawTimer', 100);
                     data.callback();
                 } else {
-                    var percent = (data.timerCurrent/data.timerSeconds)*100;
+                    percent = (data.timerCurrent/data.timerSeconds)*100;
                     $(this).pietimer('drawTimer', percent, seconds);
                 }
             }
         },
 
-        drawTimer : function (percent, seconds) {
-            $this = $(this);
+        drawTimer : function (percent, timeLeftInSeconds) {
+            var $this = $(this);
             var data = $this.data('pietimer');
             if (data) {
                 $this.html('<div class="percent"></div><div class="slice'+(percent > 50?' gt50"':'"')+'><div class="pie"></div>'+(percent > 50?'<div class="pie fill"></div>':'')+'</div>');
@@ -74,9 +75,9 @@
                     'transform':'rotate('+deg+'deg)'
                 });
                 // $this.find('.percent').html(Math.round(percent)+'%');
-                if(seconds >= 60) {
-                  var minutes = seconds/60;
-                  var seconds = seconds%60;
+                if(timeLeftInSeconds >= 60) {
+                  var minutes = Math.floor(timeLeftInSeconds / 60);
+                  var seconds = timeLeftInSeconds % 60;
                   if(minutes >= 60) {
                     var hours = minutes/60;
                     minutes = minutes%60;
@@ -87,7 +88,7 @@
                   }
                 }
                 else {
-                  $this.find('.percent').html(Math.round(seconds)+'s');
+                  $this.find('.percent').html(Math.round(timeLeftInSeconds)+'s');
                 }
 
                 if (data.showPercentage) {
