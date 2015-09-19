@@ -1,3 +1,21 @@
+.upgrade-content {
+  .component-level-upgrades {
+    text-align: center;
+  }
+  .upgrade-button {
+    @media (max-width: 1110px)
+    {
+      width: 75px !important;
+      padding: 10px 0 !important;
+    }
+    @media (min-width: 1442px) and (max-width: 1620px)
+    {
+      width: 75px !important;
+      padding: 10px 0 !important;
+    }
+  }
+}
+
 .model-upgrades {
   display: inline-block;
   &.capacity-upgrades {
@@ -18,11 +36,6 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  // .has-tip {
-  //   &:hover {
-  //     color: lighten($primary-text-color, 5%);
-  //   }
-  // }
   &:not(.active) {
     background-color: white;
   }
@@ -33,14 +46,21 @@
       z-index: 9999;
     }
   }
+  &.blocked {
+    background-color: $darkgrey;
+    color: white;
+  }
 }
 
 .model-upgrades {
   &.unlocked {
     .level-upgrade {
-      &:not(.active) {
+      &.locked {
         cursor: pointer;
       }
+      // &:not(.active) {
+      //   cursor: pointer;
+      // }
     }
   }
   &:not(.unlocked) {
@@ -52,6 +72,14 @@
 }
 
 .capacity-upgrades {
-  margin-left: 10px;
-  margin-right: 25px;
+  @media (min-width: 1110px) and (max-width: 1441px)
+  {
+    margin-left: 10px;
+    margin-right: 25px;
+  }
+  @media (min-width: 1621px)
+  {
+    margin-left: 10px;
+    margin-right: 25px;
+  }
 }

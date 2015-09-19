@@ -11,11 +11,16 @@ export default DS.Model.extend({
   rocketComponentModelLevelMms: DS.hasMany('rocket-component-model-level-mm', { async: true }),
 
   rocketComponentModelCapacityLevelMms: function() {
+    var previousLevelMm = null;
     return DS.PromiseObject.create({
       promise: this.get('rocketComponentModelLevelMms').then(rocketComponentModelLevelMms => {
         return Ember.RSVP.filter(rocketComponentModelLevelMms.toArray(), rocketComponentModelLevelMm => {
           return rocketComponentModelLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
-            return rocketComponentModelLevel.get('type') === 'capacity';
+            if(rocketComponentModelLevel.get('type') === 'capacity') {
+              rocketComponentModelLevelMm.set('previousLevelMm', previousLevelMm);
+              previousLevelMm = rocketComponentModelLevelMm;
+              return true;
+            }
           });
         });
       })
@@ -23,11 +28,16 @@ export default DS.Model.extend({
   }.property('rocketComponentModelLevelMms.length'),
 
   rocketComponentModelRechargeRateLevelMms: function() {
+    var previousLevelMm = null;
     return DS.PromiseObject.create({
       promise: this.get('rocketComponentModelLevelMms').then(rocketComponentModelLevelMms => {
         return Ember.RSVP.filter(rocketComponentModelLevelMms.toArray(), rocketComponentModelLevelMm => {
           return rocketComponentModelLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
-            return rocketComponentModelLevel.get('type') === 'recharge_rate';
+            if(rocketComponentModelLevel.get('type') === 'recharge_rate') {
+              rocketComponentModelLevelMm.set('previousLevelMm', previousLevelMm);
+              previousLevelMm = rocketComponentModelLevelMm;
+              return true;
+            }
           });
         });
       })

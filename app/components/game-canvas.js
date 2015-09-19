@@ -1088,7 +1088,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
                 if(canon.get('status') === 'unlocked') {
                   canon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-                    selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+                    selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
                       rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
                         Q.state.set('bullets', rocketComponentModelLevel.get('value'));
                       });
@@ -1106,7 +1106,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
                 if(shield.get('status') === 'unlocked') {
                   shield.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-                    selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+                    selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
                       rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
                         Q.state.set('shield', rocketComponentModelLevel.get('value'));
                       });
@@ -1124,7 +1124,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
                 if(engine.get('status') === 'unlocked') {
                   engine.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-                    selectedRocketComponentModelMm.get('rocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+                    selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
                       rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
                         Q.state.set('slowdowns', rocketComponentModelLevel.get('value'));
                       });

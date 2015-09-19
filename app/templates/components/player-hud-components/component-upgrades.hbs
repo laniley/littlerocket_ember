@@ -45,23 +45,23 @@
             </div>
           {{/if}}
         {{/if}}
-        <div class="list-item-column">
+        <div class="list-item-column component-level-upgrades">
           {{player-hud-components/component-upgrades/component-level-upgrades
               me=me myComponentModelMm=myComponentModelMm}}
         </div>
         <div class="list-item-column button-column">
           {{#if (if-equals myComponentModelMm.status 'locked') }}
-            <div class="button  {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'buyComponentModelMm' myComponentModelMm}}>
+            <div class="button upgrade-button  {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'buyComponentModelMm' myComponentModelMm}}>
               {{unbound (fa-icon "fa-star")}} {{myComponentModelMm.rocketComponentModel.costs}}
             </div>
           {{else}}
             {{#if (if-equals myComponentModelMm.status 'unlocked') }}
               {{#if myComponentModelMm.isSelected}}
-                <div class="button selected {{myComponentModelMm.rocketComponentModel.rareness}}">
+                <div class="button upgrade-button selected {{myComponentModelMm.rocketComponentModel.rareness}}">
                   active
                 </div>
               {{else}}
-                <div class="button {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'selectComponentModelMm' myComponentModelMm}}>
+                <div class="button upgrade-button {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'selectComponentModelMm' myComponentModelMm}}>
                   select
                 </div>
               {{/if}}
