@@ -2,6 +2,14 @@
   <div class={{if (if-equals socialSection 'leaderboard') 'active item' 'item' }} {{action 'openSection' 'leaderboard'}}>
     {{unbound (fa-icon "fa-trophy")}}
   </div>
+  <div class={{if (if-equals socialSection 'challenges') 'active item' 'item' }} {{action 'openSection' 'challenges'}}>
+    <span class="fa-stack">
+      {{unbound (fa-icon "fa-user" stack=1 classNames="player-1")}}
+      {{unbound (fa-icon "fa-user" stack=1 classNames="player-2")}}
+      {{unbound (fa-icon "fa-arrows-h" stack=1 classNames="versus")}}
+    </span>
+    {{!-- <span class="versus">vs</span> --}}
+  </div>
   <div class={{if (if-equals socialSection 'comments') 'active item' 'item' }} {{action 'openSection' 'comments'}}>
     {{unbound (fa-icon "fa-pencil")}}
   </div>
@@ -28,7 +36,7 @@
            {{/each}}
         </div>
     {{else}}
-        {{fb-comments}}
+        {{social-components/fb-comments}}
     {{/if}}
   </div>
 {{else}}
