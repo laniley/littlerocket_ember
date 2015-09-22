@@ -10,10 +10,30 @@ export default DS.Model.extend({
   selectedRocketComponentModelRechargeRateLevelMm: DS.belongsTo('rocket-component-model-level-mm', { async: true }),
   rocketComponentModelLevelMms: DS.hasMany('rocket-component-model-level-mm', { async: true }),
 
+  sortedRocketComponentModelLevelMms: function() {
+    return this.get('rocketComponentModelLevelMms').then(rocketComponentModelLevelMms => {
+      return Ember.RSVP.map(rocketComponentModelLevelMms.toArray(), rocketComponentModelLevelMm => {
+        return rocketComponentModelLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
+          return rocketComponentModelLevel;
+        });
+      }).then(rocketComponentModelLevels => {
+        return rocketComponentModelLevels.sortBy('level').map(sortedRocketComponentModelLevel => {
+          return Ember.RSVP.filter(rocketComponentModelLevelMms.toArray(), rocketComponentModelLevelMm => {
+            return rocketComponentModelLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
+              return Ember.isEqual(sortedRocketComponentModelLevel, rocketComponentModelLevel);
+            });
+          }).then(foundRocketComponentModelLevelMmArray => {
+            return foundRocketComponentModelLevelMmArray.get('firstObject');
+          });
+        });
+      });
+    });
+  }.property('rocketComponentModelLevelMms.[]'),
+
   rocketComponentModelCapacityLevelMms: function() {
     var previousLevelMm = null;
     return DS.PromiseObject.create({
-      promise: this.get('rocketComponentModelLevelMms').then(rocketComponentModelLevelMms => {
+      promise: this.get('sortedRocketComponentModelLevelMms').then(rocketComponentModelLevelMms => {
         return Ember.RSVP.filter(rocketComponentModelLevelMms.toArray(), rocketComponentModelLevelMm => {
           return rocketComponentModelLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
             if(rocketComponentModelLevel.get('type') === 'capacity') {
@@ -30,7 +50,7 @@ export default DS.Model.extend({
   rocketComponentModelRechargeRateLevelMms: function() {
     var previousLevelMm = null;
     return DS.PromiseObject.create({
-      promise: this.get('rocketComponentModelLevelMms').then(rocketComponentModelLevelMms => {
+      promise: this.get('sortedRocketComponentModelLevelMms').then(rocketComponentModelLevelMms => {
         return Ember.RSVP.filter(rocketComponentModelLevelMms.toArray(), rocketComponentModelLevelMm => {
           return rocketComponentModelLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
             if(rocketComponentModelLevel.get('type') === 'recharge_rate') {
