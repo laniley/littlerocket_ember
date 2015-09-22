@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   me: null,
-  socialSection: 'leaderboard',
+  currentSection: 'leaderboard',
   leaderboard: null,
   store: null,
 
@@ -20,9 +20,5 @@ export default Ember.Component.extend({
     });
   },
 
-  actions: {
-    openSection: function(section) {
-      this.set('socialSection', section);
-    }
-  }
+  actions: {}
 });

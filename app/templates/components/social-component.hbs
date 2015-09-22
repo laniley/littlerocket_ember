@@ -1,42 +1,51 @@
 <div class="title">
-  <div class={{if (if-equals socialSection 'leaderboard') 'active item' 'item' }} {{action 'openSection' 'leaderboard'}}>
-    {{unbound (fa-icon "fa-trophy")}}
-  </div>
-  <div class={{if (if-equals socialSection 'challenges') 'active item' 'item' }} {{action 'openSection' 'challenges'}}>
-    <span class="fa-stack">
-      {{unbound (fa-icon "fa-user" stack=1 classNames="player-1")}}
-      {{unbound (fa-icon "fa-user" stack=1 classNames="player-2")}}
-      {{unbound (fa-icon "fa-arrows-h" stack=1 classNames="versus")}}
-    </span>
-    {{!-- <span class="versus">vs</span> --}}
-  </div>
-  <div class={{if (if-equals socialSection 'comments') 'active item' 'item' }} {{action 'openSection' 'comments'}}>
-    {{unbound (fa-icon "fa-pencil")}}
-  </div>
+  {{#link-to 'index' (query-params social_section="leaderboard")}}
+    <div class={{if (if-equals currentSection 'leaderboard') 'active item' 'item' }}>
+      {{unbound (fa-icon "fa-trophy")}}
+    </div>
+  {{/link-to}}
+  {{#link-to 'index' (query-params social_section="challenges")}}
+    <div class={{if (if-equals currentSection 'challenges') 'active item' 'item' }}>
+      <span class="fa-stack">
+        {{unbound (fa-icon "fa-user" stack=1 classNames="player-1")}}
+        {{unbound (fa-icon "fa-user" stack=1 classNames="player-2")}}
+        {{unbound (fa-icon "fa-arrows-h" stack=1 classNames="versus")}}
+      </span>
+    </div>
+  {{/link-to}}
+  {{#link-to 'index' (query-params social_section="comments")}}
+    <div class={{if (if-equals currentSection 'comments') 'active item' 'item' }}>
+      {{unbound (fa-icon "fa-pencil")}}
+    </div>
+  {{/link-to}}
 </div>
 
 {{#if me.isLoggedIn}}
   <div class="content">
     {{!-- {{fa-icon "fa-globe"}} --}}
-    {{#if (if-equals socialSection 'leaderboard') }}
+    {{#if (if-equals currentSection 'leaderboard') }}
         <div class="leaderboard_list scrollable_list">
-           {{#each leaderboard.players as |top_player|}}
-              <div class="list-item">
-                <div class="rank_container">
-                  <span class="rank">{{top_player.rank}}</span>
-                </div>
-                <div class="img_container">
-                  <img src="http://graph.facebook.com/{{top_player.fb_id}}/picture" class="profile small" />
-                </div>
-                <div class="name">{{top_player.name}}</div>
-                <div class="score_container">
-                  <span class="score">{{top_player.score}}</span> Points
-                </div>
+          {{#each leaderboard.players as |top_player|}}
+            <div class="list-item">
+              <div class="rank_container">
+                <span class="rank">{{top_player.rank}}</span>
               </div>
-           {{/each}}
+              <div class="img_container">
+                <img src="http://graph.facebook.com/{{top_player.fb_id}}/picture" class="profile small" />
+              </div>
+              <div class="name">{{top_player.name}}</div>
+              <div class="score_container">
+                <span class="score">{{top_player.score}}</span> Points
+              </div>
+            </div>
+          {{/each}}
         </div>
     {{else}}
+      {{#if (if-equals currentSection 'challenges')}}
+        {{social-components/challenges-component me=me}}
+      {{else}}
         {{social-components/fb-comments}}
+      {{/if}}
     {{/if}}
   </div>
 {{else}}

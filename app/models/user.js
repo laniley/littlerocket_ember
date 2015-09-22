@@ -16,6 +16,7 @@ export default DS.Model.extend({
 
   lab: DS.belongsTo('lab', { async: true}),
   rocket: DS.belongsTo('rocket', { async: true }),
+  challenges: DS.hasMany('challenge', { async: true, inverse: null }),
 
   name: function() {
     return this.get('first_name') + ' ' + this.get('last_name');
