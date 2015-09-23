@@ -6,6 +6,7 @@
 @import "cockpit";
 @import "game_canvas";
 @import "leaderboard";
+@import "challenges";
 @import "player_infos";
 @import "component_level_upgrades";
 
@@ -19,6 +20,12 @@ $bp-xs-max: 950px;
 $bp-md-min: 951px;
 $bp-md-max: 1442px;
 $bp-lg-min: 1443px;
+
+.scrollable-list {
+  height: 495px;
+  overflow: auto;
+  font-size: 18px;
+}
 
 .active {
   background-color: $darkblue;

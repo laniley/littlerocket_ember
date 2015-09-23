@@ -1,5 +1,11 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  me: null
+  me: null,
+
+  actions: {
+    sendChallengeRequest: function() {
+      
+    }
+  }
 });

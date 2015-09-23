@@ -83,7 +83,7 @@ export default Ember.Mixin.create({
     var self = this;
     var store = this.get('store');
 
-  	FB.api('/me', {fields: 'id,email,first_name,last_name,picture.width(120).height(120),gender'}, function(response)
+  	FB.api('/me', {fields: 'id,email,first_name,last_name,picture.width(120).height(120),gender,friends,invitable_friends'}, function(response)
   	{
   		if( !response.error )
   		{
@@ -112,6 +112,7 @@ export default Ember.Mixin.create({
 
               self.loadRocket(user);
               self.loadLab(user);
+              self.loadFriends(me, response);
             });
         });
   		}
@@ -120,6 +121,27 @@ export default Ember.Mixin.create({
   			console.log(response.error);
   		}
   	});
+  },
+
+  loadFriends: function(me, response) {
+    response.friends.data.forEach(friend => {
+      this.store.createRecord('friend', {
+        me: me,
+        long_fb_id: friend.id,
+        name: friend.name,
+        img_url: friend.picture.data.url,
+        isAlreadyPlaying: true
+      });
+    });
+    response.invitable_friends.data.forEach(friend => {
+      this.store.createRecord('friend', {
+        me: me,
+        long_fb_id: friend.id,
+        name: friend.name,
+        img_url: friend.picture.data.url,
+        isAlreadyPlaying: false
+      });
+    });
   },
 
   loadRocket: function(user) {

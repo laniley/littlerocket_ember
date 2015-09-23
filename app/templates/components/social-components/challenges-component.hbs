@@ -1,7 +1,11 @@
 <h2>
   Challenges
 </h2>
-{{unbound (fa-icon 'plus')}} create a new challenge
-{{#each challenge in me.user.challenges}}
-  {{from_player.name}} {{to_player.name}}
-{{/each}}
+<div class="scrollable-list challenges">
+  {{#each challenge in me.user.challenges}}
+    <div>{{friend.name}}</div>
+  {{/each}}
+  {{#each friend in me.friends}}
+    <div class="challenge">{{friend.name}}<button {{action "sendChallengeRequest" friend.long_fb_id}}>challenge</button></div>
+  {{/each}}
+</div>

@@ -1,0 +1,13 @@
+.challenge {
+  line-height: 50px;
+  padding: 0 5px;
+  button {
+    float: right;
+    margin: 5px;
+    line-height: 20px;
+    padding: 10px 15px;
+  }
+  &:nth-child(even) {
+    background-color: white;
+  }
+}
