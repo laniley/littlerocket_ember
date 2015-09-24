@@ -17,26 +17,18 @@
     font-size: 18px;
 
 		.list-item {
-			height: 	65px;
-			margin-left: 0px !important;
-      &:nth-child(even) {
-        background-color: white;
-      }
-
       .rank_container {
   			float: left;
   			margin-right: 10px;
-  			line-height: 50px;
+  			line-height: 65px;
   			font-size: 22px;
         width: 23px;
         text-align: right;
   		}
-
       .img_container {
   			float: left;
   			margin-right: 10px;
   			// line-height: 50px;
-
         img {
     			width: 50px;
     		}
@@ -44,11 +36,11 @@
 
       .name {
   			font-size: 22px;
-        line-height: 1.5rem;
+        line-height: 40px;
   		}
 
       .score_container {
-        line-height: 1.5rem;
+        line-height: 15px;
       }
 		}
 
