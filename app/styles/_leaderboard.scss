@@ -19,6 +19,9 @@
 		.list-item {
 			height: 	65px;
 			margin-left: 0px !important;
+      &:nth-child(even) {
+        background-color: white;
+      }
 
       .rank_container {
   			float: left;
