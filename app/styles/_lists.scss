@@ -6,4 +6,13 @@
   &:nth-child(even) {
     background-color: white;
   }
+  .img_container {
+    float: left;
+    margin-right: 10px;
+    // line-height: 50px;
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
 }

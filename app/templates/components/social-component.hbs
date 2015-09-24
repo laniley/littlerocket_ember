@@ -24,22 +24,25 @@
   <div class="content">
     {{!-- {{fa-icon "fa-globe"}} --}}
     {{#if (if-equals currentSection 'leaderboard') }}
-        <div class="leaderboard_list scrollable_list">
-          {{#each leaderboard.players as |top_player|}}
-            <div class="list-item">
-              <div class="rank_container">
-                <span class="rank">{{top_player.rank}}</span>
-              </div>
-              <div class="img_container">
-                <img src="http://graph.facebook.com/{{top_player.fb_id}}/picture" class="profile small" />
-              </div>
-              <div class="name">{{top_player.name}}</div>
-              <div class="score_container">
-                <span class="score">{{top_player.score}}</span> Points
-              </div>
+      <h2>
+        Leaderbaord
+      </h2>
+      <div class="leaderboard_list scrollable_list">
+        {{#each leaderboard.players as |top_player|}}
+          <div class="list-item">
+            <div class="rank_container">
+              <span class="rank">{{top_player.rank}}</span>
             </div>
-          {{/each}}
-        </div>
+            <div class="img_container">
+              <img src="http://graph.facebook.com/{{top_player.fb_id}}/picture" class="profile small" />
+            </div>
+            <div class="name">{{top_player.name}}</div>
+            <div class="score_container">
+              <span class="score">{{top_player.score}}</span> Points
+            </div>
+          </div>
+        {{/each}}
+      </div>
     {{else}}
       {{#if (if-equals currentSection 'challenges')}}
         {{social-components/challenges-component me=me}}

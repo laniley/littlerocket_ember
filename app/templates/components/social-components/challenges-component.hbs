@@ -3,9 +3,14 @@
 </h2>
 <div class="scrollable-list challenges">
   {{#each challenge in me.user.challenges}}
-    <div>{{friend.name}}</div>
+    <div class="list-item">{{friend.name}}</div>
   {{/each}}
   {{#each friend in me.friends}}
-    <div class="challenge">{{friend.name}}<button {{action "sendChallengeRequest" friend.long_fb_id}}>challenge</button></div>
+    <div class="list-item challenge">
+      <div class="img_container">
+        <img src="{{friend.img_url}}" class="profile small" />
+      </div>
+      {{friend.name}}<button {{action "sendChallengeRequest" friend.long_fb_id}}>challenge</button>
+    </div>
   {{/each}}
 </div>

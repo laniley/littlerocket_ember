@@ -11,7 +11,7 @@
 
 	.leaderboard_list {
     position: relative;
-    height: 98%;
+    height: 93%;
     width: 100%;
     overflow: auto;
     font-size: 18px;
@@ -25,20 +25,10 @@
         width: 23px;
         text-align: right;
   		}
-      .img_container {
-  			float: left;
-  			margin-right: 10px;
-  			// line-height: 50px;
-        img {
-    			width: 50px;
-    		}
-  		}
-
       .name {
   			font-size: 22px;
         line-height: 40px;
   		}
-
       .score_container {
         line-height: 15px;
       }
