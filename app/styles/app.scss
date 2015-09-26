@@ -1,6 +1,7 @@
 @import "settings";
 @import "foundation";
 @import "pietimer";
+@import "buttons";
 @import "top_nav_bar";
 @import "hud_container";
 @import "cockpit";
@@ -193,25 +194,6 @@ table {
   }
 }
 
-.button {
-  padding: 10px 15px;
-  background-color: $darkblue;
-  &.selected {
-    cursor: default;
-    &:hover {
-      background-color: $darkblue;
-    }
-  }
-  &:not(.selected) {
-    background-color: #EBF3F6;
-    color: $primary-text-color;
-    border: $border;
-    &:hover {
-      background-color: white;
-    }
-  }
-}
-
 #main {
 	position: absolute;
 
@@ -311,15 +293,6 @@ table {
   margin-bottom: 15px;
   .tab {
     display: inline-block;
-  }
-}
-
-button {
-  .button-text {
-    @media (max-width: 1550px)
-    {
-      display: none;
-    }
   }
 }
 
@@ -496,27 +469,6 @@ button {
     background-color: $alert-color;
     .info {
       color: white;
-    }
-  }
-}
-
-.button-column .button {
-  &.uncommon {
-    color: $success-color;
-    border-color: $success-color;
-  }
-  &.rare {
-    color: $alert-color;
-    border-color: $alert-color;
-  }
-  &.selected {
-    &.uncommon {
-      color: white;
-      background-color: $success-color;
-    }
-    &.rare {
-      color: white;
-      background-color: $alert-color;
     }
   }
 }

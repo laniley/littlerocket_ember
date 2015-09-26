@@ -1,0 +1,53 @@
+button {
+  .button-text {
+    @media (max-width: 1550px)
+    {
+      display: none;
+    }
+  }
+}
+
+.button {
+  padding: 10px 15px;
+  background-color: $darkblue;
+  &.selected {
+    cursor: default;
+    &:hover {
+      background-color: $darkblue;
+    }
+  }
+  &:not(.selected) {
+    background-color: #EBF3F6;
+    color: $primary-text-color;
+    border: $border;
+    &:hover {
+      background-color: white;
+    }
+  }
+}
+
+button, .button {
+  &.uncommon {
+    color: $success-color;
+    border-color: $success-color;
+  }
+  &.rare {
+    color: $alert-color;
+    border-color: $alert-color;
+  }
+  &.locked {
+    color: $locked-color;
+    background-color: $locked-bg-color;
+    cursor: default;
+  }
+  &.selected {
+    &.uncommon {
+      color: white;
+      background-color: $success-color;
+    }
+    &.rare {
+      color: white;
+      background-color: $alert-color;
+    }
+  }
+}

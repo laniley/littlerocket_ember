@@ -26,6 +26,8 @@
       <div class="button-container">
         {{#unless challenge.hasBeenPlayedByMe}}
           <button {{action "playChallengeRequest" friend}}>{{unbound (fa-icon 'fa-rocket')}}<span class="button-text"> play</span></button>
+        {{else}}
+          <button class="locked">{{unbound (fa-icon 'fa-clock-o')}}<span class="button-text"> wait</span></button>
         {{/unless}}
       </div>
     </div>
