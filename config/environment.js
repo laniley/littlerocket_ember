@@ -24,9 +24,9 @@ module.exports = function(environment) {
       'script-src': "'self' 'unsafe-inline' 'unsafe-eval' cdn.lfstmedia.com ads.lfstmedia.com www.google-analytics.com use.typekit.net connect.facebook.net facebook.com graph.facebook.com",
       'font-src': "'self' data: use.typekit.net fonts.gstatic.com",
       'connect-src': "'self' localhost:8000 littlerocket-game.com connect.facebook.net",
-      'img-src': "'self' *.xx.fbcdn.net www.google-analytics.com www.paypalobjects.com fbstatic-a.akamaihd.net graph.facebook.com www.facebook.com p.typekit.net fbcdn-profile-a.akamaihd.net csi.gstatic.com mt.googleapis.com",
+      'img-src': "'self' ads.lfstmedia.com cdn.lfstmedia.com *.xx.fbcdn.net www.google-analytics.com www.paypalobjects.com fbstatic-a.akamaihd.net graph.facebook.com www.facebook.com p.typekit.net fbcdn-profile-a.akamaihd.net csi.gstatic.com mt.googleapis.com",
       'style-src': "'self' 'unsafe-inline' use.typekit.net fonts.googleapis.com",
-      'frame-src': "ads.lfstmedia.com s-static.ak.facebook.com static.ak.facebook.com www.facebook.com admin.appnext.com",
+      'frame-src': "localhost:4200 littlerocket-game.com cdn.lfstmedia.com ads.lfstmedia.com s-static.ak.facebook.com static.ak.facebook.com www.facebook.com admin.appnext.com",
       'report-uri': '/_/csp-reports'
     }
   };

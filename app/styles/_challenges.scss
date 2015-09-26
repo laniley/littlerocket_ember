@@ -1,13 +1,34 @@
 .challenge {
   line-height: 50px;
   padding: 0 5px;
-  button {
-    float: right;
-    margin: 5px;
-    line-height: 20px;
-    padding: 10px 15px;
-  }
   &:nth-child(even) {
     background-color: white;
+  }
+  .challenge-player {
+    float:left;
+    width: 40%;
+  }
+  .challenge-player-infos {
+    margin-right: 20px;
+    // position: relative;
+    // left: 58px;
+    .player-name {
+      line-height: 43px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    .player-score {
+      line-height: 7px;
+    }
+  }
+  .button-container {
+    line-height: 65px;
+    position: relative;
+    float: right;
+    button {
+      margin: 5px;
+      line-height: 20px;
+      padding: 10px 15px;
+    }
   }
 }

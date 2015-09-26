@@ -19,7 +19,14 @@ export default DS.Model.extend({
   challenges: DS.hasMany('challenge', { async: true, inverse: null }),
 
   name: function() {
-    return this.get('first_name') + ' ' + this.get('last_name');
+    var name = '';
+    if(this.get('first_name')) {
+      name += this.get('first_name');
+    }
+    if(this.get('last_name')) {
+      name += ' ' + this.get('last_name');
+    }
+    return name;
   }.property('first_name', 'last_name'),
 
   exp_level: function() {

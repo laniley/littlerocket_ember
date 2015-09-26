@@ -314,6 +314,15 @@ table {
   }
 }
 
+button {
+  .button-text {
+    @media (max-width: 1550px)
+    {
+      display: none;
+    }
+  }
+}
+
 .block-button, .tab {
   font-size: 2.4em;
   width: 65px;
@@ -646,13 +655,14 @@ table {
   }
 }
 
-
+  // iframe
 #footer_banner {
-	position: relative;
-	left: 50%;
-	margin-left: -364px;
+  position: relative;
+  left: 50%;
+  margin-left: -376px;
   margin-top: 30px;
   margin-bottom: 20px;
-  width: 728px;
-  height: 90px;
+  width: 752px;
+  height: 110px;
+  border: none;
 }

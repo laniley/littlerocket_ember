@@ -10,3 +10,19 @@
     top: 10px;
   }
 }
+
+.search {
+  width: 300px;
+  height: 30px;
+  float: right;
+  input {
+    height: 27px;
+  }
+  .fa-search {
+    position: relative;
+    float: right;
+    top: -38px;
+    right: 5px;
+    font-size: 18px;
+  }
+}

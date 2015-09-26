@@ -1,16 +1,44 @@
 <h2>
   Challenges
+  <div class="search">{{input value=search_term}}{{unbound (fa-icon "fa-search")}}</div>
 </h2>
 <div class="scrollable-list challenges">
-  {{#each challenge in me.user.challenges}}
-    <div class="list-item">{{friend.name}}</div>
+  {{#each challenges.content as |challenge|}}
+    <div class="list-item challenge">
+      <div class="challenge-player">
+        <div class="img_container">
+          <img src="{{challenge.from_player.img_url}}" class="profile small" />
+        </div>
+        <div class="challenge-player-infos">
+          <div class="player-name">{{challenge.from_player.name}}</div>
+          <div class="player-score">{{challenge.from_player_score}} Points</div>
+        </div>
+      </div>
+      <div class="challenge-player">
+        <div class="img_container">
+          <img src="{{challenge.to_player.img_url}}" class="profile small" />
+        </div>
+        <div class="challenge-player-infos">
+          <div class="player-name">{{challenge.to_player.name}}</div>
+          <div class="player-score">{{challenge.to_player_score}} Points</div>
+        </div>
+      </div>
+      <div class="button-container">
+        {{#unless challenge.hasBeenPlayedByMe}}
+          <button {{action "playChallengeRequest" friend}}>{{unbound (fa-icon 'fa-rocket')}}<span class="button-text"> play</span></button>
+        {{/unless}}
+      </div>
+    </div>
   {{/each}}
-  {{#each friend in me.friends}}
+  {{#each friends_matching_search as |friend|}}
     <div class="list-item challenge">
       <div class="img_container">
         <img src="{{friend.img_url}}" class="profile small" />
       </div>
-      {{friend.name}}<button {{action "sendChallengeRequest" friend.long_fb_id}}>challenge</button>
+      {{friend.name}}
+      <div class="button-container">
+        <button {{action "sendChallengeRequest" friend}}>{{unbound (fa-icon 'fa-envelope')}}<span class="button-text"> challenge</span></button>
+      </div>
     </div>
   {{/each}}
 </div>
