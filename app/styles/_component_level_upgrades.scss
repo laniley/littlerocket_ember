@@ -3,6 +3,8 @@
     text-align: center;
   }
   .upgrade-button {
+    padding: 10px 15px;
+    width: 100px;
     @media (max-width: 1110px)
     {
       width: 75px !important;

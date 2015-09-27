@@ -4,6 +4,7 @@ import DS from 'ember-data';
 
 export default Ember.Component.extend({
   me: null,
+  currentSection: 'unplayed',
   search_term: '',
 
   friends_matching_search: function() {
@@ -18,31 +19,59 @@ export default Ember.Component.extend({
         if(!Ember.isEmpty(user)) {
           return user.get('challenges').then(challenges => {
             return Ember.RSVP.map(challenges.toArray(), challenge => {
-              if(challenge.get('from_player_has_played') > 0 || challenge.get('to_player_has_played') > 0) {
                 return challenge.get('from_player').then(from_player => {
                   if(Ember.isEqual(user, from_player)) {
+                    challenge.set('iAm', 'from_player');
                     if(challenge.get('from_player_has_played') > 0) {
                       challenge.set('hasBeenPlayedByMe', true);
+                    }
+                    if(Ember.isEqual(challenge, this.get('me').get('activeChallenge'))) {
+                      challenge.set('isActive', true);
+                    }
+                    else {
+                      challenge.set('isActive', false);
                     }
                     return challenge;
                   }
                   else {
+                    challenge.set('iAm', 'to_player');
                     if(challenge.get('to_player_has_played') > 0) {
                       challenge.set('hasBeenPlayedByMe', true);
+                    }
+                    if(Ember.isEqual(challenge, this.get('me').get('activeChallenge'))) {
+                      challenge.set('isActive', true);
+                    }
+                    else {
+                      challenge.set('isActive', false);
                     }
                     return challenge;
                   }
                 });
-              }
-              else {
-                return challenge;
-              }
             });
           });
         }
+        else {
+          return [];
+        }
       })
     });
-  }.property('me.user.challenges.[]'),
+  }.property('me.user.challenges.[]', 'me.activeChallenge'),
+
+  unplayedChallenges: function() {
+    return DS.PromiseObject.create({
+      promise: this.get('challenges').then(challenges => {
+        return challenges.filterBy('hasBeenPlayedByMe', false);
+      })
+    });
+  }.property('challenges.@each.hasBeenPlayedByMe'),
+
+  waitingChallenges: function() {
+    return DS.PromiseObject.create({
+      promise: this.get('challenges').then(challenges => {
+        return challenges.filterBy('hasBeenPlayedByMe', true);
+      })
+    });
+  }.property('challenges.@each.hasBeenPlayedByMe'),
 
   actions: {
     sendChallengeRequest: function(friend) {
@@ -76,6 +105,10 @@ export default Ember.Component.extend({
             }
           });
       });
+    },
+
+    playChallenge: function(challenge) {
+      this.get('me').set('activeChallenge', challenge);
     }
   }
 });

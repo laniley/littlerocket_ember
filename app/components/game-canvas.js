@@ -1612,6 +1612,18 @@ export default Ember.Component.extend(FacebookLoginMixin, {
           self.set('newHighscore', false);
         }
 
+        if(self.get('me').get('activeChallenge')) {
+          if(self.get('me').get('activeChallenge').get('iAm') === 'from_player') {
+            self.get('me').get('activeChallenge').set('from_player_score', self.get('new_score'));
+            self.get('me').get('activeChallenge').set('from_player_has_played', true);
+          }
+          else {
+            self.get('me').get('activeChallenge').set('to_player_score', self.get('new_score'));
+            self.get('me').get('activeChallenge').set('to_player_has_played', true);
+          }
+          self.get('me').get('activeChallenge').save();
+        }
+
         self.set('currentScene', 'gameOver');
 
         var new_stars_amount = user.get('stars') + (parseInt(Q.state.get('stars')) * parseInt(Q.state.get('level')));

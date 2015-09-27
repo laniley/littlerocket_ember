@@ -45,7 +45,7 @@
       </div>
     {{else}}
       {{#if (if-equals currentSection 'challenges')}}
-        {{social-components/challenges-component me=me}}
+        {{social-components/challenges-component me=me currentSection=currentChallengesSection}}
       {{else}}
         {{social-components/fb-comments}}
       {{/if}}

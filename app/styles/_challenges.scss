@@ -1,3 +1,6 @@
+.challenges {
+  clear: both;
+}
 .challenge {
   line-height: 50px;
   padding: 0 5px;
@@ -25,7 +28,7 @@
     line-height: 65px;
     position: relative;
     float: right;
-    button {
+    .button {
       margin: 5px;
       line-height: 20px;
       padding: 10px 15px;

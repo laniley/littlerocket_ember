@@ -1,33 +1,21 @@
-button {
+button, .button {
   .button-text {
-    @media (max-width: 1550px)
-    {
+    @media (max-width: 1700px) {
       display: none;
     }
   }
 }
 
-.button {
-  padding: 10px 15px;
-  background-color: $darkblue;
-  &.selected {
-    cursor: default;
-    &:hover {
-      background-color: $darkblue;
-    }
-  }
-  &:not(.selected) {
+button, .button {
+  border: $border;
+  &:not(.active) {
     background-color: #EBF3F6;
     color: $primary-text-color;
-    border: $border;
     &:hover {
       background-color: white;
     }
   }
-}
-
-button, .button {
-  &.uncommon {
+  &.uncommon, &.success {
     color: $success-color;
     border-color: $success-color;
   }
@@ -39,8 +27,17 @@ button, .button {
     color: $locked-color;
     background-color: $locked-bg-color;
     cursor: default;
+    &:hover {
+      color: $locked-color;
+      background-color: $locked-bg-color;
+      cursor: default;
+    }
   }
   &.selected {
+    &.common {
+      color: white;
+      background-color: $darkblue;
+    }
     &.uncommon {
       color: white;
       background-color: $success-color;

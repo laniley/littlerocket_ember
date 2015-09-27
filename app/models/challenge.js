@@ -6,9 +6,16 @@ export default DS.Model.extend({
   to_player: DS.belongsTo('user', { async: true }),
   from_player_score: DS.attr('number', { defaultValue: 0 }),
   to_player_score: DS.attr('number', { defaultValue: 0 }),
-  from_player_has_played: DS.attr('boolean', { defaultValue: false }),
-  to_player_has_played: DS.attr('boolean', { defaultValue: false }),
   hasBeenPlayedByMe: DS.attr('boolean', { defaultValue: false }),
+  isActive: DS.attr('boolean', { defaultValue: false }),
+  iAm: DS.attr('string'),
   winner: DS.belongsTo('user'),
-  created_at: DS.attr('date')
+  created_at: DS.attr('date'),
+
+  from_player_has_played: function() {
+    return this.get('from_player_score') > 0;
+  }.property('from_player_score'),
+  to_player_has_played: function() {
+    return this.get('to_player_score') > 0;
+  }.property('to_player_score')
 });
