@@ -1,5 +1,8 @@
 <h2>
   Challenges
+  {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_type="challenges")}}
+    <div class="button">{{unbound (fa-icon 'fa-trophy')}}</div>
+  {{/link-to}}
   {{#link-to 'index' (query-params challenges_section="new")}}
     <div class={{if (eq currentSection 'new') "active button" "button" }}>{{unbound (fa-icon 'fa-plus')}}</div>
   {{/link-to}}
