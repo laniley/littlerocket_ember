@@ -40,11 +40,9 @@
             </div>
           </div>
           <div class="button-container">
-            {{!-- {{#unless challenge.hasBeenPlayedByMe}} --}}
-              <div class="button {{if challenge.isActive "active"}}" {{action "playChallenge" challenge}}>{{unbound (fa-icon 'fa-rocket')}}<span class="button-text">{{if challenge.isActive " active" " play"}}</span></div>
-            {{!-- {{else}}
-              <div class="button locked">{{unbound (fa-icon 'fa-clock-o')}}<span class="button-text"> wait</span></div>
-            {{/unless}} --}}
+            <div class="button {{if challenge.isActive "active"}}" {{action challenge.action challenge}}>
+              {{unbound (fa-icon 'fa-rocket')}}<span class="button-text">{{if challenge.isActive " stop" " play"}}</span>
+            </div>
           </div>
         </div>
       {{/each}}

@@ -109,6 +109,10 @@ export default Ember.Component.extend({
 
     playChallenge: function(challenge) {
       this.get('me').set('activeChallenge', challenge);
+    },
+
+    stopChallenge: function() {
+      this.get('me').set('activeChallenge', null);
     }
   }
 });

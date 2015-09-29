@@ -17,5 +17,13 @@ export default DS.Model.extend({
   }.property('from_player_score'),
   to_player_has_played: function() {
     return this.get('to_player_score') > 0;
-  }.property('to_player_score')
+  }.property('to_player_score'),
+  action: function() {
+    if(!this.get('isActive')) {
+      return "playChallenge";
+    }
+    else {
+      return "stopChallenge";
+    }
+  }.property('isActive')
 });
