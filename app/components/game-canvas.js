@@ -2055,6 +2055,15 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   	});
   },
 
+  aChallengeIsActive: function() {
+    if(!Ember.isEmpty(this.get('me').get('activeChallenge'))) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }.property('me.activeChallenge'),
+
   actions: {
     login: function() {
       this.login();

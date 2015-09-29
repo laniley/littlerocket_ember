@@ -15,6 +15,9 @@
       margin-left: -25%;
     }
   }
+  .active-challenge {
+    border-color: $warning-color;
+  }
 }
 
 .login-container {
@@ -36,7 +39,6 @@
 }
 
 .gameOver {
-
   position: absolute;
   bottom: 40%;
   left: 50%;
