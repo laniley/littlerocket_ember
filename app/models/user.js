@@ -9,8 +9,10 @@ export default DS.Model.extend({
   gender: DS.attr('string'),
 
   rank: DS.attr('number'),
+  rank_by_won_challenges: DS.attr('number'),
   score: DS.attr('number', { defaultValue: 0 }),
   stars: DS.attr('number', { defaultValue: 0 }),
+  challenges_won: DS.attr('number', { defaultValue: 0 }),
   reached_level: DS.attr('number', { defaultValue: 1 }),
   experience: DS.attr('number', { defaultValue: 0 }),
 

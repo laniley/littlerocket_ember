@@ -1,4 +1,8 @@
 .hud-container {
+  .empty-info-text {
+    text-align: center;
+    margin-top: 70px;
+  }
   .player-1 {
     left: -10px;
   }
@@ -8,6 +12,29 @@
   .versus {
     color: #484B4C;
     top: 10px;
+  }
+  h2 {
+    .versus {
+      top: 5px;
+    }
+    .pvp {
+      padding: 0 5px;
+      &:not(.active) {
+        .player-1, .player-2 {
+          color: $primary-color;
+        }
+      }
+      .fa-stack {
+        line-height: 1.8em;
+        height: 1.8em;
+      }
+    }
+    .player-1 {
+      left: -7px;
+    }
+    .player-2 {
+      left: 7px;
+    }
   }
 }
 

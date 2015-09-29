@@ -25,23 +25,55 @@
     {{!-- {{fa-icon "fa-globe"}} --}}
     {{#if (if-equals currentSection 'leaderboard') }}
       <h2>
-        Leaderboard
+        Leaderboards
+        {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_type="challenges")}}
+          <div class="{{if (eq currentLeaderboardType 'challenges') "active button pvp" "button pvp" }}" title="sort by won challenges">
+            <span class="fa-stack">
+              {{unbound (fa-icon "fa-user" stack=1 classNames="player-1")}}
+              {{unbound (fa-icon "fa-user" stack=1 classNames="player-2")}}
+              {{unbound (fa-icon "fa-arrows-h" stack=1 classNames="versus")}}
+            </span>
+          </div>
+        {{/link-to}}
+        {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_type="score")}}
+          <div class="{{if (eq currentLeaderboardType 'score') "active button" "button" }}" title="sort by score">
+            {{unbound (fa-icon 'fa-asterisk')}}
+          </div>
+        {{/link-to}}
       </h2>
       <div class="leaderboard_list scrollable_list">
-        {{#each leaderboard.players as |top_player|}}
-          <div class="list-item">
-            <div class="rank_container">
-              <span class="rank">{{top_player.rank}}</span>
+        {{#if (gt leaderboard.players.length 0)}}
+          {{#each leaderboard.players as |top_player|}}
+            <div class="list-item">
+              <div class="rank_container">
+                <span class="rank">
+                  {{#if (eq currentLeaderboardType 'score')}}
+                    {{top_player.rank}}
+                  {{else}}
+                    {{#if (eq currentLeaderboardType 'challenges')}}
+                      {{top_player.rank_by_won_challenges}}
+                    {{/if}}
+                  {{/if}}
+                </span>
+              </div>
+              <div class="img_container">
+                <img src="http://graph.facebook.com/{{top_player.fb_id}}/picture" class="profile small" />
+              </div>
+              <div class="name">{{top_player.name}}</div>
+              <div class="score_container">
+                {{#if (eq currentLeaderboardType 'score')}}
+                  <span class="score">{{top_player.score}}</span> Points
+                {{else}}
+                  {{#if (eq currentLeaderboardType 'challenges')}}
+                    <span class="score">{{top_player.challenges_won}}</span> challenges won
+                  {{/if}}
+                {{/if}}
+              </div>
             </div>
-            <div class="img_container">
-              <img src="http://graph.facebook.com/{{top_player.fb_id}}/picture" class="profile small" />
-            </div>
-            <div class="name">{{top_player.name}}</div>
-            <div class="score_container">
-              <span class="score">{{top_player.score}}</span> Points
-            </div>
-          </div>
-        {{/each}}
+          {{/each}}
+        {{else}}
+          <div class="empty-info-text">This leaderboard is currently empty.</div>
+        {{/if}}
       </div>
     {{else}}
       {{#if (if-equals currentSection 'challenges')}}
