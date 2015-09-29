@@ -22,8 +22,13 @@ export default Ember.Component.extend({
                 return challenge.get('from_player').then(from_player => {
                   if(Ember.isEqual(user, from_player)) {
                     challenge.set('iAm', 'from_player');
-                    if(challenge.get('from_player_has_played') > 0) {
+                    if(challenge.get('from_player_has_played')) {
                       challenge.set('hasBeenPlayedByMe', true);
+                      challenge.set('myScore', challenge.get('from_player_score'));
+                    }
+                    if(challenge.get('to_player_has_played')) {
+                      challenge.set('hasBeenPlayedByOpponent', true);
+                      challenge.set('opponentScore', challenge.get('to_player_score'));
                     }
                     if(Ember.isEqual(challenge, this.get('me').get('activeChallenge'))) {
                       challenge.set('isActive', true);
@@ -35,8 +40,13 @@ export default Ember.Component.extend({
                   }
                   else {
                     challenge.set('iAm', 'to_player');
+                    if(challenge.get('from_player_has_played') > 0) {
+                      challenge.set('hasBeenPlayedByOpponent', true);
+                      challenge.set('opponentScore', challenge.get('from_player_score'));
+                    }
                     if(challenge.get('to_player_has_played') > 0) {
                       challenge.set('hasBeenPlayedByMe', true);
+                      challenge.set('myScore', challenge.get('to_player_score'));
                     }
                     if(Ember.isEqual(challenge, this.get('me').get('activeChallenge'))) {
                       challenge.set('isActive', true);
@@ -72,6 +82,28 @@ export default Ember.Component.extend({
       })
     });
   }.property('challenges.@each.hasBeenPlayedByMe'),
+
+  wonChallenges: function() {
+    return DS.PromiseObject.create({
+      promise: this.get('challenges').then(challenges => {
+        return challenges.filter(challenge => {
+          return challenge.get('hasBeenPlayedByMe') === true && challenge.get('hasBeenPlayedByOpponent') === true &&
+                 challenge.get('myScore') > challenge.get('opponentScore');
+        });
+      })
+    });
+  }.property('challenges.@each.hasBeenPlayedByMe', 'challenges.@each.hasBeenPlayedByOpponent', 'challenges.@each.myScore', 'challenges.@each.opponentScore'),
+
+  lostChallenges: function() {
+    return DS.PromiseObject.create({
+      promise: this.get('challenges').then(challenges => {
+        return challenges.filter(challenge => {
+          return challenge.get('hasBeenPlayedByMe') === true && challenge.get('hasBeenPlayedByOpponent') === true &&
+                 challenge.get('myScore') < challenge.get('opponentScore');
+        });
+      })
+    });
+  }.property('challenges.@each.hasBeenPlayedByMe', 'challenges.@each.hasBeenPlayedByOpponent', 'challenges.@each.myScore', 'challenges.@each.opponentScore'),
 
   actions: {
     sendChallengeRequest: function(friend) {
