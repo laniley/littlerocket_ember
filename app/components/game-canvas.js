@@ -1,5 +1,6 @@
 /* global Quintus */
 /* global FB */
+/* global LSM_Slot */
 import Ember from 'ember';
 import FacebookLoginMixin from './../mixins/facebook-login';
 
@@ -1518,6 +1519,8 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
   		Q.unpauseGame();
 
+      Ember.$("#footer_banner").empty();
+
       Q.audio.play('racing.mp3', { loop: true });
   		Q.audio.play('rocket.mp3', { loop: true });
 
@@ -1598,6 +1601,14 @@ export default Ember.Component.extend(FacebookLoginMixin, {
       if(self.get('engineReloadingTimeout')) {
         clearTimeout(self.get('engineReloadingTimeout'));
       }
+
+      new LSM_Slot({
+          adkey: '6df',
+          ad_size: '728x90',
+          slot: 'slot126743',
+          _render_div_id: 'footer_banner',
+          _preload: true
+      });
 
       self.get('me').get('user').then(user => {
 
