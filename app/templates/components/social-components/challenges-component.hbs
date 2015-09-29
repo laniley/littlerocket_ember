@@ -3,8 +3,12 @@
   {{#link-to 'index' (query-params challenges_section="new")}}
     <div class={{if (eq currentSection 'new') "active button" "button" }}>{{unbound (fa-icon 'fa-plus')}}</div>
   {{/link-to}}
-  <div class="button">{{unbound (fa-icon 'fa-close')}}</div>
-  <div class="button">{{unbound (fa-icon 'fa-check')}}</div>
+  {{#link-to 'index' (query-params challenges_section="lost")}}
+    <div class={{if (eq currentSection 'lost') "active button" "button" }}>{{unbound (fa-icon 'fa-close')}}</div>
+  {{/link-to}}
+  {{#link-to 'index' (query-params challenges_section="won")}}
+    <div class={{if (eq currentSection 'won') "active button" "button" }}>{{unbound (fa-icon 'fa-check')}}</div>
+  {{/link-to}}
   {{#link-to 'index' (query-params challenges_section="waiting")}}
     <div class={{if (eq currentSection 'waiting') "active button" "button" }}>{{unbound (fa-icon 'fa-clock-o')}}</div>
   {{/link-to}}
