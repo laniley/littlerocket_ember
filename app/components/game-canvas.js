@@ -1622,6 +1622,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
             self.get('me').get('activeChallenge').set('to_player_has_played', true);
           }
           self.get('me').get('activeChallenge').save();
+          self.get('me').set('activeChallenge', null);
         }
 
         self.set('currentScene', 'gameOver');
