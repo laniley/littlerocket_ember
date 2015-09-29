@@ -18,35 +18,44 @@
 </h2>
 <div class="scrollable-list challenges">
   {{#if (eq currentSection 'unplayed')}}
-    {{#each unplayedChallenges.content as |challenge|}}
-      <div class="list-item challenge">
-        <div class="challenge-player">
-          <div class="img_container">
-            <img src="{{challenge.from_player.img_url}}" class="profile small" />
+    {{#if (gt unplayedChallenges.content.length 0)}}
+      {{#each unplayedChallenges.content as |challenge|}}
+        <div class="list-item challenge">
+          <div class="challenge-player">
+            <div class="img_container">
+              <img src="{{challenge.from_player.img_url}}" class="profile small" />
+            </div>
+            <div class="challenge-player-infos">
+              <div class="player-name">{{challenge.from_player.name}}</div>
+              <div class="player-score">{{challenge.from_player_score}} Points</div>
+            </div>
           </div>
-          <div class="challenge-player-infos">
-            <div class="player-name">{{challenge.from_player.name}}</div>
-            <div class="player-score">{{challenge.from_player_score}} Points</div>
+          <div class="challenge-player">
+            <div class="img_container">
+              <img src="{{challenge.to_player.img_url}}" class="profile small" />
+            </div>
+            <div class="challenge-player-infos">
+              <div class="player-name">{{challenge.to_player.name}}</div>
+              <div class="player-score">{{challenge.to_player_score}} Points</div>
+            </div>
+          </div>
+          <div class="button-container">
+            {{!-- {{#unless challenge.hasBeenPlayedByMe}} --}}
+              <div class="button {{if challenge.isActive "active"}}" {{action "playChallenge" challenge}}>{{unbound (fa-icon 'fa-rocket')}}<span class="button-text">{{if challenge.isActive " active" " play"}}</span></div>
+            {{!-- {{else}}
+              <div class="button locked">{{unbound (fa-icon 'fa-clock-o')}}<span class="button-text"> wait</span></div>
+            {{/unless}} --}}
           </div>
         </div>
-        <div class="challenge-player">
-          <div class="img_container">
-            <img src="{{challenge.to_player.img_url}}" class="profile small" />
-          </div>
-          <div class="challenge-player-infos">
-            <div class="player-name">{{challenge.to_player.name}}</div>
-            <div class="player-score">{{challenge.to_player_score}} Points</div>
-          </div>
-        </div>
-        <div class="button-container">
-          {{!-- {{#unless challenge.hasBeenPlayedByMe}} --}}
-            <div class="button {{if challenge.isActive "active"}}" {{action "playChallenge" challenge}}>{{unbound (fa-icon 'fa-rocket')}}<span class="button-text">{{if challenge.isActive " active" " play"}}</span></div>
-          {{!-- {{else}}
-            <div class="button locked">{{unbound (fa-icon 'fa-clock-o')}}<span class="button-text"> wait</span></div>
-          {{/unless}} --}}
-        </div>
+      {{/each}}
+    {{else}}
+      <div class="empty-info-text">
+        You have no open challenges.<br /><br />
+        {{#link-to 'index' (query-params challenges_section="new")}}
+          <div class="button">{{unbound (fa-icon 'fa-plus')}} Create challenge</div>
+        {{/link-to}}
       </div>
-    {{/each}}
+    {{/if}}
   {{else}}
     {{#if (eq currentSection 'waiting')}}
       {{#each waitingChallenges.content as |challenge|}}
