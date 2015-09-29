@@ -78,10 +78,12 @@ export default Ember.Component.extend({
   waitingChallenges: function() {
     return DS.PromiseObject.create({
       promise: this.get('challenges').then(challenges => {
-        return challenges.filterBy('hasBeenPlayedByMe', true);
+        return challenges.filter(challenge => {
+          return challenge.get('hasBeenPlayedByMe') === true && challenge.get('hasBeenPlayedByOpponent') === false;
+        });
       })
     });
-  }.property('challenges.@each.hasBeenPlayedByMe'),
+  }.property('challenges.@each.hasBeenPlayedByMe', 'challenges.@each.hasBeenPlayedByOpponent'),
 
   wonChallenges: function() {
     return DS.PromiseObject.create({

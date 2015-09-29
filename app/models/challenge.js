@@ -9,7 +9,7 @@ export default DS.Model.extend({
   myScore: DS.attr('number', { defaultValue: 0 }),
   opponentScore: DS.attr('number', { defaultValue: 0 }),
   hasBeenPlayedByMe: DS.attr('boolean', { defaultValue: false }),
-  hasBeenPlayedByOpponent: DS.attr('boolean', { dafeultValue: false }),
+  hasBeenPlayedByOpponent: DS.attr('boolean', { defaultValue: false }),
   isActive: DS.attr('boolean', { defaultValue: false }),
   iAm: DS.attr('string'),
   winner: DS.belongsTo('user'),

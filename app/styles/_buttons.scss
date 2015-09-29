@@ -8,6 +8,9 @@ button, .button {
 
 button, .button {
   border: $border;
+  &.locked, &.disabled {
+    cursor: default;
+  }
   &:not(.active) {
     background-color: #EBF3F6;
     color: $primary-text-color;
@@ -26,7 +29,6 @@ button, .button {
   &.locked {
     color: $locked-color;
     background-color: $locked-bg-color;
-    cursor: default;
     &:hover {
       color: $locked-color;
       background-color: $locked-bg-color;

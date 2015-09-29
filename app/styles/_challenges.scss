@@ -38,4 +38,13 @@
       padding: 10px 15px;
     }
   }
+  .info {
+    cursor: default;
+  }
+  .won {
+    color: $success-color;
+  }
+  .lost {
+    color: $alert-color;
+  }
 }
