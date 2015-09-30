@@ -10,7 +10,9 @@
         {{unbound (fa-icon "fa-user" stack=1 classNames="player-1")}}
         {{unbound (fa-icon "fa-user" stack=1 classNames="player-2")}}
         {{unbound (fa-icon "fa-arrows-h" stack=1 classNames="versus")}}
-        <span class="counter fa-stack-1x">{{me.user.unplayedChallenges.length}}</span>
+        {{#if (gt me.user.unplayedChallenges.length 0)}}
+          <span class="counter highlight fa-stack-1x">{{me.user.unplayedChallenges.length}}</span>
+        {{/if}}
       </span>
 
     </div>

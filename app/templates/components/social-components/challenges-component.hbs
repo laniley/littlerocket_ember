@@ -7,18 +7,35 @@
     <div class={{if (eq currentSection 'new') "active button" "button" }}>{{unbound (fa-icon 'fa-plus')}}</div>
   {{/link-to}}
   {{#link-to 'index' (query-params challenges_section="lost")}}
-    <div class={{if (eq currentSection 'lost') "active button" "button" }}>{{unbound (fa-icon 'fa-close')}}</div>
+    <div class={{if (eq currentSection 'lost') "active button" "button" }}>
+      {{unbound (fa-icon 'fa-close')}}
+      {{#if (gt lostChallenges.length 0)}}
+        <span class="counter fa-stack-1x">{{lostChallenges.length}}</span>
+      {{/if}}
+    </div>
   {{/link-to}}
   {{#link-to 'index' (query-params challenges_section="won")}}
-    <div class={{if (eq currentSection 'won') "active button" "button" }}>{{unbound (fa-icon 'fa-check')}}</div>
+    <div class={{if (eq currentSection 'won') "active button" "button" }}>
+      {{unbound (fa-icon 'fa-check')}}
+      {{#if (gt wonChallenges.length 0)}}
+        <span class="counter fa-stack-1x">{{wonChallenges.length}}</span>
+      {{/if}}
+    </div>
   {{/link-to}}
   {{#link-to 'index' (query-params challenges_section="waiting")}}
-    <div class={{if (eq currentSection 'waiting') "active button" "button" }}>{{unbound (fa-icon 'fa-clock-o')}}</div>
+    <div class={{if (eq currentSection 'waiting') "active button" "button" }}>
+      {{unbound (fa-icon 'fa-clock-o')}}
+      {{#if (gt waitingChallenges.length 0)}}
+        <span class="counter fa-stack-1x">{{waitingChallenges.length}}</span>
+      {{/if}}
+    </div>
   {{/link-to}}
   {{#link-to 'index' (query-params challenges_section="unplayed")}}
     <div class={{if (eq currentSection 'unplayed') "active button" "button" }} >
       {{unbound (fa-icon 'fa-rocket')}}
-      <span class="counter fa-stack-1x">{{me.user.unplayedChallenges.length}}</span>
+      {{#if (gt me.user.unplayedChallenges.length 0)}}
+        <span class="counter highlight fa-stack-1x">{{me.user.unplayedChallenges.length}}</span>
+      {{/if}}
     </div>
   {{/link-to}}
 </h2>

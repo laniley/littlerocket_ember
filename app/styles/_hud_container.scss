@@ -4,17 +4,20 @@
     margin-top: 70px;
   }
   .counter {
-    background-color: $alert-color;
     color: white;
     font-size: 0.8rem;
     border-radius: 30px;
-    padding: 5px 10px;
+    padding: 3px 7px;
     width: auto;
     top: 16px;
+    background-color: $darkgrey;
+    &.highlight {
+      background-color: $alert-color;
+    }
   }
   .title {
     .counter {
-      left: 32px;
+      left: 35px;
     }
   }
   .content {
