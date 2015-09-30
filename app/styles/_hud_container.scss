@@ -3,6 +3,25 @@
     text-align: center;
     margin-top: 70px;
   }
+  .counter {
+    background-color: $alert-color;
+    color: white;
+    font-size: 0.8rem;
+    border-radius: 30px;
+    padding: 5px 10px;
+    width: auto;
+    top: 16px;
+  }
+  .title {
+    .counter {
+      left: 32px;
+    }
+  }
+  .content {
+    .counter {
+      left: 26px;
+    }
+  }
   .player-1 {
     left: -10px;
   }

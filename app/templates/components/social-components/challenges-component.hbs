@@ -16,7 +16,10 @@
     <div class={{if (eq currentSection 'waiting') "active button" "button" }}>{{unbound (fa-icon 'fa-clock-o')}}</div>
   {{/link-to}}
   {{#link-to 'index' (query-params challenges_section="unplayed")}}
-    <div class={{if (eq currentSection 'unplayed') "active button" "button" }} >{{unbound (fa-icon 'fa-rocket')}}</div>
+    <div class={{if (eq currentSection 'unplayed') "active button" "button" }} >
+      {{unbound (fa-icon 'fa-rocket')}}
+      <span class="counter fa-stack-1x">{{me.user.unplayedChallenges.length}}</span>
+    </div>
   {{/link-to}}
 </h2>
 <div class="scrollable-list challenges">
