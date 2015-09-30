@@ -124,19 +124,21 @@ export default Ember.Mixin.create({
   },
 
   loadFriends: function(me, response) {
+    console.log('friends', response["friends"]);
     response.friends.data.forEach(friend => {
       this.store.createRecord('friend', {
         me: me,
-        long_fb_id: friend.id,
+        long_fb_id: friend.id, // real user-id
         name: friend.name,
-        img_url: friend.picture.data.url,
+        img_url: 'http://graph.facebook.com/' + friend.id + '/picture',
         isAlreadyPlaying: true
       });
     });
+    console.log('invitable_friends', response.invitable_friends);
     response.invitable_friends.data.forEach(friend => {
       this.store.createRecord('friend', {
         me: me,
-        long_fb_id: friend.id,
+        long_fb_id: friend.id, // seesion-id
         name: friend.name,
         img_url: friend.picture.data.url,
         isAlreadyPlaying: false
