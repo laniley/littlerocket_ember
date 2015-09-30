@@ -67,14 +67,6 @@ export default Ember.Component.extend({
     });
   }.property('me.user.challenges.[]', 'me.activeChallenge'),
 
-  unplayedChallenges: function() {
-    return DS.PromiseObject.create({
-      promise: this.get('challenges').then(challenges => {
-        return challenges.filterBy('hasBeenPlayedByMe', false);
-      })
-    });
-  }.property('challenges.@each.hasBeenPlayedByMe'),
-
   waitingChallenges: function() {
     return DS.PromiseObject.create({
       promise: this.get('challenges').then(challenges => {
@@ -106,6 +98,13 @@ export default Ember.Component.extend({
       })
     });
   }.property('challenges.@each.hasBeenPlayedByMe', 'challenges.@each.hasBeenPlayedByOpponent', 'challenges.@each.myScore', 'challenges.@each.opponentScore'),
+
+  stopChallenge: function() {
+    if(!Ember.isEmpty(this.get('me').get('activeChallenge'))) {
+      this.get('me').get('activeChallenge').set('isActive', false);
+      this.get('me').set('activeChallenge', null);
+    }
+  },
 
   actions: {
     sendChallengeRequest: function(friend) {
@@ -142,11 +141,13 @@ export default Ember.Component.extend({
     },
 
     playChallenge: function(challenge) {
+      this.stopChallenge();
+      challenge.set('isActive', true);
       this.get('me').set('activeChallenge', challenge);
     },
 
     stopChallenge: function() {
-      this.get('me').set('activeChallenge', null);
+      this.stopChallenge();
     }
   }
 });

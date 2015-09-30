@@ -21,8 +21,8 @@
 </h2>
 <div class="scrollable-list challenges">
   {{#if (eq currentSection 'unplayed')}}
-    {{#if (gt unplayedChallenges.content.length 0)}}
-      {{#each unplayedChallenges.content as |challenge|}}
+    {{#if (gt me.user.unplayedChallenges.content.length 0)}}
+      {{#each me.user.unplayedChallenges.content as |challenge|}}
         <div class="list-item challenge">
           <div class="challenge-player">
             <div class="img_container">
@@ -57,106 +57,102 @@
         {{/link-to}}
       </div>
     {{/if}}
-  {{else}}
-    {{#if (eq currentSection 'waiting')}}
-      {{#each waitingChallenges.content as |challenge|}}
-        <div class="list-item challenge">
-          <div class="challenge-player">
-            <div class="img_container">
-              <img src="{{challenge.from_player.img_url}}" class="profile small" />
-            </div>
-            <div class="challenge-player-infos">
-              <div class="player-name">{{challenge.from_player.name}}</div>
-              <div class="player-score">{{challenge.from_player_score}} Points</div>
-            </div>
+  {{/if}}
+  {{#if (eq currentSection 'waiting')}}
+    {{#each waitingChallenges.content as |challenge|}}
+      <div class="list-item challenge">
+        <div class="challenge-player">
+          <div class="img_container">
+            <img src="{{challenge.from_player.img_url}}" class="profile small" />
           </div>
-          <div class="challenge-player">
-            <div class="img_container">
-              <img src="{{challenge.to_player.img_url}}" class="profile small" />
-            </div>
-            <div class="challenge-player-infos">
-              <div class="player-name">{{challenge.to_player.name}}</div>
-              <div class="player-score">{{challenge.to_player_score}} Points</div>
-            </div>
-          </div>
-          <div class="button-container">
-            <div class="info wait">{{unbound (fa-icon 'fa-clock-o')}}<span class="button-text"> wait</span></div>
+          <div class="challenge-player-infos">
+            <div class="player-name">{{challenge.from_player.name}}</div>
+            <div class="player-score">{{challenge.from_player_score}} Points</div>
           </div>
         </div>
-      {{/each}}
-    {{else}}
-      {{#if (eq currentSection 'won')}}
-        {{#each wonChallenges.content as |challenge|}}
-          <div class="list-item challenge">
-            <div class="challenge-player">
-              <div class="img_container">
-                <img src="{{challenge.from_player.img_url}}" class="profile small" />
-              </div>
-              <div class="challenge-player-infos">
-                <div class="player-name">{{challenge.from_player.name}}</div>
-                <div class="player-score">{{challenge.from_player_score}} Points</div>
-              </div>
-            </div>
-            <div class="challenge-player">
-              <div class="img_container">
-                <img src="{{challenge.to_player.img_url}}" class="profile small" />
-              </div>
-              <div class="challenge-player-infos">
-                <div class="player-name">{{challenge.to_player.name}}</div>
-                <div class="player-score">{{challenge.to_player_score}} Points</div>
-              </div>
-            </div>
-            <div class="button-container">
-              <div class="info won">{{unbound (fa-icon 'fa-check')}}<span class="button-text"> won</span></div>
-            </div>
+        <div class="challenge-player">
+          <div class="img_container">
+            <img src="{{challenge.to_player.img_url}}" class="profile small" />
           </div>
-        {{/each}}
-      {{else}}
-        {{#if (eq currentSection 'lost')}}
-          {{#each lostChallenges.content as |challenge|}}
-            <div class="list-item challenge">
-              <div class="challenge-player">
-                <div class="img_container">
-                  <img src="{{challenge.from_player.img_url}}" class="profile small" />
-                </div>
-                <div class="challenge-player-infos">
-                  <div class="player-name">{{challenge.from_player.name}}</div>
-                  <div class="player-score">{{challenge.from_player_score}} Points</div>
-                </div>
-              </div>
-              <div class="challenge-player">
-                <div class="img_container">
-                  <img src="{{challenge.to_player.img_url}}" class="profile small" />
-                </div>
-                <div class="challenge-player-infos">
-                  <div class="player-name">{{challenge.to_player.name}}</div>
-                  <div class="player-score">{{challenge.to_player_score}} Points</div>
-                </div>
-              </div>
-              <div class="button-container">
-                <div class="info lost">{{unbound (fa-icon 'fa-close')}}<span class="button-text"> lost</span></div>
-              </div>
-            </div>
-          {{/each}}
-        {{else}}
-          {{#if (eq currentSection 'new')}}
-            <div class="list-item challenge">
-              <div class="search">{{input value=search_term}}{{unbound (fa-icon "fa-search")}}</div>
-            </div>
-            {{#each friends_matching_search as |friend|}}
-              <div class="list-item challenge">
-                <div class="img_container">
-                  <img src="{{friend.img_url}}" class="profile small" />
-                </div>
-                {{friend.name}}
-                <div class="button-container">
-                  <div class="button active" {{action "sendChallengeRequest" friend}}>{{unbound (fa-icon 'fa-envelope')}}<span class="button-text"> challenge</span></div>
-                </div>
-              </div>
-            {{/each}}
-          {{/if}}
-        {{/if}}
-      {{/if}}
-    {{/if}}
+          <div class="challenge-player-infos">
+            <div class="player-name">{{challenge.to_player.name}}</div>
+            <div class="player-score">{{challenge.to_player_score}} Points</div>
+          </div>
+        </div>
+        <div class="button-container">
+          <div class="info wait">{{unbound (fa-icon 'fa-clock-o')}}<span class="button-text"> wait</span></div>
+        </div>
+      </div>
+    {{/each}}
+  {{/if}}
+  {{#if (eq currentSection 'won')}}
+    {{#each wonChallenges.content as |challenge|}}
+      <div class="list-item challenge">
+        <div class="challenge-player">
+          <div class="img_container">
+            <img src="{{challenge.from_player.img_url}}" class="profile small" />
+          </div>
+          <div class="challenge-player-infos">
+            <div class="player-name">{{challenge.from_player.name}}</div>
+            <div class="player-score">{{challenge.from_player_score}} Points</div>
+          </div>
+        </div>
+        <div class="challenge-player">
+          <div class="img_container">
+            <img src="{{challenge.to_player.img_url}}" class="profile small" />
+          </div>
+          <div class="challenge-player-infos">
+            <div class="player-name">{{challenge.to_player.name}}</div>
+            <div class="player-score">{{challenge.to_player_score}} Points</div>
+          </div>
+        </div>
+        <div class="button-container">
+          <div class="info won">{{unbound (fa-icon 'fa-check')}}<span class="button-text"> won</span></div>
+        </div>
+      </div>
+    {{/each}}
+  {{/if}}
+  {{#if (eq currentSection 'lost')}}
+    {{#each lostChallenges.content as |challenge|}}
+      <div class="list-item challenge">
+        <div class="challenge-player">
+          <div class="img_container">
+            <img src="{{challenge.from_player.img_url}}" class="profile small" />
+          </div>
+          <div class="challenge-player-infos">
+            <div class="player-name">{{challenge.from_player.name}}</div>
+            <div class="player-score">{{challenge.from_player_score}} Points</div>
+          </div>
+        </div>
+        <div class="challenge-player">
+          <div class="img_container">
+            <img src="{{challenge.to_player.img_url}}" class="profile small" />
+          </div>
+          <div class="challenge-player-infos">
+            <div class="player-name">{{challenge.to_player.name}}</div>
+            <div class="player-score">{{challenge.to_player_score}} Points</div>
+          </div>
+        </div>
+        <div class="button-container">
+          <div class="info lost">{{unbound (fa-icon 'fa-close')}}<span class="button-text"> lost</span></div>
+        </div>
+      </div>
+    {{/each}}
+  {{/if}}
+  {{#if (eq currentSection 'new')}}
+    <div class="list-item challenge">
+      <div class="search">{{input value=search_term}}{{unbound (fa-icon "fa-search")}}</div>
+    </div>
+    {{#each friends_matching_search as |friend|}}
+      <div class="list-item challenge">
+        <div class="img_container">
+          <img src="{{friend.img_url}}" class="profile small" />
+        </div>
+        {{friend.name}}
+        <div class="button-container">
+          <div class="button active" {{action "sendChallengeRequest" friend}}>{{unbound (fa-icon 'fa-envelope')}}<span class="button-text"> challenge</span></div>
+        </div>
+      </div>
+    {{/each}}
   {{/if}}
 </div>

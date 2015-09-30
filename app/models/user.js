@@ -37,5 +37,16 @@ export default DS.Model.extend({
 
   needed_exp_for_next_level: function() {
     return 500 * Math.pow(this.get('exp_level'), 2);
-  }.property('exp_level')
+  }.property('exp_level'),
+
+  unplayedChallenges: function() {
+    return DS.PromiseObject.create({
+      promise: this.get('challenges').then(challenges => {
+        return challenges.filter(challenge => {
+          return (challenge.get('from_player').get('id') === this.get('id') && challenge.get('from_player_score') === 0) ||
+                 (challenge.get('to_player').get('id') === this.get('id') && challenge.get('to_player_score') === 0);
+        });
+      })
+    });
+  }.property('challenges.@each.from_player_score', 'challenges.@each.to_player_score'),
 });
