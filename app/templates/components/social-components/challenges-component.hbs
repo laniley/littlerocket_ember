@@ -50,7 +50,7 @@
             </div>
             <div class="challenge-player-infos">
               <div class="player-name">{{challenge.from_player.name}}</div>
-              <div class="player-score">{{challenge.from_player_score}} Points</div>
+              <div class="player-score">{{#if (eq challenge.iAm "from_player")}}{{challenge.from_player_score}}{{else}}???{{/if}} Points</div>
             </div>
           </div>
           <div class="challenge-player">
@@ -59,7 +59,7 @@
             </div>
             <div class="challenge-player-infos">
               <div class="player-name">{{challenge.to_player.name}}</div>
-              <div class="player-score">{{challenge.to_player_score}} Points</div>
+              <div class="player-score">{{#if (eq challenge.iAm "to_player")}}{{challenge.to_player_score}}{{else}}???{{/if}} Points</div>
             </div>
           </div>
           <div class="button-container">
