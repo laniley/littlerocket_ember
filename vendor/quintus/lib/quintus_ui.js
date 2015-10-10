@@ -648,7 +648,7 @@ Quintus.UI = function(Q)
     }
   });
 
-  Q.UI.Text.extend("CanonIsReloadingText",
+  Q.UI.Text.extend("CannonIsReloadingText",
   {
     init: function(container)
     {
@@ -662,12 +662,12 @@ Quintus.UI = function(Q)
          outlineWidth: container.width
       });
 
-      Q.state.on("change.canon_is_reloading",this,"updateText");
+      Q.state.on("change.cannon_is_reloading",this,"updateText");
     },
 
     updateText: function()
     {
-      if(Q.state.get("canon_is_reloading")) {
+      if(Q.state.get("cannon_is_reloading")) {
         this.p.label = "Reloading\n";
       }
       else {
