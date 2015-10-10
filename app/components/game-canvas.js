@@ -11,7 +11,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   store: null,
   hasPostPermission: false,
   rocket: null,
-  canonReloadingTimeout: null,
+  cannonReloadingTimeout: null,
   shieldReloadingTimeout: null,
   engineReloadingTimeout: null,
   isLoading: true,
@@ -99,7 +99,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
     Q.state.set('distance', 0);
     Q.state.set('stars', 0);
-    Q.state.set('canon_is_reloading', false);
+    Q.state.set('cannon_is_reloading', false);
     Q.state.set('shield_is_reloading', false);
     Q.state.set('engine_is_reloading', false);
 
@@ -139,15 +139,15 @@ export default Ember.Component.extend(FacebookLoginMixin, {
             points:        [],
             collided:      false,
             scale: 			   Q.state.get('scale'),
-            hasACanon: 	   false,
-            canonCapacity: 3
+            hasACannon: 	   false,
+            cannonCapacity: 3
     		  });
 
-          if(!Ember.isEmpty(self.get('rocket').get('canon'))) {
-            this.p.hasACanon = true;
+          if(!Ember.isEmpty(self.get('rocket').get('cannon'))) {
+            this.p.hasACannon = true;
           }
     		  else {
-            this.p.hasACanon = false;
+            this.p.hasACannon = false;
           }
 
     		  // Drehpunkt zentral
@@ -177,7 +177,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
     		  this.add("2d, platformerControls, animation");
 
     		  this.on('exploded', this, 'destroy');
-    		  this.on('fireCanon', this, 'fireCanon');
+    		  this.on('fireCannon', this, 'fireCannon');
           this.on('slowdown', this, 'slowdown');
     	},
 
@@ -246,10 +246,10 @@ export default Ember.Component.extend(FacebookLoginMixin, {
     				}
     		  }
 
-  		  	// fire Canon
-  		  	if(Q.inputs['up'] && this.p.hasACanon)
+  		  	// fire Cannon
+  		  	if(Q.inputs['up'] && this.p.hasACannon)
   		  	{
-  		    	this.trigger("fireCanon");
+  		    	this.trigger("fireCannon");
   		  	}
 
           // slowdown
@@ -263,19 +263,19 @@ export default Ember.Component.extend(FacebookLoginMixin, {
         }
     	},
 
-    	fireCanon: function() {
-    		if(this.p.hasACanon && !Q.state.get('canon_is_reloading') && Q.state.get('bullets') > 0)
+    	fireCannon: function() {
+    		if(this.p.hasACannon && !Q.state.get('cannon_is_reloading') && Q.state.get('bullets') > 0)
     		{
           this.stage.insert(new Q.Bullet());
 
           Q.state.set('bullets', Q.state.get('bullets') - 1);
-          Q.state.set('canon_is_reloading', true);
+          Q.state.set('cannon_is_reloading', true);
 
           var timeout = setTimeout(function() {
-            Q.state.set('canon_is_reloading', false);
+            Q.state.set('cannon_is_reloading', false);
           }, 1000 / Q.state.get('bps'));
 
-          self.set('canonReloadingTimeout', timeout);
+          self.set('cannonReloadingTimeout', timeout);
     	  }
     	},
 
@@ -1085,10 +1085,10 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
           user.get('rocket').then(rocket => {
 
-            rocket.get('canon').then(canon => {
+            rocket.get('cannon').then(cannon => {
 
-                if(canon.get('status') === 'unlocked') {
-                  canon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+                if(cannon.get('status') === 'unlocked') {
+                  cannon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
                     selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
                       rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
                         Q.state.set('bullets', rocketComponentModelLevel.get('value'));
@@ -1145,7 +1145,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
       });
 
-      containerAmmoReloading.insert(new Q.CanonIsReloadingText(containerAmmoReloading));
+      containerAmmoReloading.insert(new Q.CannonIsReloadingText(containerAmmoReloading));
       containerShieldReloading.insert(new Q.ShieldIsReloadingText(containerShieldReloading));
       containerEngineReloading.insert(new Q.EngineIsReloadingText(containerEngineReloading));
 
@@ -1586,12 +1586,12 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   		Q.audio.stop('racing.mp3');
 
       Q.state.set('speed', 0);
-      Q.state.set('canon_is_reloading', false);
+      Q.state.set('cannon_is_reloading', false);
       Q.state.set('shield_is_reloading', false);
       Q.state.set('engine_is_reloading', false);
 
-      if(self.get('canonReloadingTimeout')) {
-        clearTimeout(self.get('canonReloadingTimeout'));
+      if(self.get('cannonReloadingTimeout')) {
+        clearTimeout(self.get('cannonReloadingTimeout'));
       }
 
       if(self.get('shieldReloadingTimeout')) {
@@ -1797,15 +1797,15 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
               var Q = this.get('Q');
 
-              rocket.get('canon').then(canon => {
+              rocket.get('cannon').then(cannon => {
 
-                if(!Ember.isEmpty(canon)) {
-                  if(canon.get('status') !== 'unlocked') {
+                if(!Ember.isEmpty(cannon)) {
+                  if(cannon.get('status') !== 'unlocked') {
                     Q.state.set('bullets', 0);
                     Q.state.set('bps', 0);
                   }
                   else {
-                    canon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+                    cannon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
                       if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
                         selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
                           if(!Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
@@ -1904,8 +1904,8 @@ export default Ember.Component.extend(FacebookLoginMixin, {
       });
     }
   }.observes(
-    'me.user.rocket.canon.status',
-    'me.user.rocket.canon.selectedRocketComponentModelMm',
+    'me.user.rocket.cannon.status',
+    'me.user.rocket.cannon.selectedRocketComponentModelMm',
     'me.user.rocket.shield.status',
     'me.user.rocket.shield.selectedRocketComponentModelMm',
     'me.user.rocket.engine.status',

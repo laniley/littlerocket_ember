@@ -5,32 +5,32 @@
   <div id="workbench-item-container" class="item-container">
     <img src="assets/images/rocket_workbench.png" />
 
-    {{!-- CANON --}}
-    {{#if (if-equals me.user.rocket.canon.status 'unlocked') }}
-      {{#link-to 'index' (query-params player_hud_section="lab" lab_section="canon")}}
-        <span id="canon" class="block-button {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
+    {{!-- CANNON --}}
+    {{#if (if-equals me.user.rocket.cannon.status 'unlocked') }}
+      {{#link-to 'index' (query-params player_hud_section="lab" lab_section="cannon")}}
+        <span id="cannon" class="block-button {{me.user.rocket.cannon.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
           {{unbound (fa-icon "fa-bullseye")}}
           <div class="info">
-            {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModel.model}}
+            {{me.user.rocket.cannon.selectedRocketComponentModelMm.rocketComponentModel.model}}
           </div>
         </span>
       {{/link-to}}
     {{else}}
-      {{#if (if-equals me.user.rocket.canon.status 'under_construction') }}
-        <span id="canon" class="fa-stack block-button {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
+      {{#if (if-equals me.user.rocket.cannon.status 'under_construction') }}
+        <span id="cannon" class="fa-stack block-button {{me.user.rocket.cannon.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
           {{unbound (fa-icon "fa-bullseye" stack=1)}}
-          {{timer-component type='canon' component=me.user.rocket.canon}}
+          {{timer-component type='cannon' component=me.user.rocket.cannon}}
         </span>
       {{else}}
-        {{#if me.user.rocket.canon}}
-          <span id="canon" class="fa-stack block-button {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModel.rareness}}" {{action 'buyCanon'}}>
+        {{#if me.user.rocket.cannon}}
+          <span id="cannon" class="fa-stack block-button {{me.user.rocket.cannon.selectedRocketComponentModelMm.rocketComponentModel.rareness}}" {{action 'buyCannon'}}>
             {{unbound (fa-icon "fa-bullseye" stack=1)}}
-            {{#tooltip-component tooltip=me.user.rocket.canon.tooltip}}
+            {{#tooltip-component tooltip=me.user.rocket.cannon.tooltip}}
               {{unbound (fa-icon "fa-lock locked" stack=1)}}
             {{/tooltip-component}}
           </span>
         {{else}}
-          <span id="canon" class="fa-stack block-button {{me.user.rocket.canon.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
+          <span id="cannon" class="fa-stack block-button {{me.user.rocket.cannon.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
             {{unbound (fa-icon "fa-circle-o-notch" spin=true)}}
           </span>
         {{/if}}

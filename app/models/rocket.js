@@ -3,7 +3,7 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   user: DS.belongsTo('user', { async: true }),
-  canon: DS.belongsTo('rocket-component', { async: true }),
+  cannon: DS.belongsTo('rocket-component', { async: true }),
   shield: DS.belongsTo('rocket-component', { async: true }),
   engine: DS.belongsTo('rocket-component', { async: true }),
 

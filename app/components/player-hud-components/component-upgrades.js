@@ -83,7 +83,7 @@ export default Ember.Component.extend({
   }.property('mySortedComponentModelMms.[]', 'selectedRocketComponentModelMm'),
 
   icon: function() {
-    if(this.get('componentType') === 'canon') {
+    if(this.get('componentType') === 'cannon') {
       return "fa-bullseye";
     }
     else if(this.get('componentType') === 'shield') {
@@ -96,8 +96,8 @@ export default Ember.Component.extend({
 
   actions: {
     buyComponent: function(component) {
-      if(component.get('type') === 'canon') {
-        this.get('targetObject').send('buyCanon', component);
+      if(component.get('type') === 'cannon') {
+        this.get('targetObject').send('buyCannon', component);
       }
       else if(component.get('type') === 'shield') {
         this.get('targetObject').send('buyShield', component);

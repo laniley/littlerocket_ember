@@ -172,7 +172,7 @@ export default Ember.Mixin.create({
   },
 
   loadRocketCallback: function(user, rocket) {
-    this.loadRocketComponent('canon', 500, 120, user, rocket);
+    this.loadRocketComponent('cannon', 500, 120, user, rocket);
     this.loadRocketComponent('shield', 750, 240, user, rocket);
     this.loadRocketComponent('engine', 1000, 600, user, rocket);
   },

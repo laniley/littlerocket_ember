@@ -10,11 +10,11 @@ export default Ember.Component.extend({
     buyLab: function() {
       this.get('targetObject').send('buyLab');
     },
-    buyCanon: function() {
+    buyCannon: function() {
       var me = this.get('targetObject.store').peekRecord('me', 1);
       me.get('user').then(user => {
         user.get('rocket').then(rocket => {
-          rocket.get('canon').then(component => {
+          rocket.get('cannon').then(component => {
             this.get('targetObject').buyComponent(user, component);
           });
         });

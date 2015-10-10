@@ -12,7 +12,7 @@ export default Ember.Controller.extend({
   player_hud_section: 'rocket',
   social_section: 'leaderboard',
   cockpit_section: 'workbench',
-  lab_section: 'canon',
+  lab_section: 'cannon',
   challenges_section: 'unplayed',
   leaderboard_type: 'score'
 });

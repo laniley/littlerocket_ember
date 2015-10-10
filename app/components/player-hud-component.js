@@ -4,7 +4,7 @@ export default Ember.Component.extend({
   me: null,
   currentSection: 'rocket',
   currentCockpitSection: 'workbench',
-  currentLabSection: 'canon',
+  currentLabSection: 'cannon',
   show_not_enough_stars_alert: false,
   not_enough_stars: false,
   level_not_reached: false,
@@ -73,11 +73,11 @@ export default Ember.Component.extend({
         });
       });
     },
-    buyCanon: function() {
+    buyCannon: function() {
       var me = this.get('targetObject.store').peekRecord('me', 1);
       me.get('user').then(user => {
         user.get('rocket').then(rocket => {
-          rocket.get('canon').then(component => {
+          rocket.get('cannon').then(component => {
             this.buyComponent(user, component);
           });
         });

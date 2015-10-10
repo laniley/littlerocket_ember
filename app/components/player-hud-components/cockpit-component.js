@@ -27,11 +27,11 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    buyCanon: function() {
+    buyCannon: function() {
       var me = this.get('targetObject.store').peekRecord('me', 1);
       me.get('user').then(user => {
         user.get('rocket').then(rocket => {
-          rocket.get('canon').then(component => {
+          rocket.get('cannon').then(component => {
             this.buyComponent(user, component);
           });
         });
