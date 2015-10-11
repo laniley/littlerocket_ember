@@ -6,7 +6,12 @@ export default Ember.Mixin.create({
   initRocket: function() {
     var self = this;
     var distanceToGoalRef = 50;
-    var globalSpeedRef = 50;
+
+    var y  = Q.height/6 * 5;
+    if(Q.touchDevice) {
+    	y -= 100;
+    }
+
     Q.TransformableSprite.extend("Rocket", {
     	init: function(p) {
     		  this._super(p, {
@@ -16,8 +21,6 @@ export default Ember.Mixin.create({
     				direction:     'up',
     				stars:         0,
     				vSpeed:        Q.state.get('speed'),
-    				x:             25, // x location of the center
-    				y:             70, // y location of the center
     				tileW:         50,
     				tileH:         140,
     				type:          Q.SPRITE_ROCKET,
@@ -27,6 +30,7 @@ export default Ember.Mixin.create({
             collided:      false,
             scale: 			   Q.state.get('scale'),
             hasACannon: 	 false,
+            cannon: null,
             cannonCapacity: 3
     		  });
 
@@ -37,29 +41,34 @@ export default Ember.Mixin.create({
             this.p.hasACannon = false;
           }
 
+          // x location of the center
+          this.p.x = Q.width / 2;
+          // y location of the center
+          this.p.y = y;
+
     		  // Drehpunkt zentral
     		  this.p.points = [
-    										  // links, halb oben
-    										  [-25, -20],
-    										  // Raketenspitze
-    										  [0, -this.p.tileH / 2],
-    										  // rechts, halb oben
-    										  [25, -20],
-    										  // rechts, halb unten
-    										  [25, 5],
-    										  // Antriebsdüse rechts
-    										  [10, 20],
-    										  // rechts, unten
-    										  [25, -35 + this.p.tileH / 2],
-    										  // mitte unten
-    										  [0, -30  + this.p.tileH / 2],
-    										  // links, unten
-    										  [-25, -35  + this.p.tileH / 2],
-                          // Antriebsdüse links
-    										  [-10, 20 ],
-                          // links, halb oben
-    										  [-25, 5]
-    								];
+							  // links, halb oben
+							  [-this.p.tileW / 2, -20],
+							  // Raketenspitze
+							  [0, -this.p.tileH / 2],
+							  // rechts, halb oben
+							  [this.p.tileW / 2, -20],
+							  // rechts, halb unten
+							  [this.p.tileW / 2, 5],
+							  // Antriebsdüse rechts
+							  [10, 20],
+							  // rechts, unten
+							  [this.p.tileW / 2, -35 + this.p.tileH / 2],
+							  // mitte unten
+							  [0, -30  + this.p.tileH / 2],
+							  // links, unten
+							  [-this.p.tileW / 2, -35  + this.p.tileH / 2],
+                // Antriebsdüse links
+							  [-10, 20 ],
+                // links, halb oben
+							  [-this.p.tileW / 2, 5]
+					];
 
     		  this.add("2d, platformerControls, animation");
 
@@ -73,8 +82,7 @@ export default Ember.Mixin.create({
 
     			this.p.lastSpeedUp += dt;
 
-    			if(this.p.lastSpeedUp > 1)
-    			{
+    			if(this.p.lastSpeedUp > 1) {
             Q.state.set('speed', Q.state.get('speed') + 1);
 
     				this.p.speed = Q.state.get('speed');
@@ -87,34 +95,27 @@ export default Ember.Mixin.create({
     			}
 
 
-    			if(Q.state.get("distanceToGoal") <= 0)
-    			{
+    			if(Q.state.get("distanceToGoal") <= 0) {
     				this.levelUp();
     			}
 
     			// rocket can't leave the screen
-    			if(
-    					 this.p.x > Q.width - 30 && this.p.vx > 0 ||
-               this.p.x < 30 && this.p.vx < 0
-    			 )
+    			if(this.p.x > Q.width - 30 && this.p.vx > 0 ||
+             this.p.x < 30 && this.p.vx < 0)
     			{
     				this.p.vx = 0;
     			}
 
     		  // rotate the rocket
     		  // based on our velocity
-    		  if(this.p.vx > 0 && this.p.angle < 45) // nach rechts drehen
-    		  {
+    		  if(this.p.vx > 0 && this.p.angle < 45) { // nach rechts drehen
     				this.rotate(this.p.angle + 5);
     		  }
-    		  else if(this.p.vx < 0 && this.p.angle > -45) // nach links drehen
-    		  {
+    		  else if(this.p.vx < 0 && this.p.angle > -45) { // nach links drehen
     				this.rotate(this.p.angle - 5);
     		  }
-    		  else if(this.p.vx === 0)
-    		  {
-    				if(this.p.angle > 0)
-    				{
+    		  else if(this.p.vx === 0) {
+    				if(this.p.angle > 0) {
     					 if(this.p.angle - 5 < 0) {
     						this.rotate(0);
               }
@@ -122,8 +123,7 @@ export default Ember.Mixin.create({
     						this.rotate(this.p.angle - 5);
               }
     				}
-    				else
-    				{
+    				else {
     					if(this.p.angle + 5 > 0) {
     						this.rotate(0);
               }
@@ -134,14 +134,12 @@ export default Ember.Mixin.create({
     		  }
 
   		  	// fire Cannon
-  		  	if(Q.inputs['up'] && this.p.hasACannon)
-  		  	{
+  		  	if(Q.inputs['up'] && this.p.hasACannon) {
   		    	this.trigger("fireCannon");
   		  	}
 
           // slowdown
-  		  	if(Q.inputs['down'])
-  		  	{
+  		  	if(Q.inputs['down']) {
   		    	this.trigger("slowdown");
   		  	}
         }
@@ -150,21 +148,15 @@ export default Ember.Mixin.create({
         }
     	},
 
+      setCannon: function(cannon) {
+        this.p.cannon = cannon;
+      },
+
     	fireCannon: function() {
     		if(this.p.hasACannon &&
           !Q.state.get('cannon_is_reloading') &&
-          Q.state.get('bullets') > 0)
-        {
-          this.stage.insert(new Q.Bullet());
-
-          Q.state.set('bullets', Q.state.get('bullets') - 1);
-          Q.state.set('cannon_is_reloading', true);
-
-          var timeout = setTimeout(function() {
-            Q.state.set('cannon_is_reloading', false);
-          }, 1000 / Q.state.get('bps'));
-
-          self.set('cannonReloadingTimeout', timeout);
+          Q.state.get('bullets') > 0) {
+          this.p.cannon.trigger("fire");
     	  }
     	},
 
@@ -197,17 +189,10 @@ export default Ember.Mixin.create({
     		Q.state.set('level', Q.state.get('level') + 1);
         self.set('level', self.get('level') + 1);
 
-    		distanceToGoalRef *= 1.2;
-    		globalSpeedRef    *= 1.2;
-    		Q.state.set('maxSpeedRef', Q.state.get('maxSpeedRef') * 1.2);
-
-    		Q.state.set('distanceToGoal', distanceToGoalRef);
-    		Q.state.set('speed', globalSpeedRef);
-        Q.state.set('maxSpeed', Q.state.get('maxSpeedRef'));
+    		Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + ((Q.state.get('level') - 1) / 10) )));
 
         self.get('me').get('user').then(user => {
-          if(Q.state.get('level') > user.get('reached_level') && Q.state.get('level') < 6)
-          {
+          if(Q.state.get('level') > user.get('reached_level') && Q.state.get('level') < 6) {
             user.set('reached_level', Q.state.get('level'));
             user.save();
           }

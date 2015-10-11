@@ -24,7 +24,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1348,6 +1348,72 @@
        x2="842.75653"
        y2="-227.89062"
        gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       r="23.787491"
+       fy="296.34912"
+       fx="383.57706"
+       cy="296.34912"
+       cx="383.57706"
+       gradientTransform="matrix(1,0,0,0.60768517,-72.166968,102.04524)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient5457-1-1"
+       xlink:href="#linearGradient5278-7-74"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient5278-7-74">
+      <stop
+         id="stop5280-4-0"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:0.96111113;" />
+      <stop
+         id="stop5282-0-9"
+         offset="1"
+         style="stop-color:#838383;stop-opacity:1;" />
+    </linearGradient>
+    <radialGradient
+       r="24.11063"
+       fy="253.89169"
+       fx="304.82184"
+       cy="253.89169"
+       cx="304.82184"
+       gradientTransform="matrix(1.3549795,-0.04950187,0.07955573,2.1773965,-114.6658,-313.24431)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient5459-9-4"
+       xlink:href="#linearGradient5278-7-74"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient3453">
+      <stop
+         id="stop3455"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:0.96111113;" />
+      <stop
+         id="stop3457"
+         offset="1"
+         style="stop-color:#838383;stop-opacity:1;" />
+    </linearGradient>
+    <filter
+       id="filter3323-8"
+       inkscape:label="Motion blur, vertical"
+       inkscape:menu="Blurs"
+       inkscape:menu-tooltip="Blur as if the object flies vertically; adjust Standard Deviation to vary force"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3325-82"
+         in="SourceGraphic"
+         stdDeviation="0.01 5" />
+    </filter>
+    <filter
+       id="filter3329-4"
+       inkscape:label="Motion blur, vertical"
+       inkscape:menu="Blurs"
+       inkscape:menu-tooltip="Blur as if the object flies vertically; adjust Standard Deviation to vary force"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3331-5"
+         in="SourceGraphic"
+         stdDeviation="0.01 5" />
+    </filter>
   </defs>
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -1358,16 +1424,16 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1528"
-     inkscape:window-height="842"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
      id="namedview3003"
      showgrid="false"
      inkscape:zoom="1.3855422"
      inkscape:cx="539.25179"
-     inkscape:cy="185.76876"
-     inkscape:window-x="285"
-     inkscape:window-y="77"
-     inkscape:window-maximized="0"
+     inkscape:cy="99.160066"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
      inkscape:current-layer="g3029" />
   <g
      id="layer1"
@@ -4266,7 +4332,7 @@
          sodipodi:cy="-218.50868"
          sodipodi:rx="11.908695"
          sodipodi:ry="11.908695"
-         d="m 853.07332,-224.23258 a 11.908695,11.908695 0 1 1 -1.10049,-1.661"
+         d="m 853.07332,-224.23258 c 3.16123,5.76745 1.04846,13.00557 -4.71899,16.16679 -5.76745,3.16122 -13.00557,1.04846 -16.16679,-4.71899 -3.16122,-5.76745 -1.04846,-13.00557 4.71899,-16.16679 5.09558,-2.79296 11.46286,-1.5006 15.0663,3.05799"
          transform="matrix(0.83960885,0,0,0.83961614,-282.57233,346.24611)"
          sodipodi:start="5.7817908"
          sodipodi:end="11.897467"

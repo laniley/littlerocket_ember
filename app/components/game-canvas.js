@@ -4,15 +4,15 @@
 import Ember from 'ember';
 import FacebookLoginMixin from './../mixins/facebook-login';
 import RocketMixin from './../mixins/rocket';
+import CannonMixin from './../mixins/rocket-components/cannon';
 
-export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, {
+export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, CannonMixin, {
 
   Q: null,
   me: null,
   store: null,
   hasPostPermission: false,
   rocket: null,
-  cannonReloadingTimeout: null,
   shieldReloadingTimeout: null,
   engineReloadingTimeout: null,
   isLoading: true,
@@ -83,6 +83,7 @@ export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, {
     Q.gravityY = 0;
 
     Q.SPRITE_ROCKET   = 1;
+    Q.SPRITE_CANNON   = 10;
     Q.SPRITE_STAR     = 2;
     Q.SPRITE_ASTEROID = 4;
     Q.SPRITE_BULLET	  = 16;
@@ -106,7 +107,7 @@ export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, {
     Q.state.set('engine_is_reloading', false);
 
     var distanceToGoalRef = 50;
-    Q.state.set('distanceToGoal', 50);
+    Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + ((Q.state.get('level') - 1) / 10) )));
 
     var globalSpeedRef = 50;
     Q.state.set('speed', 100);
@@ -122,6 +123,7 @@ export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, {
     Q.state.set('buttonTextColorSelected', '#D62E00');
 
     this.initRocket();
+    this.initCannon();
 
     Q.TransformableSprite.extend("Bullet", {
     	init: function(p)
@@ -698,10 +700,8 @@ export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, {
     });
 
     Q.GameObject.extend("AsteroidMaker", {
-      init: function()
-    	{
-    		this.p =
-    		{
+      init: function() {
+    		this.p = {
     			launchDelay: (Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed'))) * 0.3,
           launchRandomFactor: Math.random() * 0.6,
     			launch: 1
@@ -951,7 +951,15 @@ export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, {
   		Q.audio.stop('rocket.mp3');
   		Q.audio.stop('racing.mp3');
 
-  		stage.insert(new Q.Rocket({x: Q.width/2, y: rocket_y }));
+      var rocket = new Q.Rocket();
+  		stage.insert(rocket);
+
+      if(!Ember.isEmpty(self.get('rocket').get('cannon'))) {
+        var cannon = new Q.Cannon();
+            cannon.setRocket(rocket);
+            rocket.setCannon(cannon);
+    		stage.insert(cannon);
+      }
 
   		// start
   		var container = stage.insert(new Q.UI.Container
@@ -1016,7 +1024,7 @@ export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, {
 
       Q.state.set('speed', 0);
 
-  		Q.stageScene('hud', 3, new Q('Rocket').first().p);
+      Q.stageScene('hud', 3);
 
       var currentSelectedButton = 'buttonStartLevel';
 
@@ -1313,7 +1321,7 @@ export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, {
   		globalSpeedRef    = 250;
       Q.state.set('maxSpeedRef', 500);
 
-  		Q.state.set('distanceToGoal', 50);
+  		Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + ((Q.state.get('level') - 1) / 10) )));
   		Q.state.set('speed', 250);
       Q.state.set('maxSpeed', 500);
 
@@ -1332,7 +1340,15 @@ export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, {
       Q.state.set('asteroidMaker', asteroidMaker);
   		stage.insert(asteroidMaker);
 
-  		stage.insert(new Q.Rocket({x: Q.width/2, y: rocket_y }));
+      var rocket = new Q.Rocket();
+      stage.insert(rocket);
+
+      if(!Ember.isEmpty(self.get('rocket').get('cannon'))) {
+        var cannon = new Q.Cannon();
+            cannon.setRocket(rocket);
+            rocket.setCannon(cannon);
+    		stage.insert(cannon);
+      }
 
       self.setupLevel(Q.state.get('level'));
 
@@ -1702,6 +1718,7 @@ export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, {
       [
         "level_selection_coming_soon.png",
         "rocket.png",
+        "cannon.png",
         "bullet.png",
         "star.png",
         "star_locked.png",
@@ -1723,6 +1740,8 @@ export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, {
 
       function()
       {
+        Q.sheet("rocket", "rocket.png", { tileW: 50, tileH: 140 });
+        Q.sheet("cannon", "cannon.png", { tileW: 50, tileH: 140 });
         Q.sheet("bullet","bullet.png", { tileW: 20, tileH: 20 });
         Q.sheet("star","star.png", { tileW: 60, tileH: 60 });
         Q.sheet("star_locked","star.png", { tileW: 61, tileH: 64 });
@@ -1730,7 +1749,6 @@ export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, {
         Q.sheet("bigAsteroid","bigAsteroid.png", { tileW: 100, tileH: 100 });
         Q.sheet("explodingAsteroid","explodingAsteroid.png", { tileW: 200, tileH: 200 });
         Q.sheet("ufo","ufo.png", { tileW: 72, tileH: 40 });
-        Q.sheet("rocket", "rocket.png", { tileW: 50, tileH: 140 });
         Q.sheet("distance","menuicons/distance.png", { tileW: 24, tileH: 24 });
         Q.sheet("level","menuicons/level.png", { tileW: 24, tileH: 24 });
         Q.sheet("points","menuicons/points.png", { tileW: 24, tileH: 24 });
@@ -1742,6 +1760,11 @@ export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, {
           explosion: { frames: [1,2,3,4,5], rate: 1/15, loop: false, trigger: "exploded" }
         });
 
+        Q.animations('cannon', {
+          reloading: { frames: [1], rate: 1/1, loop: false },
+          reloaded: { frames: [0], rate: 1/1, loop: false }
+        });
+
         Q.animations('explodingAsteroid',
         {
           // flying: { frames: [0], loop: false },
@@ -1750,8 +1773,8 @@ export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, {
 
         Q.stageScene("levelSelection");
 
-        // Q.debug = true;
-        // Q.debugFill = true;
+        Q.debug = true;
+        Q.debugFill = true;
       },
       {
         progressCallback: function(loaded,total) {
