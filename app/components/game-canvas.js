@@ -1761,8 +1761,8 @@ export default Ember.Component.extend(FacebookLoginMixin, RocketMixin, CannonMix
         });
 
         Q.animations('cannon', {
-          reloading: { frames: [1], rate: 1/1, loop: false },
-          reloaded: { frames: [0], rate: 1/1, loop: false }
+          reloading: { frames: [0], rate: 1/1, loop: false },
+          reloaded: { frames: [1], rate: 1/1, loop: false }
         });
 
         Q.animations('explodingAsteroid',

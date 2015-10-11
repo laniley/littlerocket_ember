@@ -7,7 +7,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="210mm"
@@ -18,17 +17,6 @@
    sodipodi:docname="cannon.svg">
   <defs
      id="defs3741">
-    <radialGradient
-       r="23.787491"
-       fy="296.34912"
-       fx="383.57706"
-       cy="296.34912"
-       cx="383.57706"
-       gradientTransform="matrix(1,0,0,0.60768517,-72.166968,102.04524)"
-       gradientUnits="userSpaceOnUse"
-       id="radialGradient5457-1-1-1"
-       xlink:href="#linearGradient5278-7-74-8"
-       inkscape:collect="always" />
     <linearGradient
        id="linearGradient5278-7-74-8">
       <stop
@@ -40,17 +28,6 @@
          offset="1"
          style="stop-color:#838383;stop-opacity:1;" />
     </linearGradient>
-    <radialGradient
-       r="24.11063"
-       fy="253.89169"
-       fx="304.82184"
-       cy="253.89169"
-       cx="304.82184"
-       gradientTransform="matrix(1.3549795,-0.04950187,0.07955573,2.1773965,-114.6658,-313.24431)"
-       gradientUnits="userSpaceOnUse"
-       id="radialGradient5459-9-4-7"
-       xlink:href="#linearGradient5278-7-74-8"
-       inkscape:collect="always" />
     <linearGradient
        id="linearGradient3762">
       <stop
@@ -84,17 +61,6 @@
          in="SourceGraphic"
          stdDeviation="0.01 5" />
     </filter>
-    <radialGradient
-       r="23.787491"
-       fy="296.34912"
-       fx="383.57706"
-       cy="296.34912"
-       cx="383.57706"
-       gradientTransform="matrix(1,0,0,0.60768517,-72.166968,102.04524)"
-       gradientUnits="userSpaceOnUse"
-       id="radialGradient5457-1-1"
-       xlink:href="#linearGradient5278-7-74"
-       inkscape:collect="always" />
     <linearGradient
        id="linearGradient5278-7-74">
       <stop
@@ -106,17 +72,6 @@
          offset="1"
          style="stop-color:#838383;stop-opacity:1;" />
     </linearGradient>
-    <radialGradient
-       r="24.11063"
-       fy="253.89169"
-       fx="304.82184"
-       cy="253.89169"
-       cx="304.82184"
-       gradientTransform="matrix(1.3549795,-0.04950187,0.07955573,2.1773965,-114.6658,-313.24431)"
-       gradientUnits="userSpaceOnUse"
-       id="radialGradient5459-9-4"
-       xlink:href="#linearGradient5278-7-74"
-       inkscape:collect="always" />
     <linearGradient
        id="linearGradient3777">
       <stop
@@ -191,15 +146,15 @@
        inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\cannon.png"
        sodipodi:nodetypes="cccc"
        id="rect5506-8-1-21-7"
-       d="m 24.886374,912.3621 c -3.14785,6.71004 -7.44769,13.35733 -10.790549,20.23935 1.540759,3.97923 20.180929,4.4475 22.363449,0 -3.56049,-6.81419 -8.38022,-14.28615 -11.5729,-20.23935 z"
-       style="fill:#ff0000;fill-opacity:0.99607842999999996;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 74.88637,912.3621 c -3.14785,6.71004 -7.44769,13.35733 -10.79054,20.23935 1.54075,3.97923 20.18092,4.4475 22.36344,0 -3.56049,-6.81419 -8.38022,-14.28615 -11.5729,-20.23935 z"
+       style="fill:#ff0000;fill-opacity:0.99607843;stroke:none"
        inkscape:connector-curvature="0" />
     <rect
        style="fill:none;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3916"
        width="50"
        height="140"
-       x="0"
+       x="50"
        y="912.36218"
        ry="0"
        inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\cannon.png"
@@ -211,15 +166,15 @@
        inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\cannon.png"
        sodipodi:nodetypes="cccc"
        id="rect5506-8-1-21-7-4"
-       d="m 74.886368,912.36208 c -3.14785,6.71 -7.44769,13.3573 -10.79055,20.2393 1.54076,3.9792 20.18093,4.4475 22.36345,0 -3.56049,-6.8142 -8.38022,-14.2861 -11.5729,-20.2393 z"
-       style="fill:none;fill-opacity:0.99607842999999996;stroke:none"
+       d="m 24.886368,912.36208 c -3.14785,6.71 -7.44769,13.3573 -10.79055,20.2393 1.54076,3.9792 20.18093,4.4475 22.36345,0 -3.56049,-6.8142 -8.38022,-14.2861 -11.5729,-20.2393 z"
+       style="fill:#838383;stroke:none;fill-opacity:1"
        inkscape:connector-curvature="0" />
     <rect
        style="fill:none;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3916-0"
        width="50"
        height="140"
-       x="50"
+       x="0"
        y="912.36218"
        ry="0"
        inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\cannon.png"

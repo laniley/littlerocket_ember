@@ -16,7 +16,7 @@ export default Ember.Mixin.create({
   				name: 'Cannon',
           sprite: 'cannon',
   				sheet: 'cannon',
-  				frame: 0,
+  				frame: 1,
   				direction: 'up',
   				vSpeed: Q.state.get('speed'),
   				tileW: 50,
