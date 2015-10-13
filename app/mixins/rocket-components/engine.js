@@ -2,21 +2,21 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
-  cannon: null,
-  cannonReloadingTimeout: null,
-  initCannon: function() {
+  engine: null,
+  engineReloadingTimeout: null,
+  initEngine: function() {
     var self = this;
     var y  = Q.height/6 * 5;
     if(Q.touchDevice) {
     	y -= 100;
     }
 
-    Q.TransformableSprite.extend("Cannon", {
+    Q.TransformableSprite.extend("Engine", {
     	init: function(p) {
   		  this._super(p, {
-  				name: 'Cannon',
-          sprite: 'cannon',
-  				sheet: 'cannon',
+  				name: 'Engine',
+          sprite: 'engine',
+  				sheet: 'engine',
   				frame: 1,
   				direction: 'up',
   				vSpeed: Q.state.get('speed'),
@@ -38,8 +38,6 @@ export default Ember.Mixin.create({
         this.p.points = [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]];
 
         this.add("animation");
-
-  		  this.on('fire', this, 'fire');
     	},
 
       setRocket: function(rocket) {
@@ -53,30 +51,6 @@ export default Ember.Mixin.create({
         this.p.y = this.p.rocket.p.y;
         // rotation
         this.p.angle = this.p.rocket.p.angle;
-    	},
-
-    	fire: function() {
-
-        var cannon = this;
-
-    		if(!Q.state.get('cannon_is_reloading') && self.get('cannon').get('currentValue') > 0) {
-
-          cannon.stage.insert(new Q.Bullet());
-
-          self.get('cannon').set('currentValue', self.get('cannon').get('currentValue') - 1);
-          Q.state.set('cannon_is_reloading', true);
-
-          cannon.play('reloading');
-
-          var timeout = setTimeout(function() {
-            Q.state.set('cannon_is_reloading', false);
-            if(self.get('cannon').get('currentValue') > 0) {
-              cannon.play('reloaded');
-            }
-          }, 1000 / Q.state.get('bps'));
-
-          self.set('cannonReloadingTimeout', timeout);
-    	  }
     	},
 
     	destroy: function() {
