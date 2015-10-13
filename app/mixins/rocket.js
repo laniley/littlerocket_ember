@@ -3,6 +3,7 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
   rocket: null,
+  shieldReloadingTimeout: null,
   initRocket: function() {
     var self = this;
     var distanceToGoalRef = 50;
@@ -15,21 +16,20 @@ export default Ember.Mixin.create({
     Q.TransformableSprite.extend("Rocket", {
     	init: function(p) {
     		  this._super(p, {
-    				name:          "Rocket",
-    				sheet:         "rocket",
-    				frame:         0,
-    				direction:     'up',
-    				stars:         0,
-    				vSpeed:        Q.state.get('speed'),
-    				tileW:         50,
-    				tileH:         140,
-    				type:          Q.SPRITE_ROCKET,
+    				name: "Rocket",
+    				sheet: "rocket",
+    				frame: 0,
+    				direction: 'up',
+    				stars: 0,
+    				vSpeed: Q.state.get('speed'),
+    				tileW: 50,
+    				tileH: 140,
+    				type: Q.SPRITE_ROCKET,
     				collisionMask: Q.SPRITE_STAR,
-            lastSpeedUp:   0,
-            points:        [],
-            collided:      false,
-            scale: 			   Q.state.get('scale'),
-            hasACannon: 	 false,
+            lastSpeedUp: 0,
+            points: [],
+            scale: Q.state.get('scale'),
+            hasACannon: false,
             cannon: null,
             cannonCapacity: 3
     		  });
@@ -75,6 +75,7 @@ export default Ember.Mixin.create({
     		  this.on('exploded', this, 'destroy');
     		  this.on('fireCannon', this, 'fireCannon');
           this.on('slowdown', this, 'slowdown');
+          this.on('collided', this, 'handleCollision');
     	},
 
     	step: function(dt) {
@@ -155,7 +156,7 @@ export default Ember.Mixin.create({
     	fireCannon: function() {
     		if(this.p.hasACannon &&
           !Q.state.get('cannon_is_reloading') &&
-          Q.state.get('bullets') > 0) {
+          self.get('cannon').get('currentValue') > 0) {
           this.p.cannon.trigger("fire");
     	  }
     	},
@@ -179,6 +180,28 @@ export default Ember.Mixin.create({
 
           self.set('engineReloadingTimeout', timeout);
     	  }
+      },
+
+      handleCollision: function() {
+        if(Q.state.get('shield') === 0 || Q.state.get('shield_is_reloading')) {
+
+          Q.audio.stop('rocket.mp3');
+          Q.audio.stop('racing.mp3');
+          Q.audio.play('explosion.mp3');
+
+          Q.stageScene("gameOver", 2);
+        }
+        else {
+          Q.state.set('shield_is_reloading', true);
+          Q.state.set('shield', Q.state.get('shield') - 1);
+          console.log(Q.state.get('shield'));
+
+          var timeout = setTimeout(function() {
+            Q.state.set('shield_is_reloading', false);
+          }, 1000 / Q.state.get('srr'));
+
+          self.set('shieldReloadingTimeout', timeout);
+        }
       },
 
     	destroy: function() {

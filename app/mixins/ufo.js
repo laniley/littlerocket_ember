@@ -2,9 +2,8 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
-  shieldReloadingTimeout: null,
+
   initUfo: function() {
-    var self = this;
     Q.Sprite.extend("Ufo", {
       init: function(p) {
         this._super(p, {
@@ -42,39 +41,13 @@ export default Ember.Mixin.create({
       },
 
       // When an ufo is hit..
-      sensor: function(colObj)
-      {
+      sensor: function(colObj) {
         // Destroy it
-        if(colObj.isA('Rocket') && !colObj.collided && !this.collided)
-        {
+        if(colObj.isA('Rocket') && !colObj.collided && !this.collided) {
           this.collided = true;
-
-          if(Q.state.get('shield') === 0 || Q.state.get('shield_is_reloading')) {
-
-            colObj.collided = true;
-
-            Q.audio.stop('rocket.mp3');
-            Q.audio.stop('racing.mp3');
-            Q.audio.play('explosion.mp3');
-
-            // globalSpeedRef = 0;
-
-            Q.stageScene("gameOver", 2);
-          }
-          else {
-            Q.state.set('shield_is_reloading', true);
-
-            Q.state.set('shield', Q.state.get('shield') - 1);
-
-            var timeout = setTimeout(function() {
-              Q.state.set('shield_is_reloading', false);
-            }, 1000 / Q.state.get('srr'));
-
-            self.set('shieldReloadingTimeout', timeout);
-          }
+          colObj.trigger('collided');
         }
-        else if(colObj.isA('Bullet') && !colObj.collided)
-        {
+        else if(colObj.isA('Bullet') && !colObj.collided) {
           colObj.collided = true;
           colObj.destroy();
         }
@@ -82,6 +55,65 @@ export default Ember.Mixin.create({
         Q.audio.play('explosion.mp3');
         this.destroy();
       }
+    });
+
+    Q.component("ufoControls", {
+      // default properties to add onto our entity
+      defaults: { speed: 100 },
+
+      // called when the component is added to an entity
+      added: function() {
+        var p = this.entity.p;
+
+        // add in our default properties
+        Q._defaults(p, this.defaults);
+
+        // every time our entity steps call our step method
+        this.entity.on("step",this,"step");
+      },
+
+      step: function(/*dt*/) {
+        // grab the entity's properties for easy reference
+        var p = this.entity.p;
+
+        p.vy = Q.state.get('speed') * 1.3;
+        // based on our xDirection, try to add velocity in that direction
+        if(p.xDirection > 0) {
+          p.vx = Q.state.get('speed') / 2;
+        }
+        else {
+          p.vx = -Q.state.get('speed') / 2;
+        }
+
+        if(p.y > Q.height) {
+          this.entity.destroy();
+        }
+
+        if((p.x > Q.width - 35 * Q.state.get('scale') &&
+            p.xDirection > 0) || (p.x < 35 * Q.state.get('scale') && p.xDirection <= 0)) {
+          p.xDirection = p.xDirection * -1;
+        }
+
+      }
+    });
+
+    Q.GameObject.extend("UfoMaker", {
+    	init: function() {
+    		this.p = {
+    			launchDelay: 1.2 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed')),
+    			launchRandom: 1,
+    			launch: 1,
+          isActive: 1
+    		};
+    	},
+     	update: function(dt) {
+  	  	this.p.launch -= dt;
+
+  	  	if(!Q.state.get('isPaused') && this.p.isActive && this.p.launch < 0) {
+    			this.stage.insert(new Q.Ufo());
+    			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
+    		}
+     	}
     });
   }
 });

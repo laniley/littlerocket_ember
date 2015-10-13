@@ -36,6 +36,24 @@
     font-size: 2rem;
     color: #F75806;
   }
+  .resource {
+    position: absolute;
+    right: 21px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    &.ammo {
+      top: 25px;
+    }
+    &.shield {
+      top: 55px;
+    }
+    &.engine {
+      top: 85px;
+    }
+    i {
+      margin-right: 10px;
+    }
+  }
 }
 
 .gameOver {

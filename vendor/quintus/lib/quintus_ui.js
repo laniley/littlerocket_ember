@@ -625,57 +625,6 @@ Quintus.UI = function(Q)
      }
   });
 
-  Q.UI.Text.extend("BulletsText",
-  {
-    init: function(container)
-    {
-      this._super
-      ({
-         x: 0,
-         y: Q.state.get('scale') * 0,
-         label: "Ammo: " + Q.state.get('bullets') + "\n",
-         color: "black",
-         size: Q.state.get('scale') * 20,
-         outlineWidth: container.width
-      });
-
-      Q.state.on("change.bullets",this,"updateText");
-    },
-
-    updateText: function(newVal)
-    {
-      this.p.label = "Ammo: " + newVal + "\n";
-    }
-  });
-
-  Q.UI.Text.extend("CannonIsReloadingText",
-  {
-    init: function(container)
-    {
-      this._super
-      ({
-         x: 0,
-         y: Q.state.get('scale') * 0,
-         label: "\n",
-         color: "black",
-         size: Q.state.get('scale') * 20,
-         outlineWidth: container.width
-      });
-
-      Q.state.on("change.cannon_is_reloading",this,"updateText");
-    },
-
-    updateText: function()
-    {
-      if(Q.state.get("cannon_is_reloading")) {
-        this.p.label = "Reloading\n";
-      }
-      else {
-        this.p.label = " \n";
-      }
-    }
-  });
-
   Q.UI.Text.extend("ShieldText",
   {
     init: function(container)

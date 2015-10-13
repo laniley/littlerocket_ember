@@ -8,7 +8,7 @@ import UfoMixin from './../mixins/ufo';
 import CannonMixin from './../mixins/rocket-components/cannon';
 
 export default Ember.Component.extend(
-  
+
   FacebookLoginMixin,
   RocketMixin,
   UfoMixin,
@@ -18,7 +18,6 @@ export default Ember.Component.extend(
   me: null,
   store: null,
   hasPostPermission: false,
-  rocket: null,
   shieldReloadingTimeout: null,
   engineReloadingTimeout: null,
   isLoading: true,
@@ -183,67 +182,6 @@ export default Ember.Component.extend(
     			this.entity.destroy();
     		}
     	}
-    });
-
-    Q.component("ufoControls", {
-    	// default properties to add onto our entity
-    	defaults: { speed: 100 },
-
-    	// called when the component is added to an entity
-    	added: function()
-    	{
-    		var p = this.entity.p;
-
-    		// add in our default properties
-    		Q._defaults(p, this.defaults);
-
-    		// every time our entity steps call our step method
-    		this.entity.on("step",this,"step");
-    	},
-
-    	step: function(/*dt*/)
-    	{
-    		// grab the entity's properties for easy reference
-    		var p = this.entity.p;
-
-    		p.vy = Q.state.get('speed') * 1.3;
-    		// based on our xDirection, try to add velocity in that direction
-    		if(p.xDirection > 0) {
-          p.vx = Q.state.get('speed') / 2;
-        }
-    		else {
-          p.vx = -Q.state.get('speed') / 2;
-        }
-
-    		if(p.y > Q.height) {
-    			this.entity.destroy();
-    		}
-
-    		if((p.x > Q.width - 35 * Q.state.get('scale') && p.xDirection > 0) || (p.x < 35 * Q.state.get('scale') && p.xDirection <= 0)) {
-          p.xDirection = p.xDirection * -1;
-        }
-
-    	}
-    });
-
-    Q.GameObject.extend("UfoMaker", {
-    	init: function() {
-    		this.p =
-    		{
-    			launchDelay: 1.2 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed')),
-    			launchRandom: 1,
-    			launch: 1,
-          isActive: 1
-    		};
-    	},
-     	update: function(dt) {
-  	  	this.p.launch -= dt;
-
-  	  	if(!Q.state.get('isPaused') && this.p.isActive && this.p.launch < 0) {
-    			this.stage.insert(new Q.Ufo());
-    			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
-    		}
-     	}
     });
 
     // Create the Star sprite
@@ -719,28 +657,6 @@ export default Ember.Component.extend(
 
   		container.fit(0);
 
-  		var containerAmmo = stage.insert
-  		(
-  			new Q.UI.Container
-  			(
-  			  {
-  					x: Q.state.get('scale') * 300,
-  					y: Q.state.get('scale') * 20
-  			  }
-  			)
-  		);
-
-      var containerAmmoReloading = stage.insert
-  		(
-  			new Q.UI.Container
-  			(
-  			  {
-  					x: Q.state.get('scale') * 300,
-  					y: Q.state.get('scale') * 50
-  			  }
-  			)
-  		);
-
       var containerShield = stage.insert
   		(
   			new Q.UI.Container
@@ -794,10 +710,11 @@ export default Ember.Component.extend(
             rocket.get('cannon').then(cannon => {
 
                 if(cannon.get('status') === 'unlocked') {
+                  self.set('cannon', cannon);
                   cannon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
                     selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
                       rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
-                        Q.state.set('bullets', rocketComponentModelLevel.get('value'));
+                        cannon.set('currentValue', rocketComponentModelLevel.get('value'));
                       });
                     });
                   });
@@ -805,8 +722,6 @@ export default Ember.Component.extend(
                 else {
                   Q.state.set('bullets', 0);
                 }
-
-                containerAmmo.insert(new Q.BulletsText(containerAmmo));
             });
 
             rocket.get('shield').then(shield => {
@@ -851,14 +766,11 @@ export default Ember.Component.extend(
 
       });
 
-      containerAmmoReloading.insert(new Q.CannonIsReloadingText(containerAmmoReloading));
       containerShieldReloading.insert(new Q.ShieldIsReloadingText(containerShieldReloading));
       containerEngineReloading.insert(new Q.EngineIsReloadingText(containerEngineReloading));
 
-      containerAmmo.fit(0);
       containerShield.fit(0);
       containerEngine.fit(0);
-      containerAmmoReloading.fit(0);
       containerShieldReloading.fit(0);
       containerEngineReloading.fit(0);
 

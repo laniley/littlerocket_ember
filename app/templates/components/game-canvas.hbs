@@ -42,6 +42,18 @@
       {{#if showHud}}
         <div class="hud">
           <div class="score">{{new_score}}</div>
+
+          <div class="list-group">
+            <div class="list-group-item resource ammo">
+              {{unbound fa-icon 'bullseye' fixedWidth=true}} {{me.user.rocket.cannon.currentValue}}<
+            </div>
+            <div class="list-group-item resource shield">
+              {{unbound fa-icon 'shield' fixedWidth=true}} {{me.user.rocket.shield.currentValue}}<
+            </div>
+            <div class="list-group-item resource engine">
+              {{unbound fa-icon 'forward' fixedWidth=true}} {{me.user.rocket.engine.currentValue}}<
+            </div>
+          </div>
         </div>
       {{/if}}
 

@@ -2,6 +2,7 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
+  cannon: null,
   cannonReloadingTimeout: null,
   initCannon: function() {
     var self = this;
@@ -38,7 +39,6 @@ export default Ember.Mixin.create({
 
         this.add("animation");
 
-  		  // this.on('exploded', this, 'destroy');
   		  this.on('fire', this, 'fire');
     	},
 
@@ -59,19 +59,20 @@ export default Ember.Mixin.create({
 
         var cannon = this;
 
-    		if(!Q.state.get('cannon_is_reloading') &&
-            Q.state.get('bullets') > 0) {
+    		if(!Q.state.get('cannon_is_reloading') && self.get('cannon').get('currentValue') > 0) {
 
           cannon.stage.insert(new Q.Bullet());
 
-          Q.state.set('bullets', Q.state.get('bullets') - 1);
+          self.get('cannon').set('currentValue', self.get('cannon').get('currentValue') - 1);
           Q.state.set('cannon_is_reloading', true);
 
           cannon.play('reloading');
 
           var timeout = setTimeout(function() {
             Q.state.set('cannon_is_reloading', false);
-            cannon.play('reloaded');
+            if(self.get('cannon').get('currentValue') > 0) {
+              cannon.play('reloaded');
+            }
           }, 1000 / Q.state.get('bps'));
 
           self.set('cannonReloadingTimeout', timeout);
