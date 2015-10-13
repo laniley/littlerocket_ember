@@ -107,7 +107,6 @@ export default Ember.Component.extend(
 
     Q.state.set('distance', 0);
     Q.state.set('stars', 0);
-    Q.state.set('cannon_is_reloading', false);
     Q.state.set('shield_is_reloading', false);
     Q.state.set('engine_is_reloading', false);
 
@@ -706,11 +705,9 @@ export default Ember.Component.extend(
         if(!Ember.isEmpty(user)) {
 
           user.get('rocket').then(rocket => {
-
             rocket.get('cannon').then(cannon => {
-
-                if(cannon.get('status') === 'unlocked') {
-                  self.set('cannon', cannon);
+                self.set('cannon', cannon);
+                if(cannon.get('status') === "unlocked") {
                   cannon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
                     selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
                       rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
@@ -720,7 +717,7 @@ export default Ember.Component.extend(
                   });
                 }
                 else {
-                  Q.state.set('bullets', 0);
+                  cannon.set('currentValue', 0);
                 }
             });
 
@@ -1220,7 +1217,7 @@ export default Ember.Component.extend(
   		Q.audio.stop('racing.mp3');
 
       Q.state.set('speed', 0);
-      Q.state.set('cannon_is_reloading', false);
+      self.get('cannon').set('isReloading', false);
       Q.state.set('shield_is_reloading', false);
       Q.state.set('engine_is_reloading', false);
 
@@ -1434,7 +1431,7 @@ export default Ember.Component.extend(
 
                 if(!Ember.isEmpty(cannon)) {
                   if(cannon.get('status') !== 'unlocked') {
-                    Q.state.set('bullets', 0);
+                    cannon.set('currentValue', 0);
                     Q.state.set('bps', 0);
                   }
                   else {
@@ -1444,7 +1441,7 @@ export default Ember.Component.extend(
                           if(!Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
                             rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
                               if(!Ember.isEmpty(rocketComponentModelCapacityLevel)) {
-                                  Q.state.set('bullets', rocketComponentModelCapacityLevel.get('value'));
+                                  cannon.set('currentValue', rocketComponentModelCapacityLevel.get('value'));
                               }
                             });
                           }

@@ -3,7 +3,31 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
   cannon: null,
+  cannonQuintusObject: null,
+  cannon_is_reloading: false,
   cannonReloadingTimeout: null,
+
+  cannonFrame: function() {
+    if(!Ember.isEmpty(this.get('cannon')) &&
+        this.get('cannon').get('status') === 'unlocked' &&
+        this.get('cannon').get('currentValue') > 0 &&
+        !this.get('cannon').get('isReloading')) {
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  }.property('cannon.status', 'cannon.isReloading'),
+
+  updateCannonFrame: function() {
+    if(this.get('cannonFrame') === 1) {
+      this.get('cannonQuintusObject').play('reloaded');
+    }
+    else {
+      this.get('cannonQuintusObject').play('reloading');
+    }
+  }.observes('cannonFrame'),
+
   initCannon: function() {
     var self = this;
     var y  = Q.height/6 * 5;
@@ -17,7 +41,7 @@ export default Ember.Mixin.create({
   				name: 'Cannon',
           sprite: 'cannon',
   				sheet: 'cannon',
-  				frame: 1,
+  				frame: self.get('cannonFrame'),
   				direction: 'up',
   				vSpeed: Q.state.get('speed'),
   				tileW: 50,
@@ -28,6 +52,8 @@ export default Ember.Mixin.create({
           rocket: null,
           capacity: 3
   		  });
+
+        self.set('cannonQuintusObject', this);
 
         // x location of the center
         this.p.x = Q.width / 2;
@@ -59,20 +85,20 @@ export default Ember.Mixin.create({
 
         var cannon = this;
 
-    		if(!Q.state.get('cannon_is_reloading') && self.get('cannon').get('currentValue') > 0) {
+    		if(!self.get('cannon').get('isReloading') && self.get('cannon').get('currentValue') > 0) {
 
           cannon.stage.insert(new Q.Bullet());
 
           self.get('cannon').set('currentValue', self.get('cannon').get('currentValue') - 1);
-          Q.state.set('cannon_is_reloading', true);
+          self.get('cannon').set('isReloading', true);
 
-          cannon.play('reloading');
+          // cannon.play('reloading');
 
           var timeout = setTimeout(function() {
-            Q.state.set('cannon_is_reloading', false);
-            if(self.get('cannon').get('currentValue') > 0) {
-              cannon.play('reloaded');
-            }
+            self.get('cannon').set('isReloading', false);
+            // if(self.get('cannon').get('currentValue') > 0) {
+            //   cannon.play('reloaded');
+            // }
           }, 1000 / Q.state.get('bps'));
 
           self.set('cannonReloadingTimeout', timeout);

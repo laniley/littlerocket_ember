@@ -11,6 +11,7 @@ export default DS.Model.extend({
   rocketComponentModelMms: DS.hasMany('rocket-component-model-mm', { async: true }),
 
   currentValue: DS.attr('number', { defaultValue: 0 }),
+  isReloading: DS.attr('boolean', { defaultValue: false }),
 
   tooltip: function() {
     return "You need " + this.get('costs') + " stars to unlock the " + this.get('type') + "!";
