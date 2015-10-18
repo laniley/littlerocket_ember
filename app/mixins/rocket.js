@@ -31,7 +31,8 @@ export default Ember.Mixin.create({
             scale: Q.state.get('scale'),
             hasACannon: false,
             cannon: null,
-            cannonCapacity: 3
+            engine: null,
+            shield: null
     		  });
 
           if(!Ember.isEmpty(self.get('rocket').get('cannon'))) {
@@ -155,7 +156,7 @@ export default Ember.Mixin.create({
 
     	fireCannon: function() {
     		if(this.p.hasACannon &&
-          !Q.state.get('cannon_is_reloading') &&
+          !self.get('cannon').get('isReloading') &&
           self.get('cannon').get('currentValue') > 0) {
           this.p.cannon.trigger("fire");
     	  }
@@ -183,21 +184,22 @@ export default Ember.Mixin.create({
       },
 
       handleCollision: function() {
-        if(Q.state.get('shield') === 0 || Q.state.get('shield_is_reloading')) {
-
-          Q.audio.stop('rocket.mp3');
-          Q.audio.stop('racing.mp3');
-          Q.audio.play('explosion.mp3');
-
-          Q.stageScene("gameOver", 2);
+        // no shield
+        console.log('shield', self.get('shield').get('currentValue'), self.get('shield').get('isReloading'));
+        if(self.get('shield').get('currentValue') === 0 ||
+           self.get('shield').get('isReloading')) {
+              Q.audio.stop('rocket.mp3');
+              Q.audio.stop('racing.mp3');
+              Q.audio.play('explosion.mp3');
+              Q.stageScene("gameOver", 2);
         }
+        // with shield
         else {
-          Q.state.set('shield_is_reloading', true);
-          Q.state.set('shield', Q.state.get('shield') - 1);
-          console.log(Q.state.get('shield'));
+          self.get('shield').set('isReloading', true);
+          self.get('shield').set('currentValue', self.get('shield').get('currentValue') - 1);
 
           var timeout = setTimeout(function() {
-            Q.state.set('shield_is_reloading', false);
+            self.get('shield').set('isReloading', false);
           }, 1000 / Q.state.get('srr'));
 
           self.set('shieldReloadingTimeout', timeout);

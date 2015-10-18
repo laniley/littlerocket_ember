@@ -30,10 +30,6 @@ export default Ember.Component.extend(
   stars: 0,
   level: 1,
 
-  new_score: function() {
-    return (this.get('distance') + this.get('stars')) * this.get('level');
-  }.property('distance', 'stars', 'level'),
-
   didInsertElement: function() {
 
     var self = this;
@@ -107,8 +103,6 @@ export default Ember.Component.extend(
 
     Q.state.set('distance', 0);
     Q.state.set('stars', 0);
-    Q.state.set('shield_is_reloading', false);
-    Q.state.set('engine_is_reloading', false);
 
     var distanceToGoalRef = 50;
     Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + ((Q.state.get('level') - 1) / 10) )));
@@ -303,48 +297,7 @@ export default Ember.Component.extend(
     		if(colObj.isA('Rocket') && !colObj.collided && !this.collided)
     		{
           this.collided = true;
-
-    			if(Q.state.get('shield') === 0 || Q.state.get('shield_is_reloading')) {
-
-            colObj.collided = true;
-
-      			Q.audio.stop('rocket.mp3');
-      			Q.audio.stop('racing.mp3');
-      			Q.audio.play('explosion.mp3');
-
-      			globalSpeedRef = 0;
-
-      			Q.stageScene("gameOver", 2);
-          }
-    			else {
-            Q.state.set('shield_is_reloading', true);
-
-            if(Q.state.get('shield') - this.p.hitPoints > 0) {
-              Q.state.set('shield', Q.state.get('shield') - this.p.hitPoints);
-            }
-            else if(Q.state.get('shield') - this.p.hitPoints < 0) {
-              Q.state.set('shield', Q.state.get('shield') - this.p.hitPoints);
-
-              colObj.collided = true;
-
-        			Q.audio.stop('rocket.mp3');
-        			Q.audio.stop('racing.mp3');
-        			Q.audio.play('explosion.mp3');
-
-        			globalSpeedRef = 0;
-
-        			Q.stageScene("gameOver", 2);
-            }
-            else {
-              Q.state.set('shield', 0);
-            }
-
-            var timeout = setTimeout(function() {
-              Q.state.set('shield_is_reloading', false);
-            }, 1000 / Q.state.get('srr'));
-
-            self.set('shieldReloadingTimeout', timeout);
-          }
+    			colObj.trigger('collided');
     		}
     		else if(colObj.isA('Bullet') && !colObj.collided)
     		{
@@ -656,17 +609,6 @@ export default Ember.Component.extend(
 
   		container.fit(0);
 
-      var containerShield = stage.insert
-  		(
-  			new Q.UI.Container
-  			(
-  			  {
-  					x: Q.state.get('scale') * 300,
-  					y: Q.state.get('scale') * 80
-  			  }
-  			)
-  		);
-
       var containerShieldReloading = stage.insert
   		(
   			new Q.UI.Container
@@ -674,17 +616,6 @@ export default Ember.Component.extend(
   			  {
   					x: Q.state.get('scale') * 300,
   					y: Q.state.get('scale') * 110
-  			  }
-  			)
-  		);
-
-      var containerEngine = stage.insert
-  		(
-  			new Q.UI.Container
-  			(
-  			  {
-  					x: Q.state.get('scale') * 300,
-  					y: Q.state.get('scale') * 140
   			  }
   			)
   		);
@@ -700,74 +631,9 @@ export default Ember.Component.extend(
   			)
   		);
 
-      self.get('me').get('user').then(user => {
-
-        if(!Ember.isEmpty(user)) {
-
-          user.get('rocket').then(rocket => {
-            rocket.get('cannon').then(cannon => {
-                self.set('cannon', cannon);
-                if(cannon.get('status') === "unlocked") {
-                  cannon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-                    selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
-                      rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
-                        cannon.set('currentValue', rocketComponentModelLevel.get('value'));
-                      });
-                    });
-                  });
-                }
-                else {
-                  cannon.set('currentValue', 0);
-                }
-            });
-
-            rocket.get('shield').then(shield => {
-
-                if(shield.get('status') === 'unlocked') {
-                  shield.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-                    selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
-                      rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
-                        Q.state.set('shield', rocketComponentModelLevel.get('value'));
-                      });
-                    });
-                  });
-                }
-                else {
-                  Q.state.set('shield', 0);
-                }
-
-                containerShield.insert(new Q.ShieldText(containerShield));
-            });
-
-            rocket.get('engine').then(engine => {
-
-                if(engine.get('status') === 'unlocked') {
-                  engine.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-                    selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
-                      rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
-                        Q.state.set('slowdowns', rocketComponentModelLevel.get('value'));
-                      });
-                    });
-                  });
-                }
-                else {
-                  Q.state.set('slowdowns', 0);
-                }
-
-                containerEngine.insert(new Q.EngineText(containerEngine));
-            });
-
-          });
-
-        }
-
-      });
-
       containerShieldReloading.insert(new Q.ShieldIsReloadingText(containerShieldReloading));
       containerEngineReloading.insert(new Q.EngineIsReloadingText(containerEngineReloading));
 
-      containerShield.fit(0);
-      containerEngine.fit(0);
       containerShieldReloading.fit(0);
       containerEngineReloading.fit(0);
 
@@ -782,9 +648,10 @@ export default Ember.Component.extend(
       self.set('stars', 0);
 
   		Q.pauseGame();
-
   		Q.audio.stop('rocket.mp3');
   		Q.audio.stop('racing.mp3');
+
+      self.setRocketComponentsToDefaultSettings();
 
       var rocket = new Q.Rocket();
   		stage.insert(rocket);
@@ -1140,6 +1007,8 @@ export default Ember.Component.extend(
       self.set('currentScene', 'level');
       self.set('showHud', true);
 
+      self.setRocketComponentsToDefaultSettings();
+
   		Q.unpauseGame();
 
       Ember.$("#footer_banner").empty();
@@ -1465,7 +1334,7 @@ export default Ember.Component.extend(
 
                 if(!Ember.isEmpty(shield)) {
                   if(shield.get('status') !== 'unlocked') {
-                    Q.state.set('shield', 0);
+                    shield.set('currentValue', 0);
                     Q.state.set('srr', 0);
                   }
                   else {
@@ -1475,7 +1344,7 @@ export default Ember.Component.extend(
                           if(!Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
                             rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
                               if(!Ember.isEmpty(rocketComponentModelCapacityLevel)) {
-                                Q.state.set('shield', rocketComponentModelCapacityLevel.get('value'));
+                                shield.set('currentValue', rocketComponentModelCapacityLevel.get('value'));
                               }
                             });
                           }
@@ -1499,7 +1368,7 @@ export default Ember.Component.extend(
 
                 if(!Ember.isEmpty(engine)) {
                   if(engine.get('status') !== 'unlocked') {
-                    Q.state.set('slowdowns', 0);
+                    engine.set('currentValue', 0);
                     Q.state.set('sdrr', 0);
                   }
                   else {
@@ -1509,7 +1378,7 @@ export default Ember.Component.extend(
                           if(!Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
                             rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
                               if(!Ember.isEmpty(rocketComponentModelCapacityLevel)) {
-                                Q.state.set('slowdowns', rocketComponentModelCapacityLevel.get('value'));
+                                engine.set('currentValue', rocketComponentModelCapacityLevel.get('value'));
                               }
                             });
                           }
@@ -1730,6 +1599,95 @@ export default Ember.Component.extend(
       return false;
     }
   }.property('me.activeChallenge'),
+
+  new_score: function() {
+    return (this.get('distance') + this.get('stars')) * this.get('level');
+  }.property('distance', 'stars', 'level'),
+
+  initRocketComponents: function() {
+    this.get('me').get('user').then(user => {
+      if(!Ember.isEmpty(user)) {
+        user.get('rocket').then(rocket => {
+
+          rocket.get('cannon').then(cannon => {
+            this.set('cannon', cannon);
+            this.setCannonToDefaultSettings();
+          });
+
+          rocket.get('shield').then(shield => {
+            this.set('shield', shield);
+            this.setShieldToDefaultSettings();
+          });
+
+          rocket.get('engine').then(engine => {
+            this.set('engine', engine);
+            this.setEngineToDefaultSettings();
+          });
+
+        });
+      }
+    });
+  }.observes('me.user'),
+
+  setRocketComponentsToDefaultSettings: function() {
+    this.setCannonToDefaultSettings();
+    this.setShieldToDefaultSettings();
+    this.setEngineToDefaultSettings();
+  },
+
+  setCannonToDefaultSettings: function() {
+    var cannon = this.get('cannon');
+    if(cannon.get('status') === "unlocked") {
+      cannon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+        selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+          rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
+            cannon.set('currentValue', rocketComponentModelLevel.get('value'));
+            cannon.set('isReloading', false);
+          });
+        });
+      });
+    }
+    else {
+      cannon.set('currentValue', 0);
+      cannon.set('isReloading', false);
+    }
+  },
+
+  setShieldToDefaultSettings: function() {
+    var shield = this.get('shield');
+    if(shield.get('status') === 'unlocked') {
+      shield.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+        selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+          rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
+            shield.set('currentValue', rocketComponentModelLevel.get('value'));
+            shield.set('isReloading', false);
+          });
+        });
+      });
+    }
+    else {
+      shield.set('currentValue', 0);
+      shield.set('isReloading', false);
+    }
+  },
+
+  setEngineToDefaultSettings: function() {
+    var engine = this.get('engine');
+    if(engine.get('status') === 'unlocked') {
+      engine.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+        selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
+          rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
+            engine.set('currentValue', rocketComponentModelLevel.get('value'));
+            engine.set('isReloading', false);
+          });
+        });
+      });
+    }
+    else {
+      engine.set('currentValue', 0);
+      engine.set('isReloading', false);
+    }
+  },
 
   actions: {
     login: function() {

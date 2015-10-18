@@ -4,7 +4,6 @@ import Ember from 'ember';
 export default Ember.Mixin.create({
   cannon: null,
   cannonQuintusObject: null,
-  cannon_is_reloading: false,
   cannonReloadingTimeout: null,
 
   cannonFrame: function() {
@@ -17,7 +16,7 @@ export default Ember.Mixin.create({
     else {
       return 0;
     }
-  }.property('cannon.status', 'cannon.isReloading'),
+  }.property('cannon.status', 'cannon.isReloading', 'cannon.currentValue'),
 
   updateCannonFrame: function() {
     if(this.get('cannonFrame') === 1) {
@@ -92,13 +91,8 @@ export default Ember.Mixin.create({
           self.get('cannon').set('currentValue', self.get('cannon').get('currentValue') - 1);
           self.get('cannon').set('isReloading', true);
 
-          // cannon.play('reloading');
-
           var timeout = setTimeout(function() {
             self.get('cannon').set('isReloading', false);
-            // if(self.get('cannon').get('currentValue') > 0) {
-            //   cannon.play('reloaded');
-            // }
           }, 1000 / Q.state.get('bps'));
 
           self.set('cannonReloadingTimeout', timeout);
