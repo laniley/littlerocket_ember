@@ -3,7 +3,6 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
   rocket: null,
-  shieldReloadingTimeout: null,
   initRocket: function() {
     var self = this;
     var distanceToGoalRef = 50;
@@ -31,8 +30,8 @@ export default Ember.Mixin.create({
             scale: Q.state.get('scale'),
             hasACannon: false,
             cannon: null,
-            engine: null,
-            shield: null
+            shield: null,
+            engine: null
     		  });
 
           if(!Ember.isEmpty(self.get('rocket').get('cannon'))) {
@@ -154,6 +153,14 @@ export default Ember.Mixin.create({
         this.p.cannon = cannon;
       },
 
+      setShield: function(shield) {
+        this.p.shield = shield;
+      },
+
+      setEngine: function(engine) {
+        this.p.engine = engine;
+      },
+
     	fireCannon: function() {
     		if(this.p.hasACannon &&
           !self.get('cannon').get('isReloading') &&
@@ -161,27 +168,6 @@ export default Ember.Mixin.create({
           this.p.cannon.trigger("fire");
     	  }
     	},
-
-      slowdown: function() {
-        if(!Q.state.get('engine_is_reloading') && Q.state.get('slowdowns') > 0)
-    		{
-          Q.state.set('engine_is_reloading', true);
-          Q.state.set('slowdowns', Q.state.get('slowdowns') - 1);
-
-          var currentSpeed = Q.state.get('speed');
-          var percent = currentSpeed * 0.1;
-
-          while(Q.state.get('speed') > (currentSpeed - percent)) {
-            Q.state.set('speed', Q.state.get('speed') - 1);
-          }
-
-          var timeout = setTimeout(function() {
-            Q.state.set('engine_is_reloading', false);
-          }, 1000 / Q.state.get('sdrr'));
-
-          self.set('engineReloadingTimeout', timeout);
-    	  }
-      },
 
       handleCollision: function() {
         // no shield
@@ -204,6 +190,27 @@ export default Ember.Mixin.create({
 
           self.set('shieldReloadingTimeout', timeout);
         }
+      },
+
+      slowdown: function() {
+        if(!Q.state.get('engine_is_reloading') && Q.state.get('slowdowns') > 0)
+    		{
+          Q.state.set('engine_is_reloading', true);
+          Q.state.set('slowdowns', Q.state.get('slowdowns') - 1);
+
+          var currentSpeed = Q.state.get('speed');
+          var percent = currentSpeed * 0.1;
+
+          while(Q.state.get('speed') > (currentSpeed - percent)) {
+            Q.state.set('speed', Q.state.get('speed') - 1);
+          }
+
+          var timeout = setTimeout(function() {
+            Q.state.set('engine_is_reloading', false);
+          }, 1000 / Q.state.get('sdrr'));
+
+          self.set('engineReloadingTimeout', timeout);
+    	  }
       },
 
     	destroy: function() {

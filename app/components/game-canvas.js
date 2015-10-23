@@ -6,20 +6,22 @@ import FacebookLoginMixin from './../mixins/facebook-login';
 import RocketMixin from './../mixins/rocket';
 import UfoMixin from './../mixins/ufo';
 import CannonMixin from './../mixins/rocket-components/cannon';
+import ShieldMixin from './../mixins/rocket-components/shield';
+import EngineMixin from './../mixins/rocket-components/engine';
 
 export default Ember.Component.extend(
 
   FacebookLoginMixin,
   RocketMixin,
   UfoMixin,
-  CannonMixin, {
+  CannonMixin,
+  ShieldMixin,
+  EngineMixin, {
 
   Q: null,
   me: null,
   store: null,
   hasPostPermission: false,
-  shieldReloadingTimeout: null,
-  engineReloadingTimeout: null,
   isLoading: true,
   gameCanvasIsLoaded: false,
   currentScene: null,
@@ -84,7 +86,6 @@ export default Ember.Component.extend(
     Q.gravityY = 0;
 
     Q.SPRITE_ROCKET   = 1;
-    Q.SPRITE_CANNON   = 10;
     Q.SPRITE_STAR     = 2;
     Q.SPRITE_ASTEROID = 4;
     Q.SPRITE_BULLET	  = 16;
@@ -122,6 +123,8 @@ export default Ember.Component.extend(
 
     this.initRocket();
     this.initCannon();
+    this.initShield();
+    this.initEngine();
     this.initUfo();
 
     Q.TransformableSprite.extend("Bullet", {
@@ -608,35 +611,6 @@ export default Ember.Component.extend(
   		container.insert(new Q.DistanceToGoalText(container));
 
   		container.fit(0);
-
-      var containerShieldReloading = stage.insert
-  		(
-  			new Q.UI.Container
-  			(
-  			  {
-  					x: Q.state.get('scale') * 300,
-  					y: Q.state.get('scale') * 110
-  			  }
-  			)
-  		);
-
-      var containerEngineReloading = stage.insert
-  		(
-  			new Q.UI.Container
-  			(
-  			  {
-  					x: Q.state.get('scale') * 300,
-  					y: Q.state.get('scale') * 170
-  			  }
-  			)
-  		);
-
-      containerShieldReloading.insert(new Q.ShieldIsReloadingText(containerShieldReloading));
-      containerEngineReloading.insert(new Q.EngineIsReloadingText(containerEngineReloading));
-
-      containerShieldReloading.fit(0);
-      containerEngineReloading.fit(0);
-
     });
 
   	Q.scene("mainMenu",function(stage) {
@@ -660,7 +634,19 @@ export default Ember.Component.extend(
         var cannon = new Q.Cannon();
             cannon.setRocket(rocket);
             rocket.setCannon(cannon);
-    		stage.insert(cannon);
+    		    stage.insert(cannon);
+      }
+      if(!Ember.isEmpty(self.get('rocket').get('shield'))) {
+        var shield = new Q.Shield();
+            shield.setRocket(rocket);
+            rocket.setShield(shield);
+            stage.insert(shield);
+      }
+      if(!Ember.isEmpty(self.get('rocket').get('engine'))) {
+        var engine = new Q.Engine();
+            engine.setRocket(rocket);
+            rocket.setShield(engine);
+            stage.insert(engine);
       }
 
   		// start
@@ -1051,7 +1037,19 @@ export default Ember.Component.extend(
         var cannon = new Q.Cannon();
             cannon.setRocket(rocket);
             rocket.setCannon(cannon);
-    		stage.insert(cannon);
+    		    stage.insert(cannon);
+      }
+      if(!Ember.isEmpty(self.get('rocket').get('shield'))) {
+        var shield = new Q.Shield();
+            shield.setRocket(rocket);
+            rocket.setShield(shield);
+            stage.insert(shield);
+      }
+      if(!Ember.isEmpty(self.get('rocket').get('engine'))) {
+        var engine = new Q.Engine();
+            engine.setRocket(rocket);
+            rocket.setShield(engine);
+            stage.insert(engine);
       }
 
       self.setupLevel(Q.state.get('level'));
@@ -1423,6 +1421,8 @@ export default Ember.Component.extend(
         "level_selection_coming_soon.png",
         "rocket.png",
         "cannon.png",
+        "shield.png",
+        "engine.png",
         "bullet.png",
         "star.png",
         "star_locked.png",
@@ -1446,6 +1446,8 @@ export default Ember.Component.extend(
       {
         Q.sheet("rocket", "rocket.png", { tileW: 50, tileH: 140 });
         Q.sheet("cannon", "cannon.png", { tileW: 50, tileH: 140 });
+        Q.sheet("shield", "shield.png", { tileW: 50, tileH: 140 });
+        Q.sheet("engine", "engine.png", { tileW: 50, tileH: 140 });
         Q.sheet("bullet","bullet.png", { tileW: 20, tileH: 20 });
         Q.sheet("star","star.png", { tileW: 60, tileH: 60 });
         Q.sheet("star_locked","star.png", { tileW: 61, tileH: 64 });
@@ -1460,11 +1462,20 @@ export default Ember.Component.extend(
         Q.sheet("speed","menuicons/speed.png", { tileW: 24, tileH: 24 });
 
         Q.animations('rocket', {
-          // flying: { frames: [0], loop: false },
           explosion: { frames: [1,2,3,4,5], rate: 1/15, loop: false, trigger: "exploded" }
         });
 
         Q.animations('cannon', {
+          reloading: { frames: [0], rate: 1/1, loop: false },
+          reloaded: { frames: [1], rate: 1/1, loop: false }
+        });
+
+        Q.animations('shield', {
+          reloading: { frames: [0], rate: 1/1, loop: false },
+          reloaded: { frames: [1], rate: 1/1, loop: false }
+        });
+
+        Q.animations('engine', {
           reloading: { frames: [0], rate: 1/1, loop: false },
           reloaded: { frames: [1], rate: 1/1, loop: false }
         });
@@ -1477,8 +1488,8 @@ export default Ember.Component.extend(
 
         Q.stageScene("levelSelection");
 
-        Q.debug = true;
-        Q.debugFill = true;
+        // Q.debug = true;
+        // Q.debugFill = true;
       },
       {
         progressCallback: function(loaded,total) {

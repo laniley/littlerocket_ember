@@ -3,7 +3,30 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
   engine: null,
+  engineQuintusObject: null,
   engineReloadingTimeout: null,
+
+  engineFrame: function() {
+    if(!Ember.isEmpty(this.get('engine')) &&
+        this.get('engine').get('status') === 'unlocked' &&
+        this.get('engine').get('currentValue') > 0 &&
+        !this.get('engine').get('isReloading')) {
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  }.property('engine.status', 'engine.isReloading', 'engine.currentValue'),
+
+  updateEngineFrame: function() {
+    if(this.get('engineFrame') === 1) {
+      this.get('engineQuintusObject').play('reloaded');
+    }
+    else {
+      this.get('engineQuintusObject').play('reloading');
+    }
+  }.observes('engineFrame'),
+
   initEngine: function() {
     var self = this;
     var y  = Q.height/6 * 5;
@@ -28,6 +51,8 @@ export default Ember.Mixin.create({
           rocket: null,
           capacity: 3
   		  });
+
+        self.set('engineQuintusObject', this);
 
         // x location of the center
         this.p.x = Q.width / 2;

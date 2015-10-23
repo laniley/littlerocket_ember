@@ -3,7 +3,30 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
   shield: null,
+  shieldQuintusObject: null,
   shieldReloadingTimeout: null,
+
+  shieldFrame: function() {
+    if(!Ember.isEmpty(this.get('shield')) &&
+        this.get('shield').get('status') === 'unlocked' &&
+        this.get('shield').get('currentValue') > 0 &&
+        !this.get('shield').get('isReloading')) {
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  }.property('shield.status', 'shield.isReloading', 'shield.currentValue'),
+
+  updateShieldFrame: function() {
+    if(this.get('shieldFrame') === 1) {
+      this.get('shieldQuintusObject').play('reloaded');
+    }
+    else {
+      this.get('shieldQuintusObject').play('reloading');
+    }
+  }.observes('shieldFrame'),
+
   initShield: function() {
     var self = this;
     var y  = Q.height/6 * 5;
@@ -11,13 +34,14 @@ export default Ember.Mixin.create({
     	y -= 100;
     }
 
-    Q.TransformableSprite.extend("Cannon", {
+    Q.TransformableSprite.extend("Shield", {
     	init: function(p) {
+        console.log(self.get('shieldFrame'));
   		  this._super(p, {
-  				name: 'Cannon',
-          sprite: 'cannon',
-  				sheet: 'cannon',
-  				frame: 1,
+  				name: 'Shield',
+          sprite: 'shield',
+  				sheet: 'shield',
+  				frame: self.get('shieldFrame'),
   				direction: 'up',
   				vSpeed: Q.state.get('speed'),
   				tileW: 50,
@@ -28,6 +52,8 @@ export default Ember.Mixin.create({
           rocket: null,
           capacity: 3
   		  });
+
+        self.set('shieldQuintusObject', this);
 
         // x location of the center
         this.p.x = Q.width / 2;
