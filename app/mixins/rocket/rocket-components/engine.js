@@ -2,46 +2,45 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
-  shield: null,
-  shieldQuintusObject: null,
-  shieldReloadingTimeout: null,
+  engine: null,
+  engineQuintusObject: null,
+  engineReloadingTimeout: null,
 
-  shieldFrame: function() {
-    if(!Ember.isEmpty(this.get('shield')) &&
-        this.get('shield').get('status') === 'unlocked' &&
-        this.get('shield').get('currentValue') > 0 &&
-        !this.get('shield').get('isReloading')) {
+  engineFrame: function() {
+    if(!Ember.isEmpty(this.get('engine')) &&
+        this.get('engine').get('status') === 'unlocked' &&
+        this.get('engine').get('currentValue') > 0 &&
+        !this.get('engine').get('isReloading')) {
       return 1;
     }
     else {
       return 0;
     }
-  }.property('shield.status', 'shield.isReloading', 'shield.currentValue'),
+  }.property('engine.status', 'engine.isReloading', 'engine.currentValue'),
 
-  updateShieldFrame: function() {
-    if(this.get('shieldFrame') === 1) {
-      this.get('shieldQuintusObject').play('reloaded');
+  updateEngineFrame: function() {
+    if(this.get('engineFrame') === 1) {
+      this.get('engineQuintusObject').play('reloaded');
     }
     else {
-      this.get('shieldQuintusObject').play('reloading');
+      this.get('engineQuintusObject').play('reloading');
     }
-  }.observes('shieldFrame'),
+  }.observes('engineFrame'),
 
-  initShield: function() {
+  initEngine: function() {
     var self = this;
     var y  = Q.height/6 * 5;
     if(Q.touchDevice) {
     	y -= 100;
     }
 
-    Q.TransformableSprite.extend("Shield", {
+    Q.TransformableSprite.extend("Engine", {
     	init: function(p) {
-        console.log(self.get('shieldFrame'));
   		  this._super(p, {
-  				name: 'Shield',
-          sprite: 'shield',
-  				sheet: 'shield',
-  				frame: self.get('shieldFrame'),
+  				name: 'Engine',
+          sprite: 'engine',
+  				sheet: 'engine',
+  				frame: self.get('engineFrame'),
   				direction: 'up',
   				vSpeed: Q.state.get('speed'),
   				tileW: 50,
@@ -53,7 +52,7 @@ export default Ember.Mixin.create({
           capacity: 3
   		  });
 
-        self.set('shieldQuintusObject', this);
+        self.set('engineQuintusObject', this);
 
         // x location of the center
         this.p.x = Q.width / 2;

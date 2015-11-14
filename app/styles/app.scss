@@ -462,7 +462,7 @@ table {
   }
 }
 
-&.active {
+.active {
   &.uncommon {
     color: white;
     background-color: $success-color;
@@ -618,7 +618,7 @@ table {
   position: relative;
   left: 50%;
   margin-left: -376px;
-  margin-top: 30px;
+  margin-top: 10px;
   margin-bottom: 20px;
   width: 752px;
   height: 110px;

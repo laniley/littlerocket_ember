@@ -21,6 +21,7 @@ export default Ember.Mixin.create({
     				direction: 'up',
     				stars: 0,
     				vSpeed: Q.state.get('speed'),
+            z: 0,
     				tileW: 50,
     				tileH: 140,
     				type: Q.SPRITE_ROCKET,
@@ -40,6 +41,11 @@ export default Ember.Mixin.create({
     		  else {
             this.p.hasACannon = false;
           }
+
+          // var decoration = new Q.Decoration();
+          //     decoration.setRocket(this);
+          //     this.setDecoration(decoration);
+          //     this.p.stage.insert(decoration);
 
           // x location of the center
           this.p.x = Q.width / 2;
@@ -161,6 +167,10 @@ export default Ember.Mixin.create({
         this.p.engine = engine;
       },
 
+      setDecoration: function(decoration) {
+        this.p.decoration = decoration;
+      },
+
     	fireCannon: function() {
     		if(this.p.hasACannon &&
           !self.get('cannon').get('isReloading') &&
@@ -171,7 +181,6 @@ export default Ember.Mixin.create({
 
       handleCollision: function() {
         // no shield
-        console.log('shield', self.get('shield').get('currentValue'), self.get('shield').get('isReloading'));
         if(self.get('shield').get('currentValue') === 0 ||
            self.get('shield').get('isReloading')) {
               Q.audio.stop('rocket.mp3');
@@ -193,10 +202,9 @@ export default Ember.Mixin.create({
       },
 
       slowdown: function() {
-        if(!Q.state.get('engine_is_reloading') && Q.state.get('slowdowns') > 0)
-    		{
-          Q.state.set('engine_is_reloading', true);
-          Q.state.set('slowdowns', Q.state.get('slowdowns') - 1);
+        if(!self.get('engine').get('isReloading') && self.get('engine').get('currentValue') > 0) {
+          self.get('engine').set('isReloading', true);
+          self.get('engine').set('currentValue', self.get('engine').get('currentValue') - 1);
 
           var currentSpeed = Q.state.get('speed');
           var percent = currentSpeed * 0.1;
@@ -206,7 +214,7 @@ export default Ember.Mixin.create({
           }
 
           var timeout = setTimeout(function() {
-            Q.state.set('engine_is_reloading', false);
+            self.get('engine').set('isReloading', false);
           }, 1000 / Q.state.get('sdrr'));
 
           self.set('engineReloadingTimeout', timeout);

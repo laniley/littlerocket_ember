@@ -312,7 +312,6 @@ export default Ember.Mixin.create({
 
   setSelectedRocketComponentModelCapacityLevelMM: function(rocketComponentModelMm) {
     rocketComponentModelMm.get('rocketComponentModel').then(rocketComponentModel => {
-      console.log('setSelectedRocketComponentModelCapacityLevelMM');
       var rocketComponentModelCapacityLevels = this.store.peekAll('rocketComponentModelLevel');
       var filteredRocketComponentModelCapacityLevels = rocketComponentModelCapacityLevels.filter(rocketComponentModelCapacityLevel => {
         return rocketComponentModelCapacityLevel.get('type') === 'capacity' && rocketComponentModelCapacityLevel.get('level') === 1 && rocketComponentModelCapacityLevel.get('rocketComponentModel').get('id') === rocketComponentModel.get('id');

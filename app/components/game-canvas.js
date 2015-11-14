@@ -4,15 +4,17 @@
 import Ember from 'ember';
 import FacebookLoginMixin from './../mixins/facebook-login';
 import RocketMixin from './../mixins/rocket';
+import RocketDecorationMixin from './../mixins/rocket/decoration';
+import CannonMixin from './../mixins/rocket/rocket-components/cannon';
+import ShieldMixin from './../mixins/rocket/rocket-components/shield';
+import EngineMixin from './../mixins/rocket/rocket-components/engine';
 import UfoMixin from './../mixins/ufo';
-import CannonMixin from './../mixins/rocket-components/cannon';
-import ShieldMixin from './../mixins/rocket-components/shield';
-import EngineMixin from './../mixins/rocket-components/engine';
 
 export default Ember.Component.extend(
 
   FacebookLoginMixin,
   RocketMixin,
+  RocketDecorationMixin,
   UfoMixin,
   CannonMixin,
   ShieldMixin,
@@ -114,14 +116,13 @@ export default Ember.Component.extend(
     Q.state.set('maxSpeed',100);
     Q.state.set('maxSpeedRef', 100);
 
-    // var asteroidMaker = null;
-
     // COLORS
     Q.state.set('buttonFillColorUnselected', '#CCC');
     Q.state.set('buttonFillColorSelected', '#F5F36F');
     Q.state.set('buttonTextColorSelected', '#D62E00');
 
     this.initRocket();
+    this.initDecoration();
     this.initCannon();
     this.initShield();
     this.initEngine();
@@ -627,7 +628,7 @@ export default Ember.Component.extend(
 
       self.setRocketComponentsToDefaultSettings();
 
-      var rocket = new Q.Rocket();
+      var rocket = new Q.Rocket({ stage: stage });
   		stage.insert(rocket);
 
       if(!Ember.isEmpty(self.get('rocket').get('cannon'))) {
@@ -648,6 +649,10 @@ export default Ember.Component.extend(
             rocket.setShield(engine);
             stage.insert(engine);
       }
+      var decoration = new Q.Decoration();
+          decoration.setRocket(rocket);
+          rocket.setDecoration(decoration);
+          rocket.p.stage.insert(decoration);
 
   		// start
   		var container = stage.insert(new Q.UI.Container
@@ -1030,7 +1035,7 @@ export default Ember.Component.extend(
       Q.state.set('asteroidMaker', asteroidMaker);
   		stage.insert(asteroidMaker);
 
-      var rocket = new Q.Rocket();
+      var rocket = new Q.Rocket({ stage: stage });
       stage.insert(rocket);
 
       if(!Ember.isEmpty(self.get('rocket').get('cannon'))) {
@@ -1051,6 +1056,10 @@ export default Ember.Component.extend(
             rocket.setShield(engine);
             stage.insert(engine);
       }
+      var decoration = new Q.Decoration();
+          decoration.setRocket(rocket);
+          rocket.setDecoration(decoration);
+          rocket.p.stage.insert(decoration);
 
       self.setupLevel(Q.state.get('level'));
 
@@ -1419,11 +1428,12 @@ export default Ember.Component.extend(
     (
       [
         "level_selection_coming_soon.png",
-        "rocket.png",
+        "rocket_2.png",
         "cannon.png",
         "shield.png",
         "engine.png",
         "bullet.png",
+        "decoration_stars.png",
         "star.png",
         "star_locked.png",
         "star_coming_soon.png",
@@ -1444,10 +1454,11 @@ export default Ember.Component.extend(
 
       function()
       {
-        Q.sheet("rocket", "rocket.png", { tileW: 50, tileH: 140 });
+        Q.sheet("rocket", "rocket_2.png", { tileW: 50, tileH: 140 });
         Q.sheet("cannon", "cannon.png", { tileW: 50, tileH: 140 });
         Q.sheet("shield", "shield.png", { tileW: 50, tileH: 140 });
         Q.sheet("engine", "engine.png", { tileW: 50, tileH: 140 });
+        Q.sheet("decoration", "decoration_stars.png", { tileW: 50, tileH: 140 });
         Q.sheet("bullet","bullet.png", { tileW: 20, tileH: 20 });
         Q.sheet("star","star.png", { tileW: 60, tileH: 60 });
         Q.sheet("star_locked","star.png", { tileW: 61, tileH: 64 });
@@ -1619,26 +1630,38 @@ export default Ember.Component.extend(
     this.get('me').get('user').then(user => {
       if(!Ember.isEmpty(user)) {
         user.get('rocket').then(rocket => {
+          if(!Ember.isEmpty(rocket)) {
+            rocket.get('cannon').then(cannon => {
+              if(!Ember.isEmpty(cannon)) {
+                this.set('cannon', cannon);
+                this.setCannonToDefaultSettings();
+              }
+            });
 
-          rocket.get('cannon').then(cannon => {
-            this.set('cannon', cannon);
-            this.setCannonToDefaultSettings();
-          });
+            rocket.get('shield').then(shield => {
+              if(!Ember.isEmpty(shield)) {
+                this.set('shield', shield);
+                this.setShieldToDefaultSettings();
+              }
+            });
 
-          rocket.get('shield').then(shield => {
-            this.set('shield', shield);
-            this.setShieldToDefaultSettings();
-          });
-
-          rocket.get('engine').then(engine => {
-            this.set('engine', engine);
-            this.setEngineToDefaultSettings();
-          });
-
+            rocket.get('engine').then(engine => {
+              if(!Ember.isEmpty(engine)) {
+                this.set('engine', engine);
+                this.setEngineToDefaultSettings();
+              }
+            });
+          }
         });
       }
     });
-  }.observes('me.user'),
+  }.observes(
+    'me.user',
+    'me.user.rocket',
+    'me.user.rocket.canon',
+    'me.user.rocket.shield',
+    'me.user.rocket.engine'
+  ),
 
   setRocketComponentsToDefaultSettings: function() {
     this.setCannonToDefaultSettings();
