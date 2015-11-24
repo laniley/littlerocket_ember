@@ -100,3 +100,11 @@
     {{/if}}
   </div>
 </div>
+
+<div class="info-prompt">
+  {{#if show_missing_requirements_message}}
+    {{#prompt-component}}
+  		{{missing_requirements_message}}
+  	{{/prompt-component}}
+  {{/if}}
+</div>
