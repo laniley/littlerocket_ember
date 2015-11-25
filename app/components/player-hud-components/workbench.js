@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ObjectMixin from './../../mixins/object';
+import ObjectMixin from './../../mixins/buyable-object';
 
 export default Ember.Component.extend(ObjectMixin, {
   actions: {
