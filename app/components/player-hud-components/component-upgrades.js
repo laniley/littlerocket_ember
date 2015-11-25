@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import ObjectMixin from './../../mixins/buyable-object';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(ObjectMixin, {
   me: null,
   componentType: '',
   component: null,
@@ -97,7 +98,7 @@ export default Ember.Component.extend({
           else {
             this.set('not_enough_stars', true);
             this.set('needed_stars', componentModel.get('costs'));
-            this.set('show_not_enough_stars_alert', true);
+            this.set('show_missing_requirements_message', true);
           }
         });
       });
