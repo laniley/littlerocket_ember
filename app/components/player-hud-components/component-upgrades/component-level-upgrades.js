@@ -49,7 +49,7 @@ export default Ember.Component.extend({
           else {
             this.set('targetObject.not_enough_stars', true);
             this.set('targetObject.needed_stars', componentModelLevel.get('costs'));
-            this.set('targetObject.show_not_enough_stars_alert', true);
+            this.set('targetObject.show_missing_requirements_message', true);
           }
         });
       });

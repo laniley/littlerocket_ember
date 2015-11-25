@@ -1,5 +1,5 @@
 export function initialize( container, application ) {
-  application.inject('component', 'store', 'store:main');
+  application.inject('component', 'store', 'service:store');
 }
 
 export default {
