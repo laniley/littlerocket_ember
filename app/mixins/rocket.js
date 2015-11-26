@@ -226,14 +226,15 @@ export default Ember.Mixin.create({
     	},
 
     	levelUp: function() {
-    		Q.state.set('level', Q.state.get('level') + 1);
-        self.set('level', self.get('level') + 1);
+        var gameState = self.store.peekRecord('gameState', 1);
+        var new_level = gameState.get('level') + 1;
+        gameState.set('level', new_level);
 
-    		Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + ((Q.state.get('level') - 1) / 10) )));
+    		Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + ((new_level - 1) / 10) )));
 
         self.get('me').get('user').then(user => {
-          if(Q.state.get('level') > user.get('reached_level') && Q.state.get('level') < 6) {
-            user.set('reached_level', Q.state.get('level'));
+          if(new_level > user.get('reached_level') && new_level < 6) {
+            user.set('reached_level', new_level);
             user.save();
           }
         });

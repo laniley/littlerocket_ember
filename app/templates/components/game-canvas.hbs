@@ -41,9 +41,35 @@
 
       {{#if showHud}}
         <div class="hud">
+
           <div class="score">{{new_score}}</div>
 
-          <div class="list-group resources">
+          <div class="list-group hud-list-group infos">
+            <table>
+              <tr class="list-group-item info flown-distance">
+                <td class="list-group-item-icon">{{unbound (fa-icon 'arrows-h' fixedWidth=true)}}</td>
+                <td class="list-group-item-value"></td>
+              </tr>
+              <tr class="list-group-item info level">
+                <td class="list-group-item-icon">{{unbound (fa-icon 'signal' fixedWidth=true)}}</td>
+                <td class="list-group-item-value">{{gameState.level}}</td>
+              </tr>
+              <tr class="list-group-item info stars">
+                <td class="list-group-item-icon">{{unbound (fa-icon 'star' fixedWidth=true)}}</td>
+                <td class="list-group-item-value"></td>
+              </tr>
+              <tr class="list-group-item info speed">
+                <td class="list-group-item-icon">{{unbound (fa-icon 'tachometer' fixedWidth=true)}}</td>
+                <td class="list-group-item-value"></td>
+              </tr>
+              <tr class="list-group-item info distance-to-goals">
+                <td class="list-group-item-icon">{{unbound (fa-icon 'flag-checkered' fixedWidth=true)}}</td>
+                <td class="list-group-item-value"></td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="list-group hud-list-group resources">
             <table>
               <tr class="list-group-item resource ammo">
                 <td class="resource-icon">{{unbound (fa-icon 'bullseye' fixedWidth=true)}}</td>
@@ -59,6 +85,7 @@
               </tr>
             </table>
           </div>
+
         </div>
       {{/if}}
 

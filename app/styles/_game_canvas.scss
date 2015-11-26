@@ -36,28 +36,35 @@
     font-size: 2rem;
     color: #F75806;
   }
-  .resources {
+}
+
+.hud-list-group {
+  table {
+    background: none;
+    border: none;
+    tr, td {
+      background-color: rgba(0,0,0,0);
+    }
+    td {
+      padding: 5px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      &.resource-icon {
+        text-align: center;
+      }
+      &.resource-value {
+        text-align: right;
+      }
+    }
+  }
+  &.infos {
+    position: absolute;
+    top: 60px;
+  }
+  &.resources {
     position: absolute;
     top: 25px;
     right:10px;
-    table {
-      background: none;
-      border: none;
-      tr, td {
-        background-color: rgba(0,0,0,0);
-      }
-      td {
-        padding: 5px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        &.resource-icon {
-          text-align: center;
-        }
-        &.resource-value {
-          text-align: right;
-        }
-      }
-    }
     .engine {
       i {
         margin-left: 4px;

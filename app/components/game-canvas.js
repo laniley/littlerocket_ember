@@ -22,7 +22,7 @@ export default Ember.Component.extend(
 
   Q: null,
   me: null,
-  store: null,
+  gameState: null,
   hasPostPermission: false,
   isLoading: true,
   gameCanvasIsLoaded: false,
@@ -32,12 +32,12 @@ export default Ember.Component.extend(
   old_score: 0,
   distance: 0,
   stars: 0,
-  level: 1,
 
   didInsertElement: function() {
 
     var self = this;
-    this.set('store', this.get('targetObject.store'));
+
+    this.set('gameState', this.store.createRecord('game-state', { id: 1 }));
 
     var Q = window.Q = new Quintus({
       development: false,
@@ -102,13 +102,11 @@ export default Ember.Component.extend(
     	rocket_y -= 100;
     }
 
-    Q.state.set('level', 1);
-
     Q.state.set('distance', 0);
     Q.state.set('stars', 0);
 
     var distanceToGoalRef = 50;
-    Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + ((Q.state.get('level') - 1) / 10) )));
+    Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + ((this.get('gameState').get('level') - 1) / 10) )));
 
     var globalSpeedRef = 50;
     Q.state.set('speed', 100);
@@ -586,12 +584,6 @@ export default Ember.Component.extend(
     });
 
   	Q.scene('hud',function(stage) {
-  		// Icons
-  		stage.insert(new Q.DistanceIcon());
-  		stage.insert(new Q.LevelIcon());
-      stage.insert(new Q.StarIcon());
-  		stage.insert(new Q.SpeedIcon());
-  		stage.insert(new Q.GoalIcon());
 
   		// Values
   		var container = stage.insert
@@ -606,7 +598,6 @@ export default Ember.Component.extend(
   		);
 
   		container.insert(new Q.DistanceText(container));
-  		container.insert(new Q.LevelText(container));
   		container.insert(new Q.StarsText(container));
   		container.insert(new Q.SpeedText(container));
   		container.insert(new Q.DistanceToGoalText(container));
@@ -826,8 +817,7 @@ export default Ember.Component.extend(
 
       level1Button.on("click", function()
       {
-          Q.state.set('level', 1);
-          self.set('level', 1);
+          self.get('gameState').set('level', 1);
       		Q.clearStages();
       		Q.stageScene("mainMenu");
       });
@@ -848,8 +838,7 @@ export default Ember.Component.extend(
     	{
       		if(self.get('me').get('user').get('reached_level') > 1)
       		{
-            Q.state.set('level', 2);
-            self.set('level', 2);
+            self.get('gameState').set('level', 2);
       			Q.clearStages();
       			Q.stageScene("mainMenu");
       		}
@@ -871,8 +860,7 @@ export default Ember.Component.extend(
       {
     		if(self.get('me').get('user').get('reached_level') > 2)
     		{
-          Q.state.set('level', 3);
-          self.set('level', 3);
+          self.get('gameState').set('level', 3);
     			Q.clearStages();
     			Q.stageScene("mainMenu");
     		}
@@ -894,8 +882,7 @@ export default Ember.Component.extend(
       {
         if(self.get('me').get('user').get('reached_level') > 3)
       	{
-          Q.state.set('level', 4);
-          self.set('level', 4);
+          self.get('gameState').set('level', 4);
       		Q.clearStages();
       		Q.stageScene("mainMenu");
       	}
@@ -917,8 +904,7 @@ export default Ember.Component.extend(
     	{
         if(self.get('me').get('user').get('reached_level') > 4)
       	{
-          Q.state.set('level', 5);
-          self.set('level', 5);
+          self.get('gameState').set('level', 5);
       		Q.clearStages();
       		Q.stageScene("mainMenu");
       	}
@@ -1016,7 +1002,7 @@ export default Ember.Component.extend(
   		globalSpeedRef    = 250;
       Q.state.set('maxSpeedRef', 500);
 
-  		Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + ((Q.state.get('level') - 1) / 10) )));
+  		Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + (this.get('gameState').get('level') - 1) / 10) ));
   		Q.state.set('speed', 250);
       Q.state.set('maxSpeed', 500);
 
@@ -1061,7 +1047,7 @@ export default Ember.Component.extend(
           rocket.setDecoration(decoration);
           rocket.p.stage.insert(decoration);
 
-      self.setupLevel(Q.state.get('level'));
+      self.setupLevel(this.get('gameState').get('level'));
 
   		Q.stageScene('hud', 3, new Q('Rocket').first().p);
 
@@ -1145,7 +1131,7 @@ export default Ember.Component.extend(
 
         self.set('currentScene', 'gameOver');
 
-        var new_stars_amount = user.get('stars') + (parseInt(Q.state.get('stars')) * parseInt(Q.state.get('level')));
+        var new_stars_amount = user.get('stars') + (parseInt(Q.state.get('stars')) * parseInt(this.get('gameState').get('level')));
         var new_experience = user.get('experience') + self.get('new_score');
         user.set('stars', new_stars_amount);
         user.set('experience', new_experience);
@@ -1623,8 +1609,8 @@ export default Ember.Component.extend(
   }.property('me.activeChallenge'),
 
   new_score: function() {
-    return (this.get('distance') + this.get('stars')) * this.get('level');
-  }.property('distance', 'stars', 'level'),
+    return (this.get('distance') + this.get('stars')) * this.get('gameState').get('level');
+  }.property('distance', 'stars', 'gameState.level'),
 
   initRocketComponents: function() {
     this.get('me').get('user').then(user => {
