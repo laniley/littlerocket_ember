@@ -95,8 +95,9 @@ export default Ember.Mixin.create({
     				this.p.speed = Q.state.get('speed');
 
     				Q.state.set("distanceToGoal", Q.state.get("distanceToGoal") - 1);
-    				Q.state.set("distance", Q.state.get("distance") + 1);
-            self.set('distance', self.get('distance') + 1);
+
+            var gameState = self.store.peekRecord('gameState', 1);
+                gameState.set('flown_distance', gameState.get('flown_distance') + 1);
 
     				this.p.lastSpeedUp = 0;
     			}

@@ -26,9 +26,9 @@
             Your score: <br /><br />
           {{/if}}
           {{new_score}} <br /><br />
-          distance: {{distance}} <br />
+          distance: {{gameState.flown_distance}} <br />
           stars: {{stars}} <br />
-          x {{level}} ( level )
+          x {{gameState.level}} ( level )
 
           {{#if newHighscore }}
             {{#unless hasPostPermission}}
@@ -48,7 +48,7 @@
             <table>
               <tr class="list-group-item info flown-distance">
                 <td class="list-group-item-icon">{{unbound (fa-icon 'arrows-h' fixedWidth=true)}}</td>
-                <td class="list-group-item-value"></td>
+                <td class="list-group-item-value">{{gameState.flown_distance}}</td>
               </tr>
               <tr class="list-group-item info level">
                 <td class="list-group-item-icon">{{unbound (fa-icon 'signal' fixedWidth=true)}}</td>

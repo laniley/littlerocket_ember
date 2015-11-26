@@ -30,7 +30,6 @@ export default Ember.Component.extend(
   showHud: false,
   newHighscore: false,
   old_score: 0,
-  distance: 0,
   stars: 0,
 
   didInsertElement: function() {
@@ -102,7 +101,6 @@ export default Ember.Component.extend(
     	rocket_y -= 100;
     }
 
-    Q.state.set('distance', 0);
     Q.state.set('stars', 0);
 
     var distanceToGoalRef = 50;
@@ -597,7 +595,6 @@ export default Ember.Component.extend(
   			)
   		);
 
-  		container.insert(new Q.DistanceText(container));
   		container.insert(new Q.StarsText(container));
   		container.insert(new Q.SpeedText(container));
   		container.insert(new Q.DistanceToGoalText(container));
@@ -610,7 +607,7 @@ export default Ember.Component.extend(
       self.set('currentScene', 'mainMenu');
       self.set('showHud', true);
 
-      self.set('distance', 0);
+      self.get('gameState').set('flown_distance', 0);
       self.set('stars', 0);
 
   		Q.pauseGame();
@@ -993,8 +990,7 @@ export default Ember.Component.extend(
       Q.audio.play('racing.mp3', { loop: true });
   		Q.audio.play('rocket.mp3', { loop: true });
 
-  		Q.state.set('distance', 0);
-      self.set('distance', 0);
+      self.get('gameState').set('flown_distance', 0);
   		Q.state.set('stars', 0);
       self.set('stars', 0);
 
@@ -1609,8 +1605,8 @@ export default Ember.Component.extend(
   }.property('me.activeChallenge'),
 
   new_score: function() {
-    return (this.get('distance') + this.get('stars')) * this.get('gameState').get('level');
-  }.property('distance', 'stars', 'gameState.level'),
+    return (this.get('gameState').get('flown_distance') + this.get('stars')) * this.get('gameState').get('level');
+  }.property('gameState.flown_distance', 'stars', 'gameState.level'),
 
   initRocketComponents: function() {
     this.get('me').get('user').then(user => {
