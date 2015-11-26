@@ -27,7 +27,7 @@
           {{/if}}
           {{new_score}} <br /><br />
           distance: {{gameState.flown_distance}} <br />
-          stars: {{stars}} <br />
+          stars: {{gameState.stars}} <br />
           x {{gameState.level}} ( level )
 
           {{#if newHighscore }}
@@ -56,7 +56,7 @@
               </tr>
               <tr class="list-group-item info stars">
                 <td class="list-group-item-icon">{{unbound (fa-icon 'star' fixedWidth=true)}}</td>
-                <td class="list-group-item-value"></td>
+                <td class="list-group-item-value">{{gameState.stars}}</td>
               </tr>
               <tr class="list-group-item info speed">
                 <td class="list-group-item-icon">{{unbound (fa-icon 'tachometer' fixedWidth=true)}}</td>

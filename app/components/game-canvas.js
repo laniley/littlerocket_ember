@@ -30,7 +30,6 @@ export default Ember.Component.extend(
   showHud: false,
   newHighscore: false,
   old_score: 0,
-  stars: 0,
 
   didInsertElement: function() {
 
@@ -100,8 +99,6 @@ export default Ember.Component.extend(
       Q.state.set('scale', 2.5);
     	rocket_y -= 100;
     }
-
-    Q.state.set('stars', 0);
 
     var distanceToGoalRef = 50;
     Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + ((this.get('gameState').get('level') - 1) / 10) )));
@@ -209,10 +206,7 @@ export default Ember.Component.extend(
     				Q.audio.play('collecting_a_star.mp3');
 
     				// Destroy it and count up score
-    				colObj.p.stars++;
-            self.set('stars', self.get('stars') + 1);
-
-    				Q.state.set("stars", colObj.p.stars);
+            self.get('gameState').set('stars', self.get('gameState').get('stars') + 1);
 
     				this.destroy();
     		  }
@@ -595,7 +589,6 @@ export default Ember.Component.extend(
   			)
   		);
 
-  		container.insert(new Q.StarsText(container));
   		container.insert(new Q.SpeedText(container));
   		container.insert(new Q.DistanceToGoalText(container));
 
@@ -608,7 +601,7 @@ export default Ember.Component.extend(
       self.set('showHud', true);
 
       self.get('gameState').set('flown_distance', 0);
-      self.set('stars', 0);
+      self.get('gameState').set('stars', 0);
 
   		Q.pauseGame();
   		Q.audio.stop('rocket.mp3');
@@ -991,8 +984,7 @@ export default Ember.Component.extend(
   		Q.audio.play('rocket.mp3', { loop: true });
 
       self.get('gameState').set('flown_distance', 0);
-  		Q.state.set('stars', 0);
-      self.set('stars', 0);
+  		self.get('gameState').set('stars', 0);
 
   		distanceToGoalRef = 50;
   		globalSpeedRef    = 250;
@@ -1127,7 +1119,7 @@ export default Ember.Component.extend(
 
         self.set('currentScene', 'gameOver');
 
-        var new_stars_amount = user.get('stars') + (parseInt(Q.state.get('stars')) * parseInt(this.get('gameState').get('level')));
+        var new_stars_amount = user.get('stars') + (self.get('gameState').get('stars') * self.get('gameState').get('level'));
         var new_experience = user.get('experience') + self.get('new_score');
         user.set('stars', new_stars_amount);
         user.set('experience', new_experience);
@@ -1605,8 +1597,8 @@ export default Ember.Component.extend(
   }.property('me.activeChallenge'),
 
   new_score: function() {
-    return (this.get('gameState').get('flown_distance') + this.get('stars')) * this.get('gameState').get('level');
-  }.property('gameState.flown_distance', 'stars', 'gameState.level'),
+    return (this.get('gameState').get('flown_distance') + this.get('gameState').get('stars')) * this.get('gameState').get('level');
+  }.property('gameState.flown_distance', 'gameState.stars', 'gameState.level'),
 
   initRocketComponents: function() {
     this.get('me').get('user').then(user => {
