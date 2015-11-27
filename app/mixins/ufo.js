@@ -4,6 +4,7 @@ import Ember from 'ember';
 export default Ember.Mixin.create({
 
   initUfo: function() {
+    var self = this;
     Q.Sprite.extend("Ufo", {
       init: function(p) {
         this._super(p, {
@@ -59,7 +60,7 @@ export default Ember.Mixin.create({
 
     Q.component("ufoControls", {
       // default properties to add onto our entity
-      defaults: { speed: 100 },
+      defaults: { /*speed: 100*/ },
 
       // called when the component is added to an entity
       added: function() {
@@ -76,13 +77,14 @@ export default Ember.Mixin.create({
         // grab the entity's properties for easy reference
         var p = this.entity.p;
 
-        p.vy = Q.state.get('speed') * 1.3;
+        var gameState = self.store.peekRecord('gameState', 1);
+        p.vy = gameState.get('speed') * 1.3;
         // based on our xDirection, try to add velocity in that direction
         if(p.xDirection > 0) {
-          p.vx = Q.state.get('speed') / 2;
+          p.vx = gameState.get('speed') / 2;
         }
         else {
-          p.vx = -Q.state.get('speed') / 2;
+          p.vx = -gameState.get('speed') / 2;
         }
 
         if(p.y > Q.height) {
@@ -99,8 +101,10 @@ export default Ember.Mixin.create({
 
     Q.GameObject.extend("UfoMaker", {
     	init: function() {
+        console.log('init ufo-maker');
+        var gameState = self.store.peekRecord('gameState', 1);
     		this.p = {
-    			launchDelay: 1.2 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed')),
+    			launchDelay: 1.2 * Q.state.get('scale') - (gameState.get('speed') / gameState.get('max_speed')),
     			launchRandom: 1,
     			launch: 1,
           isActive: 1

@@ -103,12 +103,6 @@ export default Ember.Component.extend(
     var distanceToGoalRef = 50;
     Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + ((this.get('gameState').get('level') - 1) / 10) )));
 
-    var globalSpeedRef = 50;
-    Q.state.set('speed', 100);
-    // max speed of the stars and asteroids
-    Q.state.set('maxSpeed',100);
-    Q.state.set('maxSpeedRef', 100);
-
     // COLORS
     Q.state.set('buttonFillColorUnselected', '#CCC');
     Q.state.set('buttonFillColorSelected', '#F5F36F');
@@ -223,7 +217,7 @@ export default Ember.Component.extend(
 
     Q.component("starControls", {
     	 // default properties to add onto our entity
-    	 defaults: { speed: 100, direction: 'down' },
+    	 defaults: { direction: 'down' },
 
     	 // // called when the component is added to
     	 // // an entity
@@ -249,7 +243,7 @@ export default Ember.Component.extend(
     		  // in that direction
     		  switch(p.direction)
     		  {
-    				case "down":  p.vy = Q.state.get('speed');
+    				case "down":  p.vy = self.get('gameState').get('speed');
     								  break;
     		  }
 
@@ -265,7 +259,7 @@ export default Ember.Component.extend(
     	 {
     		  this.p =
     		  {
-    				launchDelay: Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed')),
+    				launchDelay: Q.state.get('scale') - (self.get('gameState').get('speed') / self.get('gameState').get('max_speed')),
     				launchRandom: 1,
     				launch: 1
     		  };
@@ -464,7 +458,7 @@ export default Ember.Component.extend(
 
     Q.component("asteroidControls", {
     	// default properties to add onto our entity
-    	defaults: { speed: 100, direction: 'down' },
+    	defaults: { direction: 'down' },
 
     	// // called when the component is added to
     	// // an entity
@@ -491,7 +485,7 @@ export default Ember.Component.extend(
     		switch(p.direction)
     		{
     			case "down":
-              p.vy = Q.state.get('speed') * p.speedFactor;
+              p.vy = self.get('gameState').get('speed') * p.speedFactor;
     					break;
     		}
 
@@ -512,7 +506,7 @@ export default Ember.Component.extend(
     Q.GameObject.extend("AsteroidMaker", {
       init: function() {
     		this.p = {
-    			launchDelay: (Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed'))) * 0.3,
+    			launchDelay: (Q.state.get('scale') - (self.get('gameState').get('speed') / self.get('gameState').get('max_speed'))) * 0.3,
           launchRandomFactor: Math.random() * 0.6,
     			launch: 1
     		};
@@ -534,7 +528,7 @@ export default Ember.Component.extend(
     	{
     		this.p =
     		{
-    			launchDelay: 1 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed')),
+    			launchDelay: 1 * Q.state.get('scale') - (self.get('gameState').get('speed') / self.get('gameState').get('max_speed')),
     			launchRandomFactor: 1,
     			launch: 1
     		};
@@ -557,7 +551,7 @@ export default Ember.Component.extend(
     	{
     		this.p =
     		{
-    			launchDelay: 2 * Q.state.get('scale') - (Q.state.get('speed') / Q.state.get('maxSpeed')),
+    			launchDelay: 2 * Q.state.get('scale') - (self.get('gameState').get('speed') / self.get('gameState').get('max_speed')),
     			launchRandom: 1,
     			launch: 2
     		};
@@ -589,7 +583,6 @@ export default Ember.Component.extend(
   			)
   		);
 
-  		container.insert(new Q.SpeedText(container));
   		container.insert(new Q.DistanceToGoalText(container));
 
   		container.fit(0);
@@ -696,7 +689,7 @@ export default Ember.Component.extend(
 
   		containerSelectLevel.fit(20);
 
-      Q.state.set('speed', 0);
+      self.get('gameState').set('speed', 0);
 
       Q.stageScene('hud', 3);
 
@@ -987,21 +980,11 @@ export default Ember.Component.extend(
   		self.get('gameState').set('stars', 0);
 
   		distanceToGoalRef = 50;
-  		globalSpeedRef    = 250;
-      Q.state.set('maxSpeedRef', 500);
 
-  		Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + (this.get('gameState').get('level') - 1) / 10) ));
-  		Q.state.set('speed', 250);
-      Q.state.set('maxSpeed', 500);
+  		Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + (self.get('gameState').get('level') - 1) / 10) ));
 
-  		if(Q.touchDevice)
-  		{
-  			globalSpeedRef = globalSpeedRef * Q.state.get('scale');
-        Q.state.set('speed', Q.state.get('speed') * Q.state.get('scale'));
-
-  			Q.state.set('maxSpeed', Q.state.get('maxSpeed') * Q.state.get('scale'));
-        Q.state.set('maxSpeedRef', Q.state.get('maxSpeedRef') * Q.state.get('scale'));
-  		}
+      self.get('gameState').set('speed', 250);
+      self.get('gameState').set('max_speed', 500);
 
   		stage.insert(new Q.StarMaker());
 
@@ -1066,7 +1049,7 @@ export default Ember.Component.extend(
       Q.audio.stop('rocket.mp3');
   		Q.audio.stop('racing.mp3');
 
-      Q.state.set('speed', 0);
+      self.get('gameState').set('speed', 0);
       self.get('cannon').set('isReloading', false);
       Q.state.set('shield_is_reloading', false);
       Q.state.set('engine_is_reloading', false);

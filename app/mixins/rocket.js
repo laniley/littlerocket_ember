@@ -20,7 +20,6 @@ export default Ember.Mixin.create({
     				frame: 0,
     				direction: 'up',
     				stars: 0,
-    				vSpeed: Q.state.get('speed'),
             z: 0,
     				tileW: 50,
     				tileH: 140,
@@ -41,11 +40,6 @@ export default Ember.Mixin.create({
     		  else {
             this.p.hasACannon = false;
           }
-
-          // var decoration = new Q.Decoration();
-          //     decoration.setRocket(this);
-          //     this.setDecoration(decoration);
-          //     this.p.stage.insert(decoration);
 
           // x location of the center
           this.p.x = Q.width / 2;
@@ -90,15 +84,17 @@ export default Ember.Mixin.create({
     			this.p.lastSpeedUp += dt;
 
     			if(this.p.lastSpeedUp > 1) {
-            Q.state.set('speed', Q.state.get('speed') + 1);
-
-    				this.p.speed = Q.state.get('speed');
 
     				Q.state.set("distanceToGoal", Q.state.get("distanceToGoal") - 1);
 
             var gameState = self.store.peekRecord('gameState', 1);
-                gameState.set('flown_distance', gameState.get('flown_distance') + 1);
+            gameState.set('flown_distance', gameState.get('flown_distance') + 1);
 
+            if(gameState.get('speed') < gameState.get('max_speed')) {
+              gameState.set('speed', gameState.get('speed') + 1);
+            }
+
+            this.p.speed = gameState.get('speed');
     				this.p.lastSpeedUp = 0;
     			}
 
@@ -207,11 +203,13 @@ export default Ember.Mixin.create({
           self.get('engine').set('isReloading', true);
           self.get('engine').set('currentValue', self.get('engine').get('currentValue') - 1);
 
-          var currentSpeed = Q.state.get('speed');
+          var gameState = self.store.peekRecord('gameState', 1);
+
+          var currentSpeed = gameState.get('speed');
           var percent = currentSpeed * 0.1;
 
-          while(Q.state.get('speed') > (currentSpeed - percent)) {
-            Q.state.set('speed', Q.state.get('speed') - 1);
+          while(gameState.get('speed') > (currentSpeed - percent)) {
+            gameState.set('speed', gameState.get('speed') - 1);
           }
 
           var timeout = setTimeout(function() {
@@ -233,14 +231,14 @@ export default Ember.Mixin.create({
 
     		Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + ((new_level - 1) / 10) )));
 
+        self.setupLevel(new_level);
+
         self.get('me').get('user').then(user => {
           if(new_level > user.get('reached_level') && new_level < 6) {
             user.set('reached_level', new_level);
             user.save();
           }
         });
-
-        self.setupLevel(Q.state.get('level'));
     	}
     });
   }

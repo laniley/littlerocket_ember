@@ -42,7 +42,6 @@ export default Ember.Mixin.create({
   				sheet: 'cannon',
   				frame: self.get('cannonFrame'),
   				direction: 'up',
-  				vSpeed: Q.state.get('speed'),
   				tileW: 50,
   				tileH: 140,
   				type: Q.SPRITE_ROCKET,

@@ -20,7 +20,6 @@ export default Ember.Mixin.create({
   				frame: 0,
           z: 3,
   				direction: 'up',
-  				vSpeed: Q.state.get('speed'),
   				tileW: 50,
   				tileH: 140,
   				type: Q.SPRITE_ROCKET,
