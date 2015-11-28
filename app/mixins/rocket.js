@@ -2,12 +2,14 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
-  rocket: null,
-  initRocket: function() {
-    var self = this;
-    var distanceToGoalRef = 50;
 
+  rocket: null,
+
+  initRocket: function() {
+
+    var self = this;
     var y  = Q.height/6 * 5;
+
     if(Q.touchDevice) {
     	y -= 100;
     }
@@ -81,14 +83,14 @@ export default Ember.Mixin.create({
     	step: function(dt) {
         if(!Q.state.get('isPaused')) {
 
+          var gameState = self.store.peekRecord('gameState', 1);
+
     			this.p.lastSpeedUp += dt;
 
     			if(this.p.lastSpeedUp > 1) {
 
-    				Q.state.set("distanceToGoal", Q.state.get("distanceToGoal") - 1);
-
-            var gameState = self.store.peekRecord('gameState', 1);
             gameState.set('flown_distance', gameState.get('flown_distance') + 1);
+            gameState.set('distance_to_goal', gameState.get('distance_to_goal') - 1);
 
             if(gameState.get('speed') < gameState.get('max_speed')) {
               gameState.set('speed', gameState.get('speed') + 1);
@@ -99,7 +101,7 @@ export default Ember.Mixin.create({
     			}
 
 
-    			if(Q.state.get("distanceToGoal") <= 0) {
+    			if(gameState.get('distance_to_goal') <= 0) {
     				this.levelUp();
     			}
 
@@ -225,11 +227,12 @@ export default Ember.Mixin.create({
     	},
 
     	levelUp: function() {
+
         var gameState = self.store.peekRecord('gameState', 1);
         var new_level = gameState.get('level') + 1;
-        gameState.set('level', new_level);
 
-    		Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + ((new_level - 1) / 10) )));
+        gameState.set('level', new_level);
+    		gameState.set('distance_to_goal', Math.floor(50 * ( 1 + ((new_level - 1) / 10) )));
 
         self.setupLevel(new_level);
 

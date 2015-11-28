@@ -101,7 +101,6 @@ export default Ember.Mixin.create({
 
     Q.GameObject.extend("UfoMaker", {
     	init: function() {
-        console.log('init ufo-maker');
         var gameState = self.store.peekRecord('gameState', 1);
     		this.p = {
     			launchDelay: 1.2 * Q.state.get('scale') - (gameState.get('speed') / gameState.get('max_speed')),

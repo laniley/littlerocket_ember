@@ -570,6 +570,7 @@ export default Ember.Component.extend(
 
       self.get('gameState').set('flown_distance', 0);
       self.get('gameState').set('stars', 0);
+      self.get('gameState').set('distance_to_goal', Math.floor(50 * ( 1 + ((self.get('gameState').get('level') - 1) / 10) )));
 
   		Q.pauseGame();
   		Q.audio.stop('rocket.mp3');
@@ -951,10 +952,7 @@ export default Ember.Component.extend(
 
       self.get('gameState').set('flown_distance', 0);
   		self.get('gameState').set('stars', 0);
-
-  		distanceToGoalRef = 50;
-
-  		Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + (self.get('gameState').get('level') - 1) / 10) ));
+      self.get('gameState').set('distance_to_goal', Math.floor(50 * ( 1 + ((self.get('gameState').get('level') - 1) / 10) )));
 
       self.get('gameState').set('speed', 250);
       self.get('gameState').set('max_speed', 500);
