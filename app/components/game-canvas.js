@@ -60,8 +60,7 @@ export default Ember.Component.extend(
     this.set('Q', Q);
 
     // Add in the controls
-    Q.input.keyboardControls
-    ({
+    Q.input.keyboardControls({
       	LEFT: "left",
       	RIGHT: "right",
       	UP: "up",
@@ -70,8 +69,7 @@ export default Ember.Component.extend(
         ENTER: "enter"
     });
 
-    Q.input.touchControls
-    ({
+    Q.input.touchControls({
       	controls:
       	[
       		['left','<' ],
@@ -94,14 +92,10 @@ export default Ember.Component.extend(
 
     var rocket_y  = Q.height/6 * 5;
 
-    if(Q.touchDevice)
-    {
+    if(Q.touchDevice) {
       Q.state.set('scale', 2.5);
     	rocket_y -= 100;
     }
-
-    var distanceToGoalRef = 50;
-    Q.state.set('distanceToGoal', Math.floor(distanceToGoalRef * ( 1 + ((this.get('gameState').get('level') - 1) / 10) )));
 
     // COLORS
     Q.state.set('buttonFillColorUnselected', '#CCC');
