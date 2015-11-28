@@ -563,25 +563,6 @@ export default Ember.Component.extend(
     	}
     });
 
-  	Q.scene('hud',function(stage) {
-
-  		// Values
-  		var container = stage.insert
-  		(
-  			new Q.UI.Container
-  			(
-  			  {
-  					x: Q.state.get('scale') * 60,
-  					y: Q.state.get('scale') * 45
-  			  }
-  			)
-  		);
-
-  		container.insert(new Q.DistanceToGoalText(container));
-
-  		container.fit(0);
-    });
-
   	Q.scene("mainMenu",function(stage) {
 
       self.set('currentScene', 'mainMenu');
@@ -684,8 +665,6 @@ export default Ember.Component.extend(
   		containerSelectLevel.fit(20);
 
       self.get('gameState').set('speed', 0);
-
-      Q.stageScene('hud', 3);
 
       var currentSelectedButton = 'buttonStartLevel';
 
@@ -1014,8 +993,6 @@ export default Ember.Component.extend(
 
       self.setupLevel(this.get('gameState').get('level'));
 
-  		Q.stageScene('hud', 3, new Q('Rocket').first().p);
-
   		// inputs
   		Q.input.on("space", this, function()
   		{
@@ -1154,7 +1131,6 @@ export default Ember.Component.extend(
       buttonTryAgain.on("click",function() {
           Q.clearStages();
           Q.stageScene('level');
-          Q.stageScene('hud', 3, new Q('Rocket').first().p);
       });
 
       container.fit(20);
@@ -1189,7 +1165,6 @@ export default Ember.Component.extend(
         if(currentSelectedButton === 'buttonTryAgain') {
           Q.clearStages();
           Q.stageScene('level');
-          Q.stageScene('hud', 3, new Q('Rocket').first().p);
         }
         else {
           Q.clearStages();
