@@ -1,20 +1,20 @@
 <div class="title">
   {{#link-to 'index' (query-params player_hud_section="rocket")}}
     <div class={{if (if-equals currentSection 'rocket') 'active item' 'item' }}>
-      {{unbound (fa-icon "fa-rocket")}}
+      {{fa-icon "fa-rocket"}}
     </div>
   {{/link-to}}
   {{#if me.user.lab}}
     {{#link-to 'index' (query-params player_hud_section="lab")}}
       {{#if (if-equals me.user.lab.status 'unlocked') }}
           <div class={{if (if-equals currentSection 'lab') 'active item' 'item' }}>
-            {{unbound (fa-icon "fa-flask")}}
+            {{fa-icon "fa-flask"}}
           </div>
       {{else}}
         {{#if (if-equals me.user.lab.status 'under_construction') }}
           <div class="item">
             <span id="lab-tab" class="fa-stack">
-              {{unbound (fa-icon "fa-flask" stack=1)}}
+              {{fa-icon "fa-flask" stack=1}}
               {{timer-component type='lab' component=me.user.lab}}
               <div class="link-overlay">
                 {{#link-to 'index' (query-params player_hud_section="lab")}}{{/link-to}}
@@ -25,10 +25,10 @@
           {{#if (if-equals me.user.lab.status 'locked') }}
             <div class={{if (if-equals currentSection 'lab') 'active item' 'item' }}>
               <span class="fa-stack">
-                {{unbound (fa-icon "fa-flask" stack=1)}}
+                {{fa-icon "fa-flask" stack=1}}
                 {{#if me.isLoggedIn}}
                   {{#tooltip-component tooltip=me.user.lab.tooltip}}
-                    {{unbound (fa-icon "fa-lock locked" stack=1)}}
+                    {{fa-icon "fa-lock locked" stack=1}}
                   {{/tooltip-component}}
                 {{/if}}
               </span>
@@ -39,14 +39,14 @@
     {{/link-to}}
   {{else}}
     <span id="lab-tab" class="loader item">
-      {{unbound (fa-icon "fa-circle-o-notch" spin=true)}}
+      {{fa-icon "fa-circle-o-notch" spin=true}}
     </span>
   {{/if}}
   {{#tooltip-component tooltip="Achievements are coming soon..."}}
     <div class='item coming_soon'>
       <span class="fa-stack">
-        {{unbound (fa-icon "fa-circle-o" stack=1)}}
-        {{unbound (fa-icon "fa-star" stack=1)}}
+        {{fa-icon "fa-circle-o" stack=1}}
+        {{fa-icon "fa-star" stack=1}}
       </span>
     </div>
   {{/tooltip-component}}
@@ -75,7 +75,7 @@
   </div>
 {{else}}
   <div class="login-info">
-    <div>{{unbound (fa-icon "fa-lock")}}</div>
+    <div>{{fa-icon "fa-lock"}}</div>
     <div>Please log in.</div>
   </div>
 {{/if}}

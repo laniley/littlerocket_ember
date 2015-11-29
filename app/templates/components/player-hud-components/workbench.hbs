@@ -7,7 +7,7 @@
     {{#if (if-equals me.user.rocket.cannon.status 'unlocked') }}
       {{#link-to 'index' (query-params player_hud_section="lab" lab_section="cannon")}}
         <span id="cannon" class="block-button {{me.user.rocket.cannon.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
-          {{unbound (fa-icon "fa-bullseye")}}
+          {{fa-icon "fa-bullseye"}}
           <div class="info">
             {{me.user.rocket.cannon.selectedRocketComponentModelMm.rocketComponentModel.model}}
           </div>
@@ -16,20 +16,20 @@
     {{else}}
       {{#if (if-equals me.user.rocket.cannon.status 'under_construction') }}
         <span id="cannon" class="fa-stack block-button {{me.user.rocket.cannon.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
-          {{unbound (fa-icon "fa-bullseye" stack=1)}}
+          {{fa-icon "fa-bullseye" stack=1}}
           {{timer-component type='cannon' component=me.user.rocket.cannon}}
         </span>
       {{else}}
         {{#if me.user.rocket.cannon}}
           <span id="cannon" class="fa-stack block-button {{me.user.rocket.cannon.selectedRocketComponentModelMm.rocketComponentModel.rareness}}" {{action 'buyCannon'}}>
-            {{unbound (fa-icon "fa-bullseye" stack=1)}}
+            {{fa-icon "fa-bullseye" stack=1}}
             {{#tooltip-component tooltip=me.user.rocket.cannon.tooltip}}
-              {{unbound (fa-icon "fa-lock locked" stack=1)}}
+              {{fa-icon "fa-lock locked" stack=1}}
             {{/tooltip-component}}
           </span>
         {{else}}
           <span id="cannon" class="fa-stack block-button {{me.user.rocket.cannon.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
-            {{unbound (fa-icon "fa-circle-o-notch" spin=true)}}
+            {{fa-icon "fa-circle-o-notch" spin=true}}
           </span>
         {{/if}}
       {{/if}}
@@ -39,7 +39,7 @@
     {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
       {{#link-to 'index' (query-params player_hud_section="lab" lab_section="shield")}}
         <span id="shield" class="block-button {{me.user.rocket.shield.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
-          {{unbound (fa-icon "fa-shield")}}
+          {{fa-icon "fa-shield"}}
           <div class="info">
             {{me.user.rocket.shield.selectedRocketComponentModelMm.rocketComponentModel.model}}
           </div>
@@ -48,20 +48,20 @@
     {{else}}
       {{#if (if-equals me.user.rocket.shield.status 'under_construction') }}
         <span id="shield" class="fa-stack block-button {{me.user.rocket.shield.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
-          {{unbound (fa-icon "fa-shield" stack=1)}}
+          {{fa-icon "fa-shield" stack=1}}
           {{timer-component type='shield' component=me.user.rocket.shield}}
         </span>
       {{else}}
         {{#if me.user.rocket.shield}}
           <span id="shield" class="fa-stack block-button {{me.user.rocket.shield.selectedRocketComponentModelMm.rocketComponentModel.rareness}}" {{action 'buyShield'}}>
-            {{unbound (fa-icon "fa-shield" stack=1)}}
+            {{fa-icon "fa-shield" stack=1}}
             {{#tooltip-component tooltip=me.user.rocket.shield.tooltip}}
-              {{unbound (fa-icon "fa-lock locked" stack=1)}}
+              {{fa-icon "fa-lock locked" stack=1}}
             {{/tooltip-component}}
           </span>
         {{else}}
           <span id="shield" class="fa-stack block-button {{me.user.rocket.shield.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
-            {{unbound (fa-icon "fa-circle-o-notch" spin=true)}}
+            {{fa-icon "fa-circle-o-notch" spin=true}}
           </span>
         {{/if}}
       {{/if}}
@@ -71,7 +71,7 @@
     {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
       {{#link-to 'index' (query-params player_hud_section="lab" lab_section="engine")}}
         <span id="engine" class="block-button {{me.user.rocket.engine.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
-          {{unbound (fa-icon "fa-forward")}}
+          {{fa-icon "fa-forward"}}
           <div class="info">
             {{me.user.rocket.engine.selectedRocketComponentModelMm.rocketComponentModel.model}}
           </div>
@@ -80,20 +80,20 @@
     {{else}}
       {{#if (if-equals me.user.rocket.engine.status 'under_construction') }}
         <span id="engine" class="fa-stack block-button {{me.user.rocket.engine.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
-          {{unbound (fa-icon "fa-forward" stack=1)}}
+          {{fa-icon "fa-forward" stack=1}}
           {{timer-component type='engine' component=me.user.rocket.engine}}
         </span>
       {{else}}
         {{#if me.user.rocket.engine}}
           <span id="engine" class="fa-stack block-button {{me.user.rocket.engine.selectedRocketComponentModelMm.rocketComponentModel.rareness}}" {{action 'buyEngine'}}>
-            {{unbound (fa-icon "fa-forward" stack=1)}}
+            {{fa-icon "fa-forward" stack=1}}
             {{#tooltip-component tooltip=me.user.rocket.engine.tooltip}}
-              {{unbound (fa-icon "fa-lock locked" stack=1)}}
+              {{fa-icon "fa-lock locked" stack=1}}
             {{/tooltip-component}}
           </span>
         {{else}}
           <span id="engine" class="fa-stack block-button {{me.user.rocket.engine.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
-            {{unbound (fa-icon "fa-circle-o-notch" spin=true)}}
+            {{fa-icon "fa-circle-o-notch" spin=true}}
           </span>
         {{/if}}
       {{/if}}

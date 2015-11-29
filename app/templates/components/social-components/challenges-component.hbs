@@ -1,14 +1,14 @@
 <h2>
   Challenges
   {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_type="challenges")}}
-    <div class="button">{{unbound (fa-icon 'fa-trophy')}}</div>
+    <div class="button">{{fa-icon 'fa-trophy'}}</div>
   {{/link-to}}
   {{#link-to 'index' (query-params challenges_section="new")}}
-    <div class={{if (eq currentSection 'new') "active button" "button" }}>{{unbound (fa-icon 'fa-plus')}}</div>
+    <div class={{if (eq currentSection 'new') "active button" "button" }}>{{fa-icon 'fa-plus'}}</div>
   {{/link-to}}
   {{#link-to 'index' (query-params challenges_section="lost")}}
     <div class={{if (eq currentSection 'lost') "active button" "button" }}>
-      {{unbound (fa-icon 'fa-close')}}
+      {{fa-icon 'fa-close'}}
       {{#if (gt lostChallenges.length 0)}}
         <span class="counter fa-stack-1x">{{lostChallenges.length}}</span>
       {{/if}}
@@ -16,7 +16,7 @@
   {{/link-to}}
   {{#link-to 'index' (query-params challenges_section="won")}}
     <div class={{if (eq currentSection 'won') "active button" "button" }}>
-      {{unbound (fa-icon 'fa-check')}}
+      {{fa-icon 'fa-check'}}
       {{#if (gt wonChallenges.length 0)}}
         <span class="counter fa-stack-1x">{{wonChallenges.length}}</span>
       {{/if}}
@@ -24,7 +24,7 @@
   {{/link-to}}
   {{#link-to 'index' (query-params challenges_section="waiting")}}
     <div class={{if (eq currentSection 'waiting') "active button" "button" }}>
-      {{unbound (fa-icon 'fa-clock-o')}}
+      {{fa-icon 'fa-clock-o'}}
       {{#if (gt waitingChallenges.length 0)}}
         <span class="counter fa-stack-1x">{{waitingChallenges.length}}</span>
       {{/if}}
@@ -32,7 +32,7 @@
   {{/link-to}}
   {{#link-to 'index' (query-params challenges_section="unplayed")}}
     <div class={{if (eq currentSection 'unplayed') "active button" "button" }} >
-      {{unbound (fa-icon 'fa-rocket')}}
+      {{fa-icon 'fa-rocket'}}
       {{#if (gt me.user.unplayedChallenges.length 0)}}
         <span class="counter highlight fa-stack-1x">{{me.user.unplayedChallenges.length}}</span>
       {{/if}}
@@ -64,7 +64,7 @@
           </div>
           <div class="button-container">
             <div class="button {{if challenge.isActive "active"}}" {{action challenge.action challenge}}>
-              {{unbound (fa-icon 'fa-rocket')}}<span class="button-text">{{if challenge.isActive " stop" " play"}}</span>
+              {{fa-icon 'fa-rocket'}}<span class="button-text">{{if challenge.isActive " stop" " play"}}</span>
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@
       <div class="empty-info-text">
         You have no open challenges.<br /><br />
         {{#link-to 'index' (query-params challenges_section="new")}}
-          <div class="button">{{unbound (fa-icon 'fa-plus')}} Create challenge</div>
+          <div class="button">{{fa-icon 'fa-plus'}} Create challenge</div>
         {{/link-to}}
       </div>
     {{/if}}
@@ -100,7 +100,7 @@
           </div>
         </div>
         <div class="button-container">
-          <div class="info wait">{{unbound (fa-icon 'fa-clock-o')}}<span class="button-text"> wait</span></div>
+          <div class="info wait">{{fa-icon 'fa-clock-o'}}<span class="button-text"> wait</span></div>
         </div>
       </div>
     {{/each}}
@@ -127,7 +127,7 @@
           </div>
         </div>
         <div class="button-container">
-          <div class="info won">{{unbound (fa-icon 'fa-check')}}<span class="button-text"> won</span></div>
+          <div class="info won">{{fa-icon 'fa-check'}}<span class="button-text"> won</span></div>
         </div>
       </div>
     {{/each}}
@@ -154,14 +154,14 @@
           </div>
         </div>
         <div class="button-container">
-          <div class="info lost">{{unbound (fa-icon 'fa-close')}}<span class="button-text"> lost</span></div>
+          <div class="info lost">{{fa-icon 'fa-close'}}<span class="button-text"> lost</span></div>
         </div>
       </div>
     {{/each}}
   {{/if}}
   {{#if (eq currentSection 'new')}}
     <div class="list-item challenge">
-      <div class="search">{{input value=search_term}}{{unbound (fa-icon "fa-search")}}</div>
+      <div class="search">{{input value=search_term}}{{fa-icon "fa-search"}}</div>
     </div>
     {{#each friends_matching_search as |friend|}}
       <div class="list-item challenge">
@@ -170,7 +170,7 @@
         </div>
         {{friend.name}}
         <div class="button-container">
-          <div class="button active" {{action "sendChallengeRequest" friend}}>{{unbound (fa-icon 'fa-envelope')}}<span class="button-text"> challenge</span></div>
+          <div class="button active" {{action "sendChallengeRequest" friend}}>{{fa-icon 'fa-envelope'}}<span class="button-text"> challenge</span></div>
         </div>
       </div>
     {{/each}}

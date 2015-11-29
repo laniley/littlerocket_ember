@@ -1,15 +1,15 @@
 <div class="title">
   {{#link-to 'index' (query-params social_section="leaderboard")}}
     <div class={{if (if-equals currentSection 'leaderboard') 'active item' 'item' }}>
-      {{unbound (fa-icon "fa-trophy")}}
+      {{fa-icon "fa-trophy"}}
     </div>
   {{/link-to}}
   {{#link-to 'index' (query-params social_section="challenges")}}
     <div class={{if (if-equals currentSection 'challenges') 'active item' 'item' }}>
       <span class="fa-stack">
-        {{unbound (fa-icon "fa-user" stack=1 classNames="player-1")}}
-        {{unbound (fa-icon "fa-user" stack=1 classNames="player-2")}}
-        {{unbound (fa-icon "fa-arrows-h" stack=1 classNames="versus")}}
+        {{fa-icon "fa-user" stack=1 classNames="player-1"}}
+        {{fa-icon "fa-user" stack=1 classNames="player-2"}}
+        {{fa-icon "fa-arrows-h" stack=1 classNames="versus"}}
         {{#if (gt me.user.unplayedChallenges.length 0)}}
           <span class="counter highlight fa-stack-1x">{{me.user.unplayedChallenges.length}}</span>
         {{/if}}
@@ -19,7 +19,7 @@
   {{/link-to}}
   {{#link-to 'index' (query-params social_section="comments")}}
     <div class={{if (if-equals currentSection 'comments') 'active item' 'item' }}>
-      {{unbound (fa-icon "fa-pencil")}}
+      {{fa-icon "fa-pencil"}}
     </div>
   {{/link-to}}
 </div>
@@ -33,15 +33,15 @@
         {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_type="challenges")}}
           <div class="{{if (eq currentLeaderboardType 'challenges') "active button pvp" "button pvp" }}" title="sort by won challenges">
             <span class="fa-stack">
-              {{unbound (fa-icon "fa-user" stack=1 classNames="player-1")}}
-              {{unbound (fa-icon "fa-user" stack=1 classNames="player-2")}}
-              {{unbound (fa-icon "fa-arrows-h" stack=1 classNames="versus")}}
+              {{fa-icon "fa-user" stack=1 classNames="player-1"}}
+              {{fa-icon "fa-user" stack=1 classNames="player-2"}}
+              {{fa-icon "fa-arrows-h" stack=1 classNames="versus"}}
             </span>
           </div>
         {{/link-to}}
         {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_type="score")}}
           <div class="{{if (eq currentLeaderboardType 'score') "active button" "button" }}" title="sort by score">
-            {{unbound (fa-icon 'fa-asterisk')}}
+            {{fa-icon 'fa-asterisk'}}
           </div>
         {{/link-to}}
       </h2>
@@ -89,7 +89,7 @@
   </div>
 {{else}}
   <div class="login-info">
-    <div>{{unbound (fa-icon "fa-lock")}}</div>
+    <div>{{fa-icon "fa-lock"}}</div>
     <div>Please log in.</div>
   </div>
 {{/if}}
