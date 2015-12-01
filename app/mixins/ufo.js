@@ -26,8 +26,8 @@ export default Ember.Mixin.create({
         var radius = this.p.tileW / 2 - 3;
         var winkel = 0;
 
-        for(var i = 0; i < 10; i++)
-        {
+        for(var i = 0; i < 10; i++) {
+
           winkel += (Math.PI * 2) / 10;
 
           var x = Math.floor(Math.sin(winkel) * radius);
@@ -95,7 +95,6 @@ export default Ember.Mixin.create({
             p.xDirection > 0) || (p.x < 35 * Q.state.get('scale') && p.xDirection <= 0)) {
           p.xDirection = p.xDirection * -1;
         }
-
       }
     });
 
@@ -104,7 +103,7 @@ export default Ember.Mixin.create({
         var gameState = self.store.peekRecord('gameState', 1);
     		this.p = {
     			launchDelay: 1.2 * Q.state.get('scale') - (gameState.get('speed') / gameState.get('max_speed')),
-    			launchRandom: 1,
+    			launchRandomFactor: 1,
     			launch: 1,
           isActive: 1
     		};
@@ -114,7 +113,7 @@ export default Ember.Mixin.create({
 
   	  	if(!Q.state.get('isPaused') && this.p.isActive && this.p.launch < 0) {
     			this.stage.insert(new Q.Ufo());
-    			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
+    			this.p.launch = this.p.launchDelay + this.p.launchRandomFactor * Math.random();
     		}
      	}
     });

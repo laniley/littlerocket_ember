@@ -45,14 +45,10 @@ export default Ember.Component.extend(
       dataPath: "./assets/data/"
     })
     .include("Sprites, Anim, Input, Scenes, 2D, Touch, UI, Audio")
-    .setup
-    (
-    		'game',
-    		{
-    			scaleToFit: true,
-          maximize: "touch"
-    		}
-    	)
+    .setup('game', {
+    	scaleToFit: true,
+      maximize: "touch"
+    })
     .controls()
     .touch()
     .enableSound();
@@ -110,10 +106,8 @@ export default Ember.Component.extend(
     this.initUfo();
 
     Q.TransformableSprite.extend("Bullet", {
-    	init: function(p)
-    	{
-    		  this._super(p,
-    		  {
+    	init: function(p) {
+    		  this._super(p, {
     				name:          "Bullet",
     				sheet:         "bullet",
     				tileW:         20,
@@ -133,8 +127,7 @@ export default Ember.Component.extend(
     Q.component("bulletControls", {
     	// // called when the component is added to
     	// // an entity
-    	added: function()
-    	{
+    	added: function() {
     		var p = this.entity.p;
 
     		// add in our default properties
@@ -145,8 +138,7 @@ export default Ember.Component.extend(
     		this.entity.on("step",this,"step");
     	},
 
-    	step: function(/*dt*/)
-    	{
+    	step: function(/*dt*/) {
     		// grab the entity's properties
     		// for easy reference
     		var p = this.entity.p;
@@ -155,8 +147,7 @@ export default Ember.Component.extend(
     		// in that direction
     		p.vy = -350;
 
-    		if(p.y < 0)
-    		{
+    		if(p.y < 0) {
     			this.entity.destroy();
     		}
     	}
@@ -164,10 +155,8 @@ export default Ember.Component.extend(
 
     // Create the Star sprite
     Q.Sprite.extend("Star", {
-    	 init: function(p)
-    	 {
-    		  this._super(p,
-    		  {
+    	 init: function(p) {
+    		  this._super(p, {
     				name: 'Star',
     				sheet: 'star',
     				type: Q.SPRITE_STAR,
@@ -185,11 +174,9 @@ export default Ember.Component.extend(
     	 },
 
     	 // When a star is hit..
-    	 sensor: function(colObj)
-    	 {
+    	 sensor: function(colObj) {
     		  // Collision with rocket
-    		  if(colObj.isA('Rocket'))
-    		  {
+    		  if(colObj.isA('Rocket')) {
     				// Play sound
     				Q.audio.play('collecting_a_star.mp3');
 
@@ -202,8 +189,7 @@ export default Ember.Component.extend(
 
     	 // When a star is inserted, use it's parent (the stage)
     	 // to keep track of the total number of stars on the stage
-    	 inserted: function()
-    	 {
+    	 inserted: function() {
     		  this.stage.starCount = this.stage.starCount || 0;
     		  this.stage.starCount++;
     	 }
@@ -215,8 +201,7 @@ export default Ember.Component.extend(
 
     	 // // called when the component is added to
     	 // // an entity
-    	 added: function()
-    	 {
+    	 added: function() {
     		  var p = this.entity.p;
 
     		  // add in our default properties
@@ -227,44 +212,37 @@ export default Ember.Component.extend(
     		  this.entity.on("step",this,"step");
     	 },
 
-    	 step: function(/*dt*/)
-    	 {
+    	 step: function(/*dt*/) {
     		  // grab the entity's properties
     		  // for easy reference
     		  var p = this.entity.p;
 
     		  // based on our direction, try to add velocity
     		  // in that direction
-    		  switch(p.direction)
-    		  {
+    		  switch(p.direction) {
     				case "down":  p.vy = self.get('gameState').get('speed');
     								  break;
     		  }
 
-    		  if(p.y > Q.height)
-    		  {
+    		  if(p.y > Q.height) {
     				this.entity.destroy();
     		  }
     	 }
     });
 
     Q.GameObject.extend("StarMaker", {
-    	 init: function()
-    	 {
-    		  this.p =
-    		  {
+    	 init: function() {
+    		  this.p = {
     				launchDelay: Q.state.get('scale') - (self.get('gameState').get('speed') / self.get('gameState').get('max_speed')),
     				launchRandom: 1,
     				launch: 1
     		  };
     	 },
 
-    	 update: function(dt)
-    	 {
+    	 update: function(dt) {
     		  this.p.launch -= dt;
 
-    		  if(!Q.state.get('isPaused') && this.p.launch < 0)
-    		  {
+    		  if(!Q.state.get('isPaused') && this.p.launch < 0) {
     				this.stage.insert(new Q.Star());
     				this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
     		  }
@@ -273,16 +251,13 @@ export default Ember.Component.extend(
 
     Q.Sprite.extend("Asteroid", {
     	// When an asteroid is hit..
-    	sensor: function(colObj)
-    	{
+    	sensor: function(colObj) {
     		// Destroy it
-    		if(colObj.isA('Rocket') && !colObj.collided && !this.collided)
-    		{
+    		if(colObj.isA('Rocket') && !colObj.collided && !this.collided) {
           this.collided = true;
     			colObj.trigger('collided');
     		}
-    		else if(colObj.isA('Bullet') && !colObj.collided)
-    		{
+    		else if(colObj.isA('Bullet') && !colObj.collided) {
     			colObj.collided = true;
     			colObj.destroy();
     		}
@@ -293,10 +268,8 @@ export default Ember.Component.extend(
     });
 
     Q.Asteroid.extend("NormalAsteroid", {
-    	init: function(p)
-    	{
-    		this._super(p,
-    		{
+    	init: function(p) {
+    		this._super(p, {
     			name:   'Asteroid',
     			sheet:  'asteroid',
     			type:   Q.SPRITE_ASTEROID,
@@ -333,10 +306,8 @@ export default Ember.Component.extend(
     });
 
     Q.Asteroid.extend("BigAsteroid", {
-    	init: function(p)
-    	{
-    		this._super(p,
-    		{
+    	init: function(p) {
+    		this._super(p, {
     			name:   'BigAsteroid',
     			sheet:  'bigAsteroid',
     			sprite: 'bigAsteroid', // name of the animation
@@ -352,7 +323,7 @@ export default Ember.Component.extend(
 
     			scale: Q.state.get('scale'),
     			points: [],
-          speedFactor: 1,
+          speedFactor: 0.8,
           hitPoints: 2,
     			isExploded: false
     		});
@@ -377,17 +348,14 @@ export default Ember.Component.extend(
     		this.add("2d, asteroidControls, animation");
     	},
 
-    	explode: function()
-    	{
+    	explode: function() {
     		this.play('explosion');
     	}
     });
 
     Q.Asteroid.extend("ExplodingAsteroid", {
-    	init: function(p)
-    	{
-    		this._super(p,
-    		{
+    	init: function(p) {
+    		this._super(p, {
     			name:   'ExplodingAsteroid',
     			sheet:  'explodingAsteroid',
     			sprite: 'explodingAsteroid', // name of the animation
@@ -412,8 +380,7 @@ export default Ember.Component.extend(
     		var radius = this.p.tileW / 4;
     		var winkel = 0;
 
-    		for(var i = 0; i < 10; i++)
-    		{
+    		for(var i = 0; i < 10; i++) {
     			winkel += (Math.PI * 2) / 10;
 
     			var x = Math.floor(Math.sin(winkel) * radius);
@@ -428,8 +395,7 @@ export default Ember.Component.extend(
     		this.add("2d, asteroidControls, animation");
     	},
 
-    	explode: function()
-    	{
+    	explode: function() {
         var winkel = 0;
         var radiusStart = this.p.tileW / 4;
         var radiusEnd = this.p.tileW / 2;
@@ -456,8 +422,7 @@ export default Ember.Component.extend(
 
     	// // called when the component is added to
     	// // an entity
-    	added: function()
-    	{
+    	added: function() {
     		var p = this.entity.p;
 
     		// add in our default properties
@@ -468,30 +433,26 @@ export default Ember.Component.extend(
     		this.entity.on("step",this,"step");
     	},
 
-    	step: function(/*dt*/)
-    	{
+    	step: function(/*dt*/) {
     		// grab the entity's properties
     		// for easy reference
     		var p = this.entity.p;
 
     		// based on our direction, try to add velocity
     		// in that direction
-    		switch(p.direction)
-    		{
+    		switch(p.direction) {
     			case "down":
               p.vy = self.get('gameState').get('speed') * p.speedFactor;
     					break;
     		}
 
-    		if(this.entity.isA('ExplodingAsteroid')	&& p.y > (Q.height * 0.75) && p.isExploded === false)
-    		{
+    		if(this.entity.isA('ExplodingAsteroid')	&& p.y > (Q.height * 0.75) && p.isExploded === false) {
             p.isExploded = true;
     		  	Q.audio.play('explosion.mp3');
     		  	this.entity.explode();
     		}
 
-        if(p.y > Q.height)
-    		{
+        if(p.y > Q.height) {
     			  this.entity.destroy();
     		}
     	}
@@ -501,16 +462,16 @@ export default Ember.Component.extend(
       init: function() {
     		this.p = {
     			launchDelay: (Q.state.get('scale') - (self.get('gameState').get('speed') / self.get('gameState').get('max_speed'))) * 0.3,
-          launchRandomFactor: Math.random() * 0.6,
-    			launch: 1
+          launchRandomFactor: 0.6,
+    			launch: 1,
+          isActive: 1
     		};
     	},
 
-     	update: function(dt)
-     	{
+     	update: function(dt) {
     	  	this.p.launch -= dt;
 
-    	  	if(!Q.state.get('isPaused') && this.p.launch < 0) {
+    	  	if(!Q.state.get('isPaused') && this.p.isActive && this.p.launch < 0) {
       			this.stage.insert(new Q.NormalAsteroid());
       			this.p.launch = this.p.launchDelay + this.p.launchRandomFactor * Math.random();
     		  }
@@ -518,22 +479,18 @@ export default Ember.Component.extend(
     });
 
     Q.GameObject.extend("BigAsteroidMaker", {
-    	init: function()
-    	{
-    		this.p =
-    		{
-    			launchDelay: 1 * Q.state.get('scale') - (self.get('gameState').get('speed') / self.get('gameState').get('max_speed')),
+    	init: function() {
+    		this.p = {
+    			launchDelay: 1.2 * Q.state.get('scale') - (self.get('gameState').get('speed') / self.get('gameState').get('max_speed')),
     			launchRandomFactor: 1,
     			launch: 1
     		};
     	},
 
-    	update: function(dt)
-    	{
+    	update: function(dt) {
     		this.p.launch -= dt;
 
-    		if(!Q.state.get('isPaused') && this.p.isActive && this.p.launch < 0)
-    		{
+    		if(!Q.state.get('isPaused') && this.p.isActive && this.p.launch < 0) {
     			this.stage.insert(new Q.BigAsteroid());
     			this.p.launch = this.p.launchDelay + this.p.launchRandomFactor * Math.random();
     		}
@@ -541,22 +498,18 @@ export default Ember.Component.extend(
     });
 
     Q.GameObject.extend("ExplodingAsteroidMaker", {
-    	init: function()
-    	{
-    		this.p =
-    		{
+    	init: function() {
+    		this.p = {
     			launchDelay: 2 * Q.state.get('scale') - (self.get('gameState').get('speed') / self.get('gameState').get('max_speed')),
     			launchRandom: 1,
     			launch: 2
     		};
     	},
 
-    	update: function(dt)
-    	{
+    	update: function(dt) {
     		this.p.launch -= dt;
 
-    		if(!Q.state.get('isPaused') && this.p.launch < 0)
-    		{
+    		if(!Q.state.get('isPaused') && this.p.launch < 0) {
     			this.stage.insert(new Q.ExplodingAsteroid( {size : 50} ));
     			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
     		}
@@ -1450,8 +1403,8 @@ export default Ember.Component.extend(
 
     asteroidMaker.p.launchRandomFactor = 0.53;
 
-    if(level >= 2)
-    {
+    if(level >= 2) {
+
       if(!ufoMaker) {
         ufoMaker = new Q.UfoMaker();
         Q.state.set('ufoMaker', ufoMaker);
@@ -1461,6 +1414,7 @@ export default Ember.Component.extend(
 
       asteroidMaker.p.launchRandomFactor = 0.8;
       ufoMaker.p.isActive = 1;
+      ufoMaker.p.launchRandomFactor = 1.5;
     }
     if(level >= 3)
     {
@@ -1471,17 +1425,20 @@ export default Ember.Component.extend(
 
       Q.stage().insert(bigAsteroidMaker);
 
-      asteroidMaker.p.launchRandomFactor = 0.9;
-      bigAsteroidMaker.p.launchRandomFactor = 1.1;
       ufoMaker.p.isActive = 0;
       bigAsteroidMaker.p.isActive = 1;
+
+      asteroidMaker.p.launchRandomFactor = 1.2;
+      bigAsteroidMaker.p.launchRandomFactor = 1.2;
     }
     if(level >= 4)
     {
-      asteroidMaker.p.launchRandomFactor = 1.3;
-      bigAsteroidMaker.p.launchRandomFactor = 1.6;
       ufoMaker.p.isActive = 1;
       bigAsteroidMaker.p.isActive = 1;
+
+      asteroidMaker.p.launchRandomFactor = 1.3;
+      bigAsteroidMaker.p.launchRandomFactor = 1.6;
+      ufoMaker.p.launchRandomFactor = 2;
     }
     if(level >= 5)
     {
