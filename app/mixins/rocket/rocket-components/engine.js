@@ -47,8 +47,7 @@ export default Ember.Mixin.create({
   				type: Q.SPRITE_ROCKET,
           collided: false,
           scale: Q.state.get('scale'),
-          rocket: null,
-          capacity: 3
+          rocket: null
   		  });
 
         self.set('engineQuintusObject', this);

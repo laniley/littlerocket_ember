@@ -2,9 +2,14 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
+
+  // properties
+
   shield: null,
   shieldQuintusObject: null,
   shieldReloadingTimeout: null,
+
+  // computed properties
 
   shieldFrame: function() {
     if(!Ember.isEmpty(this.get('shield')) &&
@@ -27,6 +32,8 @@ export default Ember.Mixin.create({
     }
   }.observes('shieldFrame'),
 
+  // functions
+
   initShield: function() {
     var self = this;
     var y  = Q.height/6 * 5;
@@ -47,8 +54,7 @@ export default Ember.Mixin.create({
   				type: Q.SPRITE_ROCKET,
           collided: false,
           scale: Q.state.get('scale'),
-          rocket: null,
-          capacity: 3
+          rocket: null
   		  });
 
         self.set('shieldQuintusObject', this);
@@ -82,4 +88,5 @@ export default Ember.Mixin.create({
     	}
     });
   }
+
 });

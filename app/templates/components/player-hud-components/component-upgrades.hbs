@@ -2,77 +2,70 @@
 <div class="upgrade-content">
   {{#if (if-equals component.status 'unlocked') }}
     {{#each myComponentModelMms.content as |myComponentModelMm|}}
-      <div class="list-item">
-        {{#if (if-equals myComponentModelMm.status 'unlocked') }}
-          {{#if myComponentModelMm.isSelected}}
-            <div class="block-button list-item-column active {{myComponentModelMm.rocketComponentModel.rareness}}">
-              {{fa-icon icon}}
-              <div class="info">
-                {{myComponentModelMm.rocketComponentModel.model}}
+      {{#if myComponentModelMm.rocketComponentModel.is_active}}
+        <div class="list-item">
+          {{#if (if-equals myComponentModelMm.status 'unlocked') }}
+            {{#if myComponentModelMm.isSelected}}
+              <div class="block-button list-item-column active {{myComponentModelMm.rocketComponentModel.rareness}}">
+                {{fa-icon myComponentModelMm.rocketComponentModel.icon}}
               </div>
-            </div>
+            {{else}}
+              <div class="block-button list-item-column {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'selectComponentModelMm' myComponentModelMm}}>
+                {{fa-icon myComponentModelMm.rocketComponentModel.icon}}
+              </div>
+            {{/if}}
           {{else}}
-            <div class="block-button list-item-column {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'selectComponentModelMm' myComponentModelMm}}>
-              {{fa-icon icon}}
-              <div class="info">
-                {{myComponentModelMm.rocketComponentModel.model}}
+            {{#if (if-equals myComponentModelMm.status 'locked') }}
+              <div class="block-button list-item-column {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'buyComponentModelMm' myComponentModelMm}}>
+                <span class="fa-stack">
+                  {{fa-icon myComponentModelMm.rocketComponentModel.icon stack=1}}
+                  {{#tooltip-component tooltip=myComponentModelMm.rocketComponentModel.tooltip}}
+                    {{fa-icon "fa-lock locked" stack=1}}
+                  {{/tooltip-component}}
+                </span>
               </div>
-            </div>
-          {{/if}}
-        {{else}}
-          {{#if (if-equals myComponentModelMm.status 'locked') }}
-            <div class="block-button list-item-column {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'buyComponentModelMm' myComponentModelMm}}>
-              <span class="fa-stack">
-                {{fa-icon icon stack=1}}
-                {{#tooltip-component tooltip=myComponentModelMm.rocketComponentModel.tooltip}}
-                  {{fa-icon "fa-lock locked" stack=1}}
-                {{/tooltip-component}}
-              </span>
-              <div class="info">
-                {{myComponentModelMm.rocketComponentModel.model}}
+            {{else}}
+              <div class="block-button list-item-column {{myComponentModelMm.rocketComponentModel.rareness}}">
+                {{fa-icon myComponentModelMm.rocketComponentModel.icon}}
+                {{timer-component
+                  type='componentModel'
+                  construction_start=myComponentModelMm.construction_start
+                  component=myComponentModelMm}}
               </div>
-            </div>
-          {{else}}
-            <div class="block-button list-item-column {{myComponentModelMm.rocketComponentModel.rareness}}">
-              {{fa-icon icon}}
-              <div class="info">
-                {{myComponentModelMm.rocketComponentModel.model}}
-              </div>
-              {{timer-component
-                type='componentModel'
-                construction_start=myComponentModelMm.construction_start
-                component=myComponentModelMm}}
-            </div>
-          {{/if}}
-        {{/if}}
-        <div class="list-item-column component-level-upgrades">
-          {{player-hud-components/component-upgrades/component-level-upgrades
-              me=me myComponentModelMm=myComponentModelMm}}
-        </div>
-        <div class="list-item-column button-column">
-          {{#if (if-equals myComponentModelMm.status 'locked') }}
-            <div class="button upgrade-button  {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'buyComponentModelMm' myComponentModelMm}}>
-              {{fa-icon "fa-star"}} {{myComponentModelMm.rocketComponentModel.costs}}
-            </div>
-          {{else}}
-            {{#if (if-equals myComponentModelMm.status 'unlocked') }}
-              {{#if myComponentModelMm.isSelected}}
-                <div class="button upgrade-button selected {{myComponentModelMm.rocketComponentModel.rareness}}">
-                  active
-                </div>
-              {{else}}
-                <div class="button upgrade-button {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'selectComponentModelMm' myComponentModelMm}}>
-                  select
-                </div>
-              {{/if}}
             {{/if}}
           {{/if}}
+          {{#if (if-equals myComponentModelMm.status 'unlocked') }}
+            {{player-hud-components/component-upgrades/component-level-upgrades me=me myComponentModelMm=myComponentModelMm}}
+          {{else}}
+            <div class="description-flex-container">
+              <div class="description">{{myComponentModelMm.rocketComponentModel.description}}</div>
+            </div>
+          {{/if}}
+          <div class="list-item-column button-column">
+            {{#if (if-equals myComponentModelMm.status 'locked') }}
+              <div class="button upgrade-button  {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'buyComponentModelMm' myComponentModelMm}}>
+                {{fa-icon "fa-star"}} {{myComponentModelMm.rocketComponentModel.costs}}
+              </div>
+            {{else}}
+              {{#if (if-equals myComponentModelMm.status 'unlocked') }}
+                {{#if myComponentModelMm.isSelected}}
+                  <div class="button upgrade-button selected {{myComponentModelMm.rocketComponentModel.rareness}}">
+                    active
+                  </div>
+                {{else}}
+                  <div class="button upgrade-button {{myComponentModelMm.rocketComponentModel.rareness}}" {{action 'selectComponentModelMm' myComponentModelMm}}>
+                    select
+                  </div>
+                {{/if}}
+              {{/if}}
+            {{/if}}
+          </div>
         </div>
-      </div>
+      {{/if}}
     {{/each}}
   {{else}}
     <div class="locked-info rocket-component">
-      <div>{{fa-icon icon}}</div>
+      <div>{{fa-icon myComponentModelMm.rocketComponentModel.icon}}</div>
       {{#if (if-equals component.status 'locked') }}
         <div>{{fa-icon "fa-lock"}} Locked</div>
         <div class="button" {{action 'buyComponent' component}}>

@@ -59,18 +59,6 @@ export default Ember.Component.extend(ObjectMixin, {
     });
   }.property('mySortedComponentModelMms.[]', 'selectedRocketComponentModelMm'),
 
-  icon: function() {
-    if(this.get('componentType') === 'cannon') {
-      return "fa-bullseye";
-    }
-    else if(this.get('componentType') === 'shield') {
-      return "fa-shield";
-    }
-    else if(this.get('componentType') === 'engine') {
-      return "fa-forward";
-    }
-  }.property(),
-
   actions: {
     buyComponent: function(component) {
       if(component.get('type') === 'cannon') {

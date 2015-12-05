@@ -192,11 +192,13 @@ export default Ember.Mixin.create({
           self.get('shield').set('isReloading', true);
           self.get('shield').set('currentValue', self.get('shield').get('currentValue') - 1);
 
-          var timeout = setTimeout(function() {
-            self.get('shield').set('isReloading', false);
-          }, 1000 / Q.state.get('srr'));
+          self.get('shield').get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+            var timeout = setTimeout(function() {
+              self.get('shield').set('isReloading', false);
+            }, 10000 - selectedRocketComponentModelMm.get('recharge_rate') * 1000);
 
-          self.set('shieldReloadingTimeout', timeout);
+            self.set('shieldReloadingTimeout', timeout);
+          });
         }
       },
 
@@ -214,11 +216,13 @@ export default Ember.Mixin.create({
             gameState.set('speed', gameState.get('speed') - 1);
           }
 
-          var timeout = setTimeout(function() {
-            self.get('engine').set('isReloading', false);
-          }, 1000 / Q.state.get('sdrr'));
+          self.get('engine').get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+            var timeout = setTimeout(function() {
+              self.get('engine').set('isReloading', false);
+            }, 10500 - selectedRocketComponentModelMm.get('recharge_rate') * 1000);
 
-          self.set('engineReloadingTimeout', timeout);
+            self.set('engineReloadingTimeout', timeout);
+          });
     	  }
       },
 

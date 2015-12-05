@@ -134,6 +134,11 @@ $border-color: $darkblue;
 $border: 1px solid $border-color;
 $border-thick: 2px solid $border-color;
 
+$bp-xs-max: 950px;
+$bp-md-min: 951px;
+$bp-md-max: 1442px;
+$bp-lg-min: 1443px;
+
 // We use these to control various global styles
 // $body-bg: $white;
 // $body-font-color: $jet;

@@ -43,8 +43,10 @@
       <tr>
         <td>
           <b>Ammo:</b>
+        </td>
+        <td>
           {{#if (if-equals me.user.rocket.cannon.status 'unlocked') }}
-            {{me.user.rocket.cannon.selectedRocketComponentModelMm.selectedRocketComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
+            {{me.user.rocket.cannon.selectedRocketComponentModelMm.capacity}}
           {{else}}
             0
           {{/if}}
@@ -53,18 +55,22 @@
           {{#tooltip-component tooltip="BPS = <u>B</u>ullets <u>P</u>er <u>S</u>econd<br /> A higher BPS means, that your cannon reloads faster."}}
             BPS:
           {{/tooltip-component}}
+        </td>
+        <td>
           {{#if (if-equals me.user.rocket.cannon.status 'unlocked') }}
-            {{me.user.rocket.cannon.selectedRocketComponentModelMm.selectedRocketComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
+            {{me.user.rocket.cannon.selectedRocketComponentModelMm.recharge_rate_percentage}} %
           {{else}}
-            0
+            0 %
           {{/if}}
         </td>
       </tr>
       <tr>
         <td>
           <b>Shield:</b>
+        </td>
+        <td>
           {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
-            {{me.user.rocket.shield.selectedRocketComponentModelMm.selectedRocketComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
+            {{me.user.rocket.shield.selectedRocketComponentModelMm.capacity}}
           {{else}}
             0
           {{/if}}
@@ -73,18 +79,24 @@
           {{#tooltip-component tooltip="SRR = <u>S</u>hield <u>R</u>echarge <u>R</u>ate<br /> A higher SRR means, that your shield reloads faster."}}
             SRR:
           {{/tooltip-component}}
+        </td>
+        <td>
           {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
-            {{me.user.rocket.shield.selectedRocketComponentModelMm.selectedRocketComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
+            {{me.user.rocket.shield.selectedRocketComponentModelMm.recharge_rate_percentage}} %
           {{else}}
-            0
+            0 %
           {{/if}}
         </td>
       </tr>
       <tr>
         <td>
-          <b>Slowdowns:</b>
+          {{#tooltip-component tooltip="SDs = <u>S</u>low<u>d</u>owns<br /> A Slowdown reduces the speed your rocket is flying with."}}
+            <b>SDs:</b>
+          {{/tooltip-component}}
+        </td>
+        <td>
           {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
-            {{me.user.rocket.engine.selectedRocketComponentModelMm.selectedRocketComponentModelCapacityLevelMm.rocketComponentModelLevel.value}}
+            {{me.user.rocket.engine.selectedRocketComponentModelMm.capacity}}
           {{else}}
             0
           {{/if}}
@@ -93,10 +105,12 @@
           {{#tooltip-component tooltip="SDRR = <u>S</u>low<u>d</u>own <u>R</u>echarge <u>R</u>ate<br /> A higher SDRR means, that your slowdown reloads faster."}}
             SDRR:
           {{/tooltip-component}}
+        </td>
+        <td>
           {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
-            {{me.user.rocket.engine.selectedRocketComponentModelMm.selectedRocketComponentModelRechargeRateLevelMm.rocketComponentModelLevel.value}}
+            {{me.user.rocket.engine.selectedRocketComponentModelMm.recharge_rate_percentage}} %
           {{else}}
-            0
+            0 %
           {{/if}}
         </td>
       </tr>

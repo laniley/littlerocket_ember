@@ -529,7 +529,7 @@ export default Ember.Component.extend(
   		Q.audio.stop('rocket.mp3');
   		Q.audio.stop('racing.mp3');
 
-      self.setRocketComponentsToDefaultSettings();
+      self.resetRocketComponents();
 
       var rocket = new Q.Rocket({ stage: stage });
   		stage.insert(rocket);
@@ -558,16 +558,13 @@ export default Ember.Component.extend(
           rocket.p.stage.insert(decoration);
 
   		// start
-  		var container = stage.insert(new Q.UI.Container
-  		({
+  		var container = stage.insert(new Q.UI.Container({
   			  x: Q.width/2,
   			  y: Q.height/2 - 40 * Q.state.get('scale')
   		}));
 
-  		var buttonStartLevel = container.insert
-  		(
-  			new Q.UI.Button
-  			({
+  		var buttonStartLevel = container.insert(
+  			new Q.UI.Button({
   				x: 0,
   				y: 0,
   				scale: Q.state.get('scale'),
@@ -581,8 +578,7 @@ export default Ember.Component.extend(
   			})
   		);
 
-  		buttonStartLevel.on("click",function()
-  		{
+  		buttonStartLevel.on("click",function(){
         Q.clearStages();
   			Q.stageScene('level');
   		});
@@ -590,16 +586,13 @@ export default Ember.Component.extend(
   		container.fit(20 * Q.state.get('scale'));
 
   		// select level
-  		var containerSelectLevel = stage.insert(new Q.UI.Container
-  		({
+  		var containerSelectLevel = stage.insert(new Q.UI.Container({
   			  x: Q.width/2,
   			  y: (Q.height/2 + 40 * Q.state.get('scale'))
   		}));
 
-  		var buttonSelectLevel = containerSelectLevel.insert
-  		(
-  			new Q.UI.Button
-  			({
+  		var buttonSelectLevel = containerSelectLevel.insert(
+  			new Q.UI.Button({
   				x: 0,
   				y: 0,
   				fill: "#CCCCCC",
@@ -610,8 +603,7 @@ export default Ember.Component.extend(
   		 })
   		);
 
-  		buttonSelectLevel.on("click",function()
-  		{
+  		buttonSelectLevel.on("click",function(){
   			  Q.clearStages();
   			  Q.stageScene('levelSelection');
   		});
@@ -623,8 +615,7 @@ export default Ember.Component.extend(
       var currentSelectedButton = 'buttonStartLevel';
 
       // inputs
-  		Q.input.on("enter", this, function()
-  		{
+  		Q.input.on("enter", this, function(){
           if(currentSelectedButton === 'buttonStartLevel') {
             Q.clearStages();
             Q.stageScene('level');
@@ -635,8 +626,7 @@ export default Ember.Component.extend(
           }
   		});
 
-      Q.input.on("up", this, function()
-  		{
+      Q.input.on("up", this, function(){
           buttonSelectLevel.p.fill = Q.state.get('buttonFillColorUnselected');
           buttonStartLevel.p.fill = Q.state.get('buttonFillColorSelected');
 
@@ -652,8 +642,7 @@ export default Ember.Component.extend(
           currentSelectedButton = 'buttonStartLevel';
   		});
 
-      Q.input.on("down", this, function()
-  		{
+      Q.input.on("down", this, function(){
 		  		buttonStartLevel.p.fill = Q.state.get('buttonFillColorUnselected');
           buttonSelectLevel.p.fill = Q.state.get('buttonFillColorSelected');
 
@@ -894,7 +883,7 @@ export default Ember.Component.extend(
       self.set('currentScene', 'level');
       self.set('showHud', true);
 
-      self.setRocketComponentsToDefaultSettings();
+      self.resetRocketComponents();
 
   		Q.unpauseGame();
 
@@ -1157,31 +1146,20 @@ export default Ember.Component.extend(
     });
   },
 
-  loadGameStates: function() {
-
-    // var self = this;
-
+  observeRocketComponentStates: function() {
     if(!Ember.isEmpty(this.get('me'))) {
-
       this.get('me').get('user').then(user => {
-
         if(!Ember.isEmpty(user)) {
-
           // now that the user is loaded, all relevant data for the game to load is present, e.g. the reached level
           if(!this.get('gameCanvasIsLoaded')) {
             this.loadGameCanvas();
           }
 
           user.get('rocket').then(rocket => {
-
             if(!Ember.isEmpty(rocket)) {
-
               this.set('rocket', rocket);
-
               var Q = this.get('Q');
-
               rocket.get('cannon').then(cannon => {
-
                 if(!Ember.isEmpty(cannon)) {
                   if(cannon.get('status') !== 'unlocked') {
                     cannon.set('currentValue', 0);
@@ -1190,24 +1168,7 @@ export default Ember.Component.extend(
                   else {
                     cannon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
                       if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
-                        selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
-                          if(!Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
-                            rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
-                              if(!Ember.isEmpty(rocketComponentModelCapacityLevel)) {
-                                  cannon.set('currentValue', rocketComponentModelCapacityLevel.get('value'));
-                              }
-                            });
-                          }
-                        });
-                        selectedRocketComponentModelMm.get('selectedRocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
-                          if(!Ember.isEmpty(rocketComponentModelRechargeRateLevelMm)) {
-                            rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelRechargeRateLevel => {
-                              if(!Ember.isEmpty(rocketComponentModelRechargeRateLevel)) {
-                                Q.state.set('bps', rocketComponentModelRechargeRateLevel.get('value'));
-                              }
-                            });
-                          }
-                        });
+                        cannon.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
                       }
                     });
                   }
@@ -1215,7 +1176,6 @@ export default Ember.Component.extend(
               });
 
               rocket.get('shield').then(shield => {
-
                 if(!Ember.isEmpty(shield)) {
                   if(shield.get('status') !== 'unlocked') {
                     shield.set('currentValue', 0);
@@ -1224,24 +1184,7 @@ export default Ember.Component.extend(
                   else {
                     shield.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
                       if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
-                        selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
-                          if(!Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
-                            rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
-                              if(!Ember.isEmpty(rocketComponentModelCapacityLevel)) {
-                                shield.set('currentValue', rocketComponentModelCapacityLevel.get('value'));
-                              }
-                            });
-                          }
-                        });
-                        selectedRocketComponentModelMm.get('selectedRocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
-                          if(!Ember.isEmpty(rocketComponentModelRechargeRateLevelMm)) {
-                            rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelRechargeRateLevel => {
-                              if(!Ember.isEmpty(rocketComponentModelRechargeRateLevel)) {
-                                Q.state.set('srr', rocketComponentModelRechargeRateLevel.get('value'));
-                              }
-                            });
-                          }
-                        });
+                        shield.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
                       }
                     });
                   }
@@ -1249,7 +1192,6 @@ export default Ember.Component.extend(
               });
 
               rocket.get('engine').then(engine => {
-
                 if(!Ember.isEmpty(engine)) {
                   if(engine.get('status') !== 'unlocked') {
                     engine.set('currentValue', 0);
@@ -1258,24 +1200,7 @@ export default Ember.Component.extend(
                   else {
                     engine.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
                       if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
-                        selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
-                          if(!Ember.isEmpty(rocketComponentModelCapacityLevelMm)) {
-                            rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelCapacityLevel => {
-                              if(!Ember.isEmpty(rocketComponentModelCapacityLevel)) {
-                                engine.set('currentValue', rocketComponentModelCapacityLevel.get('value'));
-                              }
-                            });
-                          }
-                        });
-                        selectedRocketComponentModelMm.get('selectedRocketComponentModelRechargeRateLevelMm').then(rocketComponentModelRechargeRateLevelMm => {
-                          if(!Ember.isEmpty(rocketComponentModelRechargeRateLevelMm)) {
-                            rocketComponentModelRechargeRateLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelRechargeRateLevel => {
-                              if(!Ember.isEmpty(rocketComponentModelRechargeRateLevel)) {
-                                Q.state.set('sdrr', rocketComponentModelRechargeRateLevel.get('value'));
-                              }
-                            });
-                          }
-                        });
+                        engine.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
                       }
                     });
                   }
@@ -1390,6 +1315,14 @@ export default Ember.Component.extend(
         }
       }
     );
+
+    new LSM_Slot({
+        adkey: '6df',
+        ad_size: '728x90',
+        slot: 'slot126743',
+        _render_div_id: 'footer_banner',
+        _preload: true
+    });
   },
 
   setupLevel: function(level) {
@@ -1515,21 +1448,21 @@ export default Ember.Component.extend(
             rocket.get('cannon').then(cannon => {
               if(!Ember.isEmpty(cannon)) {
                 this.set('cannon', cannon);
-                this.setCannonToDefaultSettings();
+                this.resetCannon();
               }
             });
 
             rocket.get('shield').then(shield => {
               if(!Ember.isEmpty(shield)) {
                 this.set('shield', shield);
-                this.setShieldToDefaultSettings();
+                this.resetShield();
               }
             });
 
             rocket.get('engine').then(engine => {
               if(!Ember.isEmpty(engine)) {
                 this.set('engine', engine);
-                this.setEngineToDefaultSettings();
+                this.resetEngine();
               }
             });
           }
@@ -1544,22 +1477,18 @@ export default Ember.Component.extend(
     'me.user.rocket.engine'
   ),
 
-  setRocketComponentsToDefaultSettings: function() {
-    this.setCannonToDefaultSettings();
-    this.setShieldToDefaultSettings();
-    this.setEngineToDefaultSettings();
+  resetRocketComponents: function() {
+    this.resetCannon();
+    this.resetShield();
+    this.resetEngine();
   },
 
-  setCannonToDefaultSettings: function() {
+  resetCannon: function() {
     var cannon = this.get('cannon');
     if(cannon.get('status') === "unlocked") {
       cannon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-        selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
-          rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
-            cannon.set('currentValue', rocketComponentModelLevel.get('value'));
-            cannon.set('isReloading', false);
-          });
-        });
+        cannon.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
+        cannon.set('isReloading', false);
       });
     }
     else {
@@ -1568,16 +1497,12 @@ export default Ember.Component.extend(
     }
   },
 
-  setShieldToDefaultSettings: function() {
+  resetShield: function() {
     var shield = this.get('shield');
     if(shield.get('status') === 'unlocked') {
       shield.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-        selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
-          rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
-            shield.set('currentValue', rocketComponentModelLevel.get('value'));
-            shield.set('isReloading', false);
-          });
-        });
+        shield.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
+        shield.set('isReloading', false);
       });
     }
     else {
@@ -1586,16 +1511,12 @@ export default Ember.Component.extend(
     }
   },
 
-  setEngineToDefaultSettings: function() {
+  resetEngine: function() {
     var engine = this.get('engine');
     if(engine.get('status') === 'unlocked') {
       engine.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-        selectedRocketComponentModelMm.get('selectedRocketComponentModelCapacityLevelMm').then(rocketComponentModelCapacityLevelMm => {
-          rocketComponentModelCapacityLevelMm.get('rocketComponentModelLevel').then(rocketComponentModelLevel => {
-            engine.set('currentValue', rocketComponentModelLevel.get('value'));
-            engine.set('isReloading', false);
-          });
-        });
+        engine.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
+        engine.set('isReloading', false);
       });
     }
     else {

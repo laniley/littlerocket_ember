@@ -47,8 +47,7 @@ export default Ember.Mixin.create({
   				type: Q.SPRITE_ROCKET,
           collided: false,
           scale: Q.state.get('scale'),
-          rocket: null,
-          capacity: 3
+          rocket: null
   		  });
 
         self.set('cannonQuintusObject', this);
@@ -80,21 +79,21 @@ export default Ember.Mixin.create({
     	},
 
     	fire: function() {
-
-        var cannon = this;
-
+        // check if the cannon is not reloading currently and if there are still bullets left to shoot
     		if(!self.get('cannon').get('isReloading') && self.get('cannon').get('currentValue') > 0) {
-
-          cannon.stage.insert(new Q.Bullet());
-
-          self.get('cannon').set('currentValue', self.get('cannon').get('currentValue') - 1);
           self.get('cannon').set('isReloading', true);
-
-          var timeout = setTimeout(function() {
-            self.get('cannon').set('isReloading', false);
-          }, 1000 / Q.state.get('bps'));
-
-          self.set('cannonReloadingTimeout', timeout);
+          self.get('cannon').set('currentValue', self.get('cannon').get('currentValue') - 1);
+          self.get('cannon').get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+            var timeout = setTimeout(function() {
+              self.get('cannon').set('isReloading', false);
+            }, 10500 - selectedRocketComponentModelMm.get('recharge_rate') * 1000);
+            self.set('cannonReloadingTimeout', timeout);
+            selectedRocketComponentModelMm.get('rocketComponentModel').then(rocketComponentModel => {
+              if(rocketComponentModel.get('model') === 1) {
+                this.stage.insert(new Q.Bullet());
+              }
+            });
+          });
     	  }
     	},
 
