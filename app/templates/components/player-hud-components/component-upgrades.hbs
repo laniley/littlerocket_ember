@@ -35,7 +35,7 @@
             {{/if}}
           {{/if}}
           {{#if (if-equals myComponentModelMm.status 'unlocked') }}
-            {{player-hud-components/component-upgrades/component-level-upgrades me=me myComponentModelMm=myComponentModelMm}}
+            {{player-hud-components/component-upgrades/component-level-upgrades myComponentModelMm=myComponentModelMm}}
           {{else}}
             <div class="description-flex-container">
               <div class="description">{{myComponentModelMm.rocketComponentModel.description}}</div>

@@ -3,12 +3,19 @@
     display: flex;
     justify-content: space-between;
     background-color: white;
+    border: 1px solid $border-color;
     padding: 0;
+    .block-button {
+      height: 63px;
+      border-top: none;
+      border-left: none;
+      border-bottom: none;
+    }
     .component-level-upgrades {
       flex-grow: 3;
       padding: 0 5px;
       display: flex;
-      align-items: center;
+      // align-items: center;
       justify-content: center;
       .info {
         display: inline-block;
@@ -48,6 +55,9 @@
           margin-left: 5px;
         }
       }
+    }
+    .button-column {
+      margin-right: 10px;
     }
   }
 
