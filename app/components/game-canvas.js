@@ -6,6 +6,7 @@ import FacebookLoginMixin from './../mixins/facebook-login';
 import RocketMixin from './../mixins/rocket';
 import RocketDecorationMixin from './../mixins/rocket/decoration';
 import CannonMixin from './../mixins/rocket/rocket-components/cannon';
+import BulletMixin from './../mixins/rocket/rocket-components/cannon/bullet';
 import ShieldMixin from './../mixins/rocket/rocket-components/shield';
 import EngineMixin from './../mixins/rocket/rocket-components/engine';
 import UfoMixin from './../mixins/ufo';
@@ -15,10 +16,11 @@ export default Ember.Component.extend(
   FacebookLoginMixin,
   RocketMixin,
   RocketDecorationMixin,
-  UfoMixin,
   CannonMixin,
+  BulletMixin,
   ShieldMixin,
-  EngineMixin, {
+  EngineMixin,
+  UfoMixin, {
 
   Q: null,
   me: null,
@@ -101,57 +103,10 @@ export default Ember.Component.extend(
     this.initRocket();
     this.initDecoration();
     this.initCannon();
+    this.initBullet();
     this.initShield();
     this.initEngine();
     this.initUfo();
-
-    Q.TransformableSprite.extend("Bullet", {
-    	init: function(p) {
-    		  this._super(p, {
-    				name:          "Bullet",
-    				sheet:         "bullet",
-    				tileW:         20,
-    				tileH:         20,
-    				x:             new Q('Rocket').first().p.x, // x location of the center
-    				y:             400, // y location of the center
-    				type:          Q.SPRITE_BULLET,
-    				collisionMask: Q.SPRITE_ASTEROID,
-    				collided:      false,
-    				scale: 			   Q.state.get('scale')
-    		  });
-
-    		  this.add("2d, bulletControls");
-    	}
-    });
-
-    Q.component("bulletControls", {
-    	// // called when the component is added to
-    	// // an entity
-    	added: function() {
-    		var p = this.entity.p;
-
-    		// add in our default properties
-    		Q._defaults(p, this.defaults);
-
-    		// every time our entity steps
-    		// call our step method
-    		this.entity.on("step",this,"step");
-    	},
-
-    	step: function(/*dt*/) {
-    		// grab the entity's properties
-    		// for easy reference
-    		var p = this.entity.p;
-
-    		// based on our direction, try to add velocity
-    		// in that direction
-    		p.vy = -350;
-
-    		if(p.y < 0) {
-    			this.entity.destroy();
-    		}
-    	}
-    });
 
     // Create the Star sprite
     Q.Sprite.extend("Star", {

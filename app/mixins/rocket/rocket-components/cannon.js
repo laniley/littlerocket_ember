@@ -82,15 +82,23 @@ export default Ember.Mixin.create({
         // check if the cannon is not reloading currently and if there are still bullets left to shoot
     		if(!self.get('cannon').get('isReloading') && self.get('cannon').get('currentValue') > 0) {
           self.get('cannon').set('isReloading', true);
+          // reduce the amount of remaining bullets by 1
           self.get('cannon').set('currentValue', self.get('cannon').get('currentValue') - 1);
           self.get('cannon').get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+            // set timeout for reloading, depending on recharge-rate
             var timeout = setTimeout(function() {
               self.get('cannon').set('isReloading', false);
             }, 10500 - selectedRocketComponentModelMm.get('recharge_rate') * 1000);
             self.set('cannonReloadingTimeout', timeout);
+            // fire cannon depnding on selected model
             selectedRocketComponentModelMm.get('rocketComponentModel').then(rocketComponentModel => {
               if(rocketComponentModel.get('model') === 1) {
                 this.stage.insert(new Q.Bullet());
+              }
+              else if(rocketComponentModel.get('model') === 2) {
+                for(var i = 0; i < 10; i++) {
+                  this.stage.insert(new Q.Bullet({ mode: 2 }));
+                }
               }
             });
           });

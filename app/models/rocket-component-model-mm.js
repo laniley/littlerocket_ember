@@ -13,10 +13,18 @@ export default DS.Model.extend({
   }.property('recharge_rate'),
 
   capacity_upgrade_costs: function() {
-    return (this.get('capacity') + 1) * 100;
+    return DS.PromiseObject.create({
+      promise: this.get('rocketComponentModel').then(rocketComponentModel => {
+        return (this.get('capacity') + 1) * rocketComponentModel.get('model') * 100;
+      })
+    });
   }.property('capacity'),
 
   recharge_rate_upgrade_costs: function() {
-    return (this.get('recharge_rate') + 1) * 100;
+    return DS.PromiseObject.create({
+      promise: this.get('rocketComponentModel').then(rocketComponentModel => {
+        return (this.get('recharge_rate') + 1) * rocketComponentModel.get('model') * 100;
+      })
+    });
   }.property('recharge_rate')
 });

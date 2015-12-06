@@ -10,7 +10,7 @@
     {{fa-icon "fa-cubes"}}
   {{/tooltip-component}}
   <span>{{myComponentModelMm.capacity}}</span>
-  <button {{action "upgrade_capacity"}}>{{fa-icon "star"}} {{myComponentModelMm.capacity_upgrade_costs}}</button>
+  <button {{action "upgrade_capacity"}}>{{fa-icon "star"}} {{myComponentModelMm.capacity_upgrade_costs.content}}</button>
 </div>
 
 <div class="model-upgrades recharge-rate-upgrades {{if modelIsUnlocked 'unlocked'}}">
@@ -20,6 +20,6 @@
   {{/tooltip-component}}
   {{myComponentModelMm.recharge_rate_percentage}} %
   {{#unless (if-equals myComponentModelMm.recharge_rate_percentage 100) }}
-    <button {{action "upgrade_recharge_rate"}}>{{fa-icon "star"}} {{myComponentModelMm.recharge_rate_upgrade_costs}}</button>
+    <button {{action "upgrade_recharge_rate"}}>{{fa-icon "star"}} {{myComponentModelMm.recharge_rate_upgrade_costs.content}}</button>
   {{/unless}}
 </div>
