@@ -33,10 +33,8 @@ export default Ember.Component.extend(
   newHighscore: false,
   old_score: 0,
 
-  didInsertElement: function() {
-
-    var self = this;
-
+  init: function() {
+    this._super();
     this.set('gameState', this.store.createRecord('game-state', { id: 1 }));
 
     var Q = window.Q = new Quintus({
@@ -46,17 +44,21 @@ export default Ember.Component.extend(
       audioPath: "./assets/audio/",
       dataPath: "./assets/data/"
     })
-    .include("Sprites, Anim, Input, Scenes, 2D, Touch, UI, Audio")
-    .setup('game', {
-    	scaleToFit: true,
+    .include("Sprites, Anim, Input, Scenes, 2D, Touch, UI, Audio");
+
+    this.set('Q', Q);
+  },
+
+  didInsertElement: function() {
+    var Q = this.get('Q');
+    var self = this;
+    Q.setup('game', {
+      scaleToFit: true,
       maximize: "touch"
     })
     .controls()
     .touch()
     .enableSound();
-
-    this.set('Q', Q);
-
     // Add in the controls
     Q.input.keyboardControls({
       	LEFT: "left",
@@ -154,8 +156,8 @@ export default Ember.Component.extend(
     	 // default properties to add onto our entity
     	 defaults: { direction: 'down' },
 
-    	 // // called when the component is added to
-    	 // // an entity
+    	 // called when the component is added to
+    	 // an entity
     	 added: function() {
     		  var p = this.entity.p;
 
@@ -244,8 +246,7 @@ export default Ember.Component.extend(
     		var radius = this.p.tileW / 2 - 3;
     		var winkel = 0;
 
-    		for(var i = 0; i < 10; i++)
-    		{
+    		for(var i = 0; i < 10; i++) {
     			winkel += (Math.PI * 2) / 10;
 
     			var x = Math.floor(Math.sin(winkel) * radius);
@@ -287,8 +288,7 @@ export default Ember.Component.extend(
     		var radius = this.p.tileW / 2;
     		var winkel = 0;
 
-    		for(var i = 0; i < 10; i++)
-    		{
+    		for(var i = 0; i < 10; i++) {
     			winkel += (Math.PI * 2) / 10;
 
     			var x = Math.floor(Math.sin(winkel) * radius);
@@ -375,8 +375,8 @@ export default Ember.Component.extend(
     	// default properties to add onto our entity
     	defaults: { direction: 'down' },
 
-    	// // called when the component is added to
-    	// // an entity
+    	// called when the component is added to
+    	// an entity
     	added: function() {
     		var p = this.entity.p;
 
@@ -658,9 +658,7 @@ export default Ember.Component.extend(
     	var assetLevel9 = 'star_coming_soon.png';
 
       // Level 1
-      var level1Button = stage.insert(new Q.UI.Button
-      (
-    		{
+      var level1Button = stage.insert(new Q.UI.Button({
     	      asset: 	'star.png',
     	      x: 		80,
     	      y: 		520,
@@ -669,17 +667,14 @@ export default Ember.Component.extend(
         	}
       ));
 
-      level1Button.on("click", function()
-      {
+      level1Button.on("click", function() {
           self.get('gameState').set('level', 1);
       		Q.clearStages();
       		Q.stageScene("mainMenu");
       });
 
       // Level 2
-      var level2Button = stage.insert(new Q.UI.Button
-    	(
-    		{
+      var level2Button = stage.insert(new Q.UI.Button({
     	      asset: 	assetLevel2,
     	      x: 		190,
     	      y: 		500,
@@ -688,10 +683,8 @@ export default Ember.Component.extend(
         	}
       ));
 
-      level2Button.on("click", function()
-    	{
-      		if(self.get('me').get('user').get('reached_level') > 1)
-      		{
+      level2Button.on("click", function() {
+      		if(self.get('me').get('user').get('reached_level') > 1) {
             self.get('gameState').set('level', 2);
       			Q.clearStages();
       			Q.stageScene("mainMenu");
@@ -699,9 +692,7 @@ export default Ember.Component.extend(
     	});
 
     	// Level 3
-    	var level3Button = stage.insert(new Q.UI.Button
-    	(
-    		{
+    	var level3Button = stage.insert(new Q.UI.Button({
     	      asset: 	assetLevel3,
     	      x: 		310,
     	      y: 		470,
@@ -710,10 +701,8 @@ export default Ember.Component.extend(
         	}
       ));
 
-      level3Button.on("click", function()
-      {
-    		if(self.get('me').get('user').get('reached_level') > 2)
-    		{
+      level3Button.on("click", function() {
+    		if(self.get('me').get('user').get('reached_level') > 2) {
           self.get('gameState').set('level', 3);
     			Q.clearStages();
     			Q.stageScene("mainMenu");
@@ -721,9 +710,7 @@ export default Ember.Component.extend(
       });
 
     	// Level 4
-    	var level4Button = stage.insert(new Q.UI.Button
-    	(
-  		  {
+    	var level4Button = stage.insert(new Q.UI.Button({
   	      asset: 	assetLevel4,
   	      x: 		323,
   	      y: 		370,
@@ -732,10 +719,8 @@ export default Ember.Component.extend(
       	}
       ));
 
-      level4Button.on("click", function()
-      {
-        if(self.get('me').get('user').get('reached_level') > 3)
-      	{
+      level4Button.on("click", function() {
+        if(self.get('me').get('user').get('reached_level') > 3) {
           self.get('gameState').set('level', 4);
       		Q.clearStages();
       		Q.stageScene("mainMenu");
@@ -743,9 +728,7 @@ export default Ember.Component.extend(
       });
 
     	// Level 5
-    	var level5Button = stage.insert(new Q.UI.Button
-    	(
-    		{
+    	var level5Button = stage.insert(new Q.UI.Button({
   	      asset: 	assetLevel5,
   	      x: 		210,
   	      y: 		335,
@@ -754,10 +737,8 @@ export default Ember.Component.extend(
         }
       ));
 
-      level5Button.on("click", function()
-    	{
-        if(self.get('me').get('user').get('reached_level') > 4)
-      	{
+      level5Button.on("click", function() {
+        if(self.get('me').get('user').get('reached_level') > 4) {
           self.get('gameState').set('level', 5);
       		Q.clearStages();
       		Q.stageScene("mainMenu");
@@ -765,9 +746,7 @@ export default Ember.Component.extend(
     	});
 
     	// Level 6
-    	var level6Button = stage.insert(new Q.UI.Button
-    	(
-    		{
+    	var level6Button = stage.insert(new Q.UI.Button({
     	      asset: 	assetLevel6,
     	      x: 		115,
     	      y: 		310,
@@ -776,15 +755,10 @@ export default Ember.Component.extend(
         	}
        ));
 
-       level6Button.on("click", function()
-    	{
-
-    	});
+      level6Button.on("click", function() {});
 
     	// Level 7
-    	var level7Button = stage.insert(new Q.UI.Button
-    	(
-    		{
+    	var level7Button = stage.insert(new Q.UI.Button({
     	      asset: 	assetLevel7,
     	      x: 		65,
     	      y: 		230,
@@ -793,15 +767,10 @@ export default Ember.Component.extend(
         	}
        ));
 
-       level7Button.on("click", function()
-    	{
-
-    	});
+      level7Button.on("click", function() {});
 
     	// Level 8
-    	var level8Button = stage.insert(new Q.UI.Button
-    	(
-    		{
+    	var level8Button = stage.insert(new Q.UI.Button({
     	      asset: 	assetLevel8,
     	      x: 		120,
     	      y: 		160,
@@ -810,15 +779,10 @@ export default Ember.Component.extend(
         	}
        ));
 
-       level8Button.on("click", function()
-    	{
-
-    	});
+      level8Button.on("click", function() {});
 
     	// Level 9
-    	var level9Button = stage.insert(new Q.UI.Button
-    	(
-    		{
+    	var level9Button = stage.insert(new Q.UI.Button({
     	      asset: 	assetLevel9,
     	      x: 		215,
     	      y: 		130,
@@ -827,10 +791,7 @@ export default Ember.Component.extend(
         	}
        ));
 
-       level9Button.on("click", function()
-    	{
-
-    	});
+      level9Button.on("click", function() {});
     });
 
   	Q.scene("level", stage => {
@@ -838,11 +799,11 @@ export default Ember.Component.extend(
       self.set('currentScene', 'level');
       self.set('showHud', true);
 
+      Ember.$("#footer_banner").empty();
+
       self.resetRocketComponents();
 
   		Q.unpauseGame();
-
-      Ember.$("#footer_banner").empty();
 
       Q.audio.play('racing.mp3', { loop: true });
   		Q.audio.play('rocket.mp3', { loop: true });
@@ -1102,69 +1063,71 @@ export default Ember.Component.extend(
   },
 
   observeRocketComponentStates: function() {
-    if(!Ember.isEmpty(this.get('me'))) {
-      this.get('me').get('user').then(user => {
-        if(!Ember.isEmpty(user)) {
-          // now that the user is loaded, all relevant data for the game to load is present, e.g. the reached level
-          if(!this.get('gameCanvasIsLoaded')) {
-            this.loadGameCanvas();
-          }
-
-          user.get('rocket').then(rocket => {
-            if(!Ember.isEmpty(rocket)) {
-              this.set('rocket', rocket);
-              var Q = this.get('Q');
-              rocket.get('cannon').then(cannon => {
-                if(!Ember.isEmpty(cannon)) {
-                  if(cannon.get('status') !== 'unlocked') {
-                    cannon.set('currentValue', 0);
-                    Q.state.set('bps', 0);
-                  }
-                  else {
-                    cannon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-                      if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
-                        cannon.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
-                      }
-                    });
-                  }
-                }
-              });
-
-              rocket.get('shield').then(shield => {
-                if(!Ember.isEmpty(shield)) {
-                  if(shield.get('status') !== 'unlocked') {
-                    shield.set('currentValue', 0);
-                    Q.state.set('srr', 0);
-                  }
-                  else {
-                    shield.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-                      if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
-                        shield.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
-                      }
-                    });
-                  }
-                }
-              });
-
-              rocket.get('engine').then(engine => {
-                if(!Ember.isEmpty(engine)) {
-                  if(engine.get('status') !== 'unlocked') {
-                    engine.set('currentValue', 0);
-                    Q.state.set('sdrr', 0);
-                  }
-                  else {
-                    engine.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-                      if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
-                        engine.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
-                      }
-                    });
-                  }
-                }
-              });
+    if(this.get('Q') !== null) {
+      if(!Ember.isEmpty(this.get('me'))) {
+        this.get('me').get('user').then(user => {
+          if(!Ember.isEmpty(user)) {
+            // now that the user is loaded, all relevant data for the game to load is present, e.g. the reached level
+            if(!this.get('gameCanvasIsLoaded')) {
+              this.loadGameCanvas();
             }
-          });
-        }
-      });
+
+            user.get('rocket').then(rocket => {
+              if(!Ember.isEmpty(rocket)) {
+                this.set('rocket', rocket);
+                var Q = this.get('Q');
+                rocket.get('cannon').then(cannon => {
+                  if(!Ember.isEmpty(cannon)) {
+                    if(cannon.get('status') !== 'unlocked') {
+                      cannon.set('currentValue', 0);
+                      Q.state.set('bps', 0);
+                    }
+                    else {
+                      cannon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+                        if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
+                          cannon.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
+                        }
+                      });
+                    }
+                  }
+                });
+
+                rocket.get('shield').then(shield => {
+                  if(!Ember.isEmpty(shield)) {
+                    if(shield.get('status') !== 'unlocked') {
+                      shield.set('currentValue', 0);
+                      Q.state.set('srr', 0);
+                    }
+                    else {
+                      shield.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+                        if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
+                          shield.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
+                        }
+                      });
+                    }
+                  }
+                });
+
+                rocket.get('engine').then(engine => {
+                  if(!Ember.isEmpty(engine)) {
+                    if(engine.get('status') !== 'unlocked') {
+                      engine.set('currentValue', 0);
+                      Q.state.set('sdrr', 0);
+                    }
+                    else {
+                      engine.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+                        if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
+                          engine.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
+                        }
+                      });
+                    }
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
     }
   }.observes(
     'me.user.rocket.cannon.status',
@@ -1176,14 +1139,13 @@ export default Ember.Component.extend(
   ).on('init'),
 
   loadGameCanvas: function() {
+    console.log('Loading Game Canvas...');
+    this.set('gameCanvasIsLoaded', true);
+
     var Q = this.get('Q');
     var self = this;
 
-    this.set('gameCanvasIsLoaded', true);
-
-    Q.load
-    (
-      [
+    Q.load ([
         "level_selection_coming_soon.png",
         "rocket_2.png",
         "cannon.png",
@@ -1208,9 +1170,7 @@ export default Ember.Component.extend(
         "racing.mp3",
         "explosion.mp3"
       ],
-
-      function()
-      {
+      function() {
         Q.sheet("rocket", "rocket_2.png", { tileW: 50, tileH: 140 });
         Q.sheet("cannon", "cannon.png", { tileW: 50, tileH: 140 });
         Q.sheet("shield", "shield.png", { tileW: 50, tileH: 140 });
@@ -1248,8 +1208,7 @@ export default Ember.Component.extend(
           reloaded: { frames: [1], rate: 1/1, loop: false }
         });
 
-        Q.animations('explodingAsteroid',
-        {
+        Q.animations('explodingAsteroid', {
           // flying: { frames: [0], loop: false },
           explosion: { frames: [0,1,2], rate: 1/15, loop: false, trigger: "exploded" }
         });
@@ -1258,8 +1217,7 @@ export default Ember.Component.extend(
 
         // Q.debug = true;
         // Q.debugFill = true;
-      },
-      {
+      }, {
         progressCallback: function(loaded,total) {
           var element = document.getElementById("loading_progress");
               element.style.width = Math.floor(loaded/total*100) + "%";

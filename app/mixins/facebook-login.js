@@ -180,7 +180,7 @@ export default Ember.Mixin.create({
   loadRocketComponent: function(type, costs, construction_time, user, rocket) {
     rocket.get(type).then(component => {
       if(Ember.isEmpty(component)) {
-         this.store.find('rocket-component', {
+         this.store.query('rocket-component', {
            type: type,
            rocket: rocket.get('id')
          }).then(components => {
@@ -223,7 +223,7 @@ export default Ember.Mixin.create({
   },
 
   setSelectedRocketComponentModelMM: function(component) {
-    this.store.find('rocketComponentModel', {
+    this.store.query('rocketComponentModel', {
       type: component.get('type'),
       model: 1
     }).then(rocketComponentModels => {
@@ -231,7 +231,7 @@ export default Ember.Mixin.create({
         console.log('ERROR: No rocketComponentModel found in the DB for type ' + component.get('type') + ' and model 1');
       }
       else {
-         this.store.find('rocketComponentModelMm', {
+         this.store.query('rocketComponentModelMm', {
            rocketComponent: component.get('id'),
            rocketComponentModel: rocketComponentModels.get('firstObject').get('id')
          }).then(rocketComponentModelMms => {

@@ -4,11 +4,8 @@ import FacebookLoginMixin from './../mixins/facebook-login';
 
 export default Ember.Component.extend(FacebookLoginMixin, {
 
-  store: null,
-
-  didInsertElement: function() {
+  didRender: function() {
     Ember.$(document).foundation();
-    this.set('store', this.get('targetObject.store'));
   },
 
   actions: {

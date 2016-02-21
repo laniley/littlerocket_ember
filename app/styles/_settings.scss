@@ -6,7 +6,7 @@
 
 // Table of Contents
 // Foundation Settings
-//
+
 // a. Base
 // b. Grid
 // c. Global
@@ -352,6 +352,7 @@ $bp-lg-min: 1443px;
 // $accordion-navigation-bg-color: $silver;
 // $accordion-navigation-hover-bg-color: scale-color($accordion-navigation-bg-color, $lightness: -5%);
 // $accordion-navigation-active-bg-color: scale-color($accordion-navigation-bg-color, $lightness: -3%);
+// $accordion-navigation-active-font-color: $jet;
 // $accordion-navigation-font-color: $jet;
 // $accordion-navigation-font-size: rem-calc(16);
 // $accordion-navigation-font-family: $body-font-family;
@@ -447,6 +448,7 @@ $bp-lg-min: 1443px;
 // We use these to control the slash between breadcrumbs
 // $crumb-slash-color: $base;
 // $crumb-slash: "/";
+// $crumb-slash-position: 1px;
 
 // 05. Buttons
 // - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -663,6 +665,7 @@ $bp-lg-min: 1443px;
 // $input-font-family: inherit;
 // $input-font-color: rgba(0,0,0,0.75);
 // $input-font-size: rem-calc(14);
+// $input-placeholder-font-color: #cccccc;
 // $input-bg-color: $white;
 // $input-focus-bg-color: scale-color($white, $lightness: -2%);
 // $input-border-color: scale-color($white, $lightness: -20%);
@@ -1120,7 +1123,7 @@ $bp-lg-min: 1443px;
 // $range-slider-vertical-bar-width: rem-calc(16);
 // $range-slider-vertical-bar-height: rem-calc(200);
 
-// These variabels define the slider handle styles
+// These variables define the slider handle styles
 // $range-slider-handle-width: rem-calc(32);
 // $range-slider-handle-height: rem-calc(22);
 // $range-slider-handle-position-top: rem-calc(-5);
@@ -1331,7 +1334,7 @@ $bp-lg-min: 1443px;
 // $table-foot-padding: $table-head-padding;
 
 // These control the caption
-// table-caption-bg: transparent;
+// $table-caption-bg: transparent;
 // $table-caption-font-color: $table-head-font-color;
 // $table-caption-font-size: rem-calc(16);
 // $table-caption-font-weight: bold;

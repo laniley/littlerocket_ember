@@ -1,6 +1,6 @@
 import ENV from '../config/environment';
 
-export function initialize(container, application) {
+export function initialize( application ) {
   var debug = true;
 
   // Wait for Facebook to load before allowing the application

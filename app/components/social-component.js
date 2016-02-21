@@ -6,10 +6,8 @@ export default Ember.Component.extend({
   currentChallengesSection: 'unplayed',
   currentLeaderboardType: 'score',
   leaderboard: null,
-  store: null,
 
   didInsertElement: function() {
-    this.store = this.get('targetObject.store');
     this.loadLeaderboard();
   },
 
