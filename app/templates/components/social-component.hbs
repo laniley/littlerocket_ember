@@ -4,7 +4,7 @@
       {{fa-icon "fa-trophy"}}
     </div>
   {{/link-to}}
-  {{#link-to 'index' (query-params social_section="challenges")}}
+  {{!-- {{#link-to 'index' (query-params social_section="challenges")}}
     <div class={{if (if-equals currentSection 'challenges') 'active item' 'item' }}>
       <span class="fa-stack">
         {{fa-icon "fa-user" stack=1 classNames="player-1"}}
@@ -16,7 +16,7 @@
       </span>
 
     </div>
-  {{/link-to}}
+  {{/link-to}} --}}
   {{#link-to 'index' (query-params social_section="comments")}}
     <div class={{if (if-equals currentSection 'comments') 'active item' 'item' }}>
       {{fa-icon "fa-pencil"}}
@@ -30,7 +30,7 @@
     {{#if (if-equals currentSection 'leaderboard') }}
       <h2>
         Leaderboards
-        {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_type="challenges")}}
+        {{!-- {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_type="challenges")}}
           <div class="{{if (eq currentLeaderboardType 'challenges') "active button pvp" "button pvp" }}" title="sort by won challenges">
             <span class="fa-stack">
               {{fa-icon "fa-user" stack=1 classNames="player-1"}}
@@ -38,12 +38,12 @@
               {{fa-icon "fa-arrows-h" stack=1 classNames="versus"}}
             </span>
           </div>
-        {{/link-to}}
-        {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_type="score")}}
+        {{/link-to}} --}}
+        {{!-- {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_type="score")}}
           <div class="{{if (eq currentLeaderboardType 'score') "active button" "button" }}" title="sort by score">
             {{fa-icon 'fa-asterisk'}}
           </div>
-        {{/link-to}}
+        {{/link-to}} --}}
       </h2>
       <div class="leaderboard_list scrollable_list">
         {{#if (gt leaderboard.players.length 0)}}

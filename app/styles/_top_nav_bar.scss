@@ -3,6 +3,15 @@
   -moz-box-shadow: 0px 2px 10px #666;	/* firefox */
   box-shadow: 0px 2px 10px #666;
   background: $topbar-bg;
+  .top-bar-section {
+    li:not(.has-form) a:not(.button)  {
+      background: $topbar-bg;
+      border-left: 1px solid darken($topbar-bg, 10%);
+      &:hover {
+        background: darken($topbar-bg, 10%);
+      }
+    }
+  }
 	.name {
 		h1 {
 			font-family: Agency_FB;

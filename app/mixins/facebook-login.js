@@ -6,23 +6,26 @@ export default Ember.Mixin.create({
   me: null,
   scope: 'public_profile,email,user_friends,publish_actions',
 
-  login: function() {
-    FB.login(() => { this.checkLoginState(); }, { scope: this.get('scope') });
+  login() {
+    FB.login(() =>
+      { this.checkLoginState(); },
+      { scope: this.get('scope') }
+    );
   },
 
-  checkLoginState: function() {
+  checkLoginState() {
     FB.getLoginStatus(response => {
-        this.statusChangeCallback(response);
+      this.statusChangeCallback(response);
     });
   },
 
-  getAllComponentModels: function(component) {
+  getAllComponentModels(component) {
     return this.store.query('rocket-component-model', { 'type': component.get('type') }).then(models => {
       return models;
     });
   },
 
-  getMyComponentModelMms: function(component) {
+  getMyComponentModelMms(component) {
     return component.get('rocketComponentModelMms').then(rocketComponentModelMms => {
       return rocketComponentModelMms;
     });
@@ -32,14 +35,10 @@ export default Ember.Mixin.create({
   // app know the current login status of the person.
   // Full docs on the response object can be found in the documentation
   // for FB.getLoginStatus().
-  statusChangeCallback: function(response) {
-
+  statusChangeCallback(response) {
     console.log('fb login status', response);
-
     this.set('me', this.get('store').peekRecord('me', 1));
-
-    if (response.status === 'connected')
-  	{
+    if (response.status === 'connected') {
   			// Logged into your app and Facebook.
         if(Ember.isEmpty(this.get('me'))) {
           this.get('store').createRecord('me', { id: 1, isLoggedIn: true });
@@ -47,11 +46,9 @@ export default Ember.Mixin.create({
         else {
           this.get('me').set('isLoggedIn', true);
         }
-
   			this.getUserDataFromFB(this.get('store'));
   	}
-  	else if (response.status === 'not_authorized')
-  	{
+  	else if (response.status === 'not_authorized') {
   			// The person is logged into Facebook, but not your app.
         if(Ember.isEmpty(this.me)) {
           this.get('store').createRecord('me', { id: 1, isLoggedIn: false });
@@ -60,8 +57,7 @@ export default Ember.Mixin.create({
           this.get('me').set('isLoggedIn', false);
         }
   	}
-  	else
-  	{
+  	else {
   			// The person is not logged into Facebook, so we're not sure if
   			// they are logged into this app or not.
         if(Ember.isEmpty(this.get('me'))) {
@@ -71,59 +67,46 @@ export default Ember.Mixin.create({
           this.get('me').set('isLoggedIn', false);
         }
   	}
-
   },
 
   // Here we receive the user data from the FB Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
-  getUserDataFromFB: function() {
-
+  getUserDataFromFB() {
     console.log('Welcome!  Fetching your information.... ');
-
     var self = this;
     var store = this.get('store');
-
-  	FB.api('/me', {fields: 'id,email,first_name,last_name,picture.width(120).height(120),gender,friends,invitable_friends'}, function(response)
-  	{
-  		if( !response.error )
-  		{
+  	FB.api('/me', { fields: 'id,email,first_name,last_name,picture.width(120).height(120),gender,friends,invitable_friends' }, function(response) {
+  		if( !response.error ) {
         console.log('Successful login for: ' + response.first_name + " " + response.last_name, response);
-
+        var me = store.peekRecord('me', 1);
         var user = store.query('user', { fb_id: response.id }).then(users => {
-
-            if(Ember.isEmpty(users)) {
-              user = store.createRecord('user');
-            }
-            else {
-              user = users.get('firstObject');
-            }
-
-            user.set('fb_id', response.id);
-            user.set('email', response.email);
-            user.set('first_name', response.first_name);
-            user.set('last_name', response.last_name);
-            user.set('img_url', response.picture.data.url);
-            user.set('gender', response.gender);
-
-            user.save().then(user => {
-
-              var me = store.peekRecord('me', 1);
-              me.set('user', user);
-
-              self.loadRocket(user);
-              self.loadLab(user);
-              self.loadFriends(me, response);
-            });
+          if(Ember.isEmpty(users)) {
+            user = store.createRecord('user');
+          }
+          else {
+            user = users.get('firstObject');
+          }
+          me.set('user', user);
+          user.set('fb_id', response.id);
+          user.set('email', response.email);
+          user.set('first_name', response.first_name);
+          user.set('last_name', response.last_name);
+          user.set('img_url', response.picture.data.url);
+          user.set('gender', response.gender);
+          user.save().then(user => {
+            self.loadRocket(user);
+            self.loadLab(user);
+          });
+          self.loadFriends(me, response);
         });
   		}
-  		else
-  		{
+  		else {
   			console.log(response.error);
   		}
   	});
   },
 
-  loadFriends: function(me, response) {
+  loadFriends(me, response) {
     console.log('friends', response["friends"]);
     response.friends.data.forEach(friend => {
       this.store.createRecord('friend', {
@@ -146,7 +129,7 @@ export default Ember.Mixin.create({
     });
   },
 
-  loadRocket: function(user) {
+  loadRocket(user) {
     user.get('rocket').then(rocket => {
       if(Ember.isEmpty(rocket)) {
         rocket = this.store.query('rocket', { user: user.get('id') }).then(rockets => {
@@ -171,13 +154,13 @@ export default Ember.Mixin.create({
     });
   },
 
-  loadRocketCallback: function(user, rocket) {
+  loadRocketCallback(user, rocket) {
     this.loadRocketComponent('cannon', 500, 120, user, rocket);
     this.loadRocketComponent('shield', 750, 240, user, rocket);
     this.loadRocketComponent('engine', 1000, 600, user, rocket);
   },
 
-  loadRocketComponent: function(type, costs, construction_time, user, rocket) {
+  loadRocketComponent(type, costs, construction_time, user, rocket) {
     rocket.get(type).then(component => {
       if(Ember.isEmpty(component)) {
          this.store.query('rocket-component', {
@@ -208,7 +191,7 @@ export default Ember.Mixin.create({
     });
   },
 
-  loadSelectedRocketComponentModelMM: function(component) {
+  loadSelectedRocketComponentModelMM(component) {
     component.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
        if(Ember.isEmpty(selectedRocketComponentModelMm)) {
          this.setSelectedRocketComponentModelMM(component);
@@ -222,7 +205,7 @@ export default Ember.Mixin.create({
     });
   },
 
-  setSelectedRocketComponentModelMM: function(component) {
+  setSelectedRocketComponentModelMM(component) {
     this.store.query('rocketComponentModel', {
       type: component.get('type'),
       model: 1
@@ -263,7 +246,7 @@ export default Ember.Mixin.create({
     });
   },
 
-  loadRocketComponentModelMms: function(component) {
+  loadRocketComponentModelMms(component) {
     this.getAllComponentModels(component).then(models => {
       this.getMyComponentModelMms(component).then(myComponentModelMms => {
         models.forEach(aModel => {
@@ -285,7 +268,7 @@ export default Ember.Mixin.create({
     });
   },
 
-  loadLab: function(user) {
+  loadLab(user) {
     user.get('lab').then(lab => {
       if(Ember.isEmpty(lab)) {
         this.store.query('lab', { user: user.get('id') }).then(labs => {
@@ -305,5 +288,4 @@ export default Ember.Mixin.create({
       }
     });
   }
-
 });
