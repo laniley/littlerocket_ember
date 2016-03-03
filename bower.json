@@ -8,5 +8,8 @@
     "jquery": "2.1.4",
     "font-awesome": "~4.4.0",
     "foundation": "^5.5.3"
+  },
+  "resolutions": {
+    "ember": "2.3.1"
   }
 }
