@@ -34,6 +34,7 @@ export default Ember.Component.extend(
   showHud: false,
   newHighscore: false,
   old_score: 0,
+  components_ready: 0,
 
   init: function() {
     this._super();
@@ -814,7 +815,6 @@ export default Ember.Component.extend(
 
         if(self.get('new_score') > user.get('score')) {
           user.set('score', self.get('new_score'));
-          self.sendScoreToFB(self.get('new_score'));
           self.set('newHighscore', true);
     		}
         else {
@@ -974,11 +974,7 @@ export default Ember.Component.extend(
       if(!Ember.isEmpty(this.get('me'))) {
         this.get('me').get('user').then(user => {
           if(!Ember.isEmpty(user)) {
-            // now that the user is loaded, all relevant data for the game to load is present, e.g. the reached level
-            if(!this.get('gameCanvasIsLoaded')) {
-              this.loadGameCanvas();
-            }
-
+            this.set('components_ready', 0);
             user.get('rocket').then(rocket => {
               if(!Ember.isEmpty(rocket)) {
                 this.set('rocket', rocket);
@@ -988,11 +984,13 @@ export default Ember.Component.extend(
                     if(cannon.get('status') !== 'unlocked') {
                       cannon.set('currentValue', 0);
                       Q.state.set('bps', 0);
+                      this.bumpUpReadyRocketComponents();
                     }
                     else {
                       cannon.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
                         if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
                           cannon.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
+                          this.bumpUpReadyRocketComponents();
                         }
                       });
                     }
@@ -1004,11 +1002,13 @@ export default Ember.Component.extend(
                     if(shield.get('status') !== 'unlocked') {
                       shield.set('currentValue', 0);
                       Q.state.set('srr', 0);
+                      this.bumpUpReadyRocketComponents();
                     }
                     else {
                       shield.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
                         if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
                           shield.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
+                          this.bumpUpReadyRocketComponents();
                         }
                       });
                     }
@@ -1020,11 +1020,13 @@ export default Ember.Component.extend(
                     if(engine.get('status') !== 'unlocked') {
                       engine.set('currentValue', 0);
                       Q.state.set('sdrr', 0);
+                      this.bumpUpReadyRocketComponents();
                     }
                     else {
                       engine.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
                         if(!Ember.isEmpty(selectedRocketComponentModelMm)) {
                           engine.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
+                          this.bumpUpReadyRocketComponents();
                         }
                       });
                     }
@@ -1045,7 +1047,17 @@ export default Ember.Component.extend(
     'me.user.rocket.engine.selectedRocketComponentModelMm'
   ).on('init'),
 
-  loadGameCanvas: function() {
+  bumpUpReadyRocketComponents() {
+    this.set('components_ready', this.get('components_ready') + 1);
+    if(this.get('components_ready') === 3) {
+      // now all relevant data for the game to load is present, e.g. the reached level
+      if(!this.get('gameCanvasIsLoaded')) {
+        this.loadGameCanvas();
+      }
+    }
+  },
+
+  loadGameCanvas() {
     console.log('Loading Game Canvas...');
     this.set('gameCanvasIsLoaded', true);
 
@@ -1207,44 +1219,6 @@ export default Ember.Component.extend(
       ufoMaker.p.isActive = 1;
       bigAsteroidMaker.p.isActive = 0;
     }
-  },
-
-  sendScoreToFB: function(score) {
-
-    FB.api('/me/permissions', response => {
-
-      if( !response.error ) {
-
-        this.set('hasPostPermission', false);
-
-        for( var i=0; i < response.data.length; i++ ) {
-      	    if(response.data[i].permission === 'publish_actions' && response.data[i].status === 'granted' ) {
-              this.set('hasPostPermission', true);
-            }
-      	}
-
-      	if(this.get('hasPostPermission')) {
-          FB.api('/me/scores/', 'post', { score: score }, function(response)
-        	{
-        		if( response.error )
-      	  	{
-      			  console.error('sendScoreToFB failed', response);
-      	  	}
-      	  	else
-      	  	{
-      	  		console.log('Score posted to Facebook', response);
-      	  	}
-        	});
-        }
-        else {
-          // show post to FB button
-        }
-	    }
-	    else
-	    {
-	      	console.error('ERROR - /me/permissions', response);
-	    }
-  	});
   },
 
   aChallengeIsActive: function() {

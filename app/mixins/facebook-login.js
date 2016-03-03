@@ -82,21 +82,30 @@ export default Ember.Mixin.create({
         var user = store.query('user', { fb_id: response.id }).then(users => {
           if(Ember.isEmpty(users)) {
             user = store.createRecord('user');
+            me.set('user', user);
+            user.set('fb_id', response.id);
+            user.set('email', response.email);
+            user.set('first_name', response.first_name);
+            user.set('last_name', response.last_name);
+            user.set('img_url', response.picture.data.url);
+            user.set('gender', response.gender);
+            user.save().then(user => {
+              self.loadRocket(user);
+              self.loadLab(user);
+            });
           }
           else {
             user = users.get('firstObject');
-          }
-          me.set('user', user);
-          user.set('fb_id', response.id);
-          user.set('email', response.email);
-          user.set('first_name', response.first_name);
-          user.set('last_name', response.last_name);
-          user.set('img_url', response.picture.data.url);
-          user.set('gender', response.gender);
-          user.save().then(user => {
             self.loadRocket(user);
             self.loadLab(user);
-          });
+            me.set('user', user);
+            user.set('fb_id', response.id);
+            user.set('email', response.email);
+            user.set('first_name', response.first_name);
+            user.set('last_name', response.last_name);
+            user.set('img_url', response.picture.data.url);
+            user.set('gender', response.gender);
+          }
           self.loadFriends(me, response);
         });
   		}
@@ -130,25 +139,18 @@ export default Ember.Mixin.create({
   },
 
   loadRocket(user) {
-    user.get('rocket').then(rocket => {
-      if(Ember.isEmpty(rocket)) {
-        rocket = this.store.query('rocket', { user: user.get('id') }).then(rockets => {
-          if(Ember.isEmpty(rockets)) {
-            rocket = this.store.createRecord('rocket');
-            rocket.set('user', user);
-            rocket.save().then(rocket => {
-              user.set('rocket', rocket);
-                this.loadRocketCallback(user, rocket);
-            });
-          }
-          else {
-            rocket = rockets.get('firstObject');
-            user.set('rocket', rocket);
+    var rocket = this.store.query('rocket', { user: user.get('id') }).then(rockets => {
+      if(Ember.isEmpty(rockets)) {
+        rocket = this.store.createRecord('rocket');
+        rocket.set('user', user);
+        rocket.save().then(rocket => {
+          user.set('rocket', rocket);
             this.loadRocketCallback(user, rocket);
-          }
         });
       }
       else {
+        rocket = rockets.get('firstObject');
+        user.set('rocket', rocket);
         this.loadRocketCallback(user, rocket);
       }
     });
@@ -184,10 +186,10 @@ export default Ember.Mixin.create({
              this.loadSelectedRocketComponentModelMM(component);
            }
          });
-       }
-       else {
-         this.loadSelectedRocketComponentModelMM(component);
-       }
+      }
+      else {
+        this.loadSelectedRocketComponentModelMM(component);
+      }
     });
   },
 
@@ -195,12 +197,6 @@ export default Ember.Mixin.create({
     component.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
        if(Ember.isEmpty(selectedRocketComponentModelMm)) {
          this.setSelectedRocketComponentModelMM(component);
-       }
-       else {
-         selectedRocketComponentModelMm.set('status', 'unlocked');
-         selectedRocketComponentModelMm.save().then(() => {
-            this.loadRocketComponentModelMms(component);
-         });
        }
     });
   },

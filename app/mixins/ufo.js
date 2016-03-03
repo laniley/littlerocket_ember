@@ -3,7 +3,7 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
 
-  initUfo: function() {
+  initUfo() {
     var self = this;
     Q.Sprite.extend("Ufo", {
       init: function(p) {
