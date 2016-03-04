@@ -815,6 +815,7 @@ export default Ember.Component.extend(
 
         if(self.get('new_score') > user.get('score')) {
           user.set('score', self.get('new_score'));
+          self.sendScoreToFB(self.get('new_score'));
           self.set('newHighscore', true);
     		}
         else {
@@ -1219,6 +1220,44 @@ export default Ember.Component.extend(
       ufoMaker.p.isActive = 1;
       bigAsteroidMaker.p.isActive = 0;
     }
+  },
+
+  sendScoreToFB: function(score) {
+
+    FB.api('/me/permissions', response => {
+
+      if( !response.error ) {
+
+        this.set('hasPostPermission', false);
+
+        for( var i=0; i < response.data.length; i++ ) {
+      	    if(response.data[i].permission === 'publish_actions' && response.data[i].status === 'granted' ) {
+              this.set('hasPostPermission', true);
+            }
+      	}
+
+      	if(this.get('hasPostPermission')) {
+          FB.api('/me/scores/', 'post', { score: score }, function(response)
+        	{
+        		if( response.error )
+      	  	{
+      			  console.error('sendScoreToFB failed', response);
+      	  	}
+      	  	else
+      	  	{
+      	  		console.log('Score posted to Facebook', response);
+      	  	}
+        	});
+        }
+        else {
+          // show post to FB button
+        }
+	    }
+	    else
+	    {
+	      	console.error('ERROR - /me/permissions', response);
+	    }
+  	});
   },
 
   aChallengeIsActive: function() {

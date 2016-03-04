@@ -31,7 +31,9 @@
           x {{gameState.level}} ( level )
 
           {{#if newHighscore }}
-            <div class="fb-button post" {{action 'postScoreToFB'}}>{{fa-icon "facebook-square"}} post</div>
+            {{#unless hasPostPermission}}
+              <div class="fb-button post" {{action 'postScoreToFB'}}>{{fa-icon "facebook-square"}} post</div>
+            {{/unless}}
           {{/if}}
 
         </div>
