@@ -8,12 +8,14 @@ export default DS.Model.extend({
   img_url: DS.attr('string'),
   gender: DS.attr('string'),
 
-  rank: DS.attr('number'),
-  rank_by_won_challenges: DS.attr('number'),
+  rank: DS.attr('number', { defaultValue: 0 }),
+  rank_by_won_challenges: DS.attr('number', { defaultValue: 0 }),
   score: DS.attr('number', { defaultValue: 0 }),
   stars: DS.attr('number', { defaultValue: 0 }),
+  stars_all_time: DS.attr('number', { defaultValue: 0 }),
   challenges_won: DS.attr('number', { defaultValue: 0 }),
   reached_level: DS.attr('number', { defaultValue: 1 }),
+  flights: DS.attr('number', { defaultValue: 0 }),
   experience: DS.attr('number', { defaultValue: 0 }),
 
   lab: DS.belongsTo('lab', { async: true}),
