@@ -1,7 +1,10 @@
 .hud-container {
-  .empty-info-text {
-    text-align: center;
-    margin-top: 70px;
+  .content {
+    border-bottom: 2px solid #8AA8B2;
+    height: 540px;
+    .counter {
+      left: 26px;
+    }
   }
   .counter {
     color: white;
@@ -15,14 +18,69 @@
       background-color: $alert-color;
     }
   }
-  .title {
-    .counter {
-      left: 35px;
-    }
+  .currency_info {
+    float: right;
   }
-  .content {
-    .counter {
-      left: 26px;
+  .empty-info-text {
+    text-align: center;
+    margin-top: 70px;
+  }
+  .login-info, .locked-info {
+    text-align: center;
+    font-size: 2.5rem;
+    color: white;
+    background-color: #888;
+    border: 1px solid #444;
+  }
+  .login-info {
+    padding: 210px 0;
+  }
+  .locked-info {
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    margin-top: 5px;
+    height: 80%;
+    padding: 30% 0;
+  }
+  .title {
+    font-size: 1.75rem;
+  	margin: 15px 0;
+  	color: rgb(127, 154, 163);
+    border-bottom: $border-thick;
+    a {
+      background: none;
+    }
+    .item {
+      display: inline-block;
+      padding: 0 5px;
+      width: 47px;
+      height: 43px;
+      .counter {
+        left: 35px;
+      }
+      .fa-stack {
+        line-height: 1rem;
+        height: 100%;
+        top: 11px;
+        right: 11px;
+        .tooltip-component {
+          left: 3px;
+          position: relative;
+          top: 10px;
+        }
+        .fa-star {
+          font-size: 0.8em;
+        }
+        .fa-circle-o {
+          font-size: 1.4em;
+        }
+        .pietimer {
+          top: -31% !important;
+          width: 79% !important;
+          left: 5px !important;
+        }
+      }
     }
   }
   .player-1 {

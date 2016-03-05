@@ -1503,3 +1503,10 @@ $topbar-link-bg-hover: darken($darkblue, 10%);
 // $include-accessibility-classes: true;
 // $include-table-visibility-classes: true;
 // $include-legacy-visibility-classes: true;
+
+.has-tip {
+  border-bottom: $has-tip-border-bottom;
+  &:hover {
+    border-bottom: $has-tip-border-bottom;
+  }
+}

@@ -30,22 +30,16 @@
   color: white;
 }
 
-body
-{
+body {
 	margin: 			0px;
 	color: $primary-text-color;
 	font-family: 	Calibri, sans-serif;
 
-	h2
-	{
+	h2 {
     font-size: 1.5rem;
 		border-bottom: $border;
 		color: #82A6B3;
 		margin-bottom: 0;
-    .currency_info {
-      position: absolute;
-      right: 15px;
-    }
     .button {
       float: right;
       margin: 0;
@@ -54,42 +48,34 @@ body
     }
 	}
 
-	.withoutFriendsPermission
-	{
+	.withoutFriendsPermission {
 		display: none;
 	}
 
-	.withFriendsPermission
-	{
+	.withFriendsPermission {
 		display: none;
 		overflow: auto;
 	}
 
-	.logged_in
-	{
+	.logged_in {
 		display: none;
 	}
 
-	.control-infos
-	{
+	.control-infos {
 		font-size: 	22px;
 		color: 		#333;
 		text-align: center;
 
-		.control-info-text
-		{
-			&.fire
-			{
+		.control-info-text {
+			&.fire {
 				text-align: center;
 			}
 
-			&.left
-			{
+			&.left {
 				text-align: right;
 			}
 
-			&.right
-			{
+			&.right {
 				text-align: left;
 			}
 		}
@@ -100,8 +86,7 @@ body
     text-align: center;
   }
 
-	#game
-	{
+	#game {
 		background-color:	#ADD8E6;
 		border: $border-thick;
     width: 100%;
@@ -109,8 +94,7 @@ body
     margin-top: 15px;
 	}
 
-	#loading
-	{
+	#loading {
 		position:   	absolute;
 		left: 			25%;
 		top:				45%;
@@ -119,8 +103,7 @@ body
 		text-align: 	center;
 		z-index: 		2;
 
-		#loading_container
-		{
+		#loading_container {
 			position:    relative;
 			margin:      0 auto;
 			width:       100%;
@@ -134,8 +117,7 @@ body
 			-moz-box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
 			box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
 
-			#loading_progress
-		  	{
+			#loading_progress {
 				display: block;
 				height: 100%;
 				width: 0;
@@ -163,8 +145,7 @@ body
 				position: relative;
 				overflow: hidden;
 
-				span
-				{
+				span {
 			 		position: absolute;
 					left: 0;
 					height: 100%;
@@ -226,68 +207,6 @@ table {
 
 .has-tip {
   color: $primary-text-color;
-}
-
-.hud-container {
-  .title {
-    font-size: 1.75rem;
-  	margin: 15px 0;
-  	color: rgb(127, 154, 163);
-    border-bottom: $border-thick;
-    a {
-      background: none;
-    }
-    .item {
-      display: inline-block;
-      padding: 0 10px;
-      width: 47px;
-      height: 43px;
-      .fa-stack {
-        line-height: 1rem;
-        height: 100%;
-        top: 10px;
-        right: 15px;
-        .tooltip-component {
-          left: 3px;
-          position: relative;
-          top: 10px;
-        }
-        .fa-star {
-          font-size: 0.8em;
-        }
-        .fa-circle-o {
-          font-size: 1.4em;
-        }
-        .pietimer {
-          top: -31% !important;
-          width: 79% !important;
-          left: 5px !important;
-        }
-      }
-    }
-  }
-  .content {
-    border-bottom: 2px solid #8AA8B2;
-    height: 540px;
-  }
-  .login-info, .locked-info {
-    text-align: center;
-    font-size: 2.5rem;
-    color: white;
-    background-color: #888;
-    border: 1px solid #444;
-  }
-  .login-info {
-    padding: 210px 0;
-  }
-  .locked-info {
-    position: absolute;
-    left: 15px;
-    right: 15px;
-    margin-top: 5px;
-    height: 80%;
-    padding: 30% 0;
-  }
 }
 
 .tab-container {

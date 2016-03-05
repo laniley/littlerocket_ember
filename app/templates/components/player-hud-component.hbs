@@ -30,10 +30,10 @@
           {{#if (if-equals me.user.lab.status 'locked') }}
             <div class={{if (if-equals currentSection 'lab') 'active item' 'item' }}>
               <span class="fa-stack">
-                {{fa-icon "fa-flask" stack=1}}
+                {{fa-icon "fa-flask" stack=1 fixedWidth=true}}
                 {{#if me.isLoggedIn}}
                   {{#tooltip-component tooltip=me.user.lab.tooltip}}
-                    {{fa-icon "fa-lock locked" stack=1}}
+                    {{fa-icon "fa-lock locked" stack=1 fixedWidth=true}}
                   {{/tooltip-component}}
                 {{/if}}
               </span>
@@ -55,6 +55,11 @@
       </span>
     </div>
   {{/tooltip-component}}
+
+  <span class="currency_info">
+    <div class="stars"><i class="fa fa-star"></i>  {{me.user.stars}}</div>
+  </span>
+  
 </div>
 
 <div class="info-prompt">
