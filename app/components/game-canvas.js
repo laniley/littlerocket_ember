@@ -845,7 +845,9 @@ export default Ember.Component.extend(
         var new_stars_amount = user.get('stars') + (self.get('gameState').get('stars') * self.get('gameState').get('level'));
         var new_experience = user.get('experience') + self.get('new_score');
         user.set('stars', new_stars_amount);
+        user.set('stars_all_time', user.get('stars_all_time') + (self.get('gameState').get('stars') * self.get('gameState').get('level')));
         user.set('experience', new_experience);
+        user.set('flights', user.get('flights') + 1);
 
         user.save().then(() => {
           self.get('targetObject.store').query('user', { 'mode': 'leaderboard', 'type': 'score' }).then(users => {
