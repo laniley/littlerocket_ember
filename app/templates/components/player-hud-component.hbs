@@ -1,20 +1,25 @@
 <div class="title">
   {{#link-to 'index' (query-params player_hud_section="rocket")}}
     <div class={{if (if-equals currentSection 'rocket') 'active item' 'item' }}>
-      {{fa-icon "fa-rocket"}}
+      {{fa-icon "fa-rocket" fixedWidth=true}}
+    </div>
+  {{/link-to}}
+  {{#link-to 'index' (query-params player_hud_section="statistics")}}
+    <div class={{if (if-equals currentSection 'statistics') 'active item' 'item' }}>
+      {{fa-icon "fa-bar-chart-o" fixedWidth=true}}
     </div>
   {{/link-to}}
   {{#if me.user.lab}}
     {{#link-to 'index' (query-params player_hud_section="lab")}}
       {{#if (if-equals me.user.lab.status 'unlocked') }}
           <div class={{if (if-equals currentSection 'lab') 'active item' 'item' }}>
-            {{fa-icon "fa-flask"}}
+            {{fa-icon "fa-flask" fixedWidth=true}}
           </div>
       {{else}}
         {{#if (if-equals me.user.lab.status 'under_construction') }}
           <div class="item">
             <span id="lab-tab" class="fa-stack">
-              {{fa-icon "fa-flask" stack=1}}
+              {{fa-icon "fa-flask" stack=1 fixedWidth=true}}
               {{timer-component type='lab' component=me.user.lab}}
               <div class="link-overlay">
                 {{#link-to 'index' (query-params player_hud_section="lab")}}{{/link-to}}
@@ -68,9 +73,14 @@
           currentSection=currentCockpitSection
           currentLabSection=currentLabSection}}
     {{else}}
-      {{player-hud-components/lab-component
-          me=me
-          currentLabSection=currentLabSection}}
+      {{#if (if-equals currentSection 'statistics') }}
+        {{player-hud-components/statistics-component
+            me=me}}
+      {{else}}
+        {{player-hud-components/lab-component
+            me=me
+            currentLabSection=currentLabSection}}
+      {{/if}}
     {{/if}}
   </div>
 {{else}}
