@@ -27,7 +27,7 @@ export default Ember.Component.extend(
   Q: null,
   me: null,
   gameState: null,
-  hasPostPermission: false,
+  hasPostPermission: true,
   isLoading: true,
   gameCanvasIsLoaded: false,
   currentScene: null,
