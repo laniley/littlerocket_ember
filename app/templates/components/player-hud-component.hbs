@@ -9,6 +9,14 @@
       {{fa-icon "fa-bar-chart-o" fixedWidth=true}}
     </div>
   {{/link-to}}
+  {{#link-to 'index' (query-params player_hud_section="achievements")}}
+    <div class={{if (if-equals currentSection 'achievements') 'active item' 'item' }}>
+      <span class="fa-stack">
+        {{fa-icon "fa-circle-o" stack=1}}
+        {{fa-icon "fa-star" stack=1}}
+      </span>
+    </div>
+  {{/link-to}}
   {{#if me.user.lab}}
     {{#link-to 'index' (query-params player_hud_section="lab")}}
       {{#if (if-equals me.user.lab.status 'unlocked') }}
@@ -47,19 +55,10 @@
       {{fa-icon "fa-circle-o-notch" spin=true}}
     </span>
   {{/if}}
-  {{#tooltip-component tooltip="Achievements are coming soon..."}}
-    <div class='item coming_soon'>
-      <span class="fa-stack">
-        {{fa-icon "fa-circle-o" stack=1}}
-        {{fa-icon "fa-star" stack=1}}
-      </span>
-    </div>
-  {{/tooltip-component}}
 
-  <span class="currency_info">
+  <span class="h_info">
     <div class="stars"><i class="fa fa-star"></i>  {{me.user.stars}}</div>
   </span>
-  
 </div>
 
 <div class="info-prompt">
@@ -82,9 +81,14 @@
         {{player-hud-components/statistics-component
             me=me}}
       {{else}}
-        {{player-hud-components/lab-component
-            me=me
-            currentLabSection=currentLabSection}}
+        {{#if (if-equals currentSection 'achievements') }}
+          {{player-hud-components/achievements-component
+              me=me}}
+        {{else}}
+          {{player-hud-components/lab-component
+              me=me
+              currentLabSection=currentLabSection}}
+        {{/if}}
       {{/if}}
     {{/if}}
   </div>

@@ -63,15 +63,17 @@
               <div class="img_container">
                 <img src="http://graph.facebook.com/{{top_player.fb_id}}/picture" class="profile small" />
               </div>
-              <div class="name">{{top_player.name}}</div>
-              <div class="score_container">
-                {{#if (eq currentLeaderboardType 'score')}}
-                  <span class="score">{{top_player.score}}</span> Points
-                {{else}}
-                  {{#if (eq currentLeaderboardType 'challenges')}}
-                    <span class="score">{{top_player.challenges_won}}</span> challenges won
+              <div class="container-column">
+                <div class="name">{{top_player.name}}</div>
+                <div class="score_container">
+                  {{#if (eq currentLeaderboardType 'score')}}
+                    <span class="score">{{top_player.score}}</span> Points
+                  {{else}}
+                    {{#if (eq currentLeaderboardType 'challenges')}}
+                      <span class="score">{{top_player.challenges_won}}</span> challenges won
+                    {{/if}}
                   {{/if}}
-                {{/if}}
+                </div>
               </div>
             </div>
           {{/each}}

@@ -1,17 +1,18 @@
 @import "foundation";
 @import "pietimer";
 @import "settings";
+@import "achievements";
 @import "buttons";
-@import "top_nav_bar";
-@import "hud_container";
 @import "cockpit";
+@import "player_hud_component";
+@import "progress_bar";
+@import "top_nav_bar";
 @import "game_canvas";
 @import "leaderboard";
 @import "challenges";
 @import "player_infos";
 @import "component_level_upgrades";
 @import "lists";
-@import "statistics";
 
 @font-face
 {
@@ -35,6 +36,10 @@ body {
 	color: $primary-text-color;
 	font-family: 	Calibri, sans-serif;
 
+  .h_info {
+    float: right;
+  }
+
 	h2 {
     font-size: 1.5rem;
 		border-bottom: $border;
@@ -47,6 +52,13 @@ body {
       padding: 5px 15px;
     }
 	}
+
+  h3 {
+    color: #415A62;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 10px 0;
+  }
 
 	.withoutFriendsPermission {
 		display: none;

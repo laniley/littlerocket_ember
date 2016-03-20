@@ -7,41 +7,18 @@
       height: 100%;
     }
   }
+  .exp-meter {
+    position: absolute;
+    margin-top: 0px;
+    .exp-meter-progress {
+      position: absolute;
+    }
+  }
   .exp_level {
     position: absolute;
     top: 81px;
     left: 102px;
     font-size: 1.5rem;
-  }
-  .exp-meter {
-    background-color: #eaeaea;
-    height: 18px;
-    position: absolute;
-    top: 131px;
-    left: 100px;
-    right: 28px;
-    border-radius: 5px;
-    border: 1px solid #BDBDBD;
-    text-align: center;
-    line-height: 15px;
-    .exp-meter-progress {
-      position: absolute;
-      background-color: #2bc253;
-      background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #2bc253), color-stop(1, #54f054));
-      background-image: -webkit-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
-      background-image: -moz-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
-      background-image: -ms-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
-      background-image: -o-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
-      left: 1px;
-      top: 1px;
-      bottom: 1px;
-      border-radius: 5px;
-    }
-    .exp-meter-text {
-      position: absolute;
-      width: 100%;
-      font-weight: bold;
-    }
   }
   .level-info-container {
     width: 100%;
