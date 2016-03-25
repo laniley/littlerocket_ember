@@ -1,23 +1,32 @@
 @import "foundation";
-@import "pietimer";
 @import "settings";
-@import "achievements";
+@import "pietimer";
 @import "buttons";
+
+@import "achievements";
+@import "challenges";
 @import "cockpit";
-@import "player_hud_component";
-@import "progress_bar";
-@import "top_nav_bar";
+@import "component_level_upgrades";
+@import "friends";
 @import "game_canvas";
 @import "leaderboard";
-@import "challenges";
-@import "player_infos";
-@import "component_level_upgrades";
 @import "lists";
+@import "player_hud_component";
+@import "player_infos";
+@import "progress_bar";
+@import "top_nav_bar";
 
-@font-face
-{
+@font-face {
   font-family: Agency_FB;
   src:  url('/assets/fonts/agency_fb.ttf') format('truetype') /* Safari, Android, iOS, Chrome, Firefox */
+}
+
+.little_rocket {
+  font-family: Agency_FB;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 9px;
 }
 
 .scrollable-list {
@@ -243,8 +252,7 @@ table {
     line-height: 50px;
   }
 
-  .locked
-  {
+  .locked {
     margin-top: 15px;
     margin-left: 15px;
   }
@@ -348,15 +356,13 @@ table {
     display: block;
   }
 
-  .fa-check
-  {
+  .fa-check {
     color: #2bc253;
     margin-top: 15px;
     margin-left: 15px;
   }
 
-  .locked
-  {
+  .locked {
     color: #666;
     cursor: pointer;
   }
@@ -366,8 +372,7 @@ table {
     background: #fff;
   }
 
-  .under_construction
-  {
+  .under_construction {
     color: orange;
   }
 }
@@ -478,46 +483,6 @@ table {
       // Control the number of columns
       $columns:4
     );
-  }
-}
-
-.fb-button {
-  background: #4c69ba; /* Old browsers */
-  background: -moz-linear-gradient(top,  #4c69ba 0%, #3b55a0 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4c69ba), color-stop(100%,#3b55a0)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  #4c69ba 0%,#3b55a0 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  #4c69ba 0%,#3b55a0 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  #4c69ba 0%,#3b55a0 100%); /* IE10+ */
-  background: linear-gradient(to bottom,  #4c69ba 0%,#3b55a0 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c69ba', endColorstr='#3b55a0',GradientType=0 ); /* IE6-9 */
-
-	border: none;
-	-webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-	color: #fff;
-	cursor: pointer;
-	font-weight: bold;
-	line-height: 24px;
-	text-shadow: 0 -1px 0 #354c8c;
-	white-space: nowrap;
-	font-family: helvetica, arial, sans-serif;
-	font-size: 11px;
-	padding: 0 5px;
-
-	&:hover {
-    background: #4c69ba; /* Old browsers */
-    background: -moz-linear-gradient(top,  #4c69ba 0%, #4c69ba 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4c69ba), color-stop(100%,#4c69ba)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #4c69ba 0%,#4c69ba 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #4c69ba 0%,#4c69ba 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #4c69ba 0%,#4c69ba 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  #4c69ba 0%,#4c69ba 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c69ba', endColorstr='#4c69ba',GradientType=0 ); /* IE6-9 */
-	}
-
-  .fa {
-    margin-right: 5px;
   }
 }
 

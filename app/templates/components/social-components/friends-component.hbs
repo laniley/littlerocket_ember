@@ -1,0 +1,18 @@
+<h2>Friends</h2>
+<div class="scrollable-list">
+  {{#if (gt me.friends_playing.content.length 0)}}
+    {{#each me.friends_playing.content as |friend|}}
+      <div class="list-item">
+        <div class="img_container">
+          <img src={{friend.img_url}} />
+        </div>
+        {{friend.name}}
+      </div>
+    {{/each}}
+  {{else}}
+    <div class="empty-info-text">
+      None of your friends is playing <span class="little_rocket">little rocket</span> yet.<br /><br />
+      <div class="fb-button invite" {{action 'invite'}}>{{fa-icon "facebook-square" size="lg"}} Invite friends</div>
+    </div>
+  {{/if}}
+</div>

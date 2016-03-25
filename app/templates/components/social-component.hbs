@@ -17,6 +17,11 @@
 
     </div>
   {{/link-to}} --}}
+  {{#link-to 'index' (query-params social_section="friends")}}
+    <div class={{if (if-equals currentSection 'friends') 'active item' 'item' }}>
+      {{fa-icon "group"}}
+    </div>
+  {{/link-to}}
   {{#link-to 'index' (query-params social_section="comments")}}
     <div class={{if (if-equals currentSection 'comments') 'active item' 'item' }}>
       {{fa-icon "fa-pencil"}}
@@ -85,7 +90,11 @@
       {{#if (if-equals currentSection 'challenges')}}
         {{social-components/challenges-component me=me currentSection=currentChallengesSection}}
       {{else}}
-        {{social-components/fb-comments}}
+        {{#if (if-equals currentSection 'friends')}}
+          {{social-components/friends-component me=me currentSection=currentChallengesSection}}
+        {{else}}
+          {{social-components/fb-comments}}
+        {{/if}}
       {{/if}}
     {{/if}}
   </div>

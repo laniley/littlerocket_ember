@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
@@ -5,5 +6,15 @@ export default DS.Model.extend({
   friends: DS.hasMany('friend'),
   isLoggedIn: DS.attr('boolean', { defaultValue: false }),
   activeChallenge: DS.belongsTo('challenge', { async: false }),
-  achievements: DS.hasMany('achievement')
+  achievements: DS.hasMany('achievement'),
+
+  friends_playing: Ember.computed('friends', function() {
+    return DS.PromiseObject.create({
+      promise: this.get('friends').then(friends => {
+        return Ember.RSVP.filter(friends.toArray(), friend => {
+          return friend.get('is_already_playing');
+        });
+      })
+    });
+  })
 });
