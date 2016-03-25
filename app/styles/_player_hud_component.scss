@@ -65,8 +65,12 @@
     .item {
       display: inline-block;
       padding: 0 5px;
-      width: 47px;
       height: 43px;
+      width: 47px;
+      &.loader {
+        font-size: 27px;
+        line-height: 42px;
+      }
       .counter {
         left: 35px;
       }
