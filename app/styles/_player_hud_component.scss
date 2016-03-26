@@ -2,9 +2,15 @@
   .content {
     border-bottom: 2px solid #8AA8B2;
     height: 540px;
+    overflow: hidden;
     .counter {
       left: 26px;
     }
+  }
+  .scrollable_list {
+    overflow: auto;
+    height: 499px;
+    margin-right: -17px;
   }
   .counter {
     color: white;

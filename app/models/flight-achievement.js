@@ -5,7 +5,7 @@ import Achievement from "./achievement";
 export default Achievement.extend({
   reached_progress_points: Ember.computed('me.user.flights', function() {
     return DS.PromiseObject.create({
-      promise: this.get('me').get('user').then(user => {
+      promise: this.get('user').then(user => {
         if(!Ember.isEmpty(user)) {
           var reached = this.get('needed_progress_points');
           if(user.get('flights') < this.get('needed_progress_points')) {
@@ -22,7 +22,7 @@ export default Achievement.extend({
 
   in_progress: Ember.computed('me.user.flights', function() {
     return DS.PromiseObject.create({
-      promise: this.get('me').get('user').then(user => {
+      promise: this.get('user').then(user => {
         if(!Ember.isEmpty(user)) {
           if(user.get('flights') < this.get('needed_progress_points')) {
             return true;

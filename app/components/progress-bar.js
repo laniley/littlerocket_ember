@@ -12,10 +12,5 @@ export default Ember.Component.extend({
         Ember.$('#' + this.get('elementId') + "-progress").width((percentage) + '%');
       });
     }
-  }.observes('achievement.reached_progress_points.content', 'achievement.needed_progress_points.content').on('init'),
-
-  init: function() {
-    this._super();
-    this.set('achievement', this.store.peekRecord(this.get('achievement_type'), this.get('ref_id')));
-  }.on('init')
+  }.observes('achievement.reached_progress_points.content', 'achievement.needed_progress_points.content').on('init')
 });

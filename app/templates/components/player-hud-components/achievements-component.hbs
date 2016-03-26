@@ -1,15 +1,17 @@
 <div class="achievements">
-  <h2>Achievements<span class="h_info">{{achievementPoints.content}} / 182</span></h2>
-  <h3>flights</h3>
-  {{progress-bar ref_id=1 achievement_type="flight-achievement"}}
-  {{progress-bar ref_id=2 achievement_type="flight-achievement"}}
-  {{progress-bar ref_id=3 achievement_type="flight-achievement"}}
-  {{progress-bar ref_id=4 achievement_type="flight-achievement"}}
-  {{progress-bar ref_id=5 achievement_type="flight-achievement"}}
-  <h3>stars (all time)</h3>
-  {{progress-bar ref_id=6 achievement_type="stars-all-time-achievement"}}
-  {{progress-bar ref_id=7 achievement_type="stars-all-time-achievement"}}
-  {{progress-bar ref_id=8 achievement_type="stars-all-time-achievement"}}
-  {{progress-bar ref_id=9 achievement_type="stars-all-time-achievement"}}
-  {{progress-bar ref_id=10 achievement_type="stars-all-time-achievement"}}
+  <h2>Achievements<span class="h_info">{{achievementPoints.content}} / {{achievementPointsTotal.content}}</span></h2>
+  <div class="scrollable_list">
+    <h3>flights</h3>
+    {{#each flight_achievements.content as |achievement|}}
+      {{progress-bar achievement=achievement}}
+    {{/each}}
+    <h3>stars (all time)</h3>
+    {{#each stars_all_time_achievements.content as |achievement|}}
+      {{progress-bar achievement=achievement}}
+    {{/each}}
+    <h3>friends</h3>
+    {{#each friends_achievements.content as |achievement|}}
+      {{progress-bar achievement=achievement}}
+    {{/each}}
+  </div>
 </div>

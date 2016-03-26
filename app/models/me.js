@@ -2,11 +2,10 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  user: DS.belongsTo('user', { async: true }),
+  user: DS.belongsTo('user'),
   friends: DS.hasMany('friend'),
   isLoggedIn: DS.attr('boolean', { defaultValue: false }),
   activeChallenge: DS.belongsTo('challenge', { async: false }),
-  achievements: DS.hasMany('achievement'),
 
   friends_playing: Ember.computed('friends', function() {
     return DS.PromiseObject.create({

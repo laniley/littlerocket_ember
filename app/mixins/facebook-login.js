@@ -47,7 +47,6 @@ export default Ember.Mixin.create({
           this.get('me').set('isLoggedIn', true);
         }
   			this.getUserDataFromFB(this.get('store'));
-        this.loadAchievements();
   	}
   	else if (response.status === 'not_authorized') {
   			// The person is logged into Facebook, but not your app.
@@ -68,81 +67,6 @@ export default Ember.Mixin.create({
           this.get('me').set('isLoggedIn', false);
         }
   	}
-  },
-
-  loadAchievements() {
-    var achievement = null;
-    achievement = this.store.createRecord('flight-achievement', {
-      id: 1,
-      me: this.get('me'),
-      needed_progress_points: 1,
-      achievement_points: 1
-    });
-    this.get('me').get('achievements').pushObject(achievement);
-    achievement = this.store.createRecord('flight-achievement', {
-      id: 2,
-      me: this.get('me'),
-      needed_progress_points: 10,
-      achievement_points: 5
-    });
-    this.get('me').get('achievements').pushObject(achievement);
-    achievement = this.store.createRecord('flight-achievement', {
-      id: 3,
-      me: this.get('me'),
-      needed_progress_points: 100,
-      achievement_points: 10
-    });
-    this.get('me').get('achievements').pushObject(achievement);
-    achievement = this.store.createRecord('flight-achievement', {
-      id: 4,
-      me: this.get('me'),
-      needed_progress_points: 1000,
-      achievement_points: 25
-    });
-    this.get('me').get('achievements').pushObject(achievement);
-    achievement = this.store.createRecord('flight-achievement', {
-      id: 5,
-      me: this.get('me'),
-      needed_progress_points: 5000,
-      achievement_points: 50
-    });
-    this.get('me').get('achievements').pushObject(achievement);
-
-    achievement = this.store.createRecord('stars-all-time-achievement', {
-      id: 6,
-      me: this.get('me'),
-      needed_progress_points: 10,
-      achievement_points: 1
-    });
-    this.get('me').get('achievements').pushObject(achievement);
-    achievement = this.store.createRecord('stars-all-time-achievement', {
-      id: 7,
-      me: this.get('me'),
-      needed_progress_points: 100,
-      achievement_points: 5
-    });
-    this.get('me').get('achievements').pushObject(achievement);
-    achievement = this.store.createRecord('stars-all-time-achievement', {
-      id: 8,
-      me: this.get('me'),
-      needed_progress_points: 1000,
-      achievement_points: 10
-    });
-    this.get('me').get('achievements').pushObject(achievement);
-    achievement = this.store.createRecord('stars-all-time-achievement', {
-      id: 9,
-      me: this.get('me'),
-      needed_progress_points: 10000,
-      achievement_points: 25
-    });
-    this.get('me').get('achievements').pushObject(achievement);
-    achievement = this.store.createRecord('stars-all-time-achievement', {
-      id: 10,
-      me: this.get('me'),
-      needed_progress_points: 100000,
-      achievement_points: 50
-    });
-    this.get('me').get('achievements').pushObject(achievement);
   },
 
   // Here we receive the user data from the FB Graph API after login is
