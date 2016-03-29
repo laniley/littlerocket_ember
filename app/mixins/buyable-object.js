@@ -19,7 +19,7 @@ export default Ember.Mixin.create({
       }
     }
     if(this.get('level_not_reached')) {
-      text += ' to reach level ' + this.get('needed_level');
+      text += ' to reach exp. level ' + this.get('needed_level');
     }
     text += '!';
     return text;
