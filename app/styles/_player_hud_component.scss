@@ -32,11 +32,14 @@
     text-align: center;
     font-size: 2.5rem;
     color: white;
-    background-color: #888;
-    border: 1px solid #444;
+    background-color: $primary-color;
+    border: 1px solid $primary-text-color;
   }
   .login-info {
-    padding: 210px 0;
+    padding: 20px;
+    height: 600px;
+    margin-top: 15px;
+    line-height: 5rem;
   }
   .locked-info {
     position: absolute;

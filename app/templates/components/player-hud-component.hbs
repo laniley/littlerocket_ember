@@ -1,75 +1,76 @@
-<div class="title">
-  {{#link-to 'index' (query-params player_hud_section="rocket")}}
-    <div class={{if (if-equals currentSection 'rocket') 'active item' 'item' }}>
-      {{fa-icon "fa-rocket" fixedWidth=true}}
-    </div>
-  {{/link-to}}
-  {{#link-to 'index' (query-params player_hud_section="statistics")}}
-    <div class={{if (if-equals currentSection 'statistics') 'active item' 'item' }}>
-      {{fa-icon "fa-bar-chart-o" fixedWidth=true}}
-    </div>
-  {{/link-to}}
-  {{#link-to 'index' (query-params player_hud_section="achievements")}}
-    <div class={{if (if-equals currentSection 'achievements') 'active item' 'item' }}>
-      <span class="fa-stack">
-        {{fa-icon "fa-circle-o" stack=1}}
-        {{fa-icon "fa-star" stack=1}}
-      </span>
-    </div>
-  {{/link-to}}
-  {{#if me.user.lab}}
-    {{#link-to 'index' (query-params player_hud_section="lab")}}
-      {{#if (if-equals me.user.lab.status 'unlocked') }}
-          <div class={{if (if-equals currentSection 'lab') 'active item' 'item' }}>
-            {{fa-icon "fa-flask" fixedWidth=true}}
-          </div>
-      {{else}}
-        {{#if (if-equals me.user.lab.status 'under_construction') }}
-          <div class="item">
-            <span id="lab-tab" class="fa-stack">
-              {{fa-icon "fa-flask" stack=1 fixedWidth=true}}
-              {{timer-component type='lab' component=me.user.lab}}
-              <div class="link-overlay">
-                {{#link-to 'index' (query-params player_hud_section="lab")}}{{/link-to}}
-              </div>
-            </span>
-          </div>
-        {{else}}
-          {{#if (if-equals me.user.lab.status 'locked') }}
+{{#if me.isLoggedIn}}
+  <div class="title">
+    {{#link-to 'index' (query-params player_hud_section="rocket")}}
+      <div class={{if (if-equals currentSection 'rocket') 'active item' 'item' }}>
+        {{fa-icon "fa-rocket" fixedWidth=true}}
+      </div>
+    {{/link-to}}
+    {{#link-to 'index' (query-params player_hud_section="statistics")}}
+      <div class={{if (if-equals currentSection 'statistics') 'active item' 'item' }}>
+        {{fa-icon "fa-bar-chart-o" fixedWidth=true}}
+      </div>
+    {{/link-to}}
+    {{#link-to 'index' (query-params player_hud_section="achievements")}}
+      <div class={{if (if-equals currentSection 'achievements') 'active item' 'item' }}>
+        <span class="fa-stack">
+          {{fa-icon "fa-circle-o" stack=1}}
+          {{fa-icon "fa-star" stack=1}}
+        </span>
+      </div>
+    {{/link-to}}
+    {{#if me.user.lab}}
+      {{#link-to 'index' (query-params player_hud_section="lab")}}
+        {{#if (if-equals me.user.lab.status 'unlocked') }}
             <div class={{if (if-equals currentSection 'lab') 'active item' 'item' }}>
-              <span class="fa-stack">
+              {{fa-icon "fa-flask" fixedWidth=true}}
+            </div>
+        {{else}}
+          {{#if (if-equals me.user.lab.status 'under_construction') }}
+            <div class="item">
+              <span id="lab-tab" class="fa-stack">
                 {{fa-icon "fa-flask" stack=1 fixedWidth=true}}
-                {{#if me.isLoggedIn}}
-                  {{#tooltip-component tooltip=me.user.lab.tooltip}}
-                    {{fa-icon "fa-lock locked" stack=1 fixedWidth=true}}
-                  {{/tooltip-component}}
-                {{/if}}
+                {{timer-component type='lab' component=me.user.lab}}
+                <div class="link-overlay">
+                  {{#link-to 'index' (query-params player_hud_section="lab")}}{{/link-to}}
+                </div>
               </span>
             </div>
-            {{/if}}
+          {{else}}
+            {{#if (if-equals me.user.lab.status 'locked') }}
+              <div class={{if (if-equals currentSection 'lab') 'active item' 'item' }}>
+                <span class="fa-stack">
+                  {{fa-icon "fa-flask" stack=1 fixedWidth=true}}
+                  {{#if me.isLoggedIn}}
+                    {{#tooltip-component tooltip=me.user.lab.tooltip}}
+                      {{fa-icon "fa-lock locked" stack=1 fixedWidth=true}}
+                    {{/tooltip-component}}
+                  {{/if}}
+                </span>
+              </div>
+              {{/if}}
+          {{/if}}
         {{/if}}
-      {{/if}}
-    {{/link-to}}
-  {{else}}
-    <div class="loader item">
-      {{fa-icon "fa-circle-o-notch" spin=true}}
-    </div>
-  {{/if}}
+      {{/link-to}}
+    {{else}}
+      <div class="loader item">
+        {{fa-icon "fa-circle-o-notch" spin=true}}
+      </div>
+    {{/if}}
 
-  <span class="h_info">
-    <div class="stars"><i class="fa fa-star"></i>  {{me.user.stars}}</div>
-  </span>
-</div>
+    <span class="h_info">
+      <div class="stars"><i class="fa fa-star"></i>  {{me.user.stars}}</div>
+    </span>
+  </div>
 
-<div class="info-prompt">
-  {{#if show_missing_requirements_message}}
-    {{#prompt-component}}
-  		{{missing_requirements_message}}
-  	{{/prompt-component}}
-  {{/if}}
-</div>
+  <div class="info-prompt">
+    {{#if show_missing_requirements_message}}
+      {{#prompt-component}}
+    		{{missing_requirements_message}}
+    	{{/prompt-component}}
+    {{/if}}
+  </div>
 
-{{#if me.isLoggedIn}}
+
   <div class="content">
     {{#if (if-equals currentSection 'rocket') }}
       {{player-hud-components/cockpit-component
@@ -94,7 +95,16 @@
   </div>
 {{else}}
   <div class="login-info">
-    <div>{{fa-icon "fa-lock"}}</div>
-    <div>Please log in.</div>
+    <div>{{fa-icon "rocket" size="lg"}}</div>
+    <div>Fly as far as you can.</div>
+    <div>
+      <span class="fa-stack">
+        {{fa-icon "fa-circle-o" stack=2}}
+        {{fa-icon "fa-star" stack=1}}
+      </span>
+    </div>
+    <div>Unlock achievements.</div>
+    <div>{{fa-icon "fa-flask" size="lg"}}</div>
+    <div>Invent new shields and weapons.</div>
   </div>
 {{/if}}
