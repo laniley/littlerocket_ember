@@ -41,30 +41,41 @@ export default Ember.Mixin.create({
     if (response.status === 'connected') {
   			// Logged into your app and Facebook.
         if(Ember.isEmpty(this.get('me'))) {
-          this.get('store').createRecord('me', { id: 1, isLoggedIn: true });
+          this.get('store').createRecord('me', {
+            id: 1,
+            isLoggedIn: true,
+            loginStatus: 'connected'
+          });
         }
         else {
           this.get('me').set('isLoggedIn', true);
+          this.get('me').set('loginStatus', 'connected');
         }
   			this.getUserDataFromFB(this.get('store'));
   	}
   	else if (response.status === 'not_authorized') {
   			// The person is logged into Facebook, but not your app.
         if(Ember.isEmpty(this.me)) {
-          this.get('store').createRecord('me', { id: 1, isLoggedIn: false });
+          this.get('store').createRecord('me', {
+            id: 1,
+            isLoggedIn: false,
+            loginStatus: 'not_authorized'
+          });
         }
         else {
           this.get('me').set('isLoggedIn', false);
+          this.get('me').set('loginStatus', 'not_authorized');
         }
   	}
   	else {
   			// The person is not logged into Facebook, so we're not sure if
   			// they are logged into this app or not.
         if(Ember.isEmpty(this.get('me'))) {
-          this.get('store').createRecord('me', { id: 1, isLoggedIn: false });
+          this.get('store').createRecord('me', { id: 1 });
         }
         else {
           this.get('me').set('isLoggedIn', false);
+          this.get('me').set('loginStatus', 'not_authorized');
         }
   	}
   },

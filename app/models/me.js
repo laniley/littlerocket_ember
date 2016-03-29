@@ -5,6 +5,7 @@ export default DS.Model.extend({
   user: DS.belongsTo('user'),
   friends: DS.hasMany('friend'),
   isLoggedIn: DS.attr('boolean', { defaultValue: false }),
+  loginStatus: DS.attr('string', { defaultValue: 'unknown'}),
   activeChallenge: DS.belongsTo('challenge', { async: false }),
 
   friends_playing: Ember.computed('friends', function() {
