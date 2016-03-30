@@ -90,10 +90,12 @@ export default Ember.Mixin.create({
   		if( !response.error ) {
         console.log('Successful login for: ' + response.first_name + " " + response.last_name, response);
         var me = store.peekRecord('me', 1);
+        // response.id = 10202654621741836; // for testing
         var user = store.query('user', { fb_id: response.id }).then(users => {
           if(Ember.isEmpty(users)) {
             user = store.createRecord('user');
             me.set('user', user);
+            user.set('fb_id', response.id);
             user.set('fb_id', response.id);
             user.set('email', response.email);
             user.set('first_name', response.first_name);
@@ -110,6 +112,7 @@ export default Ember.Mixin.create({
             self.loadRocket(user);
             self.loadLab(user);
             me.set('user', user);
+            user.set('fb_id', response.id);
             user.set('fb_id', response.id);
             user.set('email', response.email);
             user.set('first_name', response.first_name);
@@ -188,19 +191,51 @@ export default Ember.Mixin.create({
              component.set('rocket', rocket);
              component.save().then(component => {
                rocket.set(type, component);
-               this.loadSelectedRocketComponentModelMM(component);
+               this.loadRocketComponentModelMms(component);
              });
            }
            else {
              component = components.get('firstObject');
              rocket.set(type, component);
-             this.loadSelectedRocketComponentModelMM(component);
+             this.loadRocketComponentModelMms(component);
            }
          });
       }
       else {
-        this.loadSelectedRocketComponentModelMM(component);
+        this.loadRocketComponentModelMms(component);
       }
+    });
+  },
+
+  loadRocketComponentModelMms(component) {
+    this.getAllComponentModels(component).then(models => {
+      this.getMyComponentModelMms(component).then(myComponentModelMms => {
+        models.forEach(aModel => {
+          var componentModelMm = null;
+          myComponentModelMms.forEach(aMyComponentModelMm => {
+            if(aMyComponentModelMm.get('rocketComponentModel').get('id') === aModel.get('id')) {
+              componentModelMm = aMyComponentModelMm;
+            }
+          });
+          if(Ember.isEmpty(componentModelMm)) {
+            var status = 'locked';
+            if(aModel.get('model') === 1) {
+              status = 'unlocked';
+            }
+            componentModelMm = this.store.createRecord('rocket-component-model-mm', {
+              rocketComponent: component,
+              rocketComponentModel: aModel,
+              status: status
+            });
+            componentModelMm.save().then(() => {
+              this.loadSelectedRocketComponentModelMM(component);
+            });
+          }
+          else {
+            this.loadSelectedRocketComponentModelMM(component);
+          }
+        });
+      });
     });
   },
 
@@ -250,28 +285,6 @@ export default Ember.Mixin.create({
            }
          });
        }
-    });
-  },
-
-  loadRocketComponentModelMms(component) {
-    this.getAllComponentModels(component).then(models => {
-      this.getMyComponentModelMms(component).then(myComponentModelMms => {
-        models.forEach(aModel => {
-          var matchingMyComponentModelMm = null;
-          myComponentModelMms.forEach(aMyComponentModelMm => {
-            if(aMyComponentModelMm.get('rocketComponentModel').get('id') === aModel.get('id')) {
-              matchingMyComponentModelMm = aMyComponentModelMm;
-            }
-          });
-          if(Ember.isEmpty(matchingMyComponentModelMm)) {
-            var newComponentModelMm = this.store.createRecord('rocket-component-model-mm', {
-              rocketComponent: component,
-              rocketComponentModel: aModel
-            });
-            newComponentModelMm.save();
-          }
-        });
-      });
     });
   },
 
