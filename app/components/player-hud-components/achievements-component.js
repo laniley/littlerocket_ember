@@ -76,6 +76,9 @@ export default Ember.Component.extend({
             return previousValue += achievement.get('achievement_points');
           }, 0);
         }
+        else {
+          return 0;
+        }
       })
     });
   }),
