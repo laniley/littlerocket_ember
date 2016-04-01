@@ -21,6 +21,22 @@
   src:  url('/assets/fonts/agency_fb.ttf') format('truetype') /* Safari, Android, iOS, Chrome, Firefox */
 }
 
+.flex-container {
+  display:flex;
+  &.center {
+    justify-content: center;
+  }
+  &.direction-column {
+    flex-direction: column;
+  }
+}
+
+.flex-item {
+  &.center {
+    align-self: center;
+  }
+}
+
 .little_rocket {
   font-family: Agency_FB;
   font-style: italic;
@@ -80,26 +96,6 @@ body {
 
 	.logged_in {
 		display: none;
-	}
-
-	.control-infos {
-		font-size: 	22px;
-		color: 		#333;
-		text-align: center;
-
-		.control-info-text {
-			&.fire {
-				text-align: center;
-			}
-
-			&.left {
-				text-align: right;
-			}
-
-			&.right {
-				text-align: left;
-			}
-		}
 	}
 
   #game_container {

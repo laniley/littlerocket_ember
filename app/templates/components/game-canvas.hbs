@@ -108,15 +108,29 @@
 
 </div>
 
-<div class="row control-infos show-for-large-up">
-    <div class="small-12 columns control-info-text fire">
-        <div><i class="fa fa-arrow-up"></i></div>
-        <div>fire</div>
-    </div>
-    <div class="small-6 columns control-info-text left">
-        <i class="fa fa-arrow-left"></i> move left
-    </div>
-    <div class="small-6 columns control-info-text right">
-        move right <i class="fa fa-arrow-right"></i>
+<div class="control-infos show-for-large-up">
+    <div class="flex-container direction-column">
+      <div class="flex-item center control-info-button">
+        {{#tooltip-component tooltip="shoot"}}
+          {{fa-icon "caret-up" size="lg"}}
+        {{/tooltip-component}}
+      </div>
+      <div class="flex-item center flex-container direction-row">
+        <div class="control-info-button left">
+          {{#tooltip-component tooltip="move left"}}
+            {{fa-icon "caret-left" size="lg"}}
+          {{/tooltip-component}}
+        </div>
+        <div class="control-info-button down">
+          {{#tooltip-component tooltip="slow down"}}
+            {{fa-icon "caret-down" size="lg"}}
+          {{/tooltip-component}}
+        </div>
+        <div class="control-info-button right">
+          {{#tooltip-component tooltip="move right"}}
+            {{fa-icon "caret-right" size="lg"}}
+          {{/tooltip-component}}
+        </div>
+      </div>
     </div>
 </div>
