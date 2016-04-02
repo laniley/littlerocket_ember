@@ -24,17 +24,25 @@
 					</form>
 				</li>
 				<!-- login -->
+				{{!-- <li class="login"> --}}
 				{{#if me.isLoggedIn}}
 					<li class="user-img">
 						<img src={{me.user.img_url}} />
 					</li>
 				{{else}}
-		      <li {{action 'login'}}>
-						<a href="#">
-							{{fa-icon "facebook-square"}} login
-						</a>
-					</li>
+					{{#if (eq me.loginStatus 'unknown')}}
+						<li class="loading">
+							<img src="assets/images/preloaders/preloader_dark.gif" />
+						</li>
+					{{else}}
+			      <li {{action 'login'}}>
+							<a href="#">
+								{{fa-icon "facebook-square"}} login
+							</a>
+						</li>
+					{{/if}}
 				{{/if}}
+				{{!-- </li> --}}
 	    </ul>
 	  </section>
 	</nav>
