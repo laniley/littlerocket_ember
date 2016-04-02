@@ -10,6 +10,14 @@
 	  <section class="top-bar-section">
 	    <!-- Right Nav Section -->
 	    <ul class="right">
+				{{!-- invite --}}
+				<li>
+					<div class="invite-button">
+						<div class="fb-button" {{action 'invite'}}>
+							{{fa-icon "facebook-square" size="lg"}} Invite friends
+						</div>
+					</div>
+				</li>
 				<!-- like -->
 				<li class="like-button">
 					{{fb-like-button}}
@@ -24,7 +32,6 @@
 					</form>
 				</li>
 				<!-- login -->
-				{{!-- <li class="login"> --}}
 				{{#if me.isLoggedIn}}
 					<li class="user-img">
 						<img src={{me.user.img_url}} />
@@ -42,7 +49,6 @@
 						</li>
 					{{/if}}
 				{{/if}}
-				{{!-- </li> --}}
 	    </ul>
 	  </section>
 	</nav>

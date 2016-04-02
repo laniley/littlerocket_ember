@@ -3,7 +3,30 @@
   -moz-box-shadow: 0px 2px 10px #666;	/* firefox */
   box-shadow: 0px 2px 10px #666;
   background: $topbar-bg;
+  &.expanded {
+    .title-area {
+      background-color: $darkblue;
+    }
+    .toggle-topbar {
+      a {
+        color: white;
+        span::after {
+          box-shadow: 0 0 0 1px white, 0 7px 0 1px white, 0 14px 0 1px white;
+        }
+      }
+    }
+  }
   .top-bar-section {
+    ul {
+      li {
+        background: $darkblue;
+        height: 45px;
+        a {
+          font-size: 1rem;
+          font-weight: bold;
+        }
+      }
+    }
     li:not(.has-form) a:not(.button)  {
       background: $topbar-bg;
       border-left: 1px solid darken($topbar-bg, 10%);
@@ -36,12 +59,18 @@
 		}
   }
   .invite-button {
-    // background-color: $topbar-bg-color;
-    button {
+    padding-top: 12px;
+    @media screen and (max-width:640px) {
+      padding-top: 15px;
+    }
+    .fb-button {
       font-size: 11px;
       line-height: 0px;
       height: 22px;
       padding: 5px;
+      @media screen and (max-width:640px) {
+        width: 103px;
+      }
     }
   }
   .donate-button {
@@ -72,44 +101,12 @@
   }
 }
 
-.top-bar-section {
-  ul {
-    li {
-      a {
-        font-size: 1rem;
-        font-weight: bold;
-      }
-    }
-  }
-}
-
 #fb-like {
   height: 45px;
   span {
     height: 45px !important;
     iframe {
       margin-top: 13px;
-    }
-  }
-}
-
-.no-login {
-  &.alert-box {
-    z-index: 9999;
-    float: right;
-    font-size: 1rem;
-
-    -webkit-box-shadow: 0px 2px 10px #666;	/* webkit browser*/
-    -moz-box-shadow: 0px 2px 10px #666;	/* firefox */
-    box-shadow: 0px 2px 10px #666;
-
-    @media screen and (min-width:760px)
-    {
-        width: 335px;
-    }
-
-    .close {
-      top: 20%;
     }
   }
 }
