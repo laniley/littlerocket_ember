@@ -25,8 +25,11 @@ export default DS.Model.extend({
          return friend.get('user').then(user => {
            return user;
          });
-       }).then(friends => {
-         return friends.sortBy('rank');
+       }).then(players => {
+         return this.get('user').then(user => {
+           players.pushObject(user);
+           return players.sortBy('rank');
+         });
        });
      })
     });
