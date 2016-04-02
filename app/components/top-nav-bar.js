@@ -1,3 +1,4 @@
+/* global FB */
 import Ember from 'ember';
 import FacebookLoginMixin from './../mixins/facebook-login';
 
@@ -10,6 +11,17 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   actions: {
     login: function() {
       this.login();
+    },
+    invite() {
+      FB.ui({
+        method: 'apprequests',
+        message: 'Come and play Little Rocket with me!',
+        filters: ['app_non_users']
+      }, function(response){
+        console.log(response);
+        //request
+        //to[index]
+      });
     }
   }
 });
