@@ -18,11 +18,11 @@
 
       </div>
     {{/link-to}} --}}
-    {{#link-to 'index' (query-params social_section="friends")}}
+    {{!-- {{#link-to 'index' (query-params social_section="friends")}}
       <div class={{if (if-equals currentSection 'friends') 'active item' 'item' }}>
         {{fa-icon "group"}}
       </div>
-    {{/link-to}}
+    {{/link-to}} --}}
     {{#link-to 'index' (query-params social_section="comments")}}
       <div class={{if (if-equals currentSection 'comments') 'active item' 'item' }}>
         {{fa-icon "fa-pencil"}}

@@ -24,39 +24,47 @@
   {{/link-to}} --}}
 </h2>
 <div class="leaderboard_list scrollable_list">
-  {{#if (gt players.content.length 0)}}
-    {{#each players.content as |top_player|}}
-      <div class="list-item">
-
-        <div class="img_container">
-          <img src="http://graph.facebook.com/{{top_player.fb_id}}/picture" class="profile small" />
-        </div>
-        <div class="container-column">
-          <div class="name">{{top_player.name}}</div>
-          <div class="score_container">
-            {{#if (eq sortBy 'score')}}
-              <span class="score">{{top_player.score}}</span> Points
-            {{else}}
-              {{#if (eq sortBy 'challenges')}}
-                <span class="score">{{top_player.challenges_won}}</span> challenges won
-              {{/if}}
+  {{#each players.content as |top_player|}}
+    <div class="list-item">
+      <div class="img_container">
+        <img src="http://graph.facebook.com/{{top_player.fb_id}}/picture" class="profile small" />
+      </div>
+      <div class="container-column">
+        <div class="name">{{top_player.name}}</div>
+        <div class="score_container">
+          {{#if (eq sortBy 'score')}}
+            <span class="score">{{top_player.score}}</span> Points
+          {{else}}
+            {{#if (eq sortBy 'challenges')}}
+              <span class="score">{{top_player.challenges_won}}</span> challenges won
             {{/if}}
-          </div>
-        </div>
-        <div class="rank_container">
-          <span class="rank">
-            {{#if (eq sortBy 'score')}}
-              {{top_player.rank}}
-            {{else}}
-              {{#if (eq sortBy 'challenges')}}
-                {{top_player.rank_by_won_challenges}}
-              {{/if}}
-            {{/if}}
-          </span>
+          {{/if}}
         </div>
       </div>
-    {{/each}}
+      <div class="rank_container">
+        <span class="rank">
+          {{#if (eq sortBy 'score')}}
+            {{top_player.rank}}
+          {{else}}
+            {{#if (eq sortBy 'challenges')}}
+              {{top_player.rank_by_won_challenges}}
+            {{/if}}
+          {{/if}}
+        </span>
+      </div>
+    </div>
   {{else}}
-    <div class="empty-info-text">This leaderboard is currently empty.</div>
-  {{/if}}
+    {{#if (eq filterBy 'all')}}
+      <div class="loader">
+        {{fa-icon "spinner" spin=true}}
+      </div>
+    {{else}}
+      <div class="invite_container">
+        <div class="fb-button invite" {{action 'invite'}}>{{fa-icon "facebook-square" size="lg"}} Invite friends</div>
+      </div>
+      <div class="empty-info-text">
+        None of your friends is playing <span class="little_rocket">little rocket</span> yet.<br /><br />
+      </div>
+    {{/if}}
+  {{/each}}
 </div>
