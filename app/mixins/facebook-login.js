@@ -132,12 +132,16 @@ export default Ember.Mixin.create({
   loadFriends(me, response) {
     console.log('friends', response["friends"]);
     response.friends.data.forEach(friend => {
-      this.store.createRecord('friend', {
+      var aFriend = this.store.createRecord('friend', {
         me: me,
         fb_id: friend.id, // real user-id
         name: friend.name,
         img_url: 'http://graph.facebook.com/' + friend.id + '/picture',
         is_already_playing: true
+      });
+      // load user
+      this.store.query('user', { 'fb_id': friend.id }).then(users => {
+        aFriend.set('user', users.get('firstObject'));
       });
     });
     console.log('invitable_friends', response.invitable_friends);

@@ -7,12 +7,14 @@ export default Ember.Controller.extend({
     'cockpit_section',
     'lab_section',
     'challenges_section',
-    'leaderboard_type'
+    'leaderboard_filterBy',
+    'leaderboard_sortBy'
   ],
   player_hud_section: 'rocket',
   social_section: 'leaderboard',
   cockpit_section: 'workbench',
   lab_section: 'cannon',
   challenges_section: 'unplayed',
-  leaderboard_type: 'score'
+  leaderboard_filterBy: 'all',
+  leaderboard_sortBy: 'score'
 });
