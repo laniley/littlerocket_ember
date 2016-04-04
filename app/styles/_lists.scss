@@ -1,8 +1,10 @@
 .scrollable_list {
   overflow-y: scroll;
   height: 499px;
-  padding-right: 3px;
-  margin-right: -17px;
+  margin-right: -18px;
+  .progress-bar-container {
+    padding-right: 15px;
+  }
 }
 
 .list-item {
