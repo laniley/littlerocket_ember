@@ -1,12 +1,28 @@
 <h2>
   Leaderboards
   <div class="h-sub-nav">
-    {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_filterBy="all") title="All players"}}
-      {{fa-icon 'globe'}}
-    {{/link-to}}
-    {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_filterBy="friends") title="Your friends"}}
-      {{fa-icon 'group'}}
-    {{/link-to}}
+    <div class="section">
+      {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_filterBy="all") title="All players"}}
+        {{fa-icon 'globe'}}
+      {{/link-to}}
+      {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_filterBy="friends") title="You and your friends"}}
+        {{fa-icon 'group'}}
+      {{/link-to}}
+    </div>
+    <div class="section">
+      {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_sortBy="score") title="by score"}}
+        <span class="fa-stack">
+          {{fa-icon "fa-circle-o" stack=2}}
+          {{fa-icon "fa-rocket" stack=1}}
+        </span>
+      {{/link-to}}
+      {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_sortBy="achievements") title="by achievement-points"}}
+        <span class="fa-stack">
+          {{fa-icon "fa-circle-o" stack=2}}
+          {{fa-icon "fa-star" stack=1}}
+        </span>
+      {{/link-to}}
+    </div>
   </div>
   {{!-- {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_type="challenges")}}
     <div class="{{if (eq currentLeaderboardType 'challenges') "active button pvp" "button pvp" }}" title="sort by won challenges">
@@ -24,33 +40,41 @@
   {{/link-to}} --}}
 </h2>
 <div class="leaderboard_list scrollable_list">
-  {{#each players.content as |top_player|}}
+  {{#each sortedPlayers as |top_player index|}}
     <div class="list-item">
       <div class="img_container">
         <img src="http://graph.facebook.com/{{top_player.fb_id}}/picture" class="profile small" />
       </div>
-      <div class="container-column">
+      <div class="center_column">
+        {{#if (eq sortBy 'score')}}
+          {{top_player.rank_by_score}}.
+        {{else}}
+          {{#if (eq sortBy 'challenges')}}
+            {{top_player.rank_by_won_challenges}}.
+          {{else}}
+            {{math index "+" 1}}.
+          {{/if}}
+        {{/if}}
         <div class="name">{{top_player.name}}</div>
-        <div class="score_container">
-          {{#if (eq sortBy 'score')}}
-            <span class="score">{{top_player.score}}</span> Points
-          {{else}}
-            {{#if (eq sortBy 'challenges')}}
-              <span class="score">{{top_player.challenges_won}}</span> challenges won
-            {{/if}}
-          {{/if}}
-        </div>
       </div>
-      <div class="rank_container">
-        <span class="rank">
-          {{#if (eq sortBy 'score')}}
-            {{top_player.rank}}
-          {{else}}
-            {{#if (eq sortBy 'challenges')}}
-              {{top_player.rank_by_won_challenges}}
-            {{/if}}
-          {{/if}}
-        </span>
+      <div class="score_container">
+        {{#if (eq sortBy 'score')}}
+          <span class="score">{{top_player.score}}</span>
+          <span class="fa-stack">
+            {{fa-icon "fa-circle-o" stack=2}}
+            {{fa-icon "fa-rocket" stack=1}}
+          </span>
+        {{/if}}
+        {{#if (eq sortBy 'achievements')}}
+          <span class="score">{{top_player.achievement_points}}</span>
+          <span class="fa-stack">
+            {{fa-icon "fa-circle-o" stack=2}}
+            {{fa-icon "fa-star" stack=1}}
+          </span>
+        {{/if}}
+        {{#if (eq sortBy 'challenges')}}
+          <span class="score">{{top_player.challenges_won}}</span> challenges won
+        {{/if}}
       </div>
     </div>
   {{else}}

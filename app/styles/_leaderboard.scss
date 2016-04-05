@@ -22,25 +22,31 @@
 		.list-item {
       .img_container {
         margin-right: 10px;
+        align-self: center;
         img {
           width: 50px;
           height: 50px;
         }
       }
-      .rank_container {
+      .center_column {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        .name {
+    			font-size: 22px;
+    		}
+      }
+      .score_container {
         flex-grow: 2;
   			margin-right: 20px;
   			line-height: 65px;
   			font-size: 22px;
         text-align: right;
+        .fa-stack {
+          font-size: 1rem;
+        }
   		}
-      .name {
-  			font-size: 22px;
-        line-height: 40px;
-  		}
-      .score_container {
-        line-height: 15px;
-      }
+
 		}
 
 	}

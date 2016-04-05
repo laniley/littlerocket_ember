@@ -73,11 +73,20 @@ body {
     .h-sub-nav {
       display: inline-block;
       float: right;
+      .fa-stack {
+        font-size: 1rem;
+        width: 40px;
+        height: 28px;
+        line-height: 31px;
+        top: -3px;
+      }
       a {
         display: inline-block;
         line-height: 32px;
         margin-left: 3px;
         border: $border;
+        width: 40px;
+        text-align: center;
         &:not(.active) {
           color: $darkblue;
         }
@@ -87,10 +96,10 @@ body {
             color: white;
           }
         }
-        i {
-          width: 40px;
-          text-align: center;
-        }
+      }
+      .section {
+        display: inline-block;
+        margin-left: 20px;
       }
     }
     .button {

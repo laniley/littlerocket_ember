@@ -7,11 +7,26 @@ export default Ember.Component.extend({
   filterBy: 'all',
   sortBy: 'score',
 
+  // sortProperties: ['achievement_points:desc'],
+  sortedPlayers: Ember.computed.sort('players.content', 'sortProperties'),
+
+  sortProperties: Ember.computed('sortBy', function() {
+    var props = [];
+    if(this.get('sortBy') === 'score') {
+      props.push('rank_by_score');
+      return props;
+    }
+    else {
+      props.push('achievement_points:desc');
+      return props;
+    }
+  }),
+
   players: Ember.computed('me.users_of_friends_playing.length', 'filterBy', 'sortBy', function() {
     if(this.get('filterBy') === 'friends') {
       return DS.PromiseObject.create({
-        promise: this.get('me.users_of_friends_playing').then(users_of_friends_playing => {
-          return users_of_friends_playing;
+        promise: this.get('me.users_of_friends_playing').then(friends => {
+          return friends;
         })
       });
     }

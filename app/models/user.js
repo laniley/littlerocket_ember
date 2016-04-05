@@ -8,7 +8,7 @@ export default DS.Model.extend({
   img_url: DS.attr('string'),
   gender: DS.attr('string'),
 
-  rank: DS.attr('number', { defaultValue: 0 }),
+  rank_by_score: DS.attr('number', { defaultValue: 0 }),
   rank_by_won_challenges: DS.attr('number', { defaultValue: 0 }),
   score: DS.attr('number', { defaultValue: 0 }),
   stars: DS.attr('number', { defaultValue: 0 }),
@@ -22,6 +22,7 @@ export default DS.Model.extend({
   rocket: DS.belongsTo('rocket', { async: true }),
   challenges: DS.hasMany('challenge', { async: true, inverse: null }),
   achievements: DS.hasMany('achievement'),
+  achievement_points: DS.attr('number', { defaultValue: 0}),
 
   name: function() {
     var name = '';
