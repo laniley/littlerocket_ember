@@ -849,34 +849,7 @@ export default Ember.Component.extend(
         user.set('experience', new_experience);
         user.set('flights', user.get('flights') + 1);
 
-        user.save().then(() => {
-          self.get('targetObject.store').query('user', { 'mode': 'leaderboard', 'type': 'score' }).then(users => {
-            var leaderboard = self.get('targetObject.store').peekRecord('leaderboard', 1);
-            if(Ember.isEmpty(leaderboard)) {
-              leaderboard = self.get('targetObject.store').createRecord('leaderboard', {
-                id: 1,
-                name: 'world score leaderboard',
-                players: users
-              });
-            }
-            else {
-              leaderboard.set('players', users);
-            }
-          });
-          self.get('targetObject.store').query('user', { 'mode': 'leaderboard', 'type': 'challenges' }).then(users => {
-            var leaderboard = self.get('targetObject.store').peekRecord('leaderboard', 2);
-            if(Ember.isEmpty(leaderboard)) {
-              leaderboard = self.get('targetObject.store').createRecord('leaderboard', {
-                id: 2,
-                name: 'world challenges leaderboard',
-                players: users
-              });
-            }
-            else {
-              leaderboard.set('players', users);
-            }
-          });
-        });
+        user.save();
 
       });
 
