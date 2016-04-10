@@ -1,6 +1,4 @@
 /* global Quintus */
-/* global FB */
-/* global LSM_Slot */
 import Ember from 'ember';
 import FacebookLoginMixin from './../mixins/facebook-login';
 import RocketMixin from './../mixins/rocket';
@@ -27,14 +25,15 @@ export default Ember.Component.extend(
   Q: null,
   me: null,
   gameState: null,
-  hasPostPermission: true,
   isLoading: true,
   gameCanvasIsLoaded: false,
   currentScene: null,
   showHud: false,
-  newHighscore: false,
-  old_score: 0,
   components_ready: 0,
+
+  newScore: function() {
+    return (this.get('gameState').get('flown_distance') + this.get('gameState').get('stars')) * this.get('gameState').get('level');
+  }.property('gameState.flown_distance', 'gameState.stars', 'gameState.level'),
 
   init: function() {
     this._super();
@@ -758,8 +757,7 @@ export default Ember.Component.extend(
       self.setupLevel(this.get('gameState').get('level'));
 
   		// inputs
-  		Q.input.on("space", this, function()
-  		{
+  		Q.input.on("space", this, function() {
 		  		if(Q.loop)
 		  		{
 		  			Q.pauseGame();
@@ -777,14 +775,13 @@ export default Ember.Component.extend(
 
   	Q.scene("gameOver", function(stage) {
 
-      self.set('showHud', true);
-
       Q.pauseGame();
-
       Q.audio.stop('rocket.mp3');
   		Q.audio.stop('racing.mp3');
 
-      self.get('gameState').set('speed', 0);
+      self.set('currentScene', 'gameOver');
+      self.set('showHud', true);
+
       self.get('cannon').set('isReloading', false);
       Q.state.set('shield_is_reloading', false);
       Q.state.set('engine_is_reloading', false);
@@ -800,58 +797,6 @@ export default Ember.Component.extend(
       if(self.get('engineReloadingTimeout')) {
         clearTimeout(self.get('engineReloadingTimeout'));
       }
-
-      try {
-        new LSM_Slot({
-            adkey: '6df',
-            ad_size: '728x90',
-            slot: 'slot126743',
-            _render_div_id: 'footer_banner',
-            _preload: true
-        });
-      }
-      catch(e) {
-        console.log(e);
-      }
-
-      self.get('me').get('user').then(user => {
-
-        self.set('old_score', user.get('score'));
-
-        if(self.get('new_score') > user.get('score')) {
-          user.set('score', self.get('new_score'));
-          self.sendScoreToFB(self.get('new_score'));
-          self.set('newHighscore', true);
-    		}
-        else {
-          self.set('newHighscore', false);
-        }
-
-        if(self.get('me').get('activeChallenge')) {
-          if(self.get('me').get('activeChallenge').get('iAm') === 'from_player') {
-            self.get('me').get('activeChallenge').set('from_player_score', self.get('new_score'));
-            self.get('me').get('activeChallenge').set('from_player_has_played', true);
-          }
-          else {
-            self.get('me').get('activeChallenge').set('to_player_score', self.get('new_score'));
-            self.get('me').get('activeChallenge').set('to_player_has_played', true);
-          }
-          self.get('me').get('activeChallenge').save();
-          self.get('me').set('activeChallenge', null);
-        }
-
-        self.set('currentScene', 'gameOver');
-
-        var new_stars_amount = user.get('stars') + (self.get('gameState').get('stars') * self.get('gameState').get('level'));
-        var new_experience = user.get('experience') + self.get('new_score');
-        user.set('stars', new_stars_amount);
-        user.set('stars_all_time', user.get('stars_all_time') + (self.get('gameState').get('stars') * self.get('gameState').get('level')));
-        user.set('experience', new_experience);
-        user.set('flights', user.get('flights') + 1);
-
-        user.save();
-
-      });
 
       // Try again
       var container = stage.insert( new Q.UI.Container ({
@@ -949,6 +894,8 @@ export default Ember.Component.extend(
   		});
     });
   },
+
+
 
   observeRocketComponentStates: function() {
     if(this.get('Q') !== null) {
@@ -1195,44 +1142,6 @@ export default Ember.Component.extend(
     }
   },
 
-  sendScoreToFB: function(score) {
-
-    FB.api('/me/permissions', response => {
-
-      if( !response.error ) {
-
-        this.set('hasPostPermission', false);
-
-        for( var i=0; i < response.data.length; i++ ) {
-      	    if(response.data[i].permission === 'publish_actions' && response.data[i].status === 'granted' ) {
-              this.set('hasPostPermission', true);
-            }
-      	}
-
-      	if(this.get('hasPostPermission')) {
-          FB.api('/me/scores/', 'post', { score: score }, function(response)
-        	{
-        		if( response.error )
-      	  	{
-      			  console.error('sendScoreToFB failed', response);
-      	  	}
-      	  	else
-      	  	{
-      	  		console.log('Score posted to Facebook', response);
-      	  	}
-        	});
-        }
-        else {
-          // show post to FB button
-        }
-	    }
-	    else
-	    {
-	      	console.error('ERROR - /me/permissions', response);
-	    }
-  	});
-  },
-
   aChallengeIsActive: function() {
     if(!Ember.isEmpty(this.get('me').get('activeChallenge'))) {
       return true;
@@ -1241,10 +1150,6 @@ export default Ember.Component.extend(
       return false;
     }
   }.property('me.activeChallenge'),
-
-  new_score: function() {
-    return (this.get('gameState').get('flown_distance') + this.get('gameState').get('stars')) * this.get('gameState').get('level');
-  }.property('gameState.flown_distance', 'gameState.stars', 'gameState.level'),
 
   initRocketComponents: function() {
     this.get('me').get('user').then(user => {
@@ -1334,23 +1239,6 @@ export default Ember.Component.extend(
   actions: {
     login: function() {
       this.login();
-    },
-    postScoreToFB: function() {
-
-      var old_score = this.get('old_score');
-      var new_score = this.get('new_score');
-
-      FB.ui({
-        method: 'share_open_graph',
-        action_type: 'games.highscores',
-        action_properties: JSON.stringify({
-          game:'https://apps.facebook.com/little_rocket/',
-          old_high_score: old_score,
-          new_high_score: new_score
-        })
-      }, function(response){
-        console.log(response);
-      });
     }
   }
 

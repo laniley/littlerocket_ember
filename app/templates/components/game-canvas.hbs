@@ -9,40 +9,17 @@
     {{#if me.isLoggedIn}}
 
       {{#if isLoading}}
-        <div id='loading'>
-          <div id='loading_container'>
-            <div id='loading_progress'>
-              <span>loading...</span>
-            </div>
-          </div>
-        </div>
+        {{game-canvas-components/progress-bar}}
       {{/if}}
 
       {{#if (if-equals currentScene 'gameOver') }}
-        <div class="gameOver">
-          {{#if newHighscore }}
-            You beat your own highscore! <br /><br />
-          {{else}}
-            Your score: <br /><br />
-          {{/if}}
-          {{new_score}} <br /><br />
-          distance: {{gameState.flown_distance}} <br />
-          stars: {{gameState.stars}} <br />
-          x {{gameState.level}} ( level )
-
-          {{#if newHighscore }}
-            {{#unless hasPostPermission}}
-              <div class="fb-button post" {{action 'postScoreToFB'}}>{{fa-icon "facebook-square"}} post</div>
-            {{/unless}}
-          {{/if}}
-
-        </div>
+        {{game-canvas-components/scenes/game-over gameState=gameState newScore=newScore}}
       {{/if}}
 
       {{#if showHud}}
         <div class="hud">
 
-          <div class="score">{{new_score}}</div>
+          <div class="score">{{newScore}}</div>
 
           <div class="list-group hud-list-group infos">
             <table>

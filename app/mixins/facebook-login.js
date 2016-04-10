@@ -13,6 +13,16 @@ export default Ember.Mixin.create({
     );
   },
 
+  reRequestPostPermission(callback) {
+    FB.login(response =>
+      {
+        console.log('reRequestPostPermission: ', response);
+        if(callback) { callback(response); }
+      },
+      { scope: 'publish_actions', auth_type: 'rerequest' }
+    );
+  },
+
   checkLoginState() {
     FB.getLoginStatus(response => {
       this.statusChangeCallback(response);
