@@ -13,7 +13,11 @@
       {{/if}}
 
       {{#if (if-equals currentScene 'gameOver') }}
-        {{game-canvas-components/scenes/game-over gameState=gameState newScore=newScore}}
+        {{game-canvas-components/scenes/game-over
+            gameState=gameState
+            newScore=newScore
+            tryAgainAction=(action "tryAgain")
+            selectStageAction=(action "selectStage")}}
       {{/if}}
 
       {{#if showHud}}

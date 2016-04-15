@@ -14,7 +14,7 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{tooltip-component}}`);
 
-  assert.equal(this.$().text(), '');
+  assert.equal(this.$().text().trim(), '');
 
   // Template block usage:
   this.render(hbs`

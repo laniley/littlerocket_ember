@@ -11,14 +11,5 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{game-canvas-components/progress-bar}}`);
 
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:"
-  this.render(hbs`
-    {{#game-canvas-components/progress-bar}}
-      template block text
-    {{/game-canvas-components/progress-bar}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$().text().trim(), 'loading...');
 });

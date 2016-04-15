@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -11,17 +12,22 @@ test('it renders', function(assert) {
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
+  var component = Ember.Object.extend({
+    construction_time: 100
+  }).create();
 
-  this.render(hbs`{{timer-component}}`);
+  this.set('component', component);
 
-  assert.equal(this.$().text(), '');
+  this.render(hbs`{{timer-component component=component}}`);
+
+  assert.equal(this.$().html().length > 0, true);
 
   // Template block usage:
   this.render(hbs`
-    {{#timer-component}}
+    {{#timer-component component=component}}
       template block text
     {{/timer-component}}
   `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$().html().length > 0, true);
 });

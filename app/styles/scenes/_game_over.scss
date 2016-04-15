@@ -1,0 +1,66 @@
+.gameOver {
+  position: absolute;
+  z-index: 9999;
+  top: 40px;
+  left: 50%;
+  margin-left: -40%;
+  width: 80%;
+  padding: 15px;
+  background-color: #576C73;
+  color: white;
+  -webkit-box-shadow: 0px 2px 10px #666;
+  -moz-box-shadow: 0px 2px 10px #666;
+  box-shadow: 0px 2px 10px #666;
+  font-weight: 700;
+  font-size: 1.2rem;
+  font-family: Helvetica;
+  text-align: center;
+  .congratz {
+    font-family: Kraash;
+    font-size: 20px;
+    margin: 35px 0;
+  }
+  .congratz_sub {
+    margin-bottom: 20px;
+  }
+  .score {
+    font-size: 35px;
+    margin-bottom: 20px;
+    background: lightblue;
+    color: #576C73;
+  }
+  .score-info {
+    padding: 25px;
+    font-size: 1rem;
+  }
+  .fb-button {
+    font-size: 1.2rem;
+    padding: 10px;
+    border: 1px solid #2C2B54;
+    text-align: center;
+    &.post {
+      margin-top: 20px;
+    }
+    &.login {
+      position: absolute;
+      margin-top: 90px;
+      width: 50%;
+      left: 50%;
+      margin-left: -25%;
+    }
+  }
+  .button {
+    width: 60%;
+    margin-bottom: 10px;
+    font-weight: bold;
+    background: lightblue;
+    border: 3px solid;
+    padding: 1rem;
+    &.active {
+      width: 66%;
+      color: $primary-text-color;
+      border: 3px solid $primary-text-color;
+      background: white;
+    }
+  }
+}

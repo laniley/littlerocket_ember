@@ -11,7 +11,7 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{social-components/friends-component}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.equal(this.$().html().length > 0, true);
 
   // Template block usage:"
   this.render(hbs`
@@ -20,5 +20,5 @@ test('it renders', function(assert) {
     {{/social-components/friends-component}}
   `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$().html().length > 0, true);
 });

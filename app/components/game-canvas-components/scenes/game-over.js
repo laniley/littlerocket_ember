@@ -7,12 +7,14 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
   gameState: null,
   me: null,
+  tryAgainAction: null,
+  selectStageAction: null,
   hasPostPermission: false,
   hasBeenPosted: false,
   newScore: 0,
   oldScore: 0,
 
-  init: function() {
+  init() {
     this._super();
     this.get('gameState').set('speed', 0);
 
@@ -36,7 +38,6 @@ export default Ember.Component.extend(FacebookLoginMixin, {
       if(this.get('newScore') > user.get('score')) {
         user.set('score', this.get('newScore'));
         this.set('isNewHighscore', true);
-        // this.sendScoreToFB(this.get('newScore'));
       }
       else {
         this.set('isNewHighscore', false);
@@ -91,8 +92,30 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
   sendScoreToFB: function() {
     this.set('hasBeenPosted', true);
-    FB.api('/me/scores/', 'post', { score: this.get('newScore') }, response => {
-      if( response.error ) {
+
+    // FB.api('/me/scores/', 'post', { score: this.get('newScore') }, response => {
+    //   if( response.error ) {
+    //     console.error('sendScoreToFB failed', response);
+    //     this.set('hasBeenPosted', false);
+    //   }
+    //   else {
+    //     console.log('Score posted to Facebook', response);
+    //   }
+    // });
+
+    var old_score = this.get('oldScore');
+    var new_score = this.get('newScore');
+
+    FB.ui({
+      method: 'share_open_graph',
+      action_type: 'games.highscores',
+      action_properties: JSON.stringify({
+      game:'https://apps.facebook.com/little_rocket/',
+        old_high_score: old_score,
+        new_high_score: new_score
+      })
+    }, response => {
+      if( response.error_code ) {
         console.error('sendScoreToFB failed', response);
         this.set('hasBeenPosted', false);
       }
@@ -103,7 +126,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   },
 
   actions: {
-    postScoreToFB: function() {
+    postScoreToFB() {
       this.checkForPostPermission(() => {
         if(this.get('hasPostPermission')) {
           this.sendScoreToFB();
@@ -114,6 +137,12 @@ export default Ember.Component.extend(FacebookLoginMixin, {
           });
         }
       });
+    },
+    tryAgain() {
+      this.get('tryAgainAction')();
+    },
+    selectStage() {
+      this.get('selectStageAction')();
     }
   }
 

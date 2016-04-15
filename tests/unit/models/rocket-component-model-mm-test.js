@@ -2,7 +2,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('rocket-component-model-mm', 'Unit | Model | rocket component model mm', {
   // Specify the other units that are required for this test.
-  needs: []
+  needs: ['model:rocket-component', 'model:rocket-component-model']
 });
 
 test('it exists', function(assert) {

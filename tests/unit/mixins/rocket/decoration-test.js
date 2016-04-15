@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import RocketDecorationMixin from '../../../mixins/rocket/decoration';
+import RocketDecorationMixin from './../../../../mixins/rocket/decoration';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | rocket/decoration');

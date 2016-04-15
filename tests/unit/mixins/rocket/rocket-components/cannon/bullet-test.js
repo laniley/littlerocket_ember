@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import RocketRocketComponentsCannonBulletMixin from '../../../mixins/rocket/rocket-components/cannon/bullet';
+import RocketRocketComponentsCannonBulletMixin from './../../../../../../mixins/rocket/rocket-components/cannon/bullet';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | rocket/rocket components/cannon/bullet');

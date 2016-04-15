@@ -29,21 +29,18 @@ export default Ember.Component.extend({
     var elapsed_construction_time = now - start_time;
     var remaining_construction_time = construction_duration - elapsed_construction_time;
 
-    Ember.$('#' + this.get('elementId')).pietimer
-    (
-      {
-        timerStart: start_time,
-        timerCurrent: elapsed_construction_time,
-      	timerSeconds: remaining_construction_time,
-      	color: 'rgb(20, 208, 69)',
-      	height: 50,
-      	width: 50,
-        showPercentage: true,
-        callback: function() {
-          self.onTimerReady();
-        }
+    Ember.$('#' + this.get('elementId')).pietimer({
+      timerStart: start_time,
+      timerCurrent: elapsed_construction_time,
+    	timerSeconds: remaining_construction_time,
+    	color: 'rgb(20, 208, 69)',
+    	height: 50,
+    	width: 50,
+      showPercentage: true,
+      callback: function() {
+        self.onTimerReady();
       }
-    );
+    });
 
     Ember.$('#' + this.get('elementId')).pietimer('start');
   },

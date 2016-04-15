@@ -6,13 +6,13 @@ moduleForComponent('player-hud-components/workbench', 'Integration | Component |
 });
 
 test('it renders', function(assert) {
-  
+
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
   this.render(hbs`{{player-hud-components/workbench}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.equal(this.$().html().length > 0, true);
 
   // Template block usage:" + EOL +
   this.render(hbs`
@@ -21,5 +21,5 @@ test('it renders', function(assert) {
     {{/player-hud-components/workbench}}
   `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$().html().length > 0, true);
 });

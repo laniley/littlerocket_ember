@@ -1,8 +1,8 @@
 import Ember from 'ember';
-import RocketComponentsShieldMixin from '../../../mixins/rocket-components/shield';
+import RocketComponentsShieldMixin from './../../../../../mixins/rocket/rocket-components/shield';
 import { module, test } from 'qunit';
 
-module('Unit | Mixin | rocket components/shield');
+module('Unit | Mixin | rocket/rocket components/shield');
 
 // Replace this with your real tests.
 test('it works', function(assert) {

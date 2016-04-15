@@ -798,99 +798,28 @@ export default Ember.Component.extend(
         clearTimeout(self.get('engineReloadingTimeout'));
       }
 
-      // Try again
-      var container = stage.insert( new Q.UI.Container ({
-          x: Q.width/2,
-          y: (Q.height/2 + 130 * Q.state.get('scale'))
-      }));
-
-      var buttonTryAgain = container.insert ( new Q.UI.Button ({
-        x: 0,
-        y: 0,
-        fontColor: Q.state.get('buttonTextColorSelected'),
-        stroke: Q.state.get('buttonTextColorSelected'),
-				fill: Q.state.get('buttonFillColorSelected'),
-        shadow: 5,
-        shadowColor: "rgba(0,0,0,0.5)",
-        label: "Try level again",
-        border: 2,
-        scale: Q.state.get('scale')
-      }));
-
-      buttonTryAgain.on("click",function() {
-          Q.clearStages();
-          Q.stageScene('level');
-      });
-
-      container.fit(20);
-
-      // Select level
-      var containerSelectLevel = stage.insert( new Q.UI.Container ({
-          x: Q.width/2,
-          y: (Q.height/2 + 200 * Q.state.get('scale'))
-      }));
-
-      var buttonSelectLevel = containerSelectLevel.insert ( new Q.UI.Button ({
-          x: 0,
-          y: 0,
-          fill: "#CCCCCC",
-          label: "Select level",
-          shadowColor: "rgba(0,0,0,0.5)",
-          border: 2,
-          scale: Q.state.get('scale')
-      }));
-
-      buttonSelectLevel.on("click",function() {
-          Q.clearStages();
-          Q.stageScene('levelSelection');
-      });
-
-      containerSelectLevel.fit(20);
-
       var currentSelectedButton = 'buttonTryAgain';
 
       // inputs
   		Q.input.on("enter", this, function() {
         if(currentSelectedButton === 'buttonTryAgain') {
-          Q.clearStages();
-          Q.stageScene('level');
+          this.tryAgain();
         }
         else {
-          Q.clearStages();
-          Q.stageScene('levelSelection');
+          this.selectStage();
         }
   		});
 
       Q.input.on("up", this, function() {
-          buttonSelectLevel.p.fill = Q.state.get('buttonFillColorUnselected');
-          buttonTryAgain.p.fill = Q.state.get('buttonFillColorSelected');
-
-          buttonSelectLevel.p.fontColor = Q.state.get('buttonTextColorUnselected');
-          buttonTryAgain.p.fontColor = Q.state.get('buttonTextColorSelected');
-
-          buttonSelectLevel.p.stroke = Q.state.get('buttonTextColorUnselected');
-          buttonTryAgain.p.stroke = Q.state.get('buttonTextColorSelected');
-
-          buttonSelectLevel.p.shadow = 0;
-          buttonTryAgain.p.shadow = 5;
-
           currentSelectedButton = 'buttonTryAgain';
+          Ember.$(".try-again").addClass("active");
+          Ember.$(".select-stage").removeClass("active");
   		});
 
       Q.input.on("down", this, function() {
-		  		buttonTryAgain.p.fill = Q.state.get('buttonFillColorUnselected');
-          buttonSelectLevel.p.fill = Q.state.get('buttonFillColorSelected');
-
-          buttonTryAgain.p.fontColor = Q.state.get('buttonTextColorUnselected');
-          buttonSelectLevel.p.fontColor = Q.state.get('buttonTextColorSelected');
-
-          buttonTryAgain.p.stroke = Q.state.get('buttonTextColorUnselected');
-          buttonSelectLevel.p.stroke = Q.state.get('buttonTextColorSelected');
-
-          buttonSelectLevel.p.shadow = 5;
-          buttonTryAgain.p.shadow = 0;
-
           currentSelectedButton = 'buttonSelectLevel';
+          Ember.$(".try-again").removeClass("active");
+          Ember.$(".select-stage").addClass("active");
   		});
     });
   },
@@ -1236,9 +1165,26 @@ export default Ember.Component.extend(
     }
   },
 
+  tryAgain() {
+    this.get('Q').clearStages();
+    this.get('Q').stageScene('level');
+    Ember.$("#game").focus();
+  },
+
+  selectStage() {
+    this.get('Q').clearStages();
+    this.get('Q').stageScene('levelSelection');
+  },
+
   actions: {
-    login: function() {
+    login() {
       this.login();
+    },
+    tryAgain() {
+      this.tryAgain();
+    },
+    selectStage() {
+      this.selectStage();
     }
   }
 

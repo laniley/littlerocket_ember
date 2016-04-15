@@ -1,13 +1,13 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-// import hbs from 'htmlbars-inline-precompile';
+import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('social-components/challenges-component', 'Integration | Component | social components/challenges component', {
+moduleForComponent('player-hud-components/player-infos', 'Integration | Component | player infos', {
   integration: true
 });
 
 test('it renders', function(assert) {
-  assert.expect(0);
+  assert.expect(2);
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
@@ -32,16 +32,16 @@ test('it renders', function(assert) {
 
   this.set('me', me);
 
-  // this.render(hbs`{{social-components/challenges-component me=me}}`);
-  //
-  // assert.equal(this.$().text().trim(), '');
-  //
-  // // Template block usage:
-  // this.render(hbs`
-  //   {{#social-components/challenges-component me=me}}
-  //     template block text
-  //   {{/social-components/challenges-component}}
-  // `);
-  //
-  // assert.equal(this.$().text().trim(), 'template block text');
+  this.render(hbs`{{player-hud-components/player-infos me=me}}`);
+
+  assert.equal(this.$().html().length > 0, true);
+
+  // Template block usage:
+  this.render(hbs`
+    {{#player-hud-components/player-infos me=me}}
+      template block text
+    {{/player-hud-components/player-infos}}
+  `);
+
+  assert.equal(this.$().html().length > 0, true);
 });

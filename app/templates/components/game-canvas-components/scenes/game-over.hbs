@@ -1,20 +1,29 @@
 <div class="gameOver">
   {{#if isNewHighscore }}
-    You beat your own highscore! <br /><br />
+    <div class="congratz">CONGRATULATIONS</div>
+    <div class="congratz_sub">You beat your own highscore!</div>
   {{else}}
     Your score: <br /><br />
   {{/if}}
-  {{newScore}} <br /><br />
-  distance: {{gameState.flown_distance}} <br />
-  stars: {{gameState.stars}} <br />
-  x {{gameState.level}} ( level )
+  <div class="score">{{newScore}}</div>
 
   {{#if isNewHighscore}}
     {{#unless hasBeenPosted}}
       <div class="fb-button post" {{action 'postScoreToFB'}}>{{fa-icon "facebook-square"}} post</div>
     {{else}}
-      <div class="fb-button post disabled">{{fa-icon "check"}}</div>
+      <div class="fb-button post disabled">{{fa-icon "check"}} post</div>
     {{/unless}}
   {{/if}}
+
+  <div class="score-info">
+    distance: {{gameState.flown_distance}} <br />
+    stars: {{gameState.stars}} <br />
+    x {{gameState.level}} ( level )
+  </div>
+
+  <div class="buttons">
+    <div class="button active try-again" {{action "tryAgain"}}>RETRY STAGE</div>
+    <div class="button select-stage" {{action "selectStage"}} {{action "activate" on=""}}>SELECT STAGE</div>
+  </div>
 
 </div>

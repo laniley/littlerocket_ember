@@ -2,6 +2,7 @@
 @import "settings";
 @import "pietimer";
 @import "buttons";
+@import "fonts";
 
 @import "achievements";
 @import "challenges";
@@ -9,6 +10,7 @@
 @import "component_level_upgrades";
 @import "friends";
 @import "game_canvas";
+@import "scenes";
 @import "leaderboard";
 @import "lists";
 @import "player_hud_component";
@@ -16,10 +18,7 @@
 @import "progress_bar";
 @import "top_nav_bar";
 
-@font-face {
-  font-family: Agency_FB;
-  src:  url('/assets/fonts/agency_fb.ttf') format('truetype') /* Safari, Android, iOS, Chrome, Firefox */
-}
+
 
 .flex-container {
   display:flex;
