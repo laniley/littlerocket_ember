@@ -8,6 +8,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   gameState: null,
   me: null,
   tryAgainAction: null,
+  selectedAction: 'tryAgainAction',
   selectStageAction: null,
   hasPostPermission: false,
   hasBeenPosted: false,
@@ -16,6 +17,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
   init() {
     this._super();
+    Ember.$(document).on('keyup', { _self: this }, this.reactToKeyUp);
     this.get('gameState').set('speed', 0);
 
     try {
@@ -123,6 +125,30 @@ export default Ember.Component.extend(FacebookLoginMixin, {
         console.log('Score posted to Facebook', response);
       }
     });
+  },
+
+  reactToKeyUp(e) {
+    // console.log('key pressed', e);
+    // arrow up
+    if(e.keyCode === 38) {
+      Ember.$(".try-again").addClass("active");
+      Ember.$(".select-stage").removeClass("active");
+      e.data._self.set('selectedAction', 'tryAgainAction');
+    }
+    // arrow down
+    else if(e.keyCode === 40) {
+      Ember.$(".try-again").removeClass("active");
+      Ember.$(".select-stage").addClass("active");
+      e.data._self.set('selectedAction', 'selectStageAction');
+    }
+    // enter
+    else if(e.keyCode === 13) {
+      e.data._self.get(e.data._self.get('selectedAction'))();
+    }
+  },
+
+  willDestroyElement: function(){
+    Ember.$(document).off('keyup', this.reactToKeyUp);
   },
 
   actions: {

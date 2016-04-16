@@ -773,7 +773,7 @@ export default Ember.Component.extend(
 
   	});
 
-  	Q.scene("gameOver", function(stage) {
+  	Q.scene("gameOver", function(/*stage*/) {
 
       Q.pauseGame();
       Q.audio.stop('rocket.mp3');
@@ -797,34 +797,8 @@ export default Ember.Component.extend(
       if(self.get('engineReloadingTimeout')) {
         clearTimeout(self.get('engineReloadingTimeout'));
       }
-
-      var currentSelectedButton = 'buttonTryAgain';
-
-      // inputs
-  		Q.input.on("enter", this, function() {
-        if(currentSelectedButton === 'buttonTryAgain') {
-          this.tryAgain();
-        }
-        else {
-          this.selectStage();
-        }
-  		});
-
-      Q.input.on("up", this, function() {
-          currentSelectedButton = 'buttonTryAgain';
-          Ember.$(".try-again").addClass("active");
-          Ember.$(".select-stage").removeClass("active");
-  		});
-
-      Q.input.on("down", this, function() {
-          currentSelectedButton = 'buttonSelectLevel';
-          Ember.$(".try-again").removeClass("active");
-          Ember.$(".select-stage").addClass("active");
-  		});
     });
   },
-
-
 
   observeRocketComponentStates: function() {
     if(this.get('Q') !== null) {
