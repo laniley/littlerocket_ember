@@ -17,7 +17,10 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
   init() {
     this._super();
+
     Ember.$(document).on('keyup', { _self: this }, this.reactToKeyUp);
+
+    this.set('gameState', this.store.peekRecord('gameState', 1));
     this.get('gameState').set('speed', 0);
 
     try {
