@@ -524,7 +524,7 @@ export default Ember.Component.extend(
 
     Q.scene("levelSelection", function(stage) {
 
-      self.set('currentScene', 'levelSelection');
+      self.set('currentScene', 'stageSelection');
       self.set('showHud', false);
 
     	Q.pauseGame();
@@ -534,123 +534,10 @@ export default Ember.Component.extend(
 
     	stage.insert(new Q.Level_Selection());
 
-    	// assets
-    	var assetLevel2 = 'star_locked.png';
-
-    	if(self.get('me').get('user').get('reached_level') > 1) {
-    		assetLevel2 = 'star.png';
-      }
-
-    	var assetLevel3 = 'star_locked.png';
-
-    	if(self.get('me').get('user').get('reached_level') > 2) {
-    		assetLevel3 = 'star.png';
-      }
-
-      var assetLevel4 = 'star_locked.png';
-
-    	if(self.get('me').get('user').get('reached_level') > 3) {
-    		assetLevel4 = 'star.png';
-      }
-
-      var assetLevel5 = 'star_locked.png';
-
-    	if(self.get('me').get('user').get('reached_level') > 4) {
-    		assetLevel5 = 'star.png';
-      }
-
     	var assetLevel6 = 'star_coming_soon.png';
     	var assetLevel7 = 'star_coming_soon.png';
     	var assetLevel8 = 'star_coming_soon.png';
     	var assetLevel9 = 'star_coming_soon.png';
-
-      // Level 1
-      var level1Button = stage.insert(new Q.UI.Button({
-    	      asset: 	'star.png',
-    	      x: 		80,
-    	      y: 		520,
-    	      scale: 	0.7,
-    	      label: 	'1'
-        	}
-      ));
-
-      level1Button.on("click", function() {
-          self.get('gameState').set('level', 1);
-      		Q.clearStages();
-      		Q.stageScene("mainMenu");
-      });
-
-      // Level 2
-      var level2Button = stage.insert(new Q.UI.Button({
-    	      asset: 	assetLevel2,
-    	      x: 		190,
-    	      y: 		500,
-    	      scale: 	0.7,
-    	      label: 	'2'
-        	}
-      ));
-
-      level2Button.on("click", function() {
-      		if(self.get('me').get('user').get('reached_level') > 1) {
-            self.get('gameState').set('level', 2);
-      			Q.clearStages();
-      			Q.stageScene("mainMenu");
-      		}
-    	});
-
-    	// Level 3
-    	var level3Button = stage.insert(new Q.UI.Button({
-    	      asset: 	assetLevel3,
-    	      x: 		310,
-    	      y: 		470,
-    	      scale: 	0.7,
-    	      label: 	'3'
-        	}
-      ));
-
-      level3Button.on("click", function() {
-    		if(self.get('me').get('user').get('reached_level') > 2) {
-          self.get('gameState').set('level', 3);
-    			Q.clearStages();
-    			Q.stageScene("mainMenu");
-    		}
-      });
-
-    	// Level 4
-    	var level4Button = stage.insert(new Q.UI.Button({
-  	      asset: 	assetLevel4,
-  	      x: 		323,
-  	      y: 		370,
-  	      scale: 	0.7,
-  	      label: 	'4'
-      	}
-      ));
-
-      level4Button.on("click", function() {
-        if(self.get('me').get('user').get('reached_level') > 3) {
-          self.get('gameState').set('level', 4);
-      		Q.clearStages();
-      		Q.stageScene("mainMenu");
-      	}
-      });
-
-    	// Level 5
-    	var level5Button = stage.insert(new Q.UI.Button({
-  	      asset: 	assetLevel5,
-  	      x: 		210,
-  	      y: 		335,
-  	      scale: 	0.7,
-  	      label: 	'5'
-        }
-      ));
-
-      level5Button.on("click", function() {
-        if(self.get('me').get('user').get('reached_level') > 4) {
-          self.get('gameState').set('level', 5);
-      		Q.clearStages();
-      		Q.stageScene("mainMenu");
-      	}
-    	});
 
     	// Level 6
     	var level6Button = stage.insert(new Q.UI.Button({

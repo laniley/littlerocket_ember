@@ -1,0 +1,42 @@
+.stage-selection {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  img {
+    position: absolute;
+  }
+  .stage {
+    position: absolute;
+    width: 46px;
+  }
+  .stage-number {
+    position: absolute;
+    font-weight: bold;
+    width: 100%;
+    font-size: 20px;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .stage-1 {
+    top: 510px;
+    left: 60px;
+  }
+  .stage-2 {
+    top: 490px;
+    left: 172px;
+  }
+  .stage-3 {
+    top: 459px;
+    left: 284px;
+  }
+  .stage-4 {
+    top: 360px;
+    left: 299px;
+  }
+  .stage-5 {
+    top: 327px;
+    left: 188px;
+  }
+}
