@@ -533,59 +533,6 @@ export default Ember.Component.extend(
     	Q.audio.stop('racing.mp3');
 
     	stage.insert(new Q.Level_Selection());
-
-    	var assetLevel6 = 'star_coming_soon.png';
-    	var assetLevel7 = 'star_coming_soon.png';
-    	var assetLevel8 = 'star_coming_soon.png';
-    	var assetLevel9 = 'star_coming_soon.png';
-
-    	// Level 6
-    	var level6Button = stage.insert(new Q.UI.Button({
-    	      asset: 	assetLevel6,
-    	      x: 		115,
-    	      y: 		310,
-    	      scale: 	0.7,
-    	      label: 	'6'
-        	}
-       ));
-
-      level6Button.on("click", function() {});
-
-    	// Level 7
-    	var level7Button = stage.insert(new Q.UI.Button({
-    	      asset: 	assetLevel7,
-    	      x: 		65,
-    	      y: 		230,
-    	      scale: 	0.7,
-    	      label: 	'7'
-        	}
-       ));
-
-      level7Button.on("click", function() {});
-
-    	// Level 8
-    	var level8Button = stage.insert(new Q.UI.Button({
-    	      asset: 	assetLevel8,
-    	      x: 		120,
-    	      y: 		160,
-    	      scale: 	0.7,
-    	      label: 	'8'
-        	}
-       ));
-
-      level8Button.on("click", function() {});
-
-    	// Level 9
-    	var level9Button = stage.insert(new Q.UI.Button({
-    	      asset: 	assetLevel9,
-    	      x: 		215,
-    	      y: 		130,
-    	      scale: 	0.7,
-    	      label: 	'9'
-        	}
-       ));
-
-      level9Button.on("click", function() {});
     });
 
   	Q.scene("level", stage => {

@@ -2,7 +2,11 @@
   {{#if (gte reached_level stage)}}
     <img src="assets/images/star.png" />
   {{else}}
-    <img src="assets/images/star_locked.png" />
+    {{#if (gte stage '6')}}
+      <img src="assets/images/star_coming_soon.png" />
+    {{else}}
+      <img src="assets/images/star_locked.png" />
+    {{/if}}
   {{/if}}
   <div class="stage-number">{{stage}}</div>
 </div>
