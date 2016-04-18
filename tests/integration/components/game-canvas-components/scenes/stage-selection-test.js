@@ -30,5 +30,5 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{game-canvas-components/scenes/stage-selection Q=Q me=me gameState=gameState}}`);
 
-  assert.equal(this.$().text().replace(/[^0-9]/g, ""), "12345");
+  assert.equal(this.$().text().replace(/[^0-9]/g, ""), "123456789");
 });

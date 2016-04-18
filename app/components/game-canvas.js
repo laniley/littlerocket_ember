@@ -730,7 +730,7 @@ export default Ember.Component.extend(
     var self = this;
 
     Q.load ([
-        "level_selection_coming_soon.png",
+        "level_selection.png",
         "rocket_2.png",
         "cannon.png",
         "shield.png",

@@ -759,118 +759,13 @@ Quintus.Sprites = function(Q)
      this._super(p,
      {
        name:  "Level_Selection",
-       asset: "level_selection_coming_soon.png",
+       asset: "level_selection.png",
        x: 		 210,
        y: 		 300,
        scale:  Q.state.get('scale')
       });
    }
  });
-
- Q.Sprite.extend("DistanceIcon",
- {
-    init: function(p)
-    {
-       this._super(p,
-       {
-         name:   	'DistanceIcon',
-         asset:  	'menuicons/distance.png',
-         type:   	Q.MENU_ICON,
-         tileW:  	Q.state.get('scale') * 24,
-         tileH:  	Q.state.get('scale') * 24,
-         x:      	Q.state.get('scale') * 20,
-         y:      	Q.state.get('scale') * 45,
-         scale: 	Q.state.get('scale')
-       });
-
-       this.p.x += this.p.tileW / 2;
-       this.p.y += this.p.tileH / 2;
-    }
- });
-
- Q.Sprite.extend("LevelIcon",
- {
-    init: function(p)
-    {
-       this._super(p,
-       {
-         name:   	'LevelIcon',
-         asset:  	'menuicons/level.png',
-         type:   	Q.MENU_ICON,
-         tileW:  	Q.state.get('scale') * 24,
-         tileH:  	Q.state.get('scale') * 24,
-         x:      	Q.state.get('scale') * 20,
-         y:      	Q.state.get('scale') * 70,
-         scale: 	Q.state.get('scale')
-       });
-
-       this.p.x += this.p.tileW / 2;
-       this.p.y += this.p.tileH / 2;
-    }
- });
-
- Q.Sprite.extend("StarIcon",
- {
-    init: function(p)
-    {
-       this._super(p,
-       {
-         name:   	'StarIcon',
-         asset:  	'menuicons/points.png',
-         type:   	Q.MENU_ICON,
-         tileW:  	Q.state.get('scale') * 24,
-         tileH:  	Q.state.get('scale') * 24,
-         x:      	Q.state.get('scale') * 20,
-         y:      	Q.state.get('scale') * 95,
-         scale: 	Q.state.get('scale')
-       });
-
-       this.p.x += this.p.tileW / 2;
-       this.p.y += this.p.tileH / 2;
-    }
- });
-
- Q.Sprite.extend("SpeedIcon",
- {
-    init: function(p)
-    {
-       this._super(p,
-       {
-         name:   	'SpeedIcon',
-         asset:  	'menuicons/speed.png',
-         type:   	Q.MENU_ICON,
-         tileW:  	Q.state.get('scale') * 24,
-         tileH:  	Q.state.get('scale') * 24,
-         x:      	Q.state.get('scale') * 20,
-         y:       Q.state.get('scale') * 120,
-         scale: 	Q.state.get('scale')
-       });
-
-       this.p.x += this.p.tileW / 2;
-       this.p.y += this.p.tileH / 2;
-    }
- });
-
- Q.Sprite.extend("GoalIcon",
- {
-    init: function(p)
-    {
-       this._super(p,
-       {
-         name:   	'GoalIcon',
-         asset:  	'menuicons/goal.png',
-         type:   	Q.MENU_ICON,
-         tileW:  	Q.state.get('scale') * 24,
-         tileH:  	Q.state.get('scale') * 24,
-         x:      	Q.state.get('scale') * 20,
-         y:      	Q.state.get('scale') * 145,
-         scale:   Q.state.get('scale')
-       });
-
-       this.p.x += this.p.tileW / 2;
-       this.p.y += this.p.tileH / 2;
-    }
-  });
 
   return Q;
 };
