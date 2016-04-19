@@ -15,7 +15,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="level_selection.svg">
+   sodipodi:docname="level_selection.svg"
+   inkscape:export-filename="D:\Development\littlerocket_ember\designs\level_selection.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4">
     <linearGradient
@@ -1641,6 +1644,45 @@
          operator="over"
          result="composite2" />
     </filter>
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter4136"
+       x="-0.16301738"
+       width="1.3260348"
+       y="-0.32253432"
+       height="1.6450686">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="6.3790331"
+         id="feGaussianBlur4138" />
+    </filter>
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter4128"
+       x="-0.11437941"
+       width="1.2287588"
+       y="-0.22630277"
+       height="1.4526056">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="4.4757807"
+         id="feGaussianBlur4130" />
+    </filter>
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter4120"
+       x="-0.093811914"
+       width="1.1876239"
+       y="-0.18560942"
+       height="1.3712188">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="3.670954"
+         id="feGaussianBlur4122" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -1668,7 +1710,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
