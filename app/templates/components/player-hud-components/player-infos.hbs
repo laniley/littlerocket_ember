@@ -1,41 +1,42 @@
-<div class="player-infos">
-  <div class="level-info-container">
-    <div class="img_container">
-      <img src={{me.user.img_url}} />
-    </div>
-    <div class="exp_level">
-      Exp. level {{me.user.exp_level}}
-    </div>
-    <div class="exp-meter">
-      <div class="exp-meter-progress"></div>
-      <div class="exp-meter-text">
-        {{me.user.experience}} / {{me.user.needed_exp_for_next_level}}
-      </div>
+<div class="level-info-container first-row">
+  <div class="img_container">
+    <img src={{me.user.img_url}} />
+  </div>
+  <div class="flex-container">
+    <div class="exp_level">Exp. level {{me.user.exp_level}}</div>
+  </div>
+  <div class="exp-meter">
+    <div class="exp-meter-progress"></div>
+    <div class="exp-meter-text">
+      {{me.user.experience}} / {{me.user.needed_exp_for_next_level}}
     </div>
   </div>
-  <div class="left-column">
-    <div class="info-table-container">
-      <table class="info-table">
-        <tr>
-          <td>
-            <div class="score_container">
-              <span class="cockpit_score score"><b>Score</b> {{me.user.score}}</span>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <i class="fa fa-star"></i> <span class="stars">{{me.user.stars}}</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="rank_container">
-                <span class="cockpit_rank rank">{{me.user.rank_by_score}}</span>. in the leaderboard
-            </div>
-          </td>
-        </tr>
-      </table>
+</div>
+<div class="flex-container second-row">
+  <div class="left-column flex-container group">
+    <div class="points-info-column flex-container direction-column">
+      <div>
+        {{#tooltip-component tooltip="your score"}}
+          <span class="fa-stack">
+            {{fa-icon "fa-circle-o" stack=2}}
+            {{fa-icon "fa-rocket" stack=1}}
+          </span>
+        {{/tooltip-component}}
+        <span class="value">{{me.user.score}}</span>
+      </div>
+      <div>
+        {{#tooltip-component tooltip="your achievement-points"}}
+          <span class="fa-stack">
+            {{fa-icon "fa-circle-o" stack=2}}
+            {{fa-icon "fa-star" stack=1}}
+          </span>
+        {{/tooltip-component}}
+        <span class="value">{{me.user.achievement_points}}</span>
+      </div>
+    </div>
+    <div class="leaderboard-info-column flex-container direction-column">
+      <div class="align-right">{{me.user.rank_by_score}}. in the leaderboard</div>
+      <div class="align-right">{{me.user.rank_by_achievement_points}}. in the leaderboard</div>
     </div>
   </div>
   <div class="right-column">

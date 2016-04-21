@@ -1,5 +1,7 @@
 @import "foundation";
 @import "settings";
+@import "colors";
+@import "template";
 @import "pietimer";
 @import "buttons";
 @import "fonts";
@@ -18,21 +20,17 @@
 @import "progress_bar";
 @import "top_nav_bar";
 
-
-
-.flex-container {
-  display:flex;
-  &.center {
-    justify-content: center;
-  }
-  &.direction-column {
-    flex-direction: column;
-  }
+.align-right {
+  text-align: right;
 }
 
-.flex-item {
-  &.center {
-    align-self: center;
+.fa-stack {
+  color: $darkblue;
+}
+
+.active {
+  .fa-stack {
+    color: white;
   }
 }
 
@@ -48,11 +46,6 @@
   height: 495px;
   overflow: auto;
   font-size: 18px;
-}
-
-.active {
-  background-color: $darkblue;
-  color: white;
 }
 
 body {
@@ -74,7 +67,6 @@ body {
       float: right;
       .fa-stack {
         font-size: 1rem;
-        width: 40px;
         height: 28px;
         line-height: 31px;
         top: -3px;
@@ -91,6 +83,7 @@ body {
         }
         &.active {
           color: white;
+          background-color: $darkblue;
           &:hover {
             color: white;
           }
@@ -247,10 +240,6 @@ table {
 
 .prompt {
   z-index: 9999;
-}
-
-.row {
-  max-width: 100%;
 }
 
 .has-tip {

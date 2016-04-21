@@ -10,6 +10,7 @@ export default DS.Model.extend({
 
   rank_by_score: DS.attr('number', { defaultValue: 0 }),
   rank_by_won_challenges: DS.attr('number', { defaultValue: 0 }),
+  rank_by_achievement_points: DS.attr('number', { defaultValue: 0 }),
   score: DS.attr('number', { defaultValue: 0 }),
   stars: DS.attr('number', { defaultValue: 0 }),
   stars_all_time: DS.attr('number', { defaultValue: 0 }),

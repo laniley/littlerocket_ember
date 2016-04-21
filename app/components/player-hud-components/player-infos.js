@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+
+  classNames: ['player-infos'],
+
   me: null,
 
   needed_exp_for_prev_level: function() {
