@@ -14,8 +14,7 @@ export default Ember.Mixin.create({
   },
 
   reRequestPostPermission(callback) {
-    FB.login(response =>
-      {
+    FB.login(response => {
         console.log('reRequestPostPermission: ', response);
         if(callback) { callback(response); }
       },

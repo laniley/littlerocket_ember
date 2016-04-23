@@ -1,7 +1,7 @@
 import ENV from '../config/environment';
 
 export function initialize( application ) {
-  var debug = true;
+  var debug = false;
 
   // Wait for Facebook to load before allowing the application
   // to fully boot. This prevents `ReferenceError: FB is not defined`
@@ -21,7 +21,7 @@ function initFacebook(FB) {
     FB.init({
         appId      : ENV.fb_app_id,
         xfbml      : true,
-        version    : 2.4
+        version    : 'v2.4'
     });
 }
 

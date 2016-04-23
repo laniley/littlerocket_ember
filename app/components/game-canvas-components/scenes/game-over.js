@@ -43,6 +43,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
       if(this.get('newScore') > user.get('score')) {
         user.set('score', this.get('newScore'));
         this.set('isNewHighscore', true);
+        this.sendScoreToFB();
       }
       else {
         this.set('isNewHighscore', false);
@@ -96,17 +97,23 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   },
 
   sendScoreToFB: function() {
-    this.set('hasBeenPosted', true);
+    this.checkForPostPermission(() => {
+      if(this.get('hasPostPermission')) {
+        FB.api('/me/scores/', 'post', { score: this.get('newScore') }, response => {
+          if( response.error ) {
+            console.error('sendScoreToFB failed', response);
+            this.set('hasBeenPosted', false);
+          }
+          else {
+            console.log('Score posted to Facebook', response);
+          }
+        });
+      }
+    });
+  },
 
-    // FB.api('/me/scores/', 'post', { score: this.get('newScore') }, response => {
-    //   if( response.error ) {
-    //     console.error('sendScoreToFB failed', response);
-    //     this.set('hasBeenPosted', false);
-    //   }
-    //   else {
-    //     console.log('Score posted to Facebook', response);
-    //   }
-    // });
+  postScoreToFB: function() {
+    this.set('hasBeenPosted', true);
 
     var old_score = this.get('oldScore');
     var new_score = this.get('newScore');
@@ -158,11 +165,11 @@ export default Ember.Component.extend(FacebookLoginMixin, {
     postScoreToFB() {
       this.checkForPostPermission(() => {
         if(this.get('hasPostPermission')) {
-          this.sendScoreToFB();
+          this.postScoreToFB();
         }
         else {
           this.reRequestPostPermission(() => {
-            this.sendScoreToFB();
+            this.postScoreToFB();
           });
         }
       });
