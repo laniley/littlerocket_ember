@@ -5,6 +5,7 @@ export default DS.Model.extend({
   user: DS.belongsTo('user'),
   friends: DS.hasMany('friend'),
   isLoggedIn: DS.attr('boolean', { defaultValue: false }),
+  accessToken: DS.attr('string', { defaultValue: ''}),
   loginStatus: DS.attr('string', { defaultValue: 'unknown'}),
   activeChallenge: DS.belongsTo('challenge', { async: false }),
 

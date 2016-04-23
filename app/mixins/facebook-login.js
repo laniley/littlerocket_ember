@@ -53,12 +53,14 @@ export default Ember.Mixin.create({
           this.get('store').createRecord('me', {
             id: 1,
             isLoggedIn: true,
-            loginStatus: 'connected'
+            loginStatus: 'connected',
+            accessToken: response.authResponse.accessToken
           });
         }
         else {
           this.get('me').set('isLoggedIn', true);
           this.get('me').set('loginStatus', 'connected');
+          this.get('me').set('accessToken', response.authResponse.accessToken);
         }
   			this.getUserDataFromFB(this.get('store'));
   	}
