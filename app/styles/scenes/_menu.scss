@@ -1,0 +1,31 @@
+.menu {
+  position: absolute;
+  z-index: 9999;
+  left: 50%;
+  margin-left: -40%;
+  width: 80%;
+  padding: 15px;
+  background-color: #576C73;
+  color: white;
+  -webkit-box-shadow: 0px 2px 10px #666;
+  -moz-box-shadow: 0px 2px 10px #666;
+  box-shadow: 0px 2px 10px #666;
+  font-weight: 700;
+  font-size: 1.2rem;
+  font-family: Helvetica;
+  text-align: center;
+  .button {
+    width: 60%;
+    margin-bottom: 10px;
+    font-weight: bold;
+    background: lightblue;
+    border: 3px solid;
+    padding: 1rem;
+    &.active {
+      width: 66%;
+      color: $primary-text-color;
+      border: 3px solid $primary-text-color;
+      background: white;
+    }
+  }
+}

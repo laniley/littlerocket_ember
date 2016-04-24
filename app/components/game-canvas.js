@@ -419,107 +419,7 @@ export default Ember.Component.extend(
           rocket.setDecoration(decoration);
           rocket.p.stage.insert(decoration);
 
-  		// start
-  		var container = stage.insert(new Q.UI.Container({
-  			  x: Q.width/2,
-  			  y: Q.height/2 - 40 * Q.state.get('scale')
-  		}));
-
-  		var buttonStartLevel = container.insert(
-  			new Q.UI.Button({
-  				x: 0,
-  				y: 0,
-  				scale: Q.state.get('scale'),
-          fontColor: Q.state.get('buttonTextColorSelected'),
-          stroke: Q.state.get('buttonTextColorSelected'),
-  				fill: Q.state.get('buttonFillColorSelected'),
-          shadow: 5,
-          shadowColor: "rgba(0,0,0,0.5)",
-  				label: "Start",
-  				border: 2
-  			})
-  		);
-
-  		buttonStartLevel.on("click",function(){
-        Q.clearStages();
-  			Q.stageScene('level');
-  		});
-
-  		container.fit(20 * Q.state.get('scale'));
-
-  		// select level
-  		var containerSelectLevel = stage.insert(new Q.UI.Container({
-  			  x: Q.width/2,
-  			  y: (Q.height/2 + 40 * Q.state.get('scale'))
-  		}));
-
-  		var buttonSelectLevel = containerSelectLevel.insert(
-  			new Q.UI.Button({
-  				x: 0,
-  				y: 0,
-  				fill: "#CCCCCC",
-  				label: "Select level",
-  				border: 2,
-          shadowColor: "rgba(0,0,0,0.5)",
-  				scale: Q.state.get('scale')
-  		 })
-  		);
-
-  		buttonSelectLevel.on("click",function(){
-  			  Q.clearStages();
-  			  Q.stageScene('levelSelection');
-  		});
-
-  		containerSelectLevel.fit(20);
-
       self.get('gameState').set('speed', 0);
-
-      var currentSelectedButton = 'buttonStartLevel';
-
-      // inputs
-  		Q.input.on("enter", this, function(){
-          if(currentSelectedButton === 'buttonStartLevel') {
-            Q.clearStages();
-            Q.stageScene('level');
-          }
-		  		else {
-            Q.clearStages();
-    			  Q.stageScene('levelSelection');
-          }
-  		});
-
-      Q.input.on("up", this, function(){
-          buttonSelectLevel.p.fill = Q.state.get('buttonFillColorUnselected');
-          buttonStartLevel.p.fill = Q.state.get('buttonFillColorSelected');
-
-          buttonSelectLevel.p.fontColor = Q.state.get('buttonTextColorUnselected');
-          buttonStartLevel.p.fontColor = Q.state.get('buttonTextColorSelected');
-
-          buttonSelectLevel.p.stroke = Q.state.get('buttonTextColorUnselected');
-          buttonStartLevel.p.stroke = Q.state.get('buttonTextColorSelected');
-
-          buttonSelectLevel.p.shadow = 0;
-          buttonStartLevel.p.shadow = 5;
-
-          currentSelectedButton = 'buttonStartLevel';
-  		});
-
-      Q.input.on("down", this, function(){
-		  		buttonStartLevel.p.fill = Q.state.get('buttonFillColorUnselected');
-          buttonSelectLevel.p.fill = Q.state.get('buttonFillColorSelected');
-
-          buttonStartLevel.p.fontColor = Q.state.get('buttonTextColorUnselected');
-          buttonSelectLevel.p.fontColor = Q.state.get('buttonTextColorSelected');
-
-          buttonStartLevel.p.stroke = Q.state.get('buttonTextColorUnselected');
-          buttonSelectLevel.p.stroke = Q.state.get('buttonTextColorSelected');
-
-          buttonSelectLevel.p.shadow = 5;
-          buttonStartLevel.p.shadow = 0;
-
-          currentSelectedButton = 'buttonSelectLevel';
-  		});
-
   	});
 
     Q.scene("levelSelection", function(stage) {
@@ -976,7 +876,7 @@ export default Ember.Component.extend(
     }
   },
 
-  tryAgain() {
+  startStage() {
     this.get('Q').clearStages();
     this.get('Q').stageScene('level');
     Ember.$("#game").focus();
@@ -991,8 +891,8 @@ export default Ember.Component.extend(
     login() {
       this.login();
     },
-    tryAgain() {
-      this.tryAgain();
+    startStage() {
+      this.startStage();
     },
     selectStage() {
       this.selectStage();

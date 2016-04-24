@@ -13,13 +13,22 @@
       {{/if}}
 
       {{#if (if-equals currentScene 'stageSelection') }}
-        {{game-canvas-components/scenes/stage-selection Q=Q me=me gameState=gameState}}
+        {{game-canvas-components/scenes/stage-selection
+            Q=Q
+            me=me
+            gameState=gameState}}
+      {{/if}}
+
+      {{#if (if-equals currentScene 'mainMenu') }}
+        {{game-canvas-components/scenes/main-menu
+            startStageAction=(action "startStage")
+            selectStageAction=(action "selectStage")}}
       {{/if}}
 
       {{#if (if-equals currentScene 'gameOver') }}
         {{game-canvas-components/scenes/game-over
             newScore=newScore
-            tryAgainAction=(action "tryAgain")
+            tryAgainAction=(action "startStage")
             selectStageAction=(action "selectStage")}}
       {{/if}}
 
