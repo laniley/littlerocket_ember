@@ -21,6 +21,7 @@
 
       {{#if (if-equals currentScene 'mainMenu') }}
         {{game-canvas-components/scenes/main-menu
+            gameState=gameState
             startStageAction=(action "startStage")
             selectStageAction=(action "selectStage")}}
       {{/if}}

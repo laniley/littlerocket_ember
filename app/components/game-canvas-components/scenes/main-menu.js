@@ -7,10 +7,17 @@ export default Ember.Component.extend({
   startStageAction: null,
   selectStageAction: null,
 
+  gameState: null,
+
   init() {
     this._super();
 
     Ember.$(document).on('keyup', { _self: this }, this.reactToKeyUp);
+
+    this.get('gameState').set('flown_distance', 0);
+    this.get('gameState').set('stars', 0);
+    this.get('gameState').set('speed', 0);
+    this.get('gameState').set('distance_to_goal', Math.floor(50 * ( 1 + ((this.get('gameState').get('level') - 1) / 10) )));
   },
 
   reactToKeyUp(e) {

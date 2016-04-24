@@ -383,10 +383,6 @@ export default Ember.Component.extend(
       self.set('currentScene', 'mainMenu');
       self.set('showHud', true);
 
-      self.get('gameState').set('flown_distance', 0);
-      self.get('gameState').set('stars', 0);
-      self.get('gameState').set('distance_to_goal', Math.floor(50 * ( 1 + ((self.get('gameState').get('level') - 1) / 10) )));
-
   		Q.pauseGame();
   		Q.audio.stop('rocket.mp3');
   		Q.audio.stop('racing.mp3');
@@ -418,8 +414,6 @@ export default Ember.Component.extend(
           decoration.setRocket(rocket);
           rocket.setDecoration(decoration);
           rocket.p.stage.insert(decoration);
-
-      self.get('gameState').set('speed', 0);
   	});
 
     Q.scene("levelSelection", function(stage) {
