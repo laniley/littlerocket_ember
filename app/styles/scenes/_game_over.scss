@@ -1,7 +1,13 @@
 .gameOver {
   position: absolute;
   z-index: 9999;
-  top: 40px;
+  // top: 40px;
+  &.small {
+    margin-top: -110%;
+  }
+  &.big {
+    margin-top: -135%;
+  }
   left: 50%;
   margin-left: -40%;
   width: 80%;
@@ -20,8 +26,28 @@
     font-size: 20px;
     margin: 35px 0;
   }
+  .congratz_menu {
+    font-size: 45px;
+    .item {
+      margin: 0 5px;
+      color: $darkblue;
+      &:hover {
+        cursor: pointer;
+        color: lighten($darkblue, 10%);
+      }
+      &.active {
+        color: white;
+        &:hover {
+          cursor: default;
+        }
+      }
+    }
+    .fa-stack {
+      font-size: 27px;
+    }
+  }
   .congratz_sub {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
   .score {
     font-size: 35px;
@@ -29,17 +55,13 @@
     background: lightblue;
     color: #576C73;
   }
-  .score-info {
-    padding: 25px;
-    font-size: 1rem;
-  }
   .fb-button {
     font-size: 1.2rem;
     padding: 10px;
     border: 1px solid #2C2B54;
     text-align: center;
     &.post {
-      margin-top: 20px;
+      margin: 25px 0;
     }
     &.login {
       position: absolute;

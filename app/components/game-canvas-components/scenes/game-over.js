@@ -2,6 +2,7 @@
 /* global LSM_Slot */
 import Ember from 'ember';
 import FacebookLoginMixin from './../../../mixins/facebook-login';
+import ENV from './../../../config/environment';
 
 export default Ember.Component.extend(FacebookLoginMixin, {
 
@@ -10,10 +11,37 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   tryAgainAction: null,
   selectedAction: 'tryAgainAction',
   selectStageAction: null,
+  isNewHighscore: false,
   hasPostPermission: false,
-  hasBeenPosted: false,
+  highscoreHasBeenPosted: false,
+  newStageHasBeenPosted: false,
+  newStage: 0,
   newScore: 0,
   oldScore: 0,
+  currentCongratzSection: '',
+
+  reachedNewStage: Ember.computed('gameState.new_stage_reached', function() {
+    return this.get('gameState').get('new_stage_reached');
+  }),
+
+  congratzMessageExists: Ember.computed('isNewHighscore', 'reachedNewStage', function() {
+    if(this.get('isNewHighscore') || this.get('reachedNewStage')) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }),
+
+  updateCurrentCongratzSection: Ember.observer('isNewHighscore', 'reachedNewStage', function() {
+    console.log(this.get('currentCongratzSection'), this.get('isNewHighscore'), this.get('reachedNewStage'));
+    if(this.get('isNewHighscore') === true) {
+      this.set('currentCongratzSection', 'highscore');
+    }
+    else if(this.get('currentCongratzSection') === '' && this.get('reachedNewStage') === true) {
+      this.set('currentCongratzSection', 'new_stage');
+    }
+  }).on('init'),
 
   init() {
     this._super();
@@ -22,6 +50,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
     this.set('gameState', this.store.peekRecord('gameState', 1));
     this.get('gameState').set('speed', 0);
+    this.set('newStage', this.get('gameState').get('level'));
 
     try {
       new LSM_Slot({
@@ -113,27 +142,55 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   },
 
   postScoreToFB: function() {
-    this.set('hasBeenPosted', true);
+    this.set('highscoreHasBeenPosted', true);
 
+    var app_id = ENV.fb_app_id;
     var old_score = this.get('oldScore');
     var new_score = this.get('newScore');
 
-    FB.ui({
-      method: 'share_open_graph',
-      action_type: 'games.highscores',
-      action_properties: JSON.stringify({
-      game:'https://apps.facebook.com/little_rocket/',
-        old_high_score: old_score,
-        new_high_score: new_score
-      })
-    }, response => {
-      if( response.error_code ) {
-        console.error('sendScoreToFB failed', response);
-        this.set('hasBeenPosted', false);
-      }
-      else {
-        console.log('Score posted to Facebook', response);
-      }
+    this.get('me').get('user').then(user => {
+      FB.ui({
+        method: 'feed',
+        app_id: app_id,
+        link: 'http://apps.facebook.com/little_rocket/',
+        name: user.get('first_name') + ' achieved a new highscore in Little Rocket',
+        description: 'old highscore: ' + old_score + '  ----  new highscore: ' + new_score,
+        caption: 'Little Rocket',
+      }, response => {
+        if( response.error_code ) {
+          console.error('sendScoreToFB failed', response);
+          this.set('highscoreHasBeenPosted', false);
+        }
+        else {
+          console.log('Score posted to Facebook', response);
+        }
+      });
+    });
+  },
+
+  postNewStageToFB: function() {
+    this.set('newStageHasBeenPosted', true);
+
+    var new_stage = this.get('gameState').get('level');
+    var app_id = ENV.fb_app_id;
+
+    this.get('me').get('user').then(user => {
+      FB.ui({
+        method: 'feed',
+        app_id: app_id,
+        link: 'http://apps.facebook.com/little_rocket/',
+        name: user.get('first_name') + ' reached stage ' + new_stage + ' in Little Rocket',
+        description: 'I reached a new stage in Little Rocket. Can you beat me?',
+        caption: 'Little Rocket',
+      }, function(response) {
+        if( response.error_code ) {
+          console.error('sendNewStageToFB failed', response);
+          this.set('newStageHasBeenPosted', false);
+        }
+        else {
+          console.log('New stage posted to Facebook', response);
+        }
+      });
     });
   },
 
@@ -174,11 +231,26 @@ export default Ember.Component.extend(FacebookLoginMixin, {
         }
       });
     },
+    postNewStageToFB() {
+      this.checkForPostPermission(() => {
+        if(this.get('hasPostPermission')) {
+          this.postNewStageToFB();
+        }
+        else {
+          this.reRequestPostPermission(() => {
+            this.postNewStageToFB();
+          });
+        }
+      });
+    },
     tryAgain() {
       this.get('tryAgainAction')();
     },
     selectStage() {
       this.get('selectStageAction')();
+    },
+    openSection(section) {
+      this.set('currentCongratzSection', section);
     }
   }
 

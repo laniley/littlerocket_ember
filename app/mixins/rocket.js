@@ -244,6 +244,7 @@ export default Ember.Mixin.create({
 
         self.get('me').get('user').then(user => {
           if(new_level > user.get('reached_level') && new_level < 6) {
+            gameState.set('new_stage_reached', true);
             user.set('reached_level', new_level);
             user.save();
 

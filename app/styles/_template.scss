@@ -3,6 +3,10 @@
   &.center {
     justify-content: center;
   }
+  &.center-xy {
+    justify-content: center;
+    align-items: center;
+  }
   &.direction-column {
     flex-direction: column;
   }

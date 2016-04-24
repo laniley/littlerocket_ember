@@ -539,6 +539,7 @@ export default Ember.Component.extend(
 
       self.set('currentScene', 'level');
       self.set('showHud', true);
+      self.get('gameState').set('new_stage_reached', false);
 
       Ember.$("#footer_banner").empty();
 
@@ -804,7 +805,9 @@ export default Ember.Component.extend(
       }, {
         progressCallback: function(loaded,total) {
           var element = document.getElementById("loading_progress");
-              element.style.width = Math.floor(loaded/total*100) + "%";
+          if(element) {
+            element.style.width = Math.floor(loaded/total*100) + "%";
+          }
 
           if(loaded/total === 1) {
             self.set('isLoading', false);
