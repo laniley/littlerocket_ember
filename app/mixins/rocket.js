@@ -4,10 +4,12 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
 
-  FB: FB,
+  FB: null,
   rocket: null,
 
   initRocket: function() {
+
+    this.set('FB', FB);
 
     var self = this;
     var y  = Q.height/6 * 5;
@@ -248,7 +250,7 @@ export default Ember.Mixin.create({
             user.set('reached_level', new_level);
             user.save();
 
-            if(self.get('FB').AppEvents) {
+            if(self.get('FB') && self.get('FB').AppEvents) {
               var params = {};
               params[self.get('FB').AppEvents.ParameterNames.LEVEL] = new_level; //player level
               self.get('FB').AppEvents.logEvent(
