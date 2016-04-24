@@ -25,8 +25,8 @@ export default Ember.Component.extend(FacebookLoginMixin, {
     return this.get('gameState').get('new_stage_reached');
   }),
 
-  congratzMessageExists: Ember.computed('isNewHighscore', 'reachedNewStage', function() {
-    if(this.get('isNewHighscore') || this.get('reachedNewStage')) {
+  congratzMessageExists: Ember.computed('isNewHighscore', 'reachedNewStage', 'gameState.reached_end', function() {
+    if(this.get('isNewHighscore') || this.get('reachedNewStage') || this.get('gameState.reached_end')) {
       return true;
     }
     else {

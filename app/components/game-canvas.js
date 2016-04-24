@@ -101,11 +101,6 @@ export default Ember.Component.extend(
     	rocket_y -= 100;
     }
 
-    // COLORS
-    Q.state.set('buttonFillColorUnselected', '#CCC');
-    Q.state.set('buttonFillColorSelected', '#F5F36F');
-    Q.state.set('buttonTextColorSelected', '#D62E00');
-
     this.initRocket();
     this.initDecoration();
     this.initCannon();
@@ -116,24 +111,6 @@ export default Ember.Component.extend(
     this.initAsteroid();
     this.initStar();
     this.initUfo();
-
-    // Q.Sprite.extend("Asteroid", {
-    // 	// When an asteroid is hit..
-    // 	sensor: function(colObj) {
-    // 		// Destroy it
-    // 		if(colObj.isA('Rocket') && !colObj.collided && !this.collided) {
-    //       this.collided = true;
-    // 			colObj.trigger('collided');
-    // 		}
-    // 		else if(colObj.isA('Bullet') && !colObj.collided) {
-    // 			colObj.collided = true;
-    // 			colObj.destroy();
-    // 		}
-    //
-    //     Q.audio.play('explosion.mp3');
-    //     this.destroy();
-    // 	}
-    // });
 
     Q.Asteroid.extend("NormalAsteroid", {
     	init: function(p) {
@@ -149,6 +126,43 @@ export default Ember.Component.extend(
     			tileH:  70,
     			scale: Q.state.get('scale'),
           speedFactor: 1.2,
+          hitPoints: 1,
+    			points: []
+    		});
+
+    		// collision points berechnen
+    		var radius = this.p.tileW / 2 - 3;
+    		var winkel = 0;
+
+    		for(var i = 0; i < 10; i++) {
+    			winkel += (Math.PI * 2) / 10;
+
+    			var x = Math.floor(Math.sin(winkel) * radius);
+    			var y = Math.floor(Math.cos(winkel) * radius);
+
+    			this.p.points.push([x, y]);
+    		}
+
+    		this.on("sensor");
+
+    		this.add("2d, asteroidControls");
+    	}
+    });
+
+    Q.Asteroid.extend("FastAsteroid", {
+    	init: function(p) {
+    		this._super(p, {
+    			name:   'FastAsteroid',
+    			sheet:  'asteroid',
+    			type:   Q.SPRITE_ASTEROID,
+    			collisionMask: Q.SPRITE_ROCKET | Q.SPRITE_BULLET,
+    			sensor: true,
+    			x:      ((Q.width - (70 * Q.state.get('scale'))) * Math.random()) + (35 * Q.state.get('scale')),
+    			y:      0,
+    			tileW:  70,
+    			tileH:  70,
+    			scale: Q.state.get('scale'),
+          speedFactor: 2,
           hitPoints: 1,
     			points: []
     		});
@@ -355,9 +369,27 @@ export default Ember.Component.extend(
 
     	update: function(dt) {
     		this.p.launch -= dt;
-
     		if(!Q.state.get('isPaused') && this.p.isActive && this.p.launch < 0) {
     			this.stage.insert(new Q.BigAsteroid());
+    			this.p.launch = this.p.launchDelay + this.p.launchRandomFactor * Math.random();
+    		}
+    	}
+    });
+
+    Q.GameObject.extend("FastAsteroidMaker", {
+    	init: function() {
+    		this.p = {
+    			launchDelay: 1.2 * Q.state.get('scale') - (self.get('gameState').get('speed') / self.get('gameState').get('max_speed')),
+    			launchRandomFactor: 1,
+    			launch: 1
+    		};
+    	},
+
+    	update: function(dt) {
+    		this.p.launch -= dt;
+
+    		if(!Q.state.get('isPaused') && this.p.isActive && this.p.launch < 0) {
+    			this.stage.insert(new Q.FastAsteroid());
     			this.p.launch = this.p.launchDelay + this.p.launchRandomFactor * Math.random();
     		}
     	}
@@ -375,7 +407,7 @@ export default Ember.Component.extend(
     	update: function(dt) {
     		this.p.launch -= dt;
 
-    		if(!Q.state.get('isPaused') && this.p.launch < 0) {
+    		if(!Q.state.get('isPaused') && this.p.isActive && this.p.launch < 0) {
     			this.stage.insert(new Q.ExplodingAsteroid( {size : 50} ));
     			this.p.launch = this.p.launchDelay + this.p.launchRandom * Math.random();
     		}
@@ -450,10 +482,8 @@ export default Ember.Component.extend(
 
       self.get('gameState').set('flown_distance', 0);
   		self.get('gameState').set('stars', 0);
-      self.get('gameState').set('distance_to_goal', Math.floor(50 * ( 1 + ((self.get('gameState').get('level') - 1) / 10) )));
 
-      self.get('gameState').set('speed', 250);
-      self.get('gameState').set('max_speed', 500);
+      self.get('gameState').set('speed', 300);
 
   		stage.insert(new Q.StarMaker());
 
@@ -518,6 +548,12 @@ export default Ember.Component.extend(
       self.get('cannon').set('isReloading', false);
       Q.state.set('shield_is_reloading', false);
       Q.state.set('engine_is_reloading', false);
+
+      Q.state.get('asteroidMaker').destroy();
+      Q.state.get('bigAsteroidMaker').destroy();
+      Q.state.get('explodingAsteroidMaker').destroy();
+      Q.state.get('fastAsteroidMaker').destroy();
+      Q.state.get('ufoMaker').destroy();
 
       if(self.get('cannonReloadingTimeout')) {
         clearTimeout(self.get('cannonReloadingTimeout'));
@@ -723,7 +759,11 @@ export default Ember.Component.extend(
     var asteroidMaker = Q.state.get('asteroidMaker');
     var bigAsteroidMaker = Q.state.get('bigAsteroidMaker');
     var explodingAsteroidMaker = Q.state.get('explodingAsteroidMaker');
+    var fastAsteroidMaker = Q.state.get('fastAsteroidMaker');
     var ufoMaker = Q.state.get('ufoMaker');
+
+    this.get('gameState').set('distance_to_goal', 50);
+    this.get('gameState').set('reached_end', false);
 
     asteroidMaker.p.launchRandomFactor = 0.53;
 
@@ -740,8 +780,8 @@ export default Ember.Component.extend(
       ufoMaker.p.isActive = 1;
       ufoMaker.p.launchRandomFactor = 1.5;
     }
-    if(level >= 3)
-    {
+    if(level >= 3) {
+
       if(!bigAsteroidMaker) {
         bigAsteroidMaker = new Q.BigAsteroidMaker();
         Q.state.set('bigAsteroidMaker', bigAsteroidMaker);
@@ -752,20 +792,18 @@ export default Ember.Component.extend(
       ufoMaker.p.isActive = 0;
       bigAsteroidMaker.p.isActive = 1;
 
-      asteroidMaker.p.launchRandomFactor = 1.2;
-      bigAsteroidMaker.p.launchRandomFactor = 1.2;
+      asteroidMaker.p.launchRandomFactor = 1;
+      bigAsteroidMaker.p.launchRandomFactor = 1.5;
     }
-    if(level >= 4)
-    {
+    if(level >= 4) {
       ufoMaker.p.isActive = 1;
       bigAsteroidMaker.p.isActive = 1;
 
-      asteroidMaker.p.launchRandomFactor = 1.3;
-      bigAsteroidMaker.p.launchRandomFactor = 1.6;
-      ufoMaker.p.launchRandomFactor = 2;
+      asteroidMaker.p.launchRandomFactor = 1.5;
+      bigAsteroidMaker.p.launchRandomFactor = 1.7;
+      ufoMaker.p.launchRandomFactor = 2.5;
     }
-    if(level >= 5)
-    {
+    if(level >= 5) {
       if(!explodingAsteroidMaker) {
         explodingAsteroidMaker = new Q.ExplodingAsteroidMaker();
         Q.state.set('explodingAsteroidMaker', explodingAsteroidMaker);
@@ -773,10 +811,28 @@ export default Ember.Component.extend(
 
       Q.stage().insert(explodingAsteroidMaker);
 
-      asteroidMaker.p.launchRandomFactor = 1.3;
-      bigAsteroidMaker.p.launchRandomFactor = 1.6;
       ufoMaker.p.isActive = 1;
       bigAsteroidMaker.p.isActive = 0;
+
+      asteroidMaker.p.launchRandomFactor = 1.3;
+      bigAsteroidMaker.p.launchRandomFactor = 1.6;
+    }
+    if(level >= 6) {
+      if(!fastAsteroidMaker) {
+        fastAsteroidMaker = new Q.FastAsteroidMaker();
+        Q.state.set('fastAsteroidMaker', fastAsteroidMaker);
+      }
+
+      Q.stage().insert(fastAsteroidMaker);
+
+      ufoMaker.p.isActive = 1;
+      explodingAsteroidMaker.p.isActive = 0;
+      bigAsteroidMaker.p.isActive = 1;
+      fastAsteroidMaker.p.isActive = 1;
+
+      asteroidMaker.p.launchRandomFactor = 1.5;
+      bigAsteroidMaker.p.launchRandomFactor = 2.5;
+      fastAsteroidMaker.p.launchRandomFactor = 1.8;
     }
   },
 

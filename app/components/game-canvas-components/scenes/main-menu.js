@@ -17,7 +17,7 @@ export default Ember.Component.extend({
     this.get('gameState').set('flown_distance', 0);
     this.get('gameState').set('stars', 0);
     this.get('gameState').set('speed', 0);
-    this.get('gameState').set('distance_to_goal', Math.floor(50 * ( 1 + ((this.get('gameState').get('level') - 1) / 10) )));
+    this.get('gameState').set('distance_to_goal', 50);
   },
 
   reactToKeyUp(e) {

@@ -47,6 +47,8 @@ export default Ember.Mixin.create({
             this.p.hasACannon = false;
           }
 
+          this.p.speed = 300;
+
           // x location of the center
           this.p.x = Q.width / 2;
           // y location of the center
@@ -96,11 +98,10 @@ export default Ember.Mixin.create({
             gameState.set('flown_distance', gameState.get('flown_distance') + 1);
             gameState.set('distance_to_goal', gameState.get('distance_to_goal') - 1);
 
-            if(gameState.get('speed') < gameState.get('max_speed')) {
-              gameState.set('speed', gameState.get('speed') + 1);
-            }
+            // if(gameState.get('speed') < gameState.get('max_speed')) {
+            //   gameState.set('speed', gameState.get('speed') + 1);
+            // }
 
-            this.p.speed = gameState.get('speed');
     				this.p.lastSpeedUp = 0;
     			}
 
@@ -109,15 +110,14 @@ export default Ember.Mixin.create({
     				this.levelUp();
     			}
 
-    			// rocket can't leave the screen
+    			// don't allow rocket to leave the screen
     			if(this.p.x > Q.width - 30 && this.p.vx > 0 ||
-             this.p.x < 30 && this.p.vx < 0)
-    			{
-    				this.p.vx = 0;
+             this.p.x < 30 && this.p.vx < 0) {
+
+             this.p.vx = 0;
     			}
 
-    		  // rotate the rocket
-    		  // based on our velocity
+    		  // rotate the rocket based on the velocity
     		  if(this.p.vx > 0 && this.p.angle < 45) { // nach rechts drehen
     				this.rotate(this.p.angle + 5);
     		  }
@@ -235,32 +235,36 @@ export default Ember.Mixin.create({
     	},
 
     	levelUp: function() {
-
         var gameState = self.store.peekRecord('gameState', 1);
         var new_level = gameState.get('level') + 1;
 
-        gameState.set('level', new_level);
-    		gameState.set('distance_to_goal', Math.floor(50 * ( 1 + ((new_level - 1) / 10) )));
+        if(new_level < 7) {
+          gameState.set('level', new_level);
 
-        self.setupLevel(new_level);
+          self.setupLevel(new_level);
 
-        self.get('me').get('user').then(user => {
-          if(new_level > user.get('reached_level') && new_level < 6) {
-            gameState.set('new_stage_reached', true);
-            user.set('reached_level', new_level);
-            user.save();
+          self.get('me').get('user').then(user => {
+            if(new_level > user.get('reached_level')) {
+              gameState.set('new_stage_reached', true);
+              user.set('reached_level', new_level);
+              user.save();
 
-            if(self.get('FB') && self.get('FB').AppEvents) {
-              var params = {};
-              params[self.get('FB').AppEvents.ParameterNames.LEVEL] = new_level; //player level
-              self.get('FB').AppEvents.logEvent(
-                self.get('FB').AppEvents.EventNames.ACHIEVED_LEVEL,
-                null,  // numeric value for this event - in this case, none
-                params
-              );
+              if(self.get('FB') && self.get('FB').AppEvents) {
+                var params = {};
+                params[self.get('FB').AppEvents.ParameterNames.LEVEL] = new_level; //player level
+                self.get('FB').AppEvents.logEvent(
+                  self.get('FB').AppEvents.EventNames.ACHIEVED_LEVEL,
+                  null,  // numeric value for this event - in this case, none
+                  params
+                );
+              }
             }
-          }
-        });
+          });
+        }
+        else {
+          gameState.set('reached_end', true);
+          Q.stageScene("gameOver", 2);
+        }
     	}
     });
   }

@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="level_selection_coming_soon.svg"
+   sodipodi:docname="stage_selection_clouds.svg"
    inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\level_selection_coming_soon.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -1747,16 +1747,21 @@
          id="feGaussianBlur4130" />
     </filter>
     <filter
-       inkscape:collect="always"
-       id="filter4136"
-       x="-0.16301738"
-       width="1.3260348"
-       y="-0.32253432"
-       height="1.6450686">
+       id="filter4102"
+       inkscape:label="Fancy blur"
+       inkscape:menu="Blurs"
+       inkscape:menu-tooltip="Smooth colorized contour which allows desaturation and hue rotation"
+       color-interpolation-filters="sRGB">
       <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="6.3790331"
-         id="feGaussianBlur4138" />
+         id="feGaussianBlur4104"
+         stdDeviation="5"
+         result="result1" />
+      <feComposite
+         id="feComposite4106"
+         in2="result1"
+         operator="arithmetic"
+         k2="2"
+         in="result1" />
     </filter>
   </defs>
   <sodipodi:namedview
@@ -1767,7 +1772,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="27.497577"
+     inkscape:cx="-165.94664"
      inkscape:cy="234.51473"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
@@ -1812,57 +1817,10 @@
      inkscape:label="path"
      style="display:inline">
     <g
-       id="g4677-8-05"
-       style="fill:#ececec;filter:url(#filter4136)"
-       transform="matrix(1.915546,0,0,1.6693984,1465.9424,-102.31264)"
-       inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\level_selection_clouds.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <path
-         sodipodi:open="true"
-         sodipodi:end="11.963348"
-         sodipodi:start="5.7817908"
-         transform="matrix(1.6999571,0,0,0.88890505,-41.722881,235.0679)"
-         d="m -396.8928,16.466204 c 4.06422,6.673423 1.34795,15.048534 -6.06697,18.706334 -7.41491,3.6578 -16.72059,1.213155 -20.78482,-5.460268 -4.06422,-6.673422 -1.34795,-15.048533 6.06697,-18.706334 6.8875,-3.3976255 15.51453,-1.5535167 19.96895,4.268551"
-         sodipodi:ry="13.779359"
-         sodipodi:rx="15.310399"
-         sodipodi:cy="23.089237"
-         sodipodi:cx="-410.3187"
-         id="path4625-9-1"
-         style="fill:#ececec;fill-opacity:1;stroke:none"
-         sodipodi:type="arc" />
-      <path
-         sodipodi:open="true"
-         sodipodi:end="11.963348"
-         sodipodi:start="5.7817908"
-         d="m -396.8928,16.466204 c 4.06422,6.673423 1.34795,15.048534 -6.06697,18.706334 -7.41491,3.6578 -16.72059,1.213155 -20.78482,-5.460268 -4.06422,-6.673422 -1.34795,-15.048533 6.06697,-18.706334 6.8875,-3.3976255 15.51453,-1.5535167 19.96895,4.268551"
-         sodipodi:ry="13.779359"
-         sodipodi:rx="15.310399"
-         sodipodi:cy="23.089237"
-         sodipodi:cx="-410.3187"
-         id="path4625-5-2-1"
-         style="fill:#ececec;fill-opacity:1;stroke:none"
-         sodipodi:type="arc"
-         transform="matrix(1.4999842,0,0,1.0370317,-78.862654,226.03329)" />
-      <path
-         sodipodi:open="true"
-         sodipodi:end="11.963348"
-         sodipodi:start="5.7817908"
-         d="m -396.8928,16.466204 c 4.06422,6.673423 1.34795,15.048534 -6.06697,18.706334 -7.41491,3.6578 -16.72059,1.213155 -20.78482,-5.460268 -4.06422,-6.673422 -1.34795,-15.048533 6.06697,-18.706334 6.8875,-3.3976255 15.51453,-1.5535167 19.96895,4.268551"
-         sodipodi:ry="13.779359"
-         sodipodi:rx="15.310399"
-         sodipodi:cy="23.089237"
-         sodipodi:cx="-410.3187"
-         id="path4625-7-7-59"
-         style="fill:#ececec;fill-opacity:1;stroke:none"
-         sodipodi:type="arc"
-         transform="matrix(1.9665877,0,0,1.2962532,87.074805,208.30994)" />
-    </g>
-    <g
        id="g4677-8-0-0"
        style="fill:#ececec;filter:url(#filter4128)"
        transform="matrix(-2.5100162,0,0,-2.1322217,-1702.2025,722.48171)"
-       inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\level_selection_clouds.png"
+       inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\stage_selection_clouds.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
       <path
@@ -1910,7 +1868,7 @@
        d="m 252.27789,89.123048 45.97734,-6.581387"
        id="path5350"
        inkscape:connector-curvature="0"
-       inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\level_selection_clouds.png"
+       inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\stage_selection_clouds.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
        transform="matrix(0.88101249,0,0,0.88101249,19.484063,48.175148)" />
@@ -1918,7 +1876,7 @@
        id="g4677-8-9-7"
        style="fill:#ececec;filter:url(#filter4120)"
        transform="matrix(1.915546,0,0,1.5387122,1635.5272,-269.62126)"
-       inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\level_selection_clouds.png"
+       inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\stage_selection_clouds.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
       <path
@@ -1961,5 +1919,33 @@
          sodipodi:type="arc"
          transform="matrix(1.9665877,0,0,1.2962532,87.074805,208.30994)" />
     </g>
+    <text
+       xml:space="preserve"
+       style="font-size:22.40006447000000000px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Kraash Black;-inkscape-font-specification:'Kraash Black,';filter:url(#filter4102)"
+       x="43.09515"
+       y="168.66258"
+       id="text3361-1"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\stage_selection_clouds.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan3363-7"
+         x="43.09515"
+         y="168.66258">COMING SOON</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:22.40006447000000000px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#8aa8b2;fill-opacity:1;stroke:none;font-family:Kraash Black;-inkscape-font-specification:'Kraash Black,'"
+       x="45.938118"
+       y="165.83676"
+       id="text3361"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="D:\Development\littlerocket_ember\public\assets\images\stage_selection_clouds.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan3363"
+         x="45.938118"
+         y="165.83676">COMING SOON</tspan></text>
   </g>
 </svg>

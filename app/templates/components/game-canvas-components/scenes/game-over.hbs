@@ -20,7 +20,11 @@
   {{#if (if-equals currentCongratzSection 'new_stage')}}
     <div class="congratz_sub">You reached a new stage!</div>
   {{else}}
-    <div class="congratz_sub">Your score:</div>
+    {{#if gameState.reached_end}}
+      <div class="congratz_sub">You reached the finish:</div>
+    {{else}}
+      <div class="congratz_sub">Your score:</div>
+    {{/if}}
   {{/if}}
 {{/if}}
 
