@@ -1,56 +1,52 @@
-<div class="gameOver {{if congratzMessageExists 'big' 'small'}}">
-
-  {{#if congratzMessageExists }}
-    <div class="congratz">CONGRATULATIONS</div>
-    <div class="congratz_menu flex-container center-xy">
-      {{#if isNewHighscore}}
-        <div class="item {{if (if-equals currentCongratzSection 'highscore') 'active' }}" {{action 'openSection' 'highscore'}}>
-          {{fa-icon "trophy" fixedWidth=true}}
-        </div>
-      {{/if}}
-      {{#if reachedNewStage}}
-        <div class="item {{if (if-equals currentCongratzSection 'new_stage') 'active' }}" {{action 'openSection' 'new_stage'}}>
-          {{fa-icon "signal" fixedWidth=true}}
-        </div>
-      {{/if}}
-    </div>
-  {{/if}}
-
-  {{#if (if-equals currentCongratzSection 'highscore')}}
-    <div class="congratz_sub">You beat your own highscore!</div>
-  {{else}}
-    {{#if (if-equals currentCongratzSection 'new_stage')}}
-      <div class="congratz_sub">You reached a new stage!</div>
-    {{else}}
-      <div class="congratz_sub">Your score:</div>
+{{#if congratzMessageExists }}
+  <div class="congratz">CONGRATULATIONS</div>
+  <div class="congratz_menu flex-container center-xy">
+    {{#if isNewHighscore}}
+      <div class="item {{if (if-equals currentCongratzSection 'highscore') 'active' }}" {{action 'openSection' 'highscore'}}>
+        {{fa-icon "trophy" fixedWidth=true}}
+      </div>
     {{/if}}
-  {{/if}}
-
-  {{#if (if-equals currentCongratzSection 'new_stage')}}
-    <div class="score">{{newStage}}</div>
-  {{else}}
-    <div class="score">{{newScore}}</div>
-  {{/if}}
-
-  {{#if (if-equals currentCongratzSection 'highscore')}}
-    {{#unless highscoreHasBeenPosted}}
-      <div class="fb-button post" {{action 'postScoreToFB'}}>{{fa-icon "facebook-square"}} post new score</div>
-    {{else}}
-      <div class="fb-button post disabled">{{fa-icon "check"}} new score posted</div>
-    {{/unless}}
-  {{else}}
-    {{#if (if-equals currentCongratzSection 'new_stage')}}
-      {{#unless newStageHasBeenPosted}}
-        <div class="fb-button post" {{action 'postNewStageToFB'}}>{{fa-icon "facebook-square"}} post new stage</div>
-      {{else}}
-        <div class="fb-button post disabled">{{fa-icon "check"}} new stage posted</div>
-      {{/unless}}
+    {{#if reachedNewStage}}
+      <div class="item {{if (if-equals currentCongratzSection 'new_stage') 'active' }}" {{action 'openSection' 'new_stage'}}>
+        {{fa-icon "signal" fixedWidth=true}}
+      </div>
     {{/if}}
-  {{/if}}
-
-  <div class="buttons">
-    <div class="button active try-again" {{action "tryAgain"}}>RETRY STAGE</div>
-    <div class="button select-stage" {{action "selectStage"}} {{action "activate" on=""}}>SELECT STAGE</div>
   </div>
+{{/if}}
 
+{{#if (if-equals currentCongratzSection 'highscore')}}
+  <div class="congratz_sub">You beat your own highscore!</div>
+{{else}}
+  {{#if (if-equals currentCongratzSection 'new_stage')}}
+    <div class="congratz_sub">You reached a new stage!</div>
+  {{else}}
+    <div class="congratz_sub">Your score:</div>
+  {{/if}}
+{{/if}}
+
+{{#if (if-equals currentCongratzSection 'new_stage')}}
+  <div class="score">{{newStage}}</div>
+{{else}}
+  <div class="score">{{newScore}}</div>
+{{/if}}
+
+{{#if (if-equals currentCongratzSection 'highscore')}}
+  {{#unless highscoreHasBeenPosted}}
+    <div class="fb-button post" {{action 'postScoreToFB'}}>{{fa-icon "facebook-square"}} post new score</div>
+  {{else}}
+    <div class="fb-button post disabled">{{fa-icon "check"}} new score posted</div>
+  {{/unless}}
+{{else}}
+  {{#if (if-equals currentCongratzSection 'new_stage')}}
+    {{#unless newStageHasBeenPosted}}
+      <div class="fb-button post" {{action 'postNewStageToFB'}}>{{fa-icon "facebook-square"}} post new stage</div>
+    {{else}}
+      <div class="fb-button post disabled">{{fa-icon "check"}} new stage posted</div>
+    {{/unless}}
+  {{/if}}
+{{/if}}
+
+<div class="buttons">
+  <div class="button active try-again" {{action "tryAgain"}}>RETRY STAGE</div>
+  <div class="button select-stage" {{action "selectStage"}} {{action "activate" on=""}}>SELECT STAGE</div>
 </div>

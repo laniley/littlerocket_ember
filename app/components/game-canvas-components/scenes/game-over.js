@@ -5,7 +5,8 @@ import FacebookLoginMixin from './../../../mixins/facebook-login';
 import ENV from './../../../config/environment';
 
 export default Ember.Component.extend(FacebookLoginMixin, {
-
+  classNames: ['menu','gameOver'],
+  classNameBindings: ['congratzMessageExists:big:small'],
   gameState: null,
   me: null,
   tryAgainAction: null,
