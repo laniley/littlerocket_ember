@@ -1,8 +1,9 @@
 <div id="workbench">
   <h2>Workbench</h2>
-  <div id="workbench-item-container" class="item-container">
-    <img src="assets/images/rocket_workbench.png" />
-
+  <div id="workbench-item-container" class="flex-container direction-column center-xy">
+    <div class="img-container">
+      <img src="assets/images/rocket_workbench.png" />
+    </div>
     {{!-- CANNON --}}
     {{#if (if-equals me.user.rocket.cannon.status 'unlocked') }}
       {{#link-to 'index' (query-params player_hud_section="lab" lab_section="cannon")}}

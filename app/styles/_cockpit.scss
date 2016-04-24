@@ -7,12 +7,15 @@
   .content {
     #workbench {
       margin-bottom: 5px;
-      img {
-        height: 100%;
+      .img-container {
+        width: 55%;
+      }
+      #workbench-item-container {
+        height: 298px;
       }
       #cannon {
         position: absolute;
-        left: 71px;
+        left: 15%;
         bottom: 221px;
       }
       .cannon-models {
@@ -34,12 +37,12 @@
       #shield {
         position: absolute;
         bottom: 217px;
-        left: 374px;
+        left: 64%;
       }
 
       #engine {
         position: absolute;
-        left: 163px;
+        left: 29%;
         bottom: 35px;
       }
     }
