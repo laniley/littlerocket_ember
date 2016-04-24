@@ -35,7 +35,6 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   }),
 
   updateCurrentCongratzSection: Ember.observer('isNewHighscore', 'reachedNewStage', function() {
-    console.log(this.get('currentCongratzSection'), this.get('isNewHighscore'), this.get('reachedNewStage'));
     if(this.get('isNewHighscore') === true) {
       this.set('currentCongratzSection', 'highscore');
     }
