@@ -7,7 +7,8 @@ import CannonMixin from './../mixins/rocket/rocket-components/cannon';
 import BulletMixin from './../mixins/rocket/rocket-components/cannon/bullet';
 import ShieldMixin from './../mixins/rocket/rocket-components/shield';
 import EngineMixin from './../mixins/rocket/rocket-components/engine';
-import StarMixin from './../mixins/star';
+import StarMixin from './../mixins/asteroid';
+import AsteroidMixin from './../mixins/star';
 import UfoMixin from './../mixins/ufo';
 
 export default Ember.Component.extend(
@@ -19,6 +20,7 @@ export default Ember.Component.extend(
   BulletMixin,
   ShieldMixin,
   EngineMixin,
+  AsteroidMixin,
   StarMixin,
   UfoMixin, {
 
@@ -110,26 +112,28 @@ export default Ember.Component.extend(
     this.initBullet();
     this.initShield();
     this.initEngine();
+
+    this.initAsteroid();
     this.initStar();
     this.initUfo();
 
-    Q.Sprite.extend("Asteroid", {
-    	// When an asteroid is hit..
-    	sensor: function(colObj) {
-    		// Destroy it
-    		if(colObj.isA('Rocket') && !colObj.collided && !this.collided) {
-          this.collided = true;
-    			colObj.trigger('collided');
-    		}
-    		else if(colObj.isA('Bullet') && !colObj.collided) {
-    			colObj.collided = true;
-    			colObj.destroy();
-    		}
-
-        Q.audio.play('explosion.mp3');
-        this.destroy();
-    	}
-    });
+    // Q.Sprite.extend("Asteroid", {
+    // 	// When an asteroid is hit..
+    // 	sensor: function(colObj) {
+    // 		// Destroy it
+    // 		if(colObj.isA('Rocket') && !colObj.collided && !this.collided) {
+    //       this.collided = true;
+    // 			colObj.trigger('collided');
+    // 		}
+    // 		else if(colObj.isA('Bullet') && !colObj.collided) {
+    // 			colObj.collided = true;
+    // 			colObj.destroy();
+    // 		}
+    //
+    //     Q.audio.play('explosion.mp3');
+    //     this.destroy();
+    // 	}
+    // });
 
     Q.Asteroid.extend("NormalAsteroid", {
     	init: function(p) {
