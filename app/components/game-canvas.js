@@ -679,11 +679,6 @@ export default Ember.Component.extend(
         "bigAsteroid.png",
         "explodingAsteroid.png",
         "ufo.png",
-        "menuicons/distance.png",
-        "menuicons/goal.png",
-        "menuicons/speed.png",
-        "menuicons/level.png",
-        "menuicons/points.png",
         "rocket.mp3",
         "collecting_a_star.mp3",
         "racing.mp3",
@@ -702,11 +697,6 @@ export default Ember.Component.extend(
         Q.sheet("bigAsteroid","bigAsteroid.png", { tileW: 100, tileH: 100 });
         Q.sheet("explodingAsteroid","explodingAsteroid.png", { tileW: 200, tileH: 200 });
         Q.sheet("ufo","ufo.png", { tileW: 72, tileH: 40 });
-        Q.sheet("distance","menuicons/distance.png", { tileW: 24, tileH: 24 });
-        Q.sheet("level","menuicons/level.png", { tileW: 24, tileH: 24 });
-        Q.sheet("points","menuicons/points.png", { tileW: 24, tileH: 24 });
-        Q.sheet("goal","menuicons/goal.png", { tileW: 24, tileH: 24 });
-        Q.sheet("speed","menuicons/speed.png", { tileW: 24, tileH: 24 });
 
         Q.animations('rocket', {
           explosion: { frames: [1,2,3,4,5], rate: 1/15, loop: false, trigger: "exploded" }
