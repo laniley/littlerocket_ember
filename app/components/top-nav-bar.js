@@ -12,6 +12,9 @@ export default Ember.Component.extend(FacebookLoginMixin, {
     login: function() {
       this.login();
     },
+    logout: function() {
+      this.logout();
+    },
     invite() {
       FB.ui({
         method: 'apprequests',

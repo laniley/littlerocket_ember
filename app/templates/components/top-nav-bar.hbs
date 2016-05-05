@@ -31,11 +31,19 @@
 						<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
 					</form>
 				</li>
-				<!-- login -->
+				<!-- login / logout -->
 				{{#if me.isLoggedIn}}
-					<li class="user-img">
-						<img src={{me.user.img_url}} />
-					</li>
+					<li class="has-dropdown">
+		        <a href="#">
+							<span class="user-img"><img src={{me.user.img_url}} /></span>
+							<span class="account">Account</span>
+						</a>
+		        <ul class="dropdown">
+		          <li class="logout" {{action 'logout'}}>
+								<a href="#">Logout</a>
+							</li>
+		        </ul>
+		      </li>
 				{{else}}
 					{{#if (eq me.loginStatus 'unknown')}}
 						<li class="loading">

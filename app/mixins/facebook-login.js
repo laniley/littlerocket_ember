@@ -13,6 +13,20 @@ export default Ember.Mixin.create({
     );
   },
 
+  logout() {
+    var me = this.store.peekRecord('me', 1);
+    me.set('isLoggedIn', false);
+    console.log('logging out from facebook...');
+    FB.api('/me/permissions', 'delete', {}, response => {
+      if(!response.success) {
+        console.err('ERROR: logout failed!');
+      }
+      else {
+        console.log('logged out!');
+      }
+    });
+  },
+
   reRequestPostPermission(callback) {
     FB.login(response => {
         console.log('reRequestPostPermission: ', response);

@@ -452,7 +452,7 @@ export default Ember.Component.extend(
           rocket.p.stage.insert(decoration);
   	});
 
-    Q.scene("levelSelection", function(stage) {
+    Q.scene("levelSelection", function(/*stage*/) {
 
       self.set('currentScene', 'stageSelection');
       self.set('showHud', false);
@@ -462,7 +462,7 @@ export default Ember.Component.extend(
     	Q.audio.stop('rocket.mp3');
     	Q.audio.stop('racing.mp3');
 
-    	stage.insert(new Q.Level_Selection());
+    	// stage.insert(new Q.Level_Selection());
     });
 
   	Q.scene("level", stage => {
