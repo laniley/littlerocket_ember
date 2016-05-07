@@ -15,9 +15,10 @@
     top: 0;
   }
   .stage-selection-clouds {
-    top: 50px;
-    left: 28px;
+    top: 75px;
+    left: 80px;
     height: auto;
+    width: 300px;
   }
   .stage {
     position: absolute;
@@ -67,5 +68,21 @@
   .stage-9 {
     top: 121px;
     left: 193px;
+  }
+  .game-mode-selection {
+    position: absolute;
+    bottom: 23px;
+    width: 100%;
+    text-align: center;
+    .button {
+      width: 30%;
+      padding: 10px;
+      &:first-child {
+        border-radius: 15px 0 0 15px;
+      }
+      &:last-child {
+        border-radius: 0 15px 15px 0px;
+      }
+    }
   }
 }

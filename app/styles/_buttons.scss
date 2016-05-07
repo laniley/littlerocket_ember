@@ -12,8 +12,12 @@ button, .button {
   &.locked, &.disabled {
     cursor: default;
   }
+  &.active {
+    color: white;
+    background-color: $primary-text-color;
+  }
   &:not(.active) {
-    background-color: #EBF3F6;
+    background-color: $lightblue;
     color: $primary-text-color;
     &:hover {
       background-color: white;
