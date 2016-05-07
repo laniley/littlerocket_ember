@@ -33,6 +33,12 @@ export default Ember.Component.extend(
   showHud: false,
   components_ready: 0,
 
+  asteroidMaker: null,
+  ufoMaker: null,
+  bigAsteroidMaker: null,
+  explodingAsteroidMaker: null,
+  fastAsteroidMaker: null,
+
   newScore: function() {
     return (this.get('gameState').get('flown_distance') + this.get('gameState').get('stars')) * this.get('gameState').get('level');
   }.property('gameState.flown_distance', 'gameState.stars', 'gameState.level'),
@@ -487,10 +493,6 @@ export default Ember.Component.extend(
 
   		stage.insert(new Q.StarMaker());
 
-      var asteroidMaker = new Q.AsteroidMaker();
-      Q.state.set('asteroidMaker', asteroidMaker);
-  		stage.insert(asteroidMaker);
-
       var rocket = new Q.Rocket({ stage: stage });
       stage.insert(rocket);
 
@@ -549,11 +551,26 @@ export default Ember.Component.extend(
       Q.state.set('shield_is_reloading', false);
       Q.state.set('engine_is_reloading', false);
 
-      Q.state.get('asteroidMaker').destroy();
-      Q.state.get('bigAsteroidMaker').destroy();
-      Q.state.get('explodingAsteroidMaker').destroy();
-      Q.state.get('fastAsteroidMaker').destroy();
-      Q.state.get('ufoMaker').destroy();
+      if(self.get('asteroidMaker')) {
+        self.get('asteroidMaker').destroy();
+        self.set('asteroidMaker', null);
+      }
+      if(self.get('ufoMaker')) {
+        self.get('ufoMaker').destroy();
+        self.set('ufoMaker', null);
+      }
+      if(self.get('bigAsteroidMaker')) {
+        self.get('bigAsteroidMaker').destroy();
+        self.set('bigAsteroidMaker', null);
+      }
+      if(self.get('explodingAsteroidMaker')) {
+        self.get('explodingAsteroidMaker').destroy();
+        self.set('explodingAsteroidMaker', null);
+      }
+      if(self.get('fastAsteroidMaker')) {
+        self.get('fastAsteroidMaker').destroy();
+        self.set('fastAsteroidMaker', null);
+      }
 
       if(self.get('cannonReloadingTimeout')) {
         clearTimeout(self.get('cannonReloadingTimeout'));
@@ -746,83 +763,84 @@ export default Ember.Component.extend(
 
     var Q = this.get('Q');
 
-    var asteroidMaker = Q.state.get('asteroidMaker');
-    var bigAsteroidMaker = Q.state.get('bigAsteroidMaker');
-    var explodingAsteroidMaker = Q.state.get('explodingAsteroidMaker');
-    var fastAsteroidMaker = Q.state.get('fastAsteroidMaker');
-    var ufoMaker = Q.state.get('ufoMaker');
-
     this.get('gameState').set('distance_to_goal', 50);
     this.get('gameState').set('reached_end', false);
 
-    asteroidMaker.p.launchRandomFactor = 0.53;
+    if(!this.get('asteroidMaker')) {
+      this.set('asteroidMaker', new Q.AsteroidMaker());
+      Q.stage().insert(this.get('asteroidMaker'));
+    }
+
+    this.get('asteroidMaker').p.launchRandomFactor = 0.4;
 
     if(level >= 2) {
 
-      if(!ufoMaker) {
-        ufoMaker = new Q.UfoMaker();
-        Q.state.set('ufoMaker', ufoMaker);
+      if(!this.get('ufoMaker')) {
+        this.set('ufoMaker', new Q.UfoMaker());
+        Q.stage().insert(this.get('ufoMaker'));
       }
 
-      Q.stage().insert(ufoMaker);
-
-      asteroidMaker.p.launchRandomFactor = 0.8;
-      ufoMaker.p.isActive = 1;
-      ufoMaker.p.launchRandomFactor = 1.5;
+      this.get('asteroidMaker').p.launchRandomFactor = 0.6;
+      this.get('ufoMaker').p.isActive = 1;
+      this.get('ufoMaker').p.launchRandomFactor = 1;
     }
     if(level >= 3) {
-
-      if(!bigAsteroidMaker) {
-        bigAsteroidMaker = new Q.BigAsteroidMaker();
-        Q.state.set('bigAsteroidMaker', bigAsteroidMaker);
+      if(!this.get('bigAsteroidMaker')) {
+        this.set('bigAsteroidMaker', new Q.BigAsteroidMaker());
+        Q.stage().insert(this.get('bigAsteroidMaker'));
       }
+      this.get('ufoMaker').p.isActive = 0;
+      this.get('bigAsteroidMaker').p.isActive = 1;
 
-      Q.stage().insert(bigAsteroidMaker);
-
-      ufoMaker.p.isActive = 0;
-      bigAsteroidMaker.p.isActive = 1;
-
-      asteroidMaker.p.launchRandomFactor = 1;
-      bigAsteroidMaker.p.launchRandomFactor = 1.5;
+      this.get('asteroidMaker').p.launchRandomFactor = 1;
+      this.get('bigAsteroidMaker').p.launchRandomFactor = 1.5;
     }
     if(level >= 4) {
-      ufoMaker.p.isActive = 1;
-      bigAsteroidMaker.p.isActive = 1;
+      this.get('ufoMaker').p.isActive = 1;
+      this.get('bigAsteroidMaker').p.isActive = 1;
 
-      asteroidMaker.p.launchRandomFactor = 1.5;
-      bigAsteroidMaker.p.launchRandomFactor = 1.7;
-      ufoMaker.p.launchRandomFactor = 2.5;
+      this.get('asteroidMaker').p.launchRandomFactor = 1.5;
+      this.get('bigAsteroidMaker').p.launchRandomFactor = 1.5;
+      this.get('ufoMaker').p.launchRandomFactor = 1.5;
     }
     if(level >= 5) {
-      if(!explodingAsteroidMaker) {
-        explodingAsteroidMaker = new Q.ExplodingAsteroidMaker();
-        Q.state.set('explodingAsteroidMaker', explodingAsteroidMaker);
+      if(!this.get('explodingAsteroidMaker')) {
+        this.set('explodingAsteroidMaker', new Q.ExplodingAsteroidMaker());
+        Q.stage().insert(this.get('explodingAsteroidMaker'));
       }
 
-      Q.stage().insert(explodingAsteroidMaker);
+      this.get('ufoMaker').p.isActive = 0;
+      this.get('bigAsteroidMaker').p.isActive = 1;
+      this.get('explodingAsteroidMaker').p.isActive = 1;
 
-      ufoMaker.p.isActive = 1;
-      bigAsteroidMaker.p.isActive = 0;
-
-      asteroidMaker.p.launchRandomFactor = 1.3;
-      bigAsteroidMaker.p.launchRandomFactor = 1.6;
+      // this.get('asteroidMaker').p.launchRandomFactor = 1.3;
+      this.get('bigAsteroidMaker').p.launchRandomFactor = 1.5;
+      this.get('explodingAsteroidMaker').p.launchRandomFactor = 2;
     }
     if(level >= 6) {
-      if(!fastAsteroidMaker) {
-        fastAsteroidMaker = new Q.FastAsteroidMaker();
-        Q.state.set('fastAsteroidMaker', fastAsteroidMaker);
+      if(!this.get('fastAsteroidMaker')) {
+        this.set('fastAsteroidMaker', new Q.FastAsteroidMaker());
+        Q.stage().insert(this.get('fastAsteroidMaker'));
       }
 
-      Q.stage().insert(fastAsteroidMaker);
+      this.get('ufoMaker').p.isActive = 0;
+      this.get('explodingAsteroidMaker').p.isActive = 0;
+      this.get('bigAsteroidMaker').p.isActive = 1;
+      this.get('fastAsteroidMaker').p.isActive = 1;
 
-      ufoMaker.p.isActive = 1;
-      explodingAsteroidMaker.p.isActive = 0;
-      bigAsteroidMaker.p.isActive = 1;
-      fastAsteroidMaker.p.isActive = 1;
+      this.get('asteroidMaker').p.launchRandomFactor = 1.5;
+      this.get('bigAsteroidMaker').p.launchRandomFactor = 2.5;
+      this.get('fastAsteroidMaker').p.launchRandomFactor = 1.8;
+    }
+    if(level >= 7) {
+      this.get('ufoMaker').p.isActive = 1;
+      this.get('explodingAsteroidMaker').p.isActive = 0;
+      this.get('bigAsteroidMaker').p.isActive = 1;
+      this.get('fastAsteroidMaker').p.isActive = 1;
 
-      asteroidMaker.p.launchRandomFactor = 1.5;
-      bigAsteroidMaker.p.launchRandomFactor = 2.5;
-      fastAsteroidMaker.p.launchRandomFactor = 1.8;
+      this.get('asteroidMaker').p.launchRandomFactor = 1.5;
+      this.get('bigAsteroidMaker').p.launchRandomFactor = 2.5;
+      this.get('fastAsteroidMaker').p.launchRandomFactor = 1.8;
     }
   },
 

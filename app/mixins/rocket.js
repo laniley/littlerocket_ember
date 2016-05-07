@@ -238,7 +238,7 @@ export default Ember.Mixin.create({
         var gameState = self.store.peekRecord('gameState', 1);
         var new_level = gameState.get('level') + 1;
 
-        if(new_level < 7) {
+        if(new_level < 8) {
           gameState.set('level', new_level);
 
           self.setupLevel(new_level);

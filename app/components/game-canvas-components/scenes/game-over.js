@@ -137,6 +137,23 @@ export default Ember.Component.extend(FacebookLoginMixin, {
             console.log('Score posted to Facebook', response);
           }
         });
+        // FB.ui({
+        //   method: 'share_open_graph',
+        //   action_type: 'games.highscores',
+        //   action_properties: JSON.stringify ({
+        //     game: 'https://apps.facebook.com/little_rocket/',
+        //     old_high_score: this.get('oldScore'),
+        //     new_high_score: this.get('newScore')
+        //   }),
+        // },
+        // response => {
+        //   if(response.error_code) {
+        //     console.error('sendHighscoreToFB failed', response);
+        //   }
+        //   else {
+        //     console.log('Highscore posted to FB', response);
+        //   }
+        // });
       }
     });
   },
