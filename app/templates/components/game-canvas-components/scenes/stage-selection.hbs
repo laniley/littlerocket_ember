@@ -1,7 +1,5 @@
 <div class="title">select a stage</div>
-{{!-- <div class="stage-selection-bg"> --}}
-  <img class="stage-selection-bg" src="assets/images/level_selection.png" />
-{{!-- </div> --}}
+<img class="stage-selection-bg" src="assets/images/level_selection.png" />
 {{game-canvas-components/scenes/stage-selection/game-stage Q=Q gameState=gameState me=me stage=1}}
 {{game-canvas-components/scenes/stage-selection/game-stage Q=Q gameState=gameState me=me stage=2}}
 {{game-canvas-components/scenes/stage-selection/game-stage Q=Q gameState=gameState me=me stage=3}}
@@ -13,6 +11,6 @@
 {{game-canvas-components/scenes/stage-selection/game-stage Q=Q gameState=gameState me=me stage=9}}
 <img class="stage-selection-clouds" src="assets/images/stage_selection_clouds.png" />
 <div class="game-mode-selection button-group flex-container center-xy">
-  <div class="button active">Adventure</div>
-  <div class="button">Arcade</div>
+  <div class="button {{if (eq gameState.mode 'adventure') 'active'}}" {{action "setGameMode" "adventure"}}>Adventure</div>
+  <div class="button {{if (eq gameState.mode 'arcade') 'active'}}" {{action "setGameMode" "arcade"}}>Arcade</div>
 </div>

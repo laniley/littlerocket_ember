@@ -15,6 +15,7 @@ button, .button {
   &.active {
     color: white;
     background-color: $primary-text-color;
+    cursor: default;
   }
   &:not(.active) {
     background-color: $lightblue;
