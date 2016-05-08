@@ -11,6 +11,16 @@
 {{game-canvas-components/scenes/stage-selection/game-stage Q=Q gameState=gameState me=me stage=9}}
 <img class="stage-selection-clouds" src="assets/images/stage_selection_clouds.png" />
 <div class="game-mode-selection button-group flex-container center-xy">
+  <div class="info">
+    {{#tooltip-component tooltip="Fly from stage to stage."}}
+      {{fa-icon 'fa-question-circle'}}
+    {{/tooltip-component}}
+  </div>
   <div class="button {{if (eq gameState.mode 'adventure') 'active'}}" {{action "setGameMode" "adventure"}}>Adventure</div>
   <div class="button {{if (eq gameState.mode 'arcade') 'active'}}" {{action "setGameMode" "arcade"}}>Arcade</div>
+  <div class="info">
+    {{#tooltip-component tooltip="Play one stage endlessly, <br />getting faster and faster. <br /> Fly as far as you can."}}
+      {{fa-icon 'fa-question-circle'}}
+    {{/tooltip-component}}
+  </div>
 </div>

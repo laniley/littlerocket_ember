@@ -6,6 +6,8 @@
 @import "buttons";
 @import "fonts";
 
+@import "components";
+
 @import "achievements";
 @import "challenges";
 @import "cockpit";
@@ -240,10 +242,6 @@ table {
 
 .prompt {
   z-index: 9999;
-}
-
-.has-tip {
-  color: $primary-text-color;
 }
 
 .tab-container {
