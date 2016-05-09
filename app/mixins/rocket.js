@@ -98,15 +98,15 @@ export default Ember.Mixin.create({
             gameState.set('flown_distance', gameState.get('flown_distance') + 1);
             gameState.set('distance_to_goal', gameState.get('distance_to_goal') - 1);
 
-            // if(gameState.get('speed') < gameState.get('max_speed')) {
-            //   gameState.set('speed', gameState.get('speed') + 1);
-            // }
+            if(self.get('gameState.mode') === 'arcade') {
+              gameState.set('speed', gameState.get('speed') + 1);
+            }
 
     				this.p.lastSpeedUp = 0;
     			}
 
 
-    			if(gameState.get('distance_to_goal') <= 0) {
+    			if(self.get('gameState.mode') === 'adventure' && gameState.get('distance_to_goal') <= 0) {
     				this.levelUp();
     			}
 

@@ -81,10 +81,10 @@
     .button {
       width: 30%;
       padding: 7px;
-      &:first-child {
+      &.first{
         border-radius: 15px 0 0 15px;
       }
-      &:last-child {
+      &.last {
         border-radius: 0 15px 15px 0px;
       }
     }

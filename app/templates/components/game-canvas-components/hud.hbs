@@ -18,10 +18,12 @@
       <td class="list-group-item-icon">{{fa-icon 'tachometer' fixedWidth=true}}</td>
       <td class="list-group-item-value">{{gameState.speed_percentage}} %</td>
     </tr>
-    <tr class="list-group-item info distance-to-goals">
-      <td class="list-group-item-icon">{{fa-icon 'flag-checkered' fixedWidth=true}}</td>
-      <td class="list-group-item-value">{{gameState.distance_to_goal}}</td>
-    </tr>
+    {{#if (eq gameState.mode 'adventure')}}
+      <tr class="list-group-item info distance-to-goals">
+        <td class="list-group-item-icon">{{fa-icon 'flag-checkered' fixedWidth=true}}</td>
+        <td class="list-group-item-value">{{gameState.distance_to_goal}}</td>
+      </tr>
+    {{/if}}
   </table>
 </div>
 
