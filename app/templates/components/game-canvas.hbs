@@ -40,19 +40,6 @@
             gameState=gameState}}
       {{/if}}
 
-    {{else}}
-      <div class="login-container">
-        <img src="assets/images/store_images/large_mobile_banner_272x167.png" />
-        {{#if (eq me.loginStatus 'unknown')}}
-          <div class="loader">
-            <img src="assets/images/preloaders/preloader.gif" />
-          </div>
-        {{else}}
-          <div class="fb-button login" {{action 'login'}}>
-            {{fa-icon "facebook-square"}} login
-          </div>
-        {{/if}}
-      </div>
     {{/if}}
 
   </div>
