@@ -1,12 +1,11 @@
-<div class="row">
 
-  <div id="game-canvas-container" style="width: 420px; height='600'; margin: 0px auto; position: relative;">
+  {{#if me.isLoggedIn}}
 
-    <canvas id='game' class="{{if aChallengeIsActive "active-challenge"}}" width='420' height='600'>
-      Your browser doesn't support this game. :(
-    </canvas>
+    {{!-- <div id="game-canvas-container" style="width: 420px; height='600'; margin: 0px auto; position: relative;"> --}}
 
-    {{#if me.isLoggedIn}}
+      <canvas id='game' class="{{if aChallengeIsActive "active-challenge"}}" width='420' height='600'>
+        Your browser doesn't support this game. :(
+      </canvas>
 
       {{#if isLoading}}
         {{game-canvas-components/progress-bar}}
@@ -40,35 +39,15 @@
             gameState=gameState}}
       {{/if}}
 
-    {{/if}}
+    {{!-- </div> --}}
 
-  </div>
-
-</div>
-
-<div class="control-infos show-for-large-up">
-    <div class="flex-container direction-column">
-      <div class="flex-item center control-info-button">
-        {{#tooltip-component tooltip="shoot"}}
-          {{fa-icon "caret-up" size="lg"}}
-        {{/tooltip-component}}
-      </div>
-      <div class="flex-item center flex-container direction-row">
-        <div class="control-info-button left">
-          {{#tooltip-component tooltip="move left"}}
-            {{fa-icon "caret-left" size="lg"}}
-          {{/tooltip-component}}
-        </div>
-        <div class="control-info-button down">
-          {{#tooltip-component tooltip="slow down"}}
-            {{fa-icon "caret-down" size="lg"}}
-          {{/tooltip-component}}
-        </div>
-        <div class="control-info-button right">
-          {{#tooltip-component tooltip="move right"}}
-            {{fa-icon "caret-right" size="lg"}}
-          {{/tooltip-component}}
+  {{else}}
+    <div class="login-container">
+      <div class="login-content">
+        <img src="assets/images/store_images/large_mobile_banner_272x167.png" />
+        <div class="loader">
+          <img src="assets/images/preloaders/preloader.gif" />
         </div>
       </div>
     </div>
-</div>
+  {{/if}}

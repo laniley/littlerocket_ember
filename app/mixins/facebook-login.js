@@ -6,25 +6,30 @@ export default Ember.Mixin.create({
   me: null,
   scope: 'public_profile,email,user_friends,publish_actions',
 
-  login() {
+  login(success, failure) {
     FB.login(() =>
-      { this.checkLoginState(); },
+      { this.checkLoginState(success, failure); },
       { scope: this.get('scope') }
     );
   },
 
-  logout() {
+  logout(success, failure) {
     var me = this.store.peekRecord('me', 1);
     me.set('isLoggedIn', false);
     console.log('logging out from facebook...');
     FB.api('/me/permissions', 'delete', {}, response => {
       if(!response.success) {
         console.err('ERROR: logout failed!');
+        if(failure) {
+          failure();
+        }
       }
       else {
         console.log('logged out!');
+        if(success) {
+          success();
+        }
       }
-      this.transitionTo('login');
     });
   },
 
@@ -37,9 +42,9 @@ export default Ember.Mixin.create({
     );
   },
 
-  checkLoginState() {
+  checkLoginState(success, failure) {
     FB.getLoginStatus(response => {
-      this.statusChangeCallback(response);
+      this.statusChangeCallback(response, success, failure);
     });
   },
 
@@ -59,7 +64,7 @@ export default Ember.Mixin.create({
   // app know the current login status of the person.
   // Full docs on the response object can be found in the documentation
   // for FB.getLoginStatus().
-  statusChangeCallback(response) {
+  statusChangeCallback(response, success, failure) {
     console.log('fb login status', response);
     this.set('me', this.get('store').peekRecord('me', 1));
     if (response.status === 'connected') {
@@ -77,8 +82,10 @@ export default Ember.Mixin.create({
           this.get('me').set('loginStatus', 'connected');
           this.get('me').set('accessToken', response.authResponse.accessToken);
         }
-  			this.getUserDataFromFB(this.get('store'));
-        this.transitionTo('index');
+  			// this.getUserDataFromFB(this.get('store'));
+        if(success) {
+          success();
+        }
   	}
     else {
     	if (response.status === 'not_authorized') {
@@ -106,13 +113,15 @@ export default Ember.Mixin.create({
             this.get('me').set('loginStatus', 'not_authorized');
           }
     	}
-      this.transitionTo('login');
+      if(failure) {
+        failure();
+      }
     }
   },
 
   // Here we receive the user data from the FB Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
-  getUserDataFromFB() {
+  getUserDataFromFB(callback) {
     console.log('Welcome!  Fetching your information.... ');
     var self = this;
     var store = this.get('store');
@@ -156,6 +165,9 @@ export default Ember.Mixin.create({
   		else {
   			console.log(response.error);
   		}
+      if(callback) {
+        callback();
+      }
   	});
   },
 

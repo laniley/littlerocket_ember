@@ -4,7 +4,19 @@ import FacebookLoginMixin from './../mixins/facebook-login';
 export default Ember.Route.extend(FacebookLoginMixin, {
 
   beforeModel: function() {
-    this.checkLoginState();
+    this.checkLoginState(
+      // on success
+      () => {
+        this.getUserDataFromFB(
+          this.transitionTo('index')
+        );
+
+      },
+      // on failure
+      () => {
+        this.transitionTo('login');
+      }
+    );
   },
 
   model: function() {

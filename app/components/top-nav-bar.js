@@ -10,10 +10,22 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
   actions: {
     login: function() {
-      this.login();
+      this.login(
+        // on success
+        () => {
+          this.get('router').transitionTo('/');
+        },
+        // on failure
+        () => {
+          this.get('router').transitionTo('login');
+        }
+      );
     },
     logout: function() {
-      this.logout();
+      this.logout(() => {
+        // on success
+        this.get('router').transitionTo('login');
+      });
     },
     invite() {
       FB.ui({
