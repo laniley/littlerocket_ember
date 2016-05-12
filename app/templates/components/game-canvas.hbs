@@ -1,53 +1,35 @@
+<canvas id='game' class="{{if aChallengeIsActive "active-challenge"}}" width='420' height='600'>
+  Your browser doesn't support this game. :(
+</canvas>
 
-  <!-- {{#if me.isLoggedIn}} -->
+{{#if isLoading}}
+  {{game-canvas-components/progress-bar}}
+{{/if}}
 
-    {{!-- <div id="game-canvas-container" style="width: 420px; height='600'; margin: 0px auto; position: relative;"> --}}
+{{#if (if-equals currentScene 'stageSelection') }}
+  {{game-canvas-components/scenes/stage-selection
+      Q=Q
+      me=me
+      gameState=gameState}}
+{{/if}}
 
-      <canvas id='game' class="{{if aChallengeIsActive "active-challenge"}}" width='420' height='600'>
-        Your browser doesn't support this game. :(
-      </canvas>
+{{#if (if-equals currentScene 'mainMenu') }}
+  {{game-canvas-components/scenes/main-menu
+      gameState=gameState
+      startStageAction=(action "startStage")
+      selectStageAction=(action "selectStage")}}
+{{/if}}
 
-      {{#if isLoading}}
-        {{game-canvas-components/progress-bar}}
-      {{/if}}
+{{#if (if-equals currentScene 'gameOver') }}
+  {{game-canvas-components/scenes/game-over
+      newScore=newScore
+      tryAgainAction=(action "startStage")
+      selectStageAction=(action "selectStage")}}
+{{/if}}
 
-      {{#if (if-equals currentScene 'stageSelection') }}
-        {{game-canvas-components/scenes/stage-selection
-            Q=Q
-            me=me
-            gameState=gameState}}
-      {{/if}}
-
-      {{#if (if-equals currentScene 'mainMenu') }}
-        {{game-canvas-components/scenes/main-menu
-            gameState=gameState
-            startStageAction=(action "startStage")
-            selectStageAction=(action "selectStage")}}
-      {{/if}}
-
-      {{#if (if-equals currentScene 'gameOver') }}
-        {{game-canvas-components/scenes/game-over
-            newScore=newScore
-            tryAgainAction=(action "startStage")
-            selectStageAction=(action "selectStage")}}
-      {{/if}}
-
-      {{#if showHud}}
-        {{game-canvas-components/hud
-            me=me
-            newScore=newScore
-            gameState=gameState}}
-      {{/if}}
-
-    {{!-- </div> --}}
-
-  <!-- {{else}}
-    <div class="login-container">
-      <div class="login-content">
-        <img src="assets/images/store_images/large_mobile_banner_272x167.png" />
-        <div class="loader">
-          <img src="assets/images/preloaders/preloader.gif" />
-        </div>
-      </div>
-    </div>
-  {{/if}} -->
+{{#if showHud}}
+  {{game-canvas-components/hud
+      me=me
+      newScore=newScore
+      gameState=gameState}}
+{{/if}}

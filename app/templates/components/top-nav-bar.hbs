@@ -32,7 +32,7 @@
 					</form>
 				</li>
 				<!-- login / logout -->
-				{{#if me.isLoggedIn}}
+				{{#if session.isAuthenticated}}
 					<li class="has-dropdown">
 		        <a href="#">
 							<span class="user-img"><img src={{me.user.img_url}} /></span>
@@ -45,7 +45,7 @@
 		        </ul>
 		      </li>
 				{{else}}
-					{{#if (eq me.loginStatus 'unknown')}}
+					{{#if isLoading}}
 						<li class="loading">
 							<img src="assets/images/preloaders/preloader_dark.gif" />
 						</li>

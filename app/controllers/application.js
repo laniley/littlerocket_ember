@@ -1,3 +1,4 @@
+/* global LSM_Slot */
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
@@ -16,5 +17,15 @@ export default Ember.Controller.extend({
   lab_section: 'cannon',
   challenges_section: 'unplayed',
   leaderboard_filterBy: 'all',
-  leaderboard_sortBy: 'score'
+  leaderboard_sortBy: 'score',
+  didRender() {
+    console.log('TEST');
+    new LSM_Slot({
+        adkey: '6df',
+        ad_size: '728x90',
+        slot: 'slot126743',
+        _render_div_id: 'footer_banner',
+        _preload: true
+    });
+  }
 });

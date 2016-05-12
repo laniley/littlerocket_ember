@@ -1,4 +1,4 @@
-{{#if me.isLoggedIn}}
+{{#if session.isAuthenticated}}
   <div class="title">
     {{#link-to 'index' (query-params player_hud_section="rocket")}}
       <div class={{if (if-equals currentSection 'rocket') 'active item' 'item' }}>

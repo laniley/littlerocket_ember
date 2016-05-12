@@ -1,0 +1,77 @@
+{{top-nav-bar me=model isLoading=true}}
+
+<div id="main">
+
+			<div class="clouds clouds_left show-for-large-up"><img src="assets/images/clouds_600x113.png" /></div>
+			<div class="clouds clouds_right show-for-large-up"><img src="assets/images/clouds_600x113.png" /></div>
+
+			<div class="row">
+
+				<div class="columns hud-container cockpit">
+					{{player-hud-component
+						me=model
+						currentSection=player_hud_section
+						currentCockpitSection=cockpit_section
+						currentLabSection=lab_section}}
+				</div>
+
+				<div class="columns game">
+					<div id="game-canvas-container" style="width: 420px; height='600'; margin: 0px auto; position: relative;">
+            <div class="login-container">
+              <div class="login-content">
+                <img src="assets/images/store_images/large_mobile_banner_272x167.png" />
+                <div class="loader">
+                  <img src="assets/images/preloaders/preloader.gif" />
+                </div>
+              </div>
+            </div>
+					</div>
+				</div>
+
+				<div class="columns hud-container leaderboard">
+					{{social-component
+						me=model
+						currentSection=social_section
+						currentChallengesSection=challenges_section
+						leaderboardFilterBy=leaderboard_filterBy
+						leaderboardSortBy=leaderboard_sortBy}}
+				</div>
+
+			</div>
+
+			<div class="row">
+			  <div class="control-infos show-for-large-up">
+			      <div class="flex-container direction-column">
+			        <div class="flex-item center control-info-button">
+			          {{#tooltip-component tooltip="shoot"}}
+			            {{fa-icon "caret-up" size="lg"}}
+			          {{/tooltip-component}}
+			        </div>
+			        <div class="flex-item center flex-container direction-row">
+			          <div class="control-info-button left">
+			            {{#tooltip-component tooltip="move left"}}
+			              {{fa-icon "caret-left" size="lg"}}
+			            {{/tooltip-component}}
+			          </div>
+			          <div class="control-info-button down">
+			            {{#tooltip-component tooltip="slow down"}}
+			              {{fa-icon "caret-down" size="lg"}}
+			            {{/tooltip-component}}
+			          </div>
+			          <div class="control-info-button right">
+			            {{#tooltip-component tooltip="move right"}}
+			              {{fa-icon "caret-right" size="lg"}}
+			            {{/tooltip-component}}
+			          </div>
+			        </div>
+			      </div>
+			  </div>
+			</div>
+
+			{{!-- <div class="row show-for-large-up">
+				<div class="small-12 columns">
+					<div id="footer_banner"></div>
+				</div>
+			</div> --}}
+
+</div>

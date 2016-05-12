@@ -2,6 +2,7 @@ import Ember from 'ember';
 import ObjectMixin from './../mixins/buyable-object';
 
 export default Ember.Component.extend(ObjectMixin, {
+  session: Ember.inject.service('session'),
   me: null,
   currentSection: 'rocket',
   currentCockpitSection: 'workbench',

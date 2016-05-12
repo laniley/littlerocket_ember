@@ -1,4 +1,4 @@
-{{#if me.isLoggedIn}}
+{{#if session.isAuthenticated}}
   <div class="title">
     {{#link-to 'index' (query-params social_section="leaderboard")}}
       <div class={{if (if-equals currentSection 'leaderboard') 'active item' 'item' }}>
