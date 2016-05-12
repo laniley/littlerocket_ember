@@ -1,31 +1,16 @@
 import Ember from 'ember';
-import FacebookLoginMixin from './../mixins/facebook-login';
+import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Ember.Route.extend(FacebookLoginMixin, {
-  // 
-  // beforeModel: function() {
-  //   this.getUserDataFromFB(this.get('store'));
-  //
-  //   this.checkLoginState(
-  //     // on success
-  //     () => {
-  //       // this.getUserDataFromFB(this.get('store'));
-  //       this.transitionTo('index');
-  //     },
-  //     // on failure
-  //     () => {
-  //       this.transitionTo('login');
-  //     }
-  //   );
-  // },
+export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
   model: function() {
     var me = this.store.peekRecord('me', 1);
 
     if(Ember.isEmpty(me)) {
-      return this.store.createRecord('me', { id: 1, isLoggedIn: false });
+      return this.store.createRecord('me', { id: 1, isLoggedIn: true });
     }
     else {
+      me.set('isLoggedIn', true);
       return me;
     }
   }

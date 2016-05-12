@@ -1,10 +1,12 @@
 import Ember from 'ember';
-import FacebookLoginMixin from './../mixins/facebook-login';
 
-export default Ember.Controller.extend(FacebookLoginMixin, {
+export default Ember.Controller.extend({
+  session: Ember.inject.service('session'),
   actions: {
     login() {
-      this.login();
+      this.get('session').authenticate('authenticator:facebook').catch((reason) => {
+        this.set('errorMessage', reason.error || reason);
+      });
     }
   }
 });

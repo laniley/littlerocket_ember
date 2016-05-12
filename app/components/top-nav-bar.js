@@ -1,8 +1,9 @@
 /* global FB */
 import Ember from 'ember';
-import FacebookLoginMixin from './../mixins/facebook-login';
 
-export default Ember.Component.extend(FacebookLoginMixin, {
+export default Ember.Component.extend({
+
+  session: Ember.inject.service('session'),
 
   didRender: function() {
     Ember.$(document).foundation();
@@ -10,22 +11,12 @@ export default Ember.Component.extend(FacebookLoginMixin, {
 
   actions: {
     login: function() {
-      this.login(
-        // on success
-        () => {
-          this.get('router').transitionTo('/');
-        },
-        // on failure
-        () => {
-          this.get('router').transitionTo('login');
-        }
-      );
+      this.get('session').authenticate('authenticator:facebook').catch((reason) => {
+        this.set('errorMessage', reason.error || reason);
+      });
     },
     logout: function() {
-      this.logout(() => {
-        // on success
-        this.get('router').transitionTo('login');
-      });
+      this.get('session').invalidate();
     },
     invite() {
       FB.ui({

@@ -7,6 +7,7 @@ export default Ember.Mixin.create({
   scope: 'public_profile,email,user_friends,publish_actions',
 
   login(success, failure) {
+    console.log('fwefw');
     FB.login(() =>
       { this.checkLoginState(success, failure); },
       { scope: this.get('scope') }
