@@ -1,3 +1,5 @@
+$include-html-top-bar-classes: true;
+
 // Colors
 $topbar-bg-color: $darkblue;
 $topbar-bg-color-hover: darken($topbar-bg-color, 10%);
@@ -27,6 +29,7 @@ $topbar-dropdown-label-font-weight: $font-weight-bold !default;
 $topbar-dropdown-label-font-size: rem-calc(15) !default;
 $topbar-dropdown-label-bg: $oil !default;
 
+$topbar-link-bg: $topbar-bg-color;
 $topbar-link-font-size: rem-calc(15) !default;
 
 // Transitions and breakpoint styles
@@ -63,6 +66,11 @@ $topbar-media-query: "#{$screen} and (min-width:#{lower-bound($topbar-breakpoint
           }
         }
       }
+    }
+  }
+  .top-bar-section {
+    ul li {
+      background: $topbar-dropdown-bg;
     }
   }
 	.name {
@@ -368,7 +376,7 @@ $topbar-media-query: "#{$screen} and (min-width:#{lower-bound($topbar-breakpoint
       }
 
       ul li {
-      background: $topbar-dropdown-bg;
+      // background: $topbar-dropdown-bg;
 
         > a {
           color: $topbar-link-color;
