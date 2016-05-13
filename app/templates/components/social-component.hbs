@@ -1,7 +1,7 @@
 <div class="title">
   {{#link-to 'index' (query-params social_section="leaderboard")}}
     <div class={{if (if-equals currentSection 'leaderboard') 'active item' 'item' }}>
-      {{fa-icon "fa-trophy"}}
+      {{fa-icon "trophy"}}
     </div>
   {{/link-to}}
   {{!-- {{#link-to 'index' (query-params social_section="challenges")}}
@@ -24,7 +24,12 @@
   {{/link-to}} --}}
   {{#link-to 'index' (query-params social_section="comments")}}
     <div class={{if (if-equals currentSection 'comments') 'active item' 'item' }}>
-      {{fa-icon "fa-pencil"}}
+      {{fa-icon "pencil"}}
+    </div>
+  {{/link-to}}
+  {{#link-to 'index' (query-params social_section="comments")}}
+    <div class={{if (if-equals currentSection 'armada') 'active item' 'item' }}>
+      {{fa-icon "angle-double-up" size="lg"}}
     </div>
   {{/link-to}}
 </div>
