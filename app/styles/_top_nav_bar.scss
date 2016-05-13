@@ -38,6 +38,7 @@ $topbar-media-query: "#{$screen} and (min-width:#{lower-bound($topbar-breakpoint
 
 
 .top-bar {
+  background-color: $topbar-bg-color;
   &:not(.expanded) {
     -webkit-box-shadow: 0px 2px 10px #666;	/* webkit browser*/
     -moz-box-shadow: 0px 2px 10px #666;	/* firefox */
