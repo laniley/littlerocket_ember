@@ -1,8 +1,10 @@
 .stage-selection {
   position: absolute;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  text-align: center;
   .title {
     font-family: Agency_FB;
     font-weight: bold;
@@ -11,14 +13,15 @@
     font-size: 3rem;
   }
   img {
-    position: absolute;
-    top: 0;
+    position: relative;
+    top: -77px;
   }
   .stage-selection-clouds {
     top: 75px;
-    left: 80px;
+    left: 206px;
     height: auto;
     width: 300px;
+    position: absolute;
   }
   .stage {
     position: absolute;

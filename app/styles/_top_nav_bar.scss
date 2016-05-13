@@ -72,6 +72,9 @@ $topbar-media-query: "#{$screen} and (min-width:#{lower-bound($topbar-breakpoint
     ul li {
       background: $topbar-dropdown-bg;
     }
+    li:not(.has-form) a:not(.button) {
+      background: $topbar-bg-color;
+    }
   }
 	.name {
 		h1 {

@@ -1,55 +1,66 @@
-<div class="title">
-  {{#link-to 'index' (query-params social_section="leaderboard")}}
-    <div class={{if (if-equals currentSection 'leaderboard') 'active item' 'item' }}>
-      {{fa-icon "trophy"}}
-    </div>
-  {{/link-to}}
-  {{!-- {{#link-to 'index' (query-params social_section="challenges")}}
-    <div class={{if (if-equals currentSection 'challenges') 'active item' 'item' }}>
-      <span class="fa-stack">
-        {{fa-icon "fa-user" stack=1 classNames="player-1"}}
-        {{fa-icon "fa-user" stack=1 classNames="player-2"}}
-        {{fa-icon "fa-arrows-h" stack=1 classNames="versus"}}
-        {{#if (gt me.user.unplayedChallenges.length 0)}}
-          <span class="counter highlight fa-stack-1x">{{me.user.unplayedChallenges.length}}</span>
-        {{/if}}
-      </span>
+{{#if session.isAuthenticated}}
+  <div class="title">
+    {{#link-to 'index' (query-params social_section="leaderboard")}}
+      <div class={{if (if-equals currentSection 'leaderboard') 'active item' 'item' }}>
+        {{fa-icon "trophy"}}
+      </div>
+    {{/link-to}}
+    {{!-- {{#link-to 'index' (query-params social_section="challenges")}}
+      <div class={{if (if-equals currentSection 'challenges') 'active item' 'item' }}>
+        <span class="fa-stack">
+          {{fa-icon "fa-user" stack=1 classNames="player-1"}}
+          {{fa-icon "fa-user" stack=1 classNames="player-2"}}
+          {{fa-icon "fa-arrows-h" stack=1 classNames="versus"}}
+          {{#if (gt me.user.unplayedChallenges.length 0)}}
+            <span class="counter highlight fa-stack-1x">{{me.user.unplayedChallenges.length}}</span>
+          {{/if}}
+        </span>
 
-    </div>
-  {{/link-to}} --}}
-  {{!-- {{#link-to 'index' (query-params social_section="friends")}}
-    <div class={{if (if-equals currentSection 'friends') 'active item' 'item' }}>
-      {{fa-icon "group"}}
-    </div>
-  {{/link-to}} --}}
-  {{#link-to 'index' (query-params social_section="comments")}}
-    <div class={{if (if-equals currentSection 'comments') 'active item' 'item' }}>
-      {{fa-icon "pencil"}}
-    </div>
-  {{/link-to}}
-  {{#link-to 'index' (query-params social_section="comments")}}
-    <div class={{if (if-equals currentSection 'armada') 'active item' 'item' }}>
-      {{fa-icon "angle-double-up" size="lg"}}
-    </div>
-  {{/link-to}}
-</div>
+      </div>
+    {{/link-to}} --}}
+    {{!-- {{#link-to 'index' (query-params social_section="friends")}}
+      <div class={{if (if-equals currentSection 'friends') 'active item' 'item' }}>
+        {{fa-icon "group"}}
+      </div>
+    {{/link-to}} --}}
+    {{#link-to 'index' (query-params social_section="comments")}}
+      <div class={{if (if-equals currentSection 'comments') 'active item' 'item' }}>
+        {{fa-icon "pencil"}}
+      </div>
+    {{/link-to}}
+    {{#link-to 'index' (query-params social_section="comments")}}
+      <div class={{if (if-equals currentSection 'armada') 'active item' 'item' }}>
+        {{fa-icon "angle-double-up" size="lg"}}
+      </div>
+    {{/link-to}}
+  </div>
 
-<div class="content">
-  {{#if (if-equals currentSection 'leaderboard') }}
-    {{social-components/leaderboard-component
-      me=me
-      leaderboard=leaderboard
-      filterBy=leaderboardFilterBy
-      sortBy=leaderboardSortBy}}
-  {{else}}
-    {{#if (if-equals currentSection 'challenges')}}
-      {{social-components/challenges-component me=me currentSection=currentChallengesSection}}
+  <div class="content">
+    {{#if (if-equals currentSection 'leaderboard') }}
+      {{social-components/leaderboard-component
+        me=me
+        leaderboard=leaderboard
+        filterBy=leaderboardFilterBy
+        sortBy=leaderboardSortBy}}
     {{else}}
-      {{#if (if-equals currentSection 'friends')}}
-        {{social-components/friends-component me=me}}
+      {{#if (if-equals currentSection 'challenges')}}
+        {{social-components/challenges-component me=me currentSection=currentChallengesSection}}
       {{else}}
-        {{social-components/fb-comments}}
+        {{#if (if-equals currentSection 'friends')}}
+          {{social-components/friends-component me=me}}
+        {{else}}
+          {{social-components/fb-comments}}
+        {{/if}}
       {{/if}}
     {{/if}}
-  {{/if}}
-</div>
+  </div>
+{{else}}
+  <div class="login-info">
+    <div>{{fa-icon "trophy" size="lg"}}</div>
+    <div>Be on top of the leaderboard.</div>
+    <div>{{fa-icon "group" size="lg"}}</div>
+    <div>Play with your friends.</div>
+    <div>{{fa-icon "pencil" size="lg"}}</div>
+    <div>Leave a comment.</div>
+  </div>
+{{/if}}
