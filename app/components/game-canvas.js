@@ -24,6 +24,7 @@ export default Ember.Component.extend(
   StarMixin,
   UfoMixin, {
 
+  classNames: ['game-canvas'],
   Q: null,
   me: null,
   gameState: null,
