@@ -20,12 +20,12 @@
     {{/link-to}}
     {{#if me.user.lab}}
       {{#link-to 'index' (query-params player_hud_section="lab")}}
-        {{#if (if-equals me.user.lab.status 'unlocked') }}
+        {{#if (eq me.user.lab.status 'unlocked') }}
             <div class={{if (if-equals currentSection 'lab') 'active item' 'item' }}>
               {{fa-icon "fa-flask" fixedWidth=true}}
             </div>
         {{else}}
-          {{#if (if-equals me.user.lab.status 'under_construction') }}
+          {{#if (eq me.user.lab.status 'under_construction') }}
             <div class="item">
               <span id="lab-tab" class="fa-stack">
                 {{fa-icon "fa-flask" stack=1 fixedWidth=true}}
@@ -36,18 +36,16 @@
               </span>
             </div>
           {{else}}
-            {{#if (if-equals me.user.lab.status 'locked') }}
-              <div class={{if (if-equals currentSection 'lab') 'active item' 'item' }}>
+            {{#if (eq me.user.lab.status 'locked') }}
+              <div class={{if (eq currentSection 'lab') 'active item' 'item' }}>
                 <span class="fa-stack">
                   {{fa-icon "fa-flask" stack=1 fixedWidth=true}}
-                  {{#if me.isLoggedIn}}
-                    {{#tooltip-component tooltip=me.user.lab.tooltip}}
-                      {{fa-icon "fa-lock locked" stack=1 fixedWidth=true}}
-                    {{/tooltip-component}}
-                  {{/if}}
+                  {{#tooltip-component tooltip=me.user.lab.tooltip}}
+                    {{fa-icon "fa-lock locked" stack=1 fixedWidth=true}}
+                  {{/tooltip-component}}
                 </span>
               </div>
-              {{/if}}
+            {{/if}}
           {{/if}}
         {{/if}}
       {{/link-to}}
