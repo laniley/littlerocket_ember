@@ -28,7 +28,7 @@
         {{fa-icon "pencil"}}
       </div>
     {{/link-to}}
-    {{#link-to 'index' (query-params social_section="comments")}}
+    {{#link-to 'index' (query-params social_section="armada")}}
       <div class={{if (if-equals currentSection 'armada') 'active item' 'item' }}>
         {{fa-icon "angle-double-up" size="lg"}}
       </div>
@@ -42,16 +42,18 @@
         leaderboard=leaderboard
         filterBy=leaderboardFilterBy
         sortBy=leaderboardSortBy}}
-    {{else}}
-      {{#if (if-equals currentSection 'challenges')}}
-        {{social-components/challenges-component me=me currentSection=currentChallengesSection}}
-      {{else}}
-        {{#if (if-equals currentSection 'friends')}}
-          {{social-components/friends-component me=me}}
-        {{else}}
-          {{social-components/fb-comments}}
-        {{/if}}
-      {{/if}}
+    {{/if}}
+    {{#if (if-equals currentSection 'challenges')}}
+      {{social-components/challenges-component me=me currentSection=currentChallengesSection}}
+    {{/if}}
+    {{#if (if-equals currentSection 'friends')}}
+      {{social-components/friends-component me=me}}
+    {{/if}}
+    {{#if (if-equals currentSection 'comments')}}
+      {{social-components/fb-comments}}
+    {{/if}}
+    {{#if (if-equals currentSection 'armada')}}
+      {{social-components/armada me=me}}
     {{/if}}
   </div>
 {{else}}

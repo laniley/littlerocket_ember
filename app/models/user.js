@@ -18,12 +18,13 @@ export default DS.Model.extend({
   reached_level: DS.attr('number', { defaultValue: 1 }),
   flights: DS.attr('number', { defaultValue: 0 }),
   experience: DS.attr('number', { defaultValue: 0 }),
+  achievement_points: DS.attr('number', { defaultValue: 0}),
 
   lab: DS.belongsTo('lab', { async: true}),
   rocket: DS.belongsTo('rocket', { async: true }),
   challenges: DS.hasMany('challenge', { async: true, inverse: null }),
   achievements: DS.hasMany('achievement'),
-  achievement_points: DS.attr('number', { defaultValue: 0}),
+  armada: DS.belongsTo('armada', { async: true }),
 
   name: function() {
     var name = '';
