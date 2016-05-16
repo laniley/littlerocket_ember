@@ -19,6 +19,7 @@ export default DS.Model.extend({
   flights: DS.attr('number', { defaultValue: 0 }),
   experience: DS.attr('number', { defaultValue: 0 }),
   achievement_points: DS.attr('number', { defaultValue: 0}),
+  armada_rank: DS.attr('string'),
 
   lab: DS.belongsTo('lab', { async: true}),
   rocket: DS.belongsTo('rocket', { async: true }),

@@ -1,10 +1,11 @@
 @import "foundation";
 @import "colors";
+@import "fonts";
 @import "settings";
 @import "template";
-@import "pietimer";
+
 @import "buttons";
-@import "fonts";
+@import "labels";
 
 @import "components";
 @import "routes";
@@ -20,12 +21,11 @@
 @import "lists";
 @import "player_hud_component";
 @import "player_infos";
+@import "pietimer";
 @import "progress_bar";
 @import "top_nav_bar";
 
-.align-right {
-  text-align: right;
-}
+
 
 .fa-stack {
   color: $darkblue;

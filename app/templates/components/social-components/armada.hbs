@@ -1,14 +1,79 @@
 <h2>
   Armada
 </h2>
-<div class="scrollable-list">
-  {{#if me.user.armada}}
-
-  {{else}}
-    <div class="empty-info-text">
-      You're not in any Armada at the moment.
-      <div class="button first">{{fa-icon "search"}} Search for an Armada</div>
-      <div class="button">{{fa-icon "plus"}} Create a new Armada</div>
-    </div>
-  {{/if}}
+{{#if showSuggestions}}
+  <div class="button back" {{action 'closeSuggestions'}}>{{fa-icon 'chevron-left'}} Back</div>
+  <div class="list-item flex-container center-y">
+    <div class="name label">Name</div>
+    <div class="members label">Members</div>
+  </div>
+{{/if}}
+<div class="scrollable-list align-center">
+    {{#if me.user}}
+      {{#if me.user.armada}}
+        <div class="title flex-container">
+          <div class="name">{{me.user.armada.name}}</div>
+          {{#tooltip-component tooltip='leave this armada'}}
+            <div class="leave button" {{action 'leave'}}>{{fa-icon 'user-times'}}</div>
+          {{/tooltip-component}}
+        </div>
+        {{#if (lt me.user.armada.users.length 20)}}
+          <div class="fb-button invite" {{action 'recruit'}}>
+            {{fa-icon "facebook-square" size="lg"}} Recruit friends
+          </div>
+        {{/if}}
+        {{#each me.user.armada.users as |user index|}}
+          <div class="list-item flex-container center-y">
+            <div class="index">{{math index "+" 1}}</div>
+            <div class="name">{{user.name}}</div>
+            <div class="rank">{{user.armada_rank}}</div>
+          </div>
+        {{/each}}
+      {{else}}
+        {{#if showCreateDialog}}
+          <div class="button back" {{action 'closeCreateDialog'}}>{{fa-icon 'chevron-left'}} Back</div>
+          <div class="empty-info-text">
+            <div class="label">Name:</div>
+            <div class="inline-block">{{input type='text' size='50' value=nameInput max=50 min=3}}</div>
+            <div class="name-status-icon inline-block">{{fa-icon nameStatusIcon spin=nameStatusIconSpin fixedWith=true}}</div>
+            {{#if requirementsForNewArmadaFulfilled}}
+              <div class="button" {{action 'save'}}>
+                {{fa-icon "save"}} Save
+              </div>
+            {{else}}
+              <div class="button disabled">
+                {{fa-icon "save"}} Save
+              </div>
+              <div class="missing_requirements_message">{{missing_requirements_message}}</div>
+            {{/if}}
+          </div>
+        {{else}}
+          {{#if showSuggestions}}
+            {{#each armadas.content as |armada index|}}
+              <div class="list-item flex-container center-y">
+                <div class="name">{{armada.name}}</div>
+                <div class="members">{{armada.users.length}} / 20</div>
+                {{#tooltip-component tooltip='join this armada'}}
+                  <div class="button join" {{action 'join' armada}}>{{fa-icon 'user-plus'}}</div>
+                {{/tooltip-component}}
+              </div>
+            {{/each}}
+          {{else}}
+            <div class="empty-info-text">
+              You're not in any Armada at the moment.
+              <div class="button first" {{action 'openSuggestions'}}>
+                {{fa-icon "search"}} Search for an Armada
+              </div>
+              <div class="button" {{action 'openCreateDialog'}}>
+                {{fa-icon "plus"}} Create a new Armada
+              </div>
+            </div>
+          {{/if}}
+        {{/if}}
+      {{/if}}
+    {{else}}
+      <div class="loader">
+        {{fa-icon "spinner" spin=true}}
+      </div>
+    {{/if}}
 </div>

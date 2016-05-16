@@ -9,9 +9,6 @@ button, .button {
 
 button, .button {
   border: $border;
-  &.locked, &.disabled {
-    cursor: default;
-  }
   &.active {
     color: white;
     background-color: #557681;
@@ -32,9 +29,11 @@ button, .button {
     color: $alert-color;
     border-color: $alert-color;
   }
-  &.locked {
+  &.locked, &.disabled {
+    cursor: default;
     color: $locked-color;
     background-color: $locked-bg-color;
+    border: $locked-border;
     &:hover {
       color: $locked-color;
       background-color: $locked-bg-color;

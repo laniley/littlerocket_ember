@@ -3,6 +3,9 @@
   &.center {
     justify-content: center;
   }
+  &.center-y {
+    align-items: center;
+  }
   &.center-xy {
     justify-content: center;
     align-items: center;
@@ -20,4 +23,16 @@
 
 .row {
   max-width: 100%;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-center {
+  text-align: center;
 }

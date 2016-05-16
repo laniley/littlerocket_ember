@@ -1,9 +1,41 @@
 .armada {
+  text-align: center;
+  h2 {
+    text-align: left;
+  }
+  .list-item {
+    height: auto;
+    div {
+      padding: 0.5rem 0.7rem 0.5rem;
+    }
+  }
   .button {
     margin: 30px;
     width: 300px;
     &.first {
       margin-top: 50px;
     }
+  }
+  .back {
+    width: auto;
+  }
+  .name {
+    flex-grow: 2;
+    text-align: left;
+    padding-right: 15px;
+  }
+  .join {
+    padding: 5px;
+    width: 70px;
+    margin: 0;
+  }
+  .leave {
+    margin: 0;
+    width: auto;
+    padding: 10px 13px;
+    margin-bottom: 3px;
+  }
+  .name-status-icon {
+    width: 30px;
   }
 }
