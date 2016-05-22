@@ -1,0 +1,45 @@
+<h3 class="align-left">
+  Members
+  <div class="members-count">{{me.user.armada.users.length}} / 20</div>
+</h3>
+
+<div class="scrollable-list align-center">
+  {{#each me.user.armada.users as |user index|}}
+    <div class="list-item flex-container center-y">
+      <div class="index">{{math index "+" 1}}</div>
+      <div class="name">{{user.name}}</div>
+      <div class="rank">
+        {{#if (eq userInEditMode.id user.id)}}
+          <select id="armada_rank" name="armada_rank">
+            {{#if (eq user.armada_rank 'Admiral')}}
+              <option selected="selected">Admiral</option>
+            {{else}}
+              <option>Admiral</option>
+            {{/if}}
+            {{#if (eq user.armada_rank 'Private')}}
+              <option selected="selected">Private</option>
+            {{else}}
+              <option>Private</option>
+            {{/if}}
+          </select>
+        {{else}}
+          {{user.armada_rank}}
+        {{/if}}
+      </div>
+      {{#if (eq me.user.armada_rank 'Admiral')}}
+        {{#if (not-eq user.id me.user.id)}}
+          {{#if (eq userInEditMode.id user.id)}}
+            <div class="button" {{action 'save' user}}>{{fa-icon 'save'}}</div>
+          {{else}}
+            <div class="button" {{action 'edit' user}}>{{fa-icon 'pencil'}}</div>
+          {{/if}}
+        {{/if}}
+      {{/if}}
+    </div>
+  {{/each}}
+  {{#if (lt me.user.armada.users.length 20)}}
+    <div class="fb-button invite" {{action 'recruit'}}>
+      {{fa-icon "facebook-square" size="lg"}} Recruit friends
+    </div>
+  {{/if}}
+</div>

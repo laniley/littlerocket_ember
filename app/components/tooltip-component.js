@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   hover_delay: 50,
   id: '',
   tooltip: '',
+  direction: 'bottom',
 
   didInsertElement: function() {
     Ember.$('#' + this.get('elementId')).foundation();

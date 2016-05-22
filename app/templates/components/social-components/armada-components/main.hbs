@@ -1,0 +1,66 @@
+<div class="title flex-container">
+  <div class="name">{{me.user.armada.name}}</div>
+
+  {{#tooltip-component tooltip='members'}}
+    {{#link-to 'index' (query-params social_section="armada" armada_section="main")}}
+      <div class="button {{if (eq armadaSection 'main') 'active'}}">{{fa-icon 'list'}}</div>
+    {{/link-to}}
+  {{/tooltip-component}}
+  {{#if (eq me.user.armada_rank 'Admiral')}}
+    {{#tooltip-component tooltip='membership requests'}}
+      {{#link-to 'index' (query-params social_section="armada" armada_section="requests")}}
+        <div class="button {{if (eq armadaSection 'requests') 'active'}}" {{action 'openMessages'}}>
+          {{fa-icon 'envelope'}}
+          {{#if (gt me.user.armada.armadaMembershipRequests.length 0)}}
+            <div class="counter">{{me.user.armada.armadaMembershipRequests.length}}</div>
+          {{/if}}
+        </div>
+      {{/link-to}}
+    {{/tooltip-component}}
+  {{/if}}
+  {{#tooltip-component tooltip='leave this armada'}}
+    <div class="leave button" {{action 'open'}}>{{fa-icon 'user-times'}}</div>
+  {{/tooltip-component}}
+</div>
+
+{{#if (eq armadaSection 'main')}}
+  {{social-components/armada-components/members me=me}}
+{{/if}}
+{{#if (eq armadaSection 'requests')}}
+  {{social-components/armada-components/messanges me=me}}
+{{/if}}
+        {{!--
+    {{else}}
+      {{#if showCreateDialog}}
+        <div class="button back" {{action 'closeCreateDialog'}}>{{fa-icon 'chevron-left'}} Back</div>
+        <div class="empty-info-text">
+          <div class="name_container">
+            <div class="label">Name:</div>
+            <div class="inline-block">{{input type='text' size='50' value=nameInput max=50 min=3}}</div>
+            <div class="name-status-icon inline-block">{{fa-icon nameStatusIcon spin=nameStatusIconSpin fixedWith=true}}</div>
+          </div>
+          {{#if requirementsForNewArmadaFulfilled}}
+            <div class="button save" {{action 'save'}}>
+              {{fa-icon "save"}} Save
+            </div>
+          {{else}}
+            <div class="button save disabled">
+              {{fa-icon "save"}} Save
+            </div>
+            <div class="missing_requirements_message">{{missing_requirements_message}}</div>
+          {{/if}}
+        </div>
+      {{else}}
+
+      {{/if}}
+    {{/if}} --}}
+    {{!-- </div> --}}
+  {{!-- {{else}}
+    {{#if showSuggestions}}
+      <div class="button back" {{action 'closeSuggestions'}}>{{fa-icon 'chevron-left'}} Back</div>
+      <div class="list-item flex-container center-y">
+        <div class="name label">Name</div>
+        <div class="members label">Members</div>
+      </div>
+    {{/if}}
+  {{/if}} --}}

@@ -5,7 +5,10 @@
 @import "template";
 
 @import "buttons";
+@import "forms";
 @import "labels";
+
+@import "player_hud_component";
 
 @import "components";
 @import "routes";
@@ -19,7 +22,7 @@
 @import "game_canvas";
 @import "leaderboard";
 @import "lists";
-@import "player_hud_component";
+
 @import "player_infos";
 @import "pietimer";
 @import "progress_bar";

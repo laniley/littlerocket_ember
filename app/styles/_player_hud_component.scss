@@ -3,21 +3,6 @@
     border-bottom: 2px solid #8AA8B2;
     height: 540px;
     overflow: hidden;
-    .counter {
-      left: 26px;
-    }
-  }
-  .counter {
-    color: white;
-    font-size: 0.8rem;
-    border-radius: 30px;
-    padding: 3px 7px;
-    width: auto;
-    top: 16px;
-    background-color: $darkgrey;
-    &.highlight {
-      background-color: $alert-color;
-    }
   }
   .empty-info-text {
     text-align: center;

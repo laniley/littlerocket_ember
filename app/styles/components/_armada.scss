@@ -3,6 +3,12 @@
   h2 {
     text-align: left;
   }
+  h3 {
+    border-bottom: 1px solid $primary-text-color;
+  }
+  .members-count {
+    float: right;
+  }
   .list-item {
     height: auto;
     div {
@@ -10,32 +16,70 @@
     }
   }
   .button {
-    margin: 30px;
-    width: 300px;
-    &.first {
-      margin-top: 50px;
+    &.big {
+      margin: 30px;
+      width: 300px;
+      &.first {
+        margin-top: 50px;
+      }
     }
-  }
-  .back {
-    width: auto;
+    &.save {
+      margin-bottom: 20px;
+    }
+    &.back {
+      width: auto;
+      margin: 20px;
+    }
+    &.close {
+      margin-top: 20px;
+    }
   }
   .name {
     flex-grow: 2;
     text-align: left;
     padding-right: 15px;
   }
+  .counter {
+    position: absolute;
+    right: -11px;
+    color: white;
+    font-size: 0.8rem;
+    border-radius: 30px;
+    padding: 5px 9px;
+    width: auto;
+    bottom: -10px;
+    background-color: $alert-color;
+  }
   .join {
     padding: 5px;
-    width: 70px;
     margin: 0;
+    width: 60px;
   }
-  .leave {
-    margin: 0;
-    width: auto;
-    padding: 10px 13px;
-    margin-bottom: 3px;
+  .invite {
+    margin-top: 50px;
+  }
+  .title {
+    .button {
+      margin: 0;
+      width: auto;
+      padding: 10px 13px;
+      margin-bottom: 3px;
+      margin-left: 10px;
+    }
   }
   .name-status-icon {
     width: 30px;
+  }
+
+  .confirm-dialog {
+    position: absolute;
+    background-color: $darkblue;
+    font-size: 1.5rem;
+    padding: 15px;
+    top: 185px;
+    right: 15px;
+    left: 15px;
+    bottom: 10px;
+    border: 1px solid $primary-text-color;
   }
 }

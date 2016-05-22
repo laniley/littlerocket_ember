@@ -19,7 +19,7 @@ export default Ember.Controller.extend({
   challenges_section: 'unplayed',
   leaderboard_filterBy: 'all',
   leaderboard_sortBy: 'score',
-  armada_section: 'home',
+  armada_section: 'main',
   didRender() {
     console.log('TEST');
     new LSM_Slot({
