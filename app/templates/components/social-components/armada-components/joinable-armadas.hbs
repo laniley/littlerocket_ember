@@ -1,0 +1,16 @@
+<div class="button back" {{action 'close'}}>{{fa-icon 'chevron-left'}} Back</div>
+{{#each armadas.content as |armada index|}}
+  <div class="list-item flex-container center-y">
+    <div class="name">{{armada.name}}</div>
+    <div class="members">{{armada.users.length}} / 20</div>
+    {{#if (gt armada.armadaMembershipRequests.length 0)}}
+      {{#tooltip-component tooltip='membership has already been requested'}}
+        <div class="button join disabled">{{fa-icon 'envelope'}}</div>
+      {{/tooltip-component}}
+    {{else}}
+      {{#tooltip-component tooltip='apply for membership' direction='left'}}
+        <div class="button join" {{action 'sendRequest' armada}}>{{fa-icon 'envelope'}}</div>
+      {{/tooltip-component}}
+    {{/if}}
+  </div>
+{{/each}}

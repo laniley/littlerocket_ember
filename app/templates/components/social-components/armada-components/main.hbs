@@ -9,7 +9,7 @@
   {{#if (eq me.user.armada_rank 'Admiral')}}
     {{#tooltip-component tooltip='membership requests'}}
       {{#link-to 'index' (query-params social_section="armada" armada_section="requests")}}
-        <div class="button {{if (eq armadaSection 'requests') 'active'}}" {{action 'openMessages'}}>
+        <div class="button {{if (eq armadaSection 'requests') 'active'}}">
           {{fa-icon 'envelope'}}
           {{#if (gt me.user.armada.armadaMembershipRequests.length 0)}}
             <div class="counter">{{me.user.armada.armadaMembershipRequests.length}}</div>
@@ -19,7 +19,9 @@
     {{/tooltip-component}}
   {{/if}}
   {{#tooltip-component tooltip='leave this armada'}}
-    <div class="leave button" {{action 'open'}}>{{fa-icon 'user-times'}}</div>
+    {{#link-to 'index' (query-params social_section="armada" armada_section="leave")}}
+      <div class="leave button {{if (eq armadaSection 'leave') 'active'}}">{{fa-icon 'user-times'}}</div>
+    {{/link-to}}
   {{/tooltip-component}}
 </div>
 
@@ -28,6 +30,9 @@
 {{/if}}
 {{#if (eq armadaSection 'requests')}}
   {{social-components/armada-components/messanges me=me}}
+{{/if}}
+{{#if (eq armadaSection 'leave')}}
+  {{social-components/armada-components/leave me=me}}
 {{/if}}
         {{!--
     {{else}}
@@ -55,12 +60,3 @@
       {{/if}}
     {{/if}} --}}
     {{!-- </div> --}}
-  {{!-- {{else}}
-    {{#if showSuggestions}}
-      <div class="button back" {{action 'closeSuggestions'}}>{{fa-icon 'chevron-left'}} Back</div>
-      <div class="list-item flex-container center-y">
-        <div class="name label">Name</div>
-        <div class="members label">Members</div>
-      </div>
-    {{/if}}
-  {{/if}} --}}

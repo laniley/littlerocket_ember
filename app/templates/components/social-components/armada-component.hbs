@@ -4,68 +4,22 @@
   {{social-components/armada-components/main me=me armadaSection=armadaSection}}
 {{else}}
   {{#if me.user}}
-  {{!-- {{#if showSuggestions}}
-    {{#each armadas.content as |armada index|}}
-      <div class="list-item flex-container center-y">
-        <div class="name">{{armada.name}}</div>
-        <div class="members">{{armada.users.length}} / 20</div>
-        {{#if (gt armada.armadaMembershipRequests.length 0)}}
-          {{#tooltip-component tooltip='membership has already been requested'}}
-            <div class="button join disabled">{{fa-icon 'envelope'}}</div>
-          {{/tooltip-component}}
-        {{else}}
-          {{#tooltip-component tooltip='apply for membership' direction='left'}}
-            <div class="button join" {{action 'sendRequest' armada}}>{{fa-icon 'envelope'}}</div>
-          {{/tooltip-component}}
-        {{/if}}
+    {{#if showJoinableArmadas}}
+      {{social-components/armada-components/joinable-armadas me=me}}
+    {{else}}
+      <div class="empty-info-text">
+        You're not in any Armada at the moment.
+        <div class="button big first" {{action 'showJoinableArmadas'}}>
+          {{fa-icon "search"}} Search for an Armada
+        </div>
+        <div class="button big" {{action 'openCreateDialog'}}>
+          {{fa-icon "plus"}} Create a new Armada
+        </div>
       </div>
-    {{/each}}
-  {{else}}
-    <div class="empty-info-text">
-      You're not in any Armada at the moment.
-      <div class="button big first" {{action 'openSuggestions'}}>
-        {{fa-icon "search"}} Search for an Armada
-      </div>
-      <div class="button big" {{action 'openCreateDialog'}}>
-        {{fa-icon "plus"}} Create a new Armada
-      </div>
-    </div>
-  {{/if}} --}}
+    {{/if}}
   {{else}}
     <div class="loader">
       {{fa-icon "spinner" spin=true}}
     </div>
   {{/if}}
-{{/if}}
-
-{{#if showConfirmDialog}}
-  <div class="confirm-dialog flex-container direction-column center-xy">
-    {{#if (eq me.user.armada_rank 'Admiral')}}
-      {{#if (lte me.user.armada.admirals.length 1)}}
-        {{#if (gt me.user.armada.users.length 1)}}
-          You are the only Admiral in this Armada.<br />
-          Please promote someone else to the rank of an Admiral before you leave.
-          <div class="button close" {{action 'close'}}>CLOSE</div>
-        {{else}}
-          Do you really want to leave this Armada?
-          <div class="button-container">
-            <div class="button" {{action 'leave'}}>YES</div>
-            <div class="button close" {{action 'close'}}>NO</div>
-          </div>
-        {{/if}}
-      {{else}}
-        Do you really want to leave this Armada?
-        <div class="button-container">
-          <div class="button" {{action 'leave'}}>YES</div>
-          <div class="button close" {{action 'close'}}>NO</div>
-        </div>
-      {{/if}}
-    {{else}}
-      Do you really want to leave this Armada?
-      <div class="button-container">
-        <div class="button" {{action 'leave'}}>YES</div>
-        <div class="button" {{action 'close'}}>NO</div>
-      </div>
-    {{/if}}
-  </div>
 {{/if}}

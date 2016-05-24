@@ -4,30 +4,10 @@ import DS from 'ember-data';
 export default Ember.Component.extend({
   classNames: ['armada'],
   armadaSection: 'main',
-  showCreateDialog: false,
-  showConfirmDialog: false,
-  showSuggestions: false,
+  showJoinableArmadas: false,
   nameInput: '',
   newArmadaNameStatus: 'not_correct',
   timeout: null,
-
-  armadas: Ember.computed(function() {
-    return DS.PromiseObject.create({
-      promise: this.get('me').get('user').then(user => {
-        return this.store.query('armada', {
-          'mode': 'suggestions'
-        }).then(armadas => {
-          armadas.forEach(armada => {
-            this.store.query('armadaMembershipRequest', {
-              armada_id: armada.get('id'),
-              user_id: user.get('id')
-            });
-          });
-          return armadas;
-        });
-      })
-    });
-  }),
 
   missing_requirements_message: Ember.computed('nameInput', 'newArmadaNameStatus', function() {
     if(this.get('nameInput.length') < 3) {
@@ -103,17 +83,9 @@ export default Ember.Component.extend({
   }.observes('nameInput'),
 
   actions: {
-    openCreateDialog() {
-      this.set('showCreateDialog', true);
-    },
-    openSuggestions() {
-      this.set('showSuggestions', true);
-    },
-    closeCreateDialog() {
-      this.set('showCreateDialog', false);
-    },
-    closeSuggestions() {
-      this.set('showSuggestions', false);
+
+    showJoinableArmadas() {
+      this.set('showJoinableArmadas', true);
     },
 
     save() {
@@ -147,29 +119,13 @@ export default Ember.Component.extend({
         });
       });
     },
+
     join(armada) {
       this.set('showSuggestions', false);
       this.set('showCreateDialog', false);
       this.get('me').get('user').then(user => {
         user.set('armada', armada);
         user.set('armada_rank', 'Private');
-        user.save();
-      });
-    },
-    open() {
-      this.set('showConfirmDialog', true);
-    },
-    close() {
-      this.set('showConfirmDialog', false);
-    },
-
-    leave() {
-      this.set('showSuggestions', false);
-      this.set('showCreateDialog', false);
-      this.set('showConfirmDialog', false);
-      this.get('me').get('user').then(user => {
-        user.set('armada', null);
-        user.set('armada_rank', null);
         user.save();
       });
     },

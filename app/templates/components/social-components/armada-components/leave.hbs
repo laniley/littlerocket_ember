@@ -1,0 +1,13 @@
+<div class="confirm-dialog flex-container direction-column center-xy">
+  {{#if conditions_to_leave_are_fulfilled.content}}
+    Do you really want to leave this Armada?
+    <div class="button-container">
+      <div class="button" {{action 'leave'}}>YES</div>
+      <div class="button close" {{action 'close'}}>NO</div>
+    </div>
+  {{else}}
+    You are the only Admiral in this Armada.<br />
+    Please promote someone else to the rank of an Admiral before you leave.
+    <div class="button close" {{action 'close'}}>CLOSE</div>
+  {{/if}}
+</div>
