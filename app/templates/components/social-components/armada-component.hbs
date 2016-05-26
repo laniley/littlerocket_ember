@@ -4,18 +4,32 @@
   {{social-components/armada-components/main me=me armadaSection=armadaSection}}
 {{else}}
   {{#if me.user}}
-    {{#if showJoinableArmadas}}
-      {{social-components/armada-components/joinable-armadas me=me}}
+    {{#if showInvitations}}
+      {{social-components/armada-components/invitations me=me}}
     {{else}}
-      <div class="empty-info-text">
-        You're not in any Armada at the moment.
-        <div class="button big first" {{action 'showJoinableArmadas'}}>
-          {{fa-icon "search"}} Search for an Armada
-        </div>
-        <div class="button big" {{action 'openCreateDialog'}}>
-          {{fa-icon "plus"}} Create a new Armada
-        </div>
-      </div>
+      {{#if showJoinableArmadas}}
+        {{social-components/armada-components/joinable-armadas me=me}}
+      {{else}}
+        {{#if showCreateDialog}}
+          {{social-components/armada-components/create me=me}}
+        {{else}}
+          <div class="empty-info-text">
+            You're not in any Armada at the moment.
+            <div class="button big first" {{action 'showInvitations'}}>
+              {{fa-icon "envelope"}} Invitations
+              {{#if (gt me.fbAppRequests 0)}}
+                <div class="counter">{{me.fbAppRequests.length}}</div>
+              {{/if}}
+            </div>
+            <div class="button big" {{action 'showJoinableArmadas'}}>
+              {{fa-icon "search"}} Search for an Armada
+            </div>
+            <div class="button big" {{action 'showCreateDialog'}}>
+              {{fa-icon "plus"}} Create a new Armada
+            </div>
+          </div>
+        {{/if}}
+      {{/if}}
     {{/if}}
   {{else}}
     <div class="loader">

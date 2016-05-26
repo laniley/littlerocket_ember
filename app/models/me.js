@@ -7,6 +7,7 @@ export default DS.Model.extend({
   accessToken: DS.attr('string', { defaultValue: ''}),
   loginStatus: DS.attr('string', { defaultValue: 'unknown'}),
   activeChallenge: DS.belongsTo('challenge', { async: false }),
+  fbAppRequest: DS.hasMany('fb-app-request', {async: false }),
 
   friends_playing: Ember.computed('friends.length', function() {
     return DS.PromiseObject.create({

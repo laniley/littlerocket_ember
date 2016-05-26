@@ -7,6 +7,9 @@
   {{#each me.user.armada.users as |user index|}}
     <div class="list-item flex-container center-y">
       <div class="index">{{math index "+" 1}}</div>
+      <div class="img_container">
+        <img src="http://graph.facebook.com/{{user.fb_id}}/picture" class="profile small" />
+      </div>
       <div class="name">{{user.name}}</div>
       <div class="rank">
         {{#if (eq userInEditMode.id user.id)}}
@@ -38,7 +41,7 @@
     </div>
   {{/each}}
   {{#if (lt me.user.armada.users.length 20)}}
-    <div class="fb-button invite" {{action 'recruit'}}>
+    <div class="fb-button invite" {{action 'recruit' me.user.armada}}>
       {{fa-icon "facebook-square" size="lg"}} Recruit friends
     </div>
   {{/if}}

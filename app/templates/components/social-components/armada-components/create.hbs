@@ -1,0 +1,18 @@
+<div class="button back" {{action 'close'}}>{{fa-icon 'chevron-left'}} Back</div>
+<div class="empty-info-text">
+  <div class="name_container">
+    <div class="label">Name:</div>
+    <div class="inline-block">{{input type='text' size='50' value=nameInput max=50 min=3}}</div>
+    <div class="name-status-icon inline-block">{{fa-icon nameStatusIcon spin=nameStatusIconSpin fixedWith=true}}</div>
+  </div>
+  {{#if requirementsForNewArmadaFulfilled}}
+    <div class="button save" {{action 'save'}}>
+      {{fa-icon "save"}} Save
+    </div>
+  {{else}}
+    <div class="button save disabled">
+      {{fa-icon "save"}} Save
+    </div>
+    <div class="missing_requirements_message">{{missing_requirements_message}}</div>
+  {{/if}}
+</div>

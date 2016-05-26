@@ -40,14 +40,13 @@
     padding-right: 15px;
   }
   .counter {
-    position: absolute;
-    right: -11px;
+    display: inline-block;
     color: white;
     font-size: 0.8rem;
     border-radius: 30px;
     padding: 5px 9px;
     width: auto;
-    bottom: -10px;
+    margin-left: 10px;
     background-color: $alert-color;
   }
   .join {
@@ -61,7 +60,7 @@
   .title {
     .button {
       margin: 0;
-      width: auto;
+      width: 45px;
       padding: 10px 13px;
       margin-bottom: 3px;
       margin-left: 10px;
@@ -70,7 +69,6 @@
   .name-status-icon {
     width: 30px;
   }
-
   .confirm-dialog {
     position: absolute;
     background-color: $darkblue;

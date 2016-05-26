@@ -1,10 +1,22 @@
-<h3 class="align-left">
-  Membership Requests
-</h3>
+{{#if (eq me.user.armada_rank 'Admiral')}}
+  <h3 class="align-left">
+    Membership Requests
+  </h3>
 
-{{#each me.user.armada.armadaMembershipRequests as |request index|}}
-  <div class="list-item flex-container center-y">
-    <div class="index">{{math index "+" 1}}</div>
-    <div class="name">{{request.user.name}}</div>
-  </div>
-{{/each}}
+  {{#each me.user.armada.armadaMembershipRequests as |request index|}}
+    <div class="list-item flex-container center-y">
+      <div class="img_container">
+        <img src="http://graph.facebook.com/{{request.user.fb_id}}/picture" class="profile small" />
+      </div>
+      <div class="index">{{math index "+" 1}}</div>
+      <div class="name">{{request.user.name}}</div>
+      {{#tooltip-component tooltip='accept request' direction='left'}}
+        <div class="button join" {{action 'acceptRequest' request}}>{{fa-icon 'check'}}</div>
+      {{/tooltip-component}}
+    </div>
+  {{else}}
+    <div class="empty-info-text">
+      No new requests for membership.
+    </div>
+  {{/each}}
+{{/if}}

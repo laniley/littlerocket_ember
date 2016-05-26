@@ -1,0 +1,20 @@
+<div class="button back" {{action 'close'}}>{{fa-icon 'chevron-left'}} Back</div>
+
+<h3 class="align-left">
+  Invitations
+</h3>
+
+{{#each invitations.content as |invitation index|}}
+  <div class="list-item flex-container center-y">
+    <div class="index">{{math index "+" 1}}</div>
+    <div class="name">{{invitation.armada.name}}</div>
+    <div class="members">{{invitation.armada.users.length}} / 20 members</div>
+    {{#tooltip-component tooltip='join this Armada' direction='left'}}
+      <div class="button join" {{action 'join' armada}}>{{fa-icon 'check'}}</div>
+    {{/tooltip-component}}
+  </div>
+{{else}}
+  <div class="empty-info-text">
+    No invitations to an Armada.
+  </div>
+{{/each}}
