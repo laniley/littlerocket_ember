@@ -40,7 +40,7 @@
       {{/if}}
     </div>
   {{/each}}
-  {{#if (eq user.armada_rank 'Admiral')}}
+  {{#if (eq me.user.armada_rank 'Admiral')}}
     {{#if (lt me.user.armada.users.length 20)}}
       <div class="fb-button invite" {{action 'recruit' me.user.armada}}>
         {{fa-icon "facebook-square" size="lg"}} Recruit friends
