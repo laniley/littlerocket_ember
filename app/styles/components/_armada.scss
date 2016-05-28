@@ -4,7 +4,12 @@
     text-align: left;
   }
   h3 {
-    border-bottom: 1px solid $primary-text-color;
+    border-bottom: $border;
+    color: darken($darkblue, 10%);
+  }
+  .members-list {
+    height: 378px;
+    margin-right: -17px;
   }
   .members-count {
     float: right;
@@ -79,5 +84,20 @@
     left: 15px;
     bottom: 10px;
     border: 1px solid $primary-text-color;
+  }
+  .armada-leaderboard {
+    table {
+      width: 100%;
+      th {
+        background: $darkblue;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: normal;
+        padding: 5px 0.625rem;
+        .has-tip {
+          color: white;
+        }
+      }
+    }
   }
 }

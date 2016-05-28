@@ -1,0 +1,34 @@
+<h3 class="align-left">
+  Leaderboard
+</h3>
+
+{{#if armadas}}
+  <table>
+    <tr class="list-header">
+      <th></th>
+      <th>Armada</th>
+      <th>members</th>
+      <th>
+        {{#tooltip-component tooltip='score of Armada = score + experience of all members' direction='left'}}
+          score
+        {{/tooltip-component}}
+      </th>
+    </tr>
+    {{#each armadas.content as |armada index|}}
+      <tr>
+        <td class="index">{{math index "+" 1}}</td>
+        <td class="name">{{armada.name}}</td>
+        <td>{{armada.users.length}}</td>
+        <td>{{armada.score.content}}</td>
+      </tr>
+    {{else}}
+      <div class="empty-info-text">
+        The leaderboard is currently empty.
+      </div>
+    {{/each}}
+  </table>
+{{else}}
+  <div class="loader">
+    {{fa-icon "spinner" spin=true}}
+  </div>
+{{/if}}

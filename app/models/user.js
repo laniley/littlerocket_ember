@@ -26,6 +26,7 @@ export default DS.Model.extend({
   challenges: DS.hasMany('challenge', { async: true, inverse: null }),
   achievements: DS.hasMany('achievement'),
   armada: DS.belongsTo('armada', { async: true }),
+  fb_app_requests: DS.hasMany('fb-app-request', { async: true}),
 
   name: function() {
     var name = '';

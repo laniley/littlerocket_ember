@@ -3,7 +3,7 @@
 
   {{#tooltip-component tooltip='members'}}
     {{#link-to 'index' (query-params social_section="armada" armada_section="main")}}
-      <div class="button {{if (eq armadaSection 'main') 'active'}}">{{fa-icon 'list'}}</div>
+      <div class="button {{if (eq armadaSection 'main') 'active'}}">{{fa-icon 'group'}}</div>
     {{/link-to}}
   {{/tooltip-component}}
   {{#if (eq me.user.armada_rank 'Admiral')}}

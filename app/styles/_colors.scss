@@ -3,3 +3,27 @@ $lightblue: #C2E3ED;
 $darkblue: #8AA8B2;
 $lightgrey: #ddd;
 $darkgrey: #666;
+
+$primary-color: $darkblue;
+$primary-text-color: darken($primary-color, 30%);
+
+$secondary-color: #777;
+$success-color: #64C187;
+$warning-color: #f08a24;
+$alert-color: #F17F40;
+$light-gray: #e6e6e6;
+$medium-gray: #cacaca;
+$dark-gray: #8a8a8a;
+$black: #0a0a0a;
+$white: #fefefe;
+
+$locked-color: $darkgrey;
+$locked-bg-color: $lightgrey;
+$locked-border: 1px solid $locked-color;
+
+$border-color: $darkblue;
+
+$topbar-bg-color: $darkblue;
+$topbar-bg: $topbar-bg-color;
+$topbar-link-bg-hover: darken($darkblue, 10%);
+$topbar-link-color-hover: white;

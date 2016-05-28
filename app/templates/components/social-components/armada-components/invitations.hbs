@@ -10,7 +10,7 @@
     <div class="name">{{invitation.armada.name}}</div>
     <div class="members">{{invitation.armada.users.length}} / 20 members</div>
     {{#tooltip-component tooltip='join this Armada' direction='left'}}
-      <div class="button join" {{action 'join' armada}}>{{fa-icon 'check'}}</div>
+      <div class="button" {{action 'join' invitation}}>{{fa-icon 'check'}}</div>
     {{/tooltip-component}}
   </div>
 {{else}}

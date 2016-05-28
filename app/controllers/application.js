@@ -10,7 +10,8 @@ export default Ember.Controller.extend({
     'challenges_section',
     'leaderboard_filterBy',
     'leaderboard_sortBy',
-    'armada_section'
+    'armada_section',
+    'armada_main_section'
   ],
   player_hud_section: 'rocket',
   social_section: 'leaderboard',
@@ -20,6 +21,7 @@ export default Ember.Controller.extend({
   leaderboard_filterBy: 'all',
   leaderboard_sortBy: 'score',
   armada_section: 'main',
+  armada_main_section: 'home',
   didRender() {
     console.log('TEST');
     new LSM_Slot({

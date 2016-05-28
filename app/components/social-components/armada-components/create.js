@@ -11,7 +11,7 @@ export default Ember.Component.extend({
     if(this.get('nameInput.length') < 3) {
       return 'The name must contain a minimum of 3 characters.';
     }
-    else if(/[^A-Za-z0-9_\-. ]/g.test(this.get('nameInput'))) {
+    else if(this.get('containsOnlyValidChars')) {
       return 'The name can only contain letters (A-Z, a-z), numbers (0-9), dashes (-), underscores (_), apostrophes (\'), whitespaces ( ), and periods (.)';
     }
     else if(this.get('nameInput.length') > 50) {
@@ -19,6 +19,15 @@ export default Ember.Component.extend({
     }
     else if(this.get('newArmadaNameStatus') === 'already_in_use') {
       return 'This name is already in use.';
+    }
+  }),
+
+  containsOnlyValidChars: Ember.computed('nameInput', function() {
+    if(/[^A-Za-z0-9_\-. ]/g.test(this.get('nameInput'))) {
+      return true;
+    }
+    else {
+      return false;
     }
   }),
 
@@ -57,8 +66,8 @@ export default Ember.Component.extend({
     this.set('newArmadaNameStatus', 'unknown');
     var timeout = window.setTimeout(() => {
       if(this.get('nameInput.length') > 2 &&
-        !/[^A-Za-z0-9_\-. ]/g.test(this.get('nameInput')) &&
-        this.get('nameInput.length') <= 50) {
+        !this.get('containsOnlyValidChars') &&
+         this.get('nameInput.length') <= 50) {
         return DS.PromiseObject.create({
           promise: this.store.query('armada', {
               'mode': 'searchByName',

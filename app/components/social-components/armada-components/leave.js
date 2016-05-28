@@ -31,6 +31,7 @@ export default Ember.Component.extend({
         user.set('armada', null);
         user.set('armada_rank', null);
         user.save();
+        this.get('router').transitionTo('index', {queryParams: {armada_section: 'main'}});
       });
     },
   }

@@ -9,6 +9,7 @@ export default Ember.Component.extend({
   leaderboardSortBy: 'score',
   leaderboardFilterBy: 'all',
   armadaSection: 'main',
+  armadaMainSection: 'home',
 
   actions: {}
 });

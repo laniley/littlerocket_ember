@@ -3,7 +3,7 @@
   <div class="members-count">{{me.user.armada.users.length}} / 20</div>
 </h3>
 
-<div class="scrollable-list align-center">
+<div class="scrollable-list members-list align-center">
   {{#each me.user.armada.users as |user index|}}
     <div class="list-item flex-container center-y">
       <div class="index">{{math index "+" 1}}</div>
@@ -40,9 +40,11 @@
       {{/if}}
     </div>
   {{/each}}
-  {{#if (lt me.user.armada.users.length 20)}}
-    <div class="fb-button invite" {{action 'recruit' me.user.armada}}>
-      {{fa-icon "facebook-square" size="lg"}} Recruit friends
-    </div>
+  {{#if (eq user.armada_rank 'Admiral')}}
+    {{#if (lt me.user.armada.users.length 20)}}
+      <div class="fb-button invite" {{action 'recruit' me.user.armada}}>
+        {{fa-icon "facebook-square" size="lg"}} Recruit friends
+      </div>
+    {{/if}}
   {{/if}}
 </div>

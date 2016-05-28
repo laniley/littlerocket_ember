@@ -1,39 +1,61 @@
-<h2>Armada</h2>
+<h2>
+  Armadas
+  <div class="h-sub-nav">
+    <div class="section">
+      {{#tooltip-component tooltip='main'}}
+        {{#link-to 'index' (query-params social_section="armada" armada_main_section="home")}}
+          {{fa-icon 'home'}}
+        {{/link-to}}
+      {{/tooltip-component}}
+      {{#tooltip-component tooltip='leaderboard'}}
+        {{#link-to 'index' (query-params social_section="armada" armada_main_section="leaderboard")}}
+          {{fa-icon 'trophy'}}
+        {{/link-to}}
+      {{/tooltip-component}}
+    </div>
+  </div>
+</h2>
 
-{{#if me.user.armada}}
-  {{social-components/armada-components/main me=me armadaSection=armadaSection}}
-{{else}}
-  {{#if me.user}}
-    {{#if showInvitations}}
-      {{social-components/armada-components/invitations me=me}}
-    {{else}}
-      {{#if showJoinableArmadas}}
-        {{social-components/armada-components/joinable-armadas me=me}}
+{{#if (eq armadaMainSection 'home')}}
+  {{#if me.user.armada}}
+    {{social-components/armada-components/main me=me armadaSection=armadaSection}}
+  {{else}}
+    {{#if me.user}}
+      {{#if showInvitations}}
+        {{social-components/armada-components/invitations me=me invitations=invitations}}
       {{else}}
-        {{#if showCreateDialog}}
-          {{social-components/armada-components/create me=me}}
+        {{#if showJoinableArmadas}}
+          {{social-components/armada-components/joinable-armadas me=me}}
         {{else}}
-          <div class="empty-info-text">
-            You're not in any Armada at the moment.
-            <div class="button big first" {{action 'showInvitations'}}>
-              {{fa-icon "envelope"}} Invitations
-              {{#if (gt me.fbAppRequests 0)}}
-                <div class="counter">{{me.fbAppRequests.length}}</div>
-              {{/if}}
+          {{#if showCreateDialog}}
+            {{social-components/armada-components/create me=me}}
+          {{else}}
+            <div class="empty-info-text">
+              You're not in any Armada at the moment.
+              <div class="button big first" {{action 'showInvitations'}}>
+                {{fa-icon "envelope"}} Invitations
+                {{#if (gt invitations.length 0)}}
+                  <div class="counter">{{invitations.length}}</div>
+                {{/if}}
+              </div>
+              <div class="button big" {{action 'showJoinableArmadas'}}>
+                {{fa-icon "search"}} Search for an Armada
+              </div>
+              <div class="button big" {{action 'showCreateDialog'}}>
+                {{fa-icon "plus"}} Create a new Armada
+              </div>
             </div>
-            <div class="button big" {{action 'showJoinableArmadas'}}>
-              {{fa-icon "search"}} Search for an Armada
-            </div>
-            <div class="button big" {{action 'showCreateDialog'}}>
-              {{fa-icon "plus"}} Create a new Armada
-            </div>
-          </div>
+          {{/if}}
         {{/if}}
       {{/if}}
+    {{else}}
+      <div class="loader">
+        {{fa-icon "spinner" spin=true}}
+      </div>
     {{/if}}
-  {{else}}
-    <div class="loader">
-      {{fa-icon "spinner" spin=true}}
-    </div>
   {{/if}}
+{{/if}}
+
+{{#if (eq armadaMainSection 'leaderboard')}}
+  {{social-components/armada-components/leaderboard me=me}}
 {{/if}}
