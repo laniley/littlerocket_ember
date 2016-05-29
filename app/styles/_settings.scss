@@ -96,8 +96,6 @@ $include-html-global-classes: $include-html-classes;
 // $font-weight-bold: bold;
 
 // We use these as default colors throughout
-$primary-color: $darkblue;
-$primary-text-color: darken($primary-color, 30%);
 // $secondary-color: #e7e7e7;
 $alert-color: #F17F40;
 $success-color: #64C187;
@@ -110,11 +108,6 @@ $border-color: $darkblue;
 
 $border: 1px solid $border-color;
 $border-thick: 2px solid $border-color;
-
-$bp-xs-max: 950px;
-$bp-md-min: 951px;
-$bp-md-max: 1442px;
-$bp-lg-min: 1443px;
 
 // We use these to control various global styles
 // $body-bg: $white;

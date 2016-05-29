@@ -35,7 +35,7 @@ $topbar-link-font-size: rem-calc(15) !default;
 // Transitions and breakpoint styles
 $topbar-transition-speed: 300ms !default;
 // Using rem-calc for the below breakpoint causes issues with top bar
-$topbar-breakpoint: 689px; // Change to 9999px for always mobile layout
+$topbar-breakpoint: 700px; // Change to 9999px for always mobile layout
 $topbar-media-query: "#{$screen} and (min-width:#{lower-bound($topbar-breakpoint)})" !default;
 
 
