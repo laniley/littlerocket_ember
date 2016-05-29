@@ -80,6 +80,7 @@ $topbar-media-query: "#{$screen} and (min-width:#{lower-bound($topbar-breakpoint
 		h1 {
 			font-family: Agency_FB;
 			font-style: italic;
+      font-size: 2rem;
 			img {
 				width:35px;
 				margin-top: -7px;
