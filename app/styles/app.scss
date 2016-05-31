@@ -69,8 +69,12 @@ body {
 	color: $primary-text-color;
 	font-family: 	Calibri, sans-serif;
 
-  .h_info {
+  .h-info {
     float: right;
+    .h-info-item {
+      display: inline-block;
+      margin-left: 15px;
+    }
   }
 
 	h2 {

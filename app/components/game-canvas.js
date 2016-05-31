@@ -949,9 +949,15 @@ export default Ember.Component.extend(
   },
 
   startStage() {
-    this.get('Q').clearStages();
-    this.get('Q').stageScene('level');
-    Ember.$("#game").focus();
+    this.get('me').get('user').then(user => {
+      if(user.get('energy') > 0) {
+        user.set('energy', user.get('energy') - 1);
+        user.save();
+        this.get('Q').clearStages();
+        this.get('Q').stageScene('level');
+        Ember.$("#game").focus();
+      }
+    });
   },
 
   selectStage() {
