@@ -13,6 +13,7 @@ export default DS.Model.extend({
   rank_by_achievement_points: DS.attr('number', { defaultValue: 0 }),
   energy: DS.attr('number', { defaultValue: 10}),
   max_energy: DS.attr('number', { defaultValue: 10}),
+  last_energy_recharge: DS.attr('date'),
   score: DS.attr('number', { defaultValue: 0 }),
   stars: DS.attr('number', { defaultValue: 0 }),
   stars_all_time: DS.attr('number', { defaultValue: 0 }),
