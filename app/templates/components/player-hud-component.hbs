@@ -56,8 +56,20 @@
     {{/if}}
 
     <span class="h-info">
-      <div class="h-info-item energy">{{fa-icon 'bolt'}} {{me.user.energy}} / {{me.user.max_energy}}</div>
       <div class="h-info-item stars">{{fa-icon 'star'}} {{me.user.stars}}</div>
+      <div class="h-info-item energy">
+        {{fa-icon 'bolt'}} {{me.user.energy.current}} / {{me.user.energy.max}}
+        {{#if (not-eq me.user.energy.current me.user.energy.max)}}
+          <div class="recharge-info">
+            <div class="recharge-info-item timer">
+              {{fa-icon 'clock-o'}} {{minutes_till_next_recharge.content}}:{{seconds_till_next_recharge.content}}
+            </div>
+            <div class="recharge-info-item add-more">
+              {{fa-icon 'plus'}}
+            </div>
+          </div>
+        {{/if}}
+      </div>
     </span>
   </div>
 

@@ -11,9 +11,6 @@ export default DS.Model.extend({
   rank_by_score: DS.attr('number', { defaultValue: 0 }),
   rank_by_won_challenges: DS.attr('number', { defaultValue: 0 }),
   rank_by_achievement_points: DS.attr('number', { defaultValue: 0 }),
-  energy: DS.attr('number', { defaultValue: 10}),
-  max_energy: DS.attr('number', { defaultValue: 10}),
-  energy_recharge_start: DS.attr('date'),
   score: DS.attr('number', { defaultValue: 0 }),
   stars: DS.attr('number', { defaultValue: 0 }),
   stars_all_time: DS.attr('number', { defaultValue: 0 }),
@@ -24,6 +21,7 @@ export default DS.Model.extend({
   achievement_points: DS.attr('number', { defaultValue: 0}),
   armada_rank: DS.attr('string'),
 
+  energy: DS.belongsTo('user-energy', { async: true }),
   lab: DS.belongsTo('lab', { async: true}),
   rocket: DS.belongsTo('rocket', { async: true }),
   challenges: DS.hasMany('challenge', { async: true, inverse: null }),
