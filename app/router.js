@@ -6,9 +6,7 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('leaderboard');
   this.route('login');
-  this.route('stage-selection');
 });
 
 export default Router;
