@@ -39,6 +39,7 @@
     </div>
   {{/link-to}} --}}
 </h2>
+
 <div class="leaderboard_list scrollable_list">
   {{#each sortedPlayers as |top_player index|}}
     <div class="list-item">
@@ -52,7 +53,11 @@
           {{#if (eq sortBy 'challenges')}}
             {{top_player.rank_by_won_challenges}}.
           {{else}}
-            {{math index "+" 1}}.
+            {{#if (eq sortBy 'achievement_points')}}
+              {{top_player.rank_by_achievement_points}}
+            {{else}}
+              {{math index "+" 1}}.
+            {{/if}}
           {{/if}}
         {{/if}}
         <div class="name">{{top_player.name}}</div>

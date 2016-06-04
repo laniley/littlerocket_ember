@@ -11,14 +11,14 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{social-components/armada}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.equal(this.$().html().length > 0, true);
 
   // Template block usage:"
-  this.render(hbs`
-    {{#social-components/armada}}
-      template block text
-    {{/social-components/armada}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+  // this.render(hbs`
+  //   {{#social-components/armada}}
+  //     template block text
+  //   {{/social-components/armada}}
+  // `);
+  //
+  // assert.equal(this.$().text().trim(), 'template block text');
 });

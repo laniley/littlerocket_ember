@@ -1,8 +1,13 @@
 import DS from 'ember-data';
+import { memberAction /*, collectionAction */ } from 'ember-api-actions';
+
+const { attr, belongsTo } = DS;
 
 export default DS.Model.extend({
-  user: DS.belongsTo('user'),
-  current: DS.attr('number', { defaultValue: 10}),
-  max: DS.attr('number', { defaultValue: 10}),
-  last_recharge: DS.attr('date')
+  user: belongsTo('user'),
+  current: attr('number', { defaultValue: 10}),
+  max: attr('number', { defaultValue: 10}),
+  last_recharge: attr('date'),
+
+  buy: memberAction({ path: 'buy' })
 });

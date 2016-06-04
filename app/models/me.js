@@ -24,7 +24,12 @@ export default DS.Model.extend({
       promise: this.get('friends_playing').then(friends_playing => {
        return Ember.RSVP.map(friends_playing.toArray(), friend => {
          return friend.get('user').then(user => {
-           return user;
+           if(!Ember.isEmpty(user)) {
+             return user;
+           }
+           else {
+             console.log('user not set', friend.get('fb_id'));
+           }
          });
        }).then(friends => {
          return this.get('user').then(user => {

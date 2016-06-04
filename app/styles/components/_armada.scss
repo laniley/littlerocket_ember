@@ -35,9 +35,6 @@
       width: auto;
       margin: 20px;
     }
-    &.close {
-      margin-top: 20px;
-    }
   }
   .name {
     flex-grow: 2;
@@ -78,15 +75,7 @@
     width: 30px;
   }
   .confirm-dialog {
-    position: absolute;
-    background-color: $darkblue;
-    font-size: 1.5rem;
-    padding: 15px;
     top: 185px;
-    right: 15px;
-    left: 15px;
-    bottom: 10px;
-    border: 1px solid $primary-text-color;
   }
   .armada-leaderboard {
     table {

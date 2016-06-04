@@ -64,7 +64,7 @@
             <div class="recharge-info-item timer">
               {{fa-icon 'clock-o'}} {{minutes_till_next_recharge.content}}:{{seconds_till_next_recharge.content}}
             </div>
-            <div class="recharge-info-item add-more">
+            <div class="recharge-info-item add-more" {{action 'openBuyEnergyDialog'}}>
               {{fa-icon 'plus'}}
             </div>
           </div>
@@ -83,23 +83,27 @@
 
 
   <div class="content">
-    {{#if (if-equals currentSection 'rocket') }}
-      {{player-hud-components/cockpit-component
-          me=me
-          currentSection=currentCockpitSection
-          currentLabSection=currentLabSection}}
+    {{#if showBuyEnergyDialog}}
+      {{player-hud-components/buy-energy-dialog me=me}}
     {{else}}
-      {{#if (if-equals currentSection 'statistics') }}
-        {{player-hud-components/statistics-component
-            me=me}}
+      {{#if (if-equals currentSection 'rocket') }}
+        {{player-hud-components/cockpit-component
+            me=me
+            currentSection=currentCockpitSection
+            currentLabSection=currentLabSection}}
       {{else}}
-        {{#if (if-equals currentSection 'achievements') }}
-          {{player-hud-components/achievements-component
+        {{#if (if-equals currentSection 'statistics') }}
+          {{player-hud-components/statistics-component
               me=me}}
         {{else}}
-          {{player-hud-components/lab-component
-              me=me
-              currentLabSection=currentLabSection}}
+          {{#if (if-equals currentSection 'achievements') }}
+            {{player-hud-components/achievements-component
+                me=me}}
+          {{else}}
+            {{player-hud-components/lab-component
+                me=me
+                currentLabSection=currentLabSection}}
+          {{/if}}
         {{/if}}
       {{/if}}
     {{/if}}
