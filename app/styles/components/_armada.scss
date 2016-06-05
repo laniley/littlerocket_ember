@@ -42,17 +42,8 @@
     padding-right: 15px;
   }
   .counter {
-    display: inline-block;
-    color: white;
-    font-size: 0.8rem;
-    border-radius: 30px;
-    padding: 5px 9px;
-    width: auto;
+    position: initial;
     margin-left: 10px;
-    background-color: #F17F40;
-    position: absolute;
-    bottom: -10px;
-    z-index: 1;
   }
   .join {
     padding: 5px;
@@ -69,6 +60,10 @@
       padding: 10px 13px;
       margin-bottom: 3px;
       margin-left: 10px;
+    }
+    .counter {
+      position: absolute;
+      bottom: -10px;
     }
   }
   .name-status-icon {
