@@ -17,7 +17,7 @@ export default Ember.Component.extend(ObjectMixin, {
     this.get('me').get('user').then(user => {
       if(!Ember.isEmpty(user)) {
         user.get('energy').then(energy => {
-          if(energy.get('current') === energy.get('max')) {
+          if(!Ember.isEmpty(energy) && energy.get('current') === energy.get('max')) {
             this.set('showBuyEnergyDialog', false);
           }
         });
@@ -29,11 +29,16 @@ export default Ember.Component.extend(ObjectMixin, {
     return DS.PromiseObject.create({
       promise: this.get('me').get('user').then(user => {
         return user.get('energy').then(energy => {
-          var milliseconds_since_last_recharge = this.get('clock.time') - energy.get('last_recharge').getTime();
-          var seconds_since_last_recharge = milliseconds_since_last_recharge / 1000;
-          var result = Math.floor(300 - seconds_since_last_recharge);
-          if(result > 0) {
-            return result;
+          if(!Ember.isEmpty(energy)) {
+            var milliseconds_since_last_recharge = this.get('clock.time') - energy.get('last_recharge').getTime();
+            var seconds_since_last_recharge = milliseconds_since_last_recharge / 1000;
+            var result = Math.floor(300 - seconds_since_last_recharge);
+            if(result > 0) {
+              return result;
+            }
+            else {
+              return 0;
+            }
           }
           else {
             return 0;
