@@ -2,7 +2,12 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('armada', 'Unit | Model | armada', {
   // Specify the other units that are required for this test.
-  needs: []
+  needs: [
+    'model:armada',
+    'model:user',
+    'model:armada-membership-request',
+    'model:fb-app-request'
+  ]
 });
 
 test('it exists', function(assert) {
