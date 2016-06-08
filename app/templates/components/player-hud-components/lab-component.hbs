@@ -4,7 +4,7 @@
     <div class="tab-container">
       <div id="cannon-upgrades" class="tab">
         {{#if (if-equals me.user.rocket.cannon.status 'unlocked') }}
-          {{#link-to 'index' (query-params lab_section="cannon")}}
+          {{#link-to 'intern' (query-params lab_section="cannon")}}
             {{fa-icon "fa-bullseye"}}
           {{/link-to}}
         {{else}}
@@ -12,7 +12,7 @@
             {{fa-icon "fa-bullseye"}}
             {{timer-component type='cannon' component=me.user.rocket.cannon}}
           {{else}}
-            {{#link-to 'index' (query-params lab_section="cannon")}}
+            {{#link-to 'intern' (query-params lab_section="cannon")}}
               <span class="fa-stack">
                 {{fa-icon "fa-bullseye" stack=1}}
                 {{#tooltip-component tooltip=me.user.rocket.cannon.tooltip}}
@@ -25,7 +25,7 @@
       </div>
       <div id="shield-upgrades" class="tab">
         {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
-          {{#link-to 'index' (query-params lab_section="shield")}}
+          {{#link-to 'intern' (query-params lab_section="shield")}}
             {{fa-icon "fa-shield"}}
           {{/link-to}}
         {{else}}
@@ -33,7 +33,7 @@
             {{fa-icon "fa-shield"}}
             {{timer-component type='shield' component=me.user.rocket.shield}}
           {{else}}
-            {{#link-to 'index' (query-params lab_section="shield")}}
+            {{#link-to 'intern' (query-params lab_section="shield")}}
               <span class="fa-stack">
                 {{fa-icon "fa-shield" stack=1}}
                 {{#tooltip-component tooltip=me.user.rocket.shield.tooltip}}
@@ -46,7 +46,7 @@
       </div>
       <div id="drive-upgrades" class="tab">
         {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
-          {{#link-to 'index' (query-params lab_section="engine")}}
+          {{#link-to 'intern' (query-params lab_section="engine")}}
             {{fa-icon "fa-forward"}}
           {{/link-to}}
         {{else}}
@@ -54,7 +54,7 @@
             {{fa-icon "fa-forward"}}
             {{timer-component type='engine' component=me.user.rocket.engine}}
           {{else}}
-            {{#link-to 'index' (query-params lab_section="engine")}}
+            {{#link-to 'intern' (query-params lab_section="engine")}}
               <span class="fa-stack">
                 {{fa-icon "fa-forward" stack=1}}
                 {{#tooltip-component tooltip=me.user.rocket.engine.tooltip}}

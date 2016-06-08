@@ -1,15 +1,15 @@
 <div class="title">
-  {{#link-to 'index' (query-params player_hud_section="rocket")}}
+  {{#link-to 'intern' (query-params player_hud_section="rocket")}}
     <div class={{if (if-equals currentSection 'rocket') 'active item' 'item' }}>
       {{fa-icon "fa-rocket" fixedWidth=true}}
     </div>
   {{/link-to}}
-  {{#link-to 'index' (query-params player_hud_section="statistics")}}
+  {{#link-to 'intern' (query-params player_hud_section="statistics")}}
     <div class={{if (if-equals currentSection 'statistics') 'active item' 'item' }}>
       {{fa-icon "fa-bar-chart-o" fixedWidth=true}}
     </div>
   {{/link-to}}
-  {{#link-to 'index' (query-params player_hud_section="achievements")}}
+  {{#link-to 'intern' (query-params player_hud_section="achievements")}}
     <div class={{if (if-equals currentSection 'achievements') 'active item' 'item' }}>
       <span class="fa-stack">
         {{fa-icon "fa-circle-o" stack=1}}
@@ -18,7 +18,7 @@
     </div>
   {{/link-to}}
   {{#if me.user.lab}}
-    {{#link-to 'index' (query-params player_hud_section="lab")}}
+    {{#link-to 'intern' (query-params player_hud_section="lab")}}
       {{#if (eq me.user.lab.status 'unlocked') }}
           <div class={{if (if-equals currentSection 'lab') 'active item' 'item' }}>
             {{fa-icon "fa-flask" fixedWidth=true}}
@@ -30,7 +30,7 @@
               {{fa-icon "fa-flask" stack=1 fixedWidth=true}}
               {{timer-component type='lab' component=me.user.lab}}
               <div class="link-overlay">
-                {{#link-to 'index' (query-params player_hud_section="lab")}}{{/link-to}}
+                {{#link-to 'intern' (query-params player_hud_section="lab")}}{{/link-to}}
               </div>
             </span>
           </div>

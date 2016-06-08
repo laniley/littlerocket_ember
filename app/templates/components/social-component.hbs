@@ -1,10 +1,10 @@
 <div class="title">
-  {{#link-to 'index' (query-params social_section="leaderboard")}}
+  {{#link-to 'intern' (query-params social_section="leaderboard")}}
     <div class={{if (if-equals currentSection 'leaderboard') 'active item' 'item' }}>
       {{fa-icon "trophy"}}
     </div>
   {{/link-to}}
-  {{!-- {{#link-to 'index' (query-params social_section="challenges")}}
+  {{!-- {{#link-to 'intern' (query-params social_section="challenges")}}
     <div class={{if (if-equals currentSection 'challenges') 'active item' 'item' }}>
       <span class="fa-stack">
         {{fa-icon "fa-user" stack=1 classNames="player-1"}}
@@ -17,17 +17,17 @@
 
     </div>
   {{/link-to}} --}}
-  {{!-- {{#link-to 'index' (query-params social_section="friends")}}
+  {{!-- {{#link-to 'intern' (query-params social_section="friends")}}
     <div class={{if (if-equals currentSection 'friends') 'active item' 'item' }}>
       {{fa-icon "group"}}
     </div>
   {{/link-to}} --}}
-  {{#link-to 'index' (query-params social_section="comments")}}
+  {{#link-to 'intern' (query-params social_section="comments")}}
     <div class={{if (if-equals currentSection 'comments') 'active item' 'item' }}>
       {{fa-icon "pencil"}}
     </div>
   {{/link-to}}
-  {{#link-to 'index' (query-params social_section="armada")}}
+  {{#link-to 'intern' (query-params social_section="armada")}}
     <div class={{if (if-equals currentSection 'armada') 'active item' 'item' }}>
       {{fa-icon "angle-double-up" size="lg"}}
     </div>

@@ -2,13 +2,13 @@
   <div class="name">{{me.user.armada.name}}</div>
 
   {{#tooltip-component tooltip='members'}}
-    {{#link-to 'index' (query-params social_section="armada" armada_section="main")}}
+    {{#link-to 'intern' (query-params social_section="armada" armada_section="main")}}
       <div class="button {{if (eq armadaSection 'main') 'active'}}">{{fa-icon 'group'}}</div>
     {{/link-to}}
   {{/tooltip-component}}
   {{#if (eq me.user.armada_rank 'Admiral')}}
     {{#tooltip-component tooltip='membership requests'}}
-      {{#link-to 'index' (query-params social_section="armada" armada_section="requests")}}
+      {{#link-to 'intern' (query-params social_section="armada" armada_section="requests")}}
         <div class="button {{if (eq armadaSection 'requests') 'active'}}">
           {{fa-icon 'envelope'}}
           {{#if (gt me.user.armada.armadaMembershipRequests.length 0)}}
@@ -19,7 +19,7 @@
     {{/tooltip-component}}
   {{/if}}
   {{#tooltip-component tooltip='leave this armada'}}
-    {{#link-to 'index' (query-params social_section="armada" armada_section="leave")}}
+    {{#link-to 'intern' (query-params social_section="armada" armada_section="leave")}}
       <div class="leave button {{if (eq armadaSection 'leave') 'active'}}">{{fa-icon 'sign-out' size='lg'}}</div>
     {{/link-to}}
   {{/tooltip-component}}
