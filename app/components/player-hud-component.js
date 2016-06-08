@@ -74,11 +74,13 @@ export default Ember.Component.extend(ObjectMixin, {
     this.get('me').get('user').then(user => {
       if(!Ember.isEmpty(user)) {
         user.get('energy').then(energy => {
-          this.get('time_till_next_recharge').then(time_till_next_recharge => {
-            if(time_till_next_recharge <= 0) {
-              this.store.find('user-energy', energy.get('id'));
-            }
-          });
+          if(!Ember.isEmpty(energy)) {
+            this.get('time_till_next_recharge').then(time_till_next_recharge => {
+              if(time_till_next_recharge <= 0) {
+                this.store.find('user-energy', energy.get('id'));
+              }
+            });
+          }
         });
       }
     });
