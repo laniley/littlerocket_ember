@@ -25,13 +25,16 @@ export default Ember.Component.extend({
         message: 'S.O.S. !!! I\'m out of energy! Please, help me and send me some!'
       }, response => {
         console.log(response);
-        response.to.forEach(fb_id => {
-          var request = this.store.createRecord('fb-app-request', {
-            fb_request_id: response.request,
-            type: 'energy-request',
-            fb_id: fb_id
+        this.get('me').get('user').then(user => {
+          response.to.forEach(fb_id => {
+            var request = this.store.createRecord('fb-app-request', {
+              fb_request_id: response.request,
+              type: 'energy-request',
+              from_user: user,
+              fb_id: fb_id
+            });
+            request.save();
           });
-          request.save();
         });
       });
     }
