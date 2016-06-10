@@ -1,2 +1,23 @@
 @import "elements/headlines";
 @import "elements/tables";
+
+a {
+  color: $primary-text-color;
+  &:hover {
+    color: lighten($primary-text-color, 10%);
+  }
+  &.active {
+    color: white;
+  }
+}
+
+.counter {
+  display: inline-block;
+  color: white;
+  font-size: 0.8rem;
+  border-radius: 30px;
+  padding: 5px 9px;
+  width: auto;
+  background-color: #F17F40;
+  z-index: 1;
+}

@@ -5,7 +5,6 @@ export default DS.Model.extend({
   email: DS.attr('string'),
   first_name: DS.attr('string'),
   last_name: DS.attr('string'),
-  img_url: DS.attr('string'),
   gender: DS.attr('string'),
 
   rank_by_score: DS.attr('number', { defaultValue: 0 }),
