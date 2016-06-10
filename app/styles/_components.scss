@@ -1,4 +1,5 @@
 @import "components/armada";
+@import "components/overlay";
 @import "components/tooltip_component";
 
 .confirm-dialog {
@@ -13,5 +14,8 @@
   border: 1px solid $primary-text-color;
   .button-container {
     margin-top: 20px;
+  }
+  .row.close {
+    margin-top: 30px;
   }
 }

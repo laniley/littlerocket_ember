@@ -2,6 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 
+    appController: Ember.inject.controller('application'),
+
     queryParams: [
       'overlay_section',
       'player_hud_section',
@@ -25,4 +27,7 @@ export default Ember.Controller.extend({
       armada_section: 'main',
       armada_main_section: 'home',
 
+  overlaySectionObserver: Ember.observer('overlay_section', function() {
+    this.get('appController').set('overlay_section', this.get('overlay_section'));
+  })
 });

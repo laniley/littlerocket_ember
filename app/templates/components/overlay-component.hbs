@@ -1,0 +1,29 @@
+{{#if (not-eq overlay_section 'none')}}
+  <div class="overlay_bg"></div>
+  <div class="overlay">
+    <div class="content">
+      <div class="close" {{action 'close'}}>{{fa-icon 'close'}}</div>
+      {{#if (eq overlay_section 'messages')}}
+        <h1>Messages</h1>
+        <div class="messages scrollable-list">
+          {{#each messages as |message index|}}
+            {{#if (eq message.type 'energy-request')}}
+            {{/if}}
+            {{#if (eq message.type 'energy-request')}}
+              <div class="list-item">
+                <div class="index">{{math index "+" 1}}</div>
+                <div class="img_container">
+                  <img src="http://graph.facebook.com/{{message.fb_id}}/picture" class="profile small" />
+                </div>
+                <div class="name">{{message.user.name}}</div>
+                {{#tooltip-component tooltip='accept request' direction='left'}}
+                  <div class="button join" {{action 'acceptRequest' request}}>{{fa-icon 'check'}}</div>
+                {{/tooltip-component}}
+              </div>
+            {{/if}}
+          {{/each}}
+        </div>
+      {{/if}}
+    </div>
+  </div>
+{{/if}}

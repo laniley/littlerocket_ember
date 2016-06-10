@@ -1,0 +1,42 @@
+.overlay_bg {
+  position: absolute;
+  background: #000;
+  opacity: 0.9;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+.overlay {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  .content {
+    background: $lightblue;
+    padding: 20px;
+    .close {
+      float: right;
+      cursor: pointer;
+      color: $darkblue;
+      &:hover {
+        color: $primary-text-color;
+      }
+    }
+    h1 {
+      font-family: Agency_FB;
+    }
+    .messages {
+      width: 500px;
+      height: 500px;
+      background-color: white;
+      border: 1px solid $primary-text-color;
+    }
+  }
+}
