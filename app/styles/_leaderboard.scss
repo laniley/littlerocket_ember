@@ -3,6 +3,9 @@
     overflow: auto;
 }
 
+$leaderboard-list-bg: #f6f5b2;
+$leaderboard-list-even-bg: darken($leaderboard-list-bg, 2%);
+
 .leaderboard {
 
   .fb-publish-actions-not-granted {
@@ -15,40 +18,56 @@
     margin-top: 185px;
   }
 
-	.leaderboard_list {
-    position: relative;
-    font-size: 18px;
+  &__top-bar {
+  display: flex;
+  }
 
-		.list-item {
-      .img_container {
-        margin-right: 10px;
-        align-self: center;
-        img {
-          width: 50px;
-          height: 50px;
-        }
+  &__list {
+  margin: 0;
+  color: #444;
+  background: $leaderboard-list-bg;
+  border: 2px solid rgba(0, 0, 0, .1);
+
+    > li {
+    display: flex;
+    align-items: center;
+    padding: 5px 15px;
+
+      &:not(:last-child) {
+      border-bottom: 2px solid rgba(0, 0, 0, .05);
       }
-      .center_column {
-        display: flex;
-        flex-direction: column;
-        align-self: center;
-        .name {
-    			font-size: 22px;
-    		}
+
+      &:nth-child(even) {
+      background: $leaderboard-list-even-bg;
       }
-      .score_container {
-        flex-grow: 2;
-  			margin-right: 20px;
-  			line-height: 65px;
-  			font-size: 22px;
-        text-align: right;
-        .fa-stack {
-          font-size: 1rem;
-        }
-  		}
 
-		}
+    }
 
-	}
+    &__avatar {
+    margin-right: 15px;
+    }
+
+    &__username {
+    font-weight: bold;
+    color: #9E8438;
+    }
+
+    &__score {
+    margin-left: auto;
+    font-size: 12px;
+
+      .score {
+      margin-right: 5px;
+      color: #DEA80D;
+      }
+
+      .fa {
+      color: rgba(0, 0, 0, .5);
+      font-size: 14px;
+      }
+
+    }
+
+  }
 
 }

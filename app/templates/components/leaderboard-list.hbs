@@ -1,0 +1,37 @@
+
+  {{#each sortedPlayers as |top_player index|}}
+    <li>
+      <div class="leaderboard__list__avatar">
+        {{user-avatar userFbId=top_player.fb_id index=index}}
+      </div>
+      <div>
+        <div class="leaderboard__list__username">{{top_player.name}}</div>
+      </div>
+      <div class="leaderboard__list__score">
+        {{#if (eq sortBy 'score')}}
+          <span class="score">{{top_player.score}}</span>
+          {{fa-icon "fa-rocket"}}
+        {{/if}}
+        {{#if (eq sortBy 'achievements')}}
+          <span class="score">{{top_player.achievement_points}}</span>
+          {{fa-icon "fa-star"}}
+        {{/if}}
+        {{#if (eq sortBy 'challenges')}}
+          <span class="score">{{top_player.challenges_won}}</span> challenges won
+        {{/if}}
+      </div>
+    </li>
+  {{else}}
+    {{#if (eq filterBy 'all')}}
+      <div class="loader">
+        {{fa-icon "spinner" spin=true}}
+      </div>
+    {{else}}
+      <div class="invite_container">
+        <div class="fb-button invite" {{action 'invite'}}>{{fa-icon "facebook-square" size="lg"}} Invite friends</div>
+      </div>
+      <div class="empty-info-text">
+        None of your friends is playing <span class="little_rocket">little rocket</span> yet.<br /><br />
+      </div>
+    {{/if}}
+  {{/each}}

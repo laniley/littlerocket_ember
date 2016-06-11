@@ -1,0 +1,12 @@
+<img class="user-avatar__pic" src="http://graph.facebook.com/{{userFbId}}/picture" alt="">
+<span class="user-avatar__addon">
+  {{#if (eq sortBy 'score')}}
+    {{top_player.rank_by_score}}.
+  {{else}}
+    {{#if (eq sortBy 'challenges')}}
+      {{top_player.rank_by_won_challenges}}.
+    {{else}}
+      {{math index "+" 1}}.
+    {{/if}}
+  {{/if}}
+</span>

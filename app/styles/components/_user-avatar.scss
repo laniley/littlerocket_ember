@@ -1,0 +1,49 @@
+
+$user-avatar-size: 42px;
+$user-avatar-border-radius: 100%;
+$user-avatar-addon-border-color: #000;
+$user-avatar-addon-border-radius: 4px;
+
+.user-avatar {
+display: inline-block;
+border-radius: 100%;
+max-width: $user-avatar-size;
+max-height: $user-avatar-size;
+height: $user-avatar-size;
+width: $user-avatar-size;
+position: relative;
+
+  &:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .15);
+  border-radius: $user-avatar-border-radius;
+  width: 100%;
+  height: 100%;
+  }
+
+  &__pic {
+  width: 100%;
+  height: 100%;
+  border-radius: $user-avatar-border-radius;
+  }
+
+  &__addon {
+  display: inline-block;
+  background: #222;
+  color: #fff;
+  line-height: 1;
+  font-family: "Kraash";
+  font-size: 8px;
+  padding: 3px 2px;
+  position: absolute;
+  z-index: 1;
+  border-radius: $user-avatar-addon-border-radius;
+  left: -1px;
+  bottom: -1px;
+  border: 1px solid $user-avatar-addon-border-color;
+  }
+
+}
