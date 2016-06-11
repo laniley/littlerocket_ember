@@ -1,3 +1,4 @@
+/* global FB */
 import DS from 'ember-data';
 
 export default DS.Model.extend({
@@ -7,5 +8,12 @@ export default DS.Model.extend({
   to_user: DS.belongsTo('user', { inverse: 'fb_app_requests_received' }),
   fb_id: DS.attr('string'),
   armada: DS.belongsTo('armada'),
-  created_at: DS.attr('date')
+  created_at: DS.attr('date'),
+
+  delete() {
+    FB.api(this.get('fb_request_id') + '_' + this.get('fb_id'), 'delete', response => {
+      console.log(response);
+      this.destroyRecord();
+    });
+  }
 });

@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 import { memberAction /*, collectionAction */ } from 'ember-api-actions';
 
@@ -9,5 +10,9 @@ export default DS.Model.extend({
   max: attr('number', { defaultValue: 10}),
   last_recharge: attr('date'),
 
-  buy: memberAction({ path: 'buy' })
+  buy: memberAction({ path: 'buy' }),
+
+  isFull: Ember.computed('current', 'max', function() {
+    return this.get('current') === this.get('max');
+  })
 });

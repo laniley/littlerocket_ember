@@ -37,6 +37,27 @@
       height: 500px;
       background-color: white;
       border: 1px solid $primary-text-color;
+      .empty {
+        display: block;
+        text-align: center;
+        margin-top: 50px;
+      }
+      .index {
+        min-width: 30px;
+        text-align: right;
+        margin-right: 5px;
+      }
+      .img_container {
+        margin-right: 5px;
+        min-width: 60px;
+      }
+      .topic {
+        flex-grow: 2;
+      }
+      .button {
+        padding: 0.5rem;
+        width: 90px;
+      }
     }
   }
 }

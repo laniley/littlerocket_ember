@@ -6,22 +6,40 @@
       {{#if (eq overlay_section 'messages')}}
         <h1>Messages</h1>
         <div class="messages scrollable-list">
-          {{#each messages as |message index|}}
-            {{#if (eq message.type 'energy-request')}}
-            {{/if}}
-            {{#if (eq message.type 'energy-request')}}
-              <div class="list-item">
-                <div class="index">{{math index "+" 1}}</div>
-                <div class="img_container">
-                  <img src="http://graph.facebook.com/{{message.fb_id}}/picture" class="profile small" />
+          {{#if (gt me.user.messages_amount 0)}}
+            {{#each messages.content as |message index|}}
+              {{#if (eq message.type 'energy-reception')}}
+                <div class="list-item">
+                  <div class="index">{{math index "+" 1}}.</div>
+                  <div class="img_container">
+                    <img src="http://graph.facebook.com/{{message.from_user.fb_id}}/picture" class="profile small" />
+                  </div>
+                  <div class="topic">{{message.from_user.name}} sends you 1 energy.</div>
+                    {{#if me.user.energy.isFull}}
+                      {{#tooltip-component tooltip='Your energy is full.' direction='left'}}
+                        <div class="button join disabled">Claim 1 {{fa-icon 'bolt'}}</div>
+                      {{/tooltip-component}}
+                    {{else}}
+                      <div class="button join" {{action 'receiveEnergy' message}}>Claim 1 {{fa-icon 'bolt'}}</div>
+                    {{/if}}
                 </div>
-                <div class="name">{{message.user.name}}</div>
-                {{#tooltip-component tooltip='accept request' direction='left'}}
-                  <div class="button join" {{action 'acceptRequest' request}}>{{fa-icon 'check'}}</div>
-                {{/tooltip-component}}
-              </div>
-            {{/if}}
-          {{/each}}
+              {{/if}}
+            {{/each}}
+            {{#each fb_app_requests.content as |message index|}}
+              {{#if (eq message.type 'energy-request')}}
+                <div class="list-item">
+                  <div class="index">{{math index "+" 1}}.</div>
+                  <div class="img_container">
+                    <img src="http://graph.facebook.com/{{message.from_user.fb_id}}/picture" class="profile small" />
+                  </div>
+                  <div class="topic">{{message.from_user.name}} asks for 1 energy.</div>
+                    <div class="button" {{action 'sendEnergy' message}}>Send 1 {{fa-icon 'bolt'}}</div>
+                </div>
+              {{/if}}
+            {{/each}}
+          {{else}}
+            <div class="list-item empty">No messages.</div>
+          {{/if}}
         </div>
       {{/if}}
     </div>

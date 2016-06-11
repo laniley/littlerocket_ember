@@ -14,8 +14,8 @@
 				{{#link-to 'intern' (query-params overlay_section="messages")}}
 					<li class="item">
 						{{fa-icon 'envelope'}}
-						{{#if (gt me.user.fb_app_requests.length 0)}}
-							<div class="counter">{{me.user.fb_app_requests.length}}</div>
+						{{#if (gt me.user.messages_amount 0)}}
+							<div class="counter">{{me.user.messages_amount}}</div>
 						{{/if}}
 					</li>
 				{{/link-to}}
