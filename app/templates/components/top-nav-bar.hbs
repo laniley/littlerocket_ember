@@ -10,27 +10,29 @@
 	  <section class="top-bar-section">
 	    <!-- Right Nav Section -->
 	    <ul class="right">
-				{{!-- messages --}}
-				{{#link-to 'intern' (query-params overlay_section="messages")}}
-					<li class="item">
-						{{fa-icon 'envelope'}}
-						{{#if (gt me.user.messages_amount 0)}}
-							<div class="counter">{{me.user.messages_amount}}</div>
-						{{/if}}
-					</li>
-				{{/link-to}}
-				{{!-- invite --}}
-				<li>
-					<div class="invite-button">
-						<div class="fb-button" {{action 'invite'}}>
-							{{fa-icon "facebook-square" size="lg"}} Invite friends
+				{{#if session.isAuthenticated}}
+					{{!-- messages --}}
+					{{#link-to 'intern' (query-params overlay_section="messages")}}
+						<li class="item">
+							{{fa-icon 'envelope'}}
+							{{#if (gt me.user.messages_amount 0)}}
+								<div class="counter">{{me.user.messages_amount}}</div>
+							{{/if}}
+						</li>
+					{{/link-to}}
+					{{!-- invite --}}
+					<li>
+						<div class="invite-button">
+							<div class="fb-button" {{action 'invite'}}>
+								{{fa-icon "facebook-square" size="lg"}} Invite friends
+							</div>
 						</div>
-					</div>
-				</li>
-				<!-- like -->
-				<li class="like-button">
-					{{lib/fb-like-button}}
-				</li>
+					</li>
+					<!-- like -->
+					<li class="like-button">
+						{{lib/fb-like-button}}
+					</li>
+				{{/if}}
 				<!-- donate -->
 				<li class="donate-button">
 					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
