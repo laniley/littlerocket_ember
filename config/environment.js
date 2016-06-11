@@ -34,6 +34,11 @@ module.exports = function(environment) {
 
   ENV.backend_namespace = 'api/v1';
 
+  ENV['ember-simple-auth'] = {
+    routeAfterAuthentication: 'intern',
+    routeIfAlreadyAuthenticated: 'intern'
+  };
+
   if (environment === 'development') {
     ENV.backend_url = 'http://localhost:8000';
     // ENV.APP.LOG_RESOLVER = true;

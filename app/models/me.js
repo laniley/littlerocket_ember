@@ -7,7 +7,6 @@ export default DS.Model.extend({
   accessToken: DS.attr('string', { defaultValue: ''}),
   loginStatus: DS.attr('string', { defaultValue: 'unknown'}),
   activeChallenge: DS.belongsTo('challenge', { async: false }),
-  fbAppRequests: DS.hasMany('fb-app-request', {async: false }),
 
   friends_playing: Ember.computed('friends.length', function() {
     return DS.PromiseObject.create({
@@ -24,7 +23,12 @@ export default DS.Model.extend({
       promise: this.get('friends_playing').then(friends_playing => {
        return Ember.RSVP.map(friends_playing.toArray(), friend => {
          return friend.get('user').then(user => {
-           return user;
+           if(!Ember.isEmpty(user)) {
+             return user;
+           }
+           else {
+             console.log('user not set', friend.get('fb_id'));
+           }
          });
        }).then(friends => {
          return this.get('user').then(user => {
@@ -35,26 +39,4 @@ export default DS.Model.extend({
      })
     });
   }),
-
-  // friends_sorted_by_score: Ember.computed('users_of_friends_playing.@each.rank_by_score', function() {
-  //   return DS.PromiseObject.create({
-  //     promise: this.get('users_of_friends_playing').then(players => {
-  //        return this.get('user').then(user => {
-  //          players.pushObject(user);
-  //          return players.sortBy('rank_by_score');
-  //        });
-  //      })
-  //   });
-  // }),
-  //
-  // friends_sorted_by_achievements: Ember.computed('users_of_friends_playing.@each.achievement_points', function() {
-  //   return DS.PromiseObject.create({
-  //     promise: this.get('users_of_friends_playing').then(players => {
-  //        return this.get('user').then(user => {
-  //          players.pushObject(user);
-  //          return players.sortBy('achievement_points', 'desc');
-  //        });
-  //     })
-  //   });
-  // }),
 });

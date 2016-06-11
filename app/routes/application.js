@@ -2,7 +2,6 @@ import Ember from 'ember';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
 export default Ember.Route.extend(ApplicationRouteMixin, {
-
   model: function() {
     var me = this.store.peekRecord('me', 1);
 
@@ -12,6 +11,5 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     else {
       return me;
     }
-  }
-
+  },
 });

@@ -1,0 +1,22 @@
+<div class="columns hud-container cockpit">
+  {{player-hud-component
+    me=model
+    currentSection=player_hud_section
+    currentCockpitSection=cockpit_section
+    currentLabSection=lab_section}}
+</div>
+
+<div class="columns game">
+  {{game-canvas me=model}}
+</div>
+
+<div class="columns hud-container leaderboard">
+  {{social-component
+    me=model
+    currentSection=social_section
+    currentChallengesSection=challenges_section
+    leaderboardFilterBy=leaderboard_filterBy
+    leaderboardSortBy=leaderboard_sortBy
+    armadaSection=armada_section
+    armadaMainSection=armada_main_section}}
+</div>

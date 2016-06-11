@@ -6,7 +6,7 @@
     </div>
     {{!-- CANNON --}}
     {{#if (if-equals me.user.rocket.cannon.status 'unlocked') }}
-      {{#link-to 'index' (query-params player_hud_section="lab" lab_section="cannon")}}
+      {{#link-to 'intern' (query-params player_hud_section="lab" lab_section="cannon")}}
         <span id="cannon" class="block-button {{me.user.rocket.cannon.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
           {{fa-icon me.user.rocket.cannon.selectedRocketComponentModelMm.rocketComponentModel.icon}}
         </span>
@@ -35,7 +35,7 @@
 
     {{!-- SHIELD --}}
     {{#if (if-equals me.user.rocket.shield.status 'unlocked') }}
-      {{#link-to 'index' (query-params player_hud_section="lab" lab_section="shield")}}
+      {{#link-to 'intern' (query-params player_hud_section="lab" lab_section="shield")}}
         <span id="shield" class="block-button {{me.user.rocket.shield.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
           {{fa-icon "fa-shield"}}
         </span>
@@ -64,7 +64,7 @@
 
     {{!-- ENGINE --}}
     {{#if (if-equals me.user.rocket.engine.status 'unlocked') }}
-      {{#link-to 'index' (query-params player_hud_section="lab" lab_section="engine")}}
+      {{#link-to 'intern' (query-params player_hud_section="lab" lab_section="engine")}}
         <span id="engine" class="block-button {{me.user.rocket.engine.selectedRocketComponentModelMm.rocketComponentModel.rareness}}">
           {{fa-icon "fa-forward"}}
         </span>

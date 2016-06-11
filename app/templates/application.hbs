@@ -6,30 +6,7 @@
 			<div class="clouds clouds_right show-for-large-up"><img src="assets/images/clouds_600x113.png" /></div>
 
 			<div class="row">
-
-				<div class="columns hud-container cockpit">
-					{{player-hud-component
-						me=model
-						currentSection=player_hud_section
-						currentCockpitSection=cockpit_section
-						currentLabSection=lab_section}}
-				</div>
-
-				<div class="columns game">
-					{{outlet}}
-				</div>
-
-				<div class="columns hud-container leaderboard">
-					{{social-component
-						me=model
-						currentSection=social_section
-						currentChallengesSection=challenges_section
-						leaderboardFilterBy=leaderboard_filterBy
-						leaderboardSortBy=leaderboard_sortBy
-						armadaSection=armada_section
-						armadaMainSection=armada_main_section}}
-				</div>
-
+				{{outlet}}
 			</div>
 
 			<div class="row">
@@ -66,5 +43,7 @@
 					{{footer-banner id='footer_banner'}}
 				</div>
 			</div>
+
+			{{overlay-component me=model overlay_section=overlay_section}}
 
 </div>

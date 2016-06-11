@@ -35,9 +35,6 @@
       width: auto;
       margin: 20px;
     }
-    &.close {
-      margin-top: 20px;
-    }
   }
   .name {
     flex-grow: 2;
@@ -45,12 +42,7 @@
     padding-right: 15px;
   }
   .counter {
-    display: inline-block;
-    color: white;
-    font-size: 0.8rem;
-    border-radius: 30px;
-    padding: 5px 9px;
-    width: auto;
+    position: initial;
     margin-left: 10px;
     background-color: #F17F40;
     position: absolute;
@@ -73,20 +65,16 @@
       margin-bottom: 3px;
       margin-left: 10px;
     }
+    .counter {
+      position: absolute;
+      bottom: -10px;
+    }
   }
   .name-status-icon {
     width: 30px;
   }
   .confirm-dialog {
-    position: absolute;
-    background-color: $darkblue;
-    font-size: 1.5rem;
-    padding: 15px;
     top: 185px;
-    right: 15px;
-    left: 15px;
-    bottom: 10px;
-    border: 1px solid $primary-text-color;
   }
   .armada-leaderboard {
     table {

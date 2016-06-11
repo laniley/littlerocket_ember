@@ -2,21 +2,21 @@
   Leaderboards
   <div class="h-sub-nav">
     <div class="section">
-      {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_filterBy="all") title="All players"}}
+      {{#link-to 'intern' (query-params social_section="leaderboard" leaderboard_filterBy="all") title="All players"}}
         {{fa-icon 'globe'}}
       {{/link-to}}
-      {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_filterBy="friends") title="You and your friends"}}
+      {{#link-to 'intern' (query-params social_section="leaderboard" leaderboard_filterBy="friends") title="You and your friends"}}
         {{fa-icon 'group'}}
       {{/link-to}}
     </div>
     <div class="section">
-      {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_sortBy="score") title="by score"}}
+      {{#link-to 'intern' (query-params social_section="leaderboard" leaderboard_sortBy="score") title="by score"}}
         <span class="fa-stack">
           {{fa-icon "fa-circle-o" stack=2}}
           {{fa-icon "fa-rocket" stack=1}}
         </span>
       {{/link-to}}
-      {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_sortBy="achievements") title="by achievement-points"}}
+      {{#link-to 'intern' (query-params social_section="leaderboard" leaderboard_sortBy="achievements") title="by achievement-points"}}
         <span class="fa-stack">
           {{fa-icon "fa-circle-o" stack=2}}
           {{fa-icon "fa-star" stack=1}}
@@ -24,7 +24,7 @@
       {{/link-to}}
     </div>
   </div>
-  {{!-- {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_type="challenges")}}
+  {{!-- {{#link-to 'intern' (query-params social_section="leaderboard" leaderboard_type="challenges")}}
     <div class="{{if (eq currentLeaderboardType 'challenges') "active button pvp" "button pvp" }}" title="sort by won challenges">
       <span class="fa-stack">
         {{fa-icon "fa-user" stack=1 classNames="player-1"}}
@@ -33,12 +33,13 @@
       </span>
     </div>
   {{/link-to}} --}}
-  {{!-- {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_type="score")}}
+  {{!-- {{#link-to 'intern' (query-params social_section="leaderboard" leaderboard_type="score")}}
     <div class="{{if (eq currentLeaderboardType 'score') "active button" "button" }}" title="sort by score">
       {{fa-icon 'fa-asterisk'}}
     </div>
   {{/link-to}} --}}
 </h2>
+
 <div class="leaderboard_list scrollable_list">
   {{#each sortedPlayers as |top_player index|}}
     <div class="list-item">
@@ -52,7 +53,11 @@
           {{#if (eq sortBy 'challenges')}}
             {{top_player.rank_by_won_challenges}}.
           {{else}}
-            {{math index "+" 1}}.
+            {{#if (eq sortBy 'achievement_points')}}
+              {{top_player.rank_by_achievement_points}}
+            {{else}}
+              {{math index "+" 1}}.
+            {{/if}}
           {{/if}}
         {{/if}}
         <div class="name">{{top_player.name}}</div>

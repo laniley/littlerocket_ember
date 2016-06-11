@@ -1,0 +1,19 @@
+<div class="confirm-dialog flex-container direction-column center-xy">
+  {{#if (gte me.user.stars 100)}}
+    <div>Buy 1 {{fa-icon 'bolt'}} for 100 {{fa-icon 'star'}} ?</div>
+    <div class="button-container">
+      <div class="button" {{action 'buy'}}>YES</div>
+      <div class="button close" {{action 'close'}}>NO</div>
+    </div>
+  {{else}}
+    <div>You don't have enough stars to recharge your energy!</div>
+  {{/if}}
+  <div class="button-container">
+    <div class="fb-button invite" {{action 'ask' me.user.armada}}>
+      {{fa-icon "facebook-square" size="lg"}} Ask friends for energy
+    </div>
+    <div class="row align-center close">
+      <div class="button close" {{action 'close'}}>CLOSE</div>
+    </div>
+  </div>
+</div>

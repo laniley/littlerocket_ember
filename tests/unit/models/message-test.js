@@ -1,8 +1,8 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('armada-membership-request', 'Unit | Model | armada membership request', {
+moduleForModel('message', 'Unit | Model | message', {
   // Specify the other units that are required for this test.
-  needs: ['model:armada', 'model:user']
+  needs: []
 });
 
 test('it exists', function(assert) {
