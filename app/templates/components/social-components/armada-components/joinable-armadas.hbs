@@ -1,7 +1,7 @@
 <div class="button back" {{action 'close'}}>{{fa-icon 'chevron-left'}} Back</div>
 {{#if armadas}}
   {{#each armadas.content as |armada index|}}
-    <div class="list-item flex-container center-y">
+    <div class="list-item flex center-y">
       <div class="name">{{armada.name}}</div>
       <div class="members">{{armada.users.length}} / 20</div>
       {{#if armada.fbAppRequest}}

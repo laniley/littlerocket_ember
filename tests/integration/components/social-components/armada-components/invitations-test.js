@@ -23,7 +23,6 @@ test('it renders - with invitations', function(assert) {
   var invitations = {};
   var content = server.createList('fb-app-request', 3, { type: 'armada-invitation', armada_id: armada.id });
   invitations.content = content;
-  console.log(invitations.content);
   this.set('invitations', invitations);
   this.render(hbs`{{social-components/armada-components/invitations invitations=invitations}}`);
   assert.equal(this.$('.list-item').length, 3);
