@@ -6,7 +6,7 @@ Little Rocket is an HTML5 canvas game, embedded in an Ember application.
 
 ## Dependency Status
 [![devDependency Status](https://david-dm.org/laniley/littlerocket_ember/dev-status.svg)](https://david-dm.org/laniley/littlerocket_ember#info=devDependencies)
-[![travisCI Status](https://travis-ci.org/laniley/littlerocket_ember.svg?branch=master)
+[![Build Status](https://travis-ci.org/laniley/littlerocket_ember.svg?branch=master)](https://travis-ci.org/laniley/littlerocket_ember)
 
 ## Prerequisites
 
