@@ -1,5 +1,10 @@
 <div class="achievements">
-  <h2>Achievements<span class="h_info">{{achievementPoints.content}} / {{achievementPointsTotal.content}}</span></h2>
+
+  <h2 class="flex">
+    <div>Achievements</div>
+    <div class="flex__right h_info">{{achievementPoints.content}} / {{achievementPointsTotal.content}}</div>
+  </h2>
+
   <div class="scrollable_list">
     <h3>flights</h3>
     {{#each flight_achievements.content as |achievement|}}
@@ -14,4 +19,5 @@
       {{progress-bar achievement=achievement}}
     {{/each}}
   </div>
+
 </div>
