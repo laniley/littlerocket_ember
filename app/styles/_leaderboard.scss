@@ -3,8 +3,8 @@
     overflow: auto;
 }
 
-$leaderboard-list-bg: #f6f5b2;
-$leaderboard-list-even-bg: darken($leaderboard-list-bg, 2%);
+$leaderboard-list-bg: #e2f1f6;
+$leaderboard-list-even-bg: lighten($leaderboard-list-bg, 2%);
 
 .leaderboard {
 
@@ -20,6 +20,11 @@ $leaderboard-list-even-bg: darken($leaderboard-list-bg, 2%);
 
   &__top-bar {
   display: flex;
+
+    > h2 {
+    border: none;
+    }
+
   }
 
   &__list {
@@ -49,7 +54,7 @@ $leaderboard-list-even-bg: darken($leaderboard-list-bg, 2%);
 
     &__username {
     font-weight: bold;
-    color: #9E8438;
+    color: #4a7996;
     }
 
     &__score {
@@ -58,11 +63,11 @@ $leaderboard-list-even-bg: darken($leaderboard-list-bg, 2%);
 
       .score {
       margin-right: 5px;
-      color: #DEA80D;
+      color: #E8AC00;
       }
 
       .fa {
-      color: rgba(0, 0, 0, .5);
+      color: rgba(0, 0, 0, .3);
       font-size: 14px;
       }
 

@@ -1,0 +1,99 @@
+.lr-horizontal-nav {
+margin: 15px 0;
+display: flex;
+border-bottom: 2px solid rgba(0, 0, 0, .1);
+
+  a {
+  position: relative;
+  display: flex;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 50px;
+  color: rgba(0, 0, 0, .3);
+
+    &:not(.active):hover {
+    color: rgba(0, 0, 0, .4);
+    }
+
+    &.active {
+    color: #4a7996;
+    cursor: default;
+    box-shadow: 0 2px 0 #4a7996;
+    }
+
+    > i {
+    font-size: 24px;
+    }
+
+  }
+
+  &__group {
+  display: inline-block;
+
+    & + & {
+    margin-left: 30px;
+    }
+
+  }
+
+  &--right {
+  margin-left: auto;
+  }
+
+  &--subnav {
+  border: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+
+    a {
+    width: 44px;
+    height: 40px;
+
+      > i {
+      font-size: 18px;
+      }
+
+    }
+
+  }
+
+  &--with-text {
+  position: relative;
+  border: 2px solid rgba(0, 0, 0, .1);
+
+    &:after {
+    content: "";
+    position: absolute;
+    background: #ADD8E6 url("/assets/images/clouds_600x113.png") center;
+    opacity: .5;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    }
+
+    a {
+    width: auto;
+    height: 44px;
+    flex-grow: 1;
+    color: #999;
+
+      &.active {
+      font-weight: bold !important;
+      background: rgba(255, 255, 255, .5);
+      box-shadow: none;
+      }
+
+      i {
+      font-size: 22px;
+      margin-right: 10px;
+      }
+
+    }
+
+  }
+
+}

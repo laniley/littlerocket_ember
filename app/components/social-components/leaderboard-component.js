@@ -3,40 +3,41 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 export default Ember.Component.extend({
+
+  classNames: ['leaderboard__panel'],
+
   me: null,
   filterBy: 'all',
   sortBy: 'score',
 
   sortedPlayers: Ember.computed.sort('players.content', 'sortProperties'),
 
-  sortProperties: Ember.computed('sortBy', function() {
+  sortProperties: Ember.computed('sortBy', function () {
     var props = [];
-    if(this.get('sortBy') === 'score') {
+    if (this.get('sortBy') === 'score') {
       props.push('rank_by_score');
       return props;
-    }
-    else {
+    } else {
       props.push('achievement_points:desc');
       return props;
     }
   }),
 
-  players: Ember.computed('me.users_of_friends_playing.length', 'filterBy', 'sortBy', function() {
-    if(this.get('filterBy') === 'friends') {
+  players: Ember.computed('me.users_of_friends_playing.length', 'filterBy', 'sortBy', function () {
+    if (this.get('filterBy') === 'friends') {
       return DS.PromiseObject.create({
         promise: this.get('me').get('users_of_friends_playing').then(friends => {
           return friends;
-        })
+        }),
       });
-    }
-    else {
+    } else {
       return DS.PromiseObject.create({
         promise: this.store.query('user', {
-            'mode': 'leaderboard',
-            'type': this.get('sortBy'),
+            mode: 'leaderboard',
+            type: this.get('sortBy'),
           }).then(users => {
           return users;
-        })
+        }),
       });
     }
   }),
@@ -46,12 +47,12 @@ export default Ember.Component.extend({
       FB.ui({
         method: 'apprequests',
         message: 'Come and play Little Rocket with me!',
-        filters: ['app_non_users']
-      }, function(response){
+        filters: ['app_non_users'],
+      }, function (response) {
         console.log(response);
         //request
         //to[index]
       });
-    }
-  }
+    },
+  },
 });

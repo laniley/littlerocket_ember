@@ -1,26 +1,20 @@
-<h2>
-  Leaderboards
-  <div class="h-sub-nav">
-    <div class="section">
-      {{#link-to 'intern' (query-params social_section="leaderboard" leaderboard_filterBy="all") title="All players"}}
+<div class="leaderboard__top-bar">
+  <h2>Leaderboards</h2>
+  <div class="lr-horizontal-nav lr-horizontal-nav--right lr-horizontal-nav--subnav">
+    <div class="lr-horizontal-nav__group">
+      {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_filterBy="all") title="All players"}}
         {{fa-icon 'globe'}}
       {{/link-to}}
       {{#link-to 'intern' (query-params social_section="leaderboard" leaderboard_filterBy="friends") title="You and your friends"}}
         {{fa-icon 'group'}}
       {{/link-to}}
     </div>
-    <div class="section">
-      {{#link-to 'intern' (query-params social_section="leaderboard" leaderboard_sortBy="score") title="by score"}}
-        <span class="fa-stack">
-          {{fa-icon "fa-circle-o" stack=2}}
-          {{fa-icon "fa-rocket" stack=1}}
-        </span>
+    <div class="lr-horizontal-nav__group">
+      {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_sortBy="score") title="by score"}}
+        {{fa-icon "fa-rocket"}}
       {{/link-to}}
-      {{#link-to 'intern' (query-params social_section="leaderboard" leaderboard_sortBy="achievements") title="by achievement-points"}}
-        <span class="fa-stack">
-          {{fa-icon "fa-circle-o" stack=2}}
-          {{fa-icon "fa-star" stack=1}}
-        </span>
+      {{#link-to 'index' (query-params social_section="leaderboard" leaderboard_sortBy="achievements") title="by achievement-points"}}
+        {{fa-icon "fa-star"}}
       {{/link-to}}
     </div>
   </div>
@@ -38,6 +32,6 @@
       {{fa-icon 'fa-asterisk'}}
     </div>
   {{/link-to}} --}}
-</h2>
+</div>
 
 {{leaderboard-list sortedPlayers=sortedPlayers sortBy=sortBy filterBy=filterBy}}
