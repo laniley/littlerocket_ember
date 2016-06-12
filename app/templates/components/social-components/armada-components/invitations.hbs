@@ -5,7 +5,7 @@
 </h3>
 
 {{#each invitations.content as |invitation index|}}
-  <div class="list-item flex-container center-y">
+  <div class="list-item flex center-y">
     <div class="index">{{math index "+" 1}}</div>
     <div class="name">{{invitation.armada.name}}</div>
     <div class="members">{{invitation.armada.users.length}} / 20 members</div>

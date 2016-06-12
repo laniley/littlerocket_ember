@@ -2,7 +2,7 @@
   <div class="img_container">
     <img src={{me.user.img_url}} />
   </div>
-  <div class="flex-container">
+  <div class="flex">
     <div class="exp_level">Exp. level {{me.user.exp_level}}</div>
   </div>
   <div class="exp-meter">
@@ -12,9 +12,9 @@
     </div>
   </div>
 </div>
-<div class="flex-container second-row">
-  <div class="left-column flex-container group">
-    <div class="points-info-column flex-container direction-column">
+<div class="flex second-row">
+  <div class="left-column flex group">
+    <div class="points-info-column flex direction-column">
       <div>
         {{#tooltip-component tooltip="your score"}}
           <span class="fa-stack">
@@ -34,7 +34,7 @@
         <span class="value">{{me.user.achievement_points}}</span>
       </div>
     </div>
-    <div class="leaderboard-info-column flex-container direction-column">
+    <div class="leaderboard-info-column flex direction-column">
       <div class="align-right">{{me.user.rank_by_score}}. in the leaderboard</div>
       <div class="align-right">{{me.user.rank_by_achievement_points}}. in the leaderboard</div>
     </div>

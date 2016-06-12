@@ -1,25 +1,4 @@
-.flex-container {
-  display:flex;
-  &.center {
-    justify-content: center;
-  }
-  &.center-y {
-    align-items: center;
-  }
-  &.center-xy {
-    justify-content: center;
-    align-items: center;
-  }
-  &.direction-column {
-    flex-direction: column;
-  }
-}
-
-.flex-item {
-  &.center {
-    align-self: center;
-  }
-}
+@import "templates/flex";
 
 .row {
   max-width: 100%;

@@ -1,6 +1,6 @@
 {{#if congratzMessageExists }}
   <div class="congratz">CONGRATULATIONS</div>
-  <div class="congratz_menu flex-container center-xy">
+  <div class="congratz_menu flex center-xy">
     {{#if isNewHighscore}}
       <div class="item {{if (if-equals currentCongratzSection 'highscore') 'active' }}" {{action 'openSection' 'highscore'}}>
         {{fa-icon "trophy" fixedWidth=true}}
