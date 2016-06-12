@@ -3,13 +3,14 @@ import { moduleForModel, test } from 'ember-qunit';
 moduleForModel('user', 'Unit | Model | user', {
   // Specify the other units that are required for this test.
   needs: [
-    'model:lab',
-    'model:rocket',
-    'model:challenge',
     'model:achievement',
-    'model:user-energy',
     'model:armada',
-    'model:fb-app-request'
+    'model:challenge',
+    'model:fb-app-request',
+    'model:lab',
+    'model:message',
+    'model:rocket',
+    'model:user-energy',
   ]
 });
 
