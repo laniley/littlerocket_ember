@@ -2,13 +2,13 @@ import { moduleFor, test } from 'ember-qunit';
 import Pretender from 'pretender';
 import Ember from 'ember';
 
-var server;
+var server_pretender;
 
 moduleFor('serializer:application', 'Unit | Serializer | application', {
   // Specify the other units that are required for this test.
   needs: ['serializer:application', 'model:user', 'model:lab'],
   beforeEach() {
-    server = new Pretender(function() {
+    server_pretender = new Pretender(function() {
       this.get('/users', function() {
         var users = { "users": [
             { "id": 1, "first_name": "Melanie", "lab_id": 1 }
@@ -18,7 +18,7 @@ moduleFor('serializer:application', 'Unit | Serializer | application', {
     });
   },
   afterEach() {
-    server.shutdown();
+    server_pretender.shutdown();
   }
 });
 

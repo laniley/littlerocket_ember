@@ -14,42 +14,42 @@ test('it renders - home / me.user undefined', function(assert) {
   assert.equal(result > 0, true);
 });
 
-test('it renders - home / showInvitations', function(assert) {
-
-  this.set('armadaMainSection', 'home');
-  this.set('showInvitations', true);
-
-  var user = new Ember.RSVP.Promise((resolve, reject) => {
-    // on success
-    resolve(
-      Ember.Object.extend({
-        // exp_level: 3,
-        // experience: 3000,
-        // needed_exp_for_next_level: 5000
-      }).create()
-    );
-
-    // on failure
-    reject();
-  });
-
-  user.save = function() {
-    console.log('user has been saved');
-  };
-
-  var me = Ember.Object.extend({
-    id: 1,
-    user: user
-  }).create();
-
-  this.set('me', me);
-
-  this.render(hbs`{{social-components/armada-component
-                      me=me
-                      armadaSection=armadaSection
-                      armadaMainSection=armadaMainSection
-                      showInvitations=showInvitations}}`);
-
-  var result = this.$().html().trim();
-  assert.equal(result, '');
-});
+// test('it renders - home / showInvitations', function(assert) {
+//
+//   this.set('armadaMainSection', 'home');
+//   this.set('showInvitations', true);
+//
+//   var user = new Ember.RSVP.Promise((resolve, reject) => {
+//     // on success
+//     resolve(
+//       Ember.Object.extend({
+//         // exp_level: 3,
+//         // experience: 3000,
+//         // needed_exp_for_next_level: 5000
+//       }).create()
+//     );
+//
+//     // on failure
+//     reject();
+//   });
+//
+//   user.save = function() {
+//     console.log('user has been saved');
+//   };
+//
+//   var me = Ember.Object.extend({
+//     id: 1,
+//     user: user
+//   }).create();
+//
+//   this.set('me', me);
+//
+//   this.render(hbs`{{social-components/armada-component
+//                       me=me
+//                       armadaSection=armadaSection
+//                       armadaMainSection=armadaMainSection
+//                       showInvitations=showInvitations}}`);
+//
+//   var result = this.$().html().trim();
+//   assert.equal(result, '');
+// });

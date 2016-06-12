@@ -1,9 +1,16 @@
-import Ember from 'ember';
+// import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import startMirage from '../../../../helpers/setup-mirage-for-integration';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('social-components/armada-components/invitations', 'Integration | Component | social components/armada components/invitations', {
-  integration: true
+  integration: true,
+  beforeEach() {
+    startMirage(this.container);
+  },
+  afterEach() {
+    window.server.shutdown();
+  }
 });
 
 test('it renders - no invitations', function(assert) {
@@ -12,60 +19,12 @@ test('it renders - no invitations', function(assert) {
 });
 
 test('it renders - with invitations', function(assert) {
-
-  var armada = new Ember.RSVP.Promise((resolve, reject) => {
-    // on success
-    resolve(
-      Ember.Object.extend({
-        name: 'test'
-      }).create()
-    );
-
-    // on failure
-    reject();
-  });
-
-  armada.save = function() {
-    console.log('armada has been saved');
-  };
-
-  var invitation = new Ember.RSVP.Promise((resolve, reject) => {
-    // on success
-    resolve(
-      Ember.Object.extend({
-        fb_id: 1,
-        type: 'armada-invitation',
-        armada: armada
-      }).create()
-    );
-
-    // on failure
-    reject();
-  });
-
-  invitation.save = function() {
-    console.log('invitation has been saved');
-  };
-
-  var content = [];
-  content.push(invitation);
-
-  var invitations = new Ember.RSVP.Promise((resolve, reject) => {
-    // on success
-    resolve(
-      Ember.Object.extend({
-        content: content
-      }).create()
-    );
-
-    // on failure
-    reject();
-  });
-
-  invitations.save = function() {
-    console.log('invitations has been saved');
-  };
-
+  var armada = server.create('armada');
+  var invitations = {};
+  var content = server.createList('fb-app-request', 3, { type: 'armada-invitation', armada_id: armada.id });
+  invitations.content = content;
+  console.log(invitations.content);
+  this.set('invitations', invitations);
   this.render(hbs`{{social-components/armada-components/invitations invitations=invitations}}`);
-  assert.equal(this.$().html().trim(), '');
+  assert.equal(this.$('.list-item').length, 3);
 });
