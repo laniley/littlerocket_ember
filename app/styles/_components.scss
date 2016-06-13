@@ -3,21 +3,25 @@
 @import "components/tooltip_component";
 
 .confirm-dialog {
-  text-align: center;
-  font-size: 1.5rem;
-  padding: 15px;
-  top: 85px;
-  right: 15px;
-  left: 15px;
-  bottom: 10px;
-  line-height: 4rem;
-  .button {
+text-align: center;
+font-size: 1.5rem;
+padding: 15px;
+top: 85px;
+right: 15px;
+left: 15px;
+bottom: 10px;
+line-height: 4rem;
+
+    .button {
     background-color: lighten($lightblue, 5%);
     color: $primary-text-color;
     font-weight: bold;
     border: 2px solid $darkblue;
-    &:hover {
-      background-color: white;
+
+        &:hover {
+        background-color: white;
+        }
+
     }
-  }
+
 }

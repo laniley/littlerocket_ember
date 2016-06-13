@@ -1,43 +1,49 @@
 .menu {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 15px;
-  left: 0;
-  bottom: 0;
-  width: 500px;
-  margin: 0px auto;
-  z-index: 1;
+position: absolute;
+display: flex;
+justify-content: center;
+align-items: center;
+top: 15px;
+left: 0;
+bottom: 0;
+width: 500px;
+margin: 0px auto;
+z-index: 1;
 }
+
 .text-box {
-  margin-bottom: 15px;
-  line-height: 2rem;
+margin-bottom: 15px;
+line-height: 2rem;
 }
+
 .menu-content {
-  z-index: 2;
-  width: 80%;
-  padding: 15px;
-  background-color: #576C73;
-  color: white;
-  -webkit-box-shadow: 0px 2px 10px #666;
-  -moz-box-shadow: 0px 2px 10px #666;
-  box-shadow: 0px 2px 10px #666;
-  font-weight: 700;
-  font-size: 1.2rem;
-  font-family: Helvetica;
-  text-align: center;
-  .button {
+z-index: 2;
+width: 80%;
+padding: 15px;
+background-color: #576C73;
+color: white;
+-webkit-box-shadow: 0px 2px 10px #666;
+-moz-box-shadow: 0px 2px 10px #666;
+box-shadow: 0px 2px 10px #666;
+font-weight: 700;
+font-size: 1.2rem;
+font-family: "Helvetica";
+text-align: center;
+
+    .button {
     margin-bottom: 10px;
     font-weight: bold;
     background: lightblue;
     border: 3px solid;
     padding: 1rem;
-    &.active {
-      color: $primary-text-color;
-      border: 3px solid $primary-text-color;
-      background: white;
-      padding: 1rem 2rem;
+
+        &.active {
+        color: $primary-text-color;
+        border: 3px solid $primary-text-color;
+        background: white;
+        padding: 1rem 2rem;
+        }
+
     }
-  }
+
 }

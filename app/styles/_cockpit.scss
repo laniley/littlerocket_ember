@@ -1,107 +1,126 @@
 .cockpit {
-  .info-prompt {
+
+    .info-prompt {
     position: absolute;
     width: 95%;
     top: 620px;
-  }
-  .content {
-    #workbench {
-      margin-bottom: 5px;
-      .img-container {
-        width: 55%;
-      }
-      #workbench-item-container {
-        height: 298px;
-      }
-      #cannon {
-        position: absolute;
-        left: 15%;
-        bottom: 221px;
-      }
-      .cannon-models {
-        position: relative;
-        top: -222px;
-        left: 56px;
-      }
-      .shield-models {
-        position: relative;
-        top: -218px;
-        left: 359px;
-      }
-      .engine-models {
-        position: relative;
-        top: -36px;
-        left: 148px;
-      }
-
-      #shield {
-        position: absolute;
-        bottom: 217px;
-        left: 64%;
-      }
-
-      #engine {
-        position: absolute;
-        left: 29%;
-        bottom: 35px;
-      }
     }
-  }
 
-  .upgrade-infos {
+    .content {
 
+        #workbench {
+        margin-bottom: 5px;
+
+            .img-container {
+            width: 55%;
+            }
+
+            #workbench-item-container {
+            height: 298px;
+            }
+
+            #cannon {
+            position: absolute;
+            left: 15%;
+            bottom: 221px;
+            }
+
+            .cannon-models {
+            position: relative;
+            top: -222px;
+            left: 56px;
+            }
+
+            .shield-models {
+            position: relative;
+            top: -218px;
+            left: 359px;
+            }
+
+            .engine-models {
+            position: relative;
+            top: -36px;
+            left: 148px;
+            }
+
+            #shield {
+            position: absolute;
+            bottom: 217px;
+            left: 64%;
+            }
+
+            #engine {
+            position: absolute;
+            left: 29%;
+            bottom: 35px;
+            }
+
+        }
+
+    }
+
+    .upgrade-infos {
     height: 205px;
     margin-bottom: 5px;
 
-    h2 {
-      text-transform: capitalize;
+        h2 {
+        text-transform: capitalize;
+        }
+
+        .upgrade-content {
+        position: relative;
+        top: 5px;
+        height: 366px;
+        overflow: auto;
+        }
+
+        .locked-info {
+        padding: 12px 0;
+
+            &.rocket-component {
+            height: auto;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 5px;
+            padding-top: 70px;
+            }
+
+        }
+
     }
 
-    .upgrade-content {
-      position: relative;
-      top: 5px;
-      height: 366px;
-      overflow: auto;
-    }
-
-    .locked-info {
-      padding: 12px 0;
-      &.rocket-component {
-        height: auto;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 5px;
-        padding-top: 70px;
-      }
-    }
-  }
-
-  .info-table {
+    .info-table {
     margin-right: 20px;
     width: 100%;
-  }
-
-  .stats-table {
-    width: 100%;
-  }
-
-  .stats-table, .info-table {
-    tr {
-      td {
-        @media (max-width: 1554px)
-        {
-          padding: 0.38rem 0.425rem;
-        }
-        @media (min-width: 1555px)
-        {
-          padding: 0.38rem 0.625rem;
-        }
-      }
     }
-  }
 
-  .tab-container {
+    .stats-table {
+    width: 100%;
+    }
+
+    .stats-table, .info-table {
+
+        tr {
+
+            td {
+
+                @media (max-width: 1554px) {
+                padding: 0.38rem 0.425rem;
+                }
+
+                @media (min-width: 1555px) {
+                padding: 0.38rem 0.625rem;
+                }
+
+            }
+
+        }
+
+    }
+
+    .tab-container {
     clear: both;
-  }
+    }
+
 }

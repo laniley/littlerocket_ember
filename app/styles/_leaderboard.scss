@@ -1,54 +1,63 @@
 .fb-comments-container {
-    height: 98%;
-    overflow: auto;
+height: 98%;
+overflow: auto;
 }
 
 .leaderboard {
 
-  .fb-publish-actions-not-granted {
-		margin-bottom: 20px;
-	}
+    .fb-publish-actions-not-granted {
+    margin-bottom: 20px;
+    }
 
-  .loader {
+    .loader {
     text-align: center;
     font-size: 4rem;
     margin-top: 185px;
-  }
+    }
 
-	.leaderboard_list {
+    .leaderboard_list {
     position: relative;
     font-size: 18px;
 
-		.list-item {
-      .img_container {
-        margin-right: 10px;
-        align-self: center;
-        img {
-          width: 50px;
-          height: 50px;
-        }
-      }
-      .center_column {
-        display: flex;
-        flex-direction: column;
-        align-self: center;
-        .name {
-    			font-size: 22px;
-    		}
-      }
-      .score_container {
-        flex-grow: 2;
-  			margin-right: 20px;
-  			line-height: 65px;
-  			font-size: 22px;
-        text-align: right;
-        .fa-stack {
-          font-size: 1rem;
-        }
-  		}
+        .list-item {
 
-		}
+            .img_container {
+            margin-right: 10px;
+            align-self: center;
 
-	}
+                img {
+                width: 50px;
+                height: 50px;
+                }
+
+            }
+
+            .center_column {
+            display: flex;
+            flex-direction: column;
+            align-self: center;
+
+                .name {
+                font-size: 22px;
+                }
+
+            }
+
+            .score_container {
+            flex-grow: 2;
+            margin-right: 20px;
+            line-height: 65px;
+            font-size: 22px;
+            text-align: right;
+
+                .fa-stack {
+                font-size: 1rem;
+                }
+
+            }
+
+        }
+
+    }
 
 }

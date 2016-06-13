@@ -1,71 +1,88 @@
 #game_container {
-  width: 100%;
-  text-align: center;
+width: 100%;
+text-align: center;
 }
 
 #game {
-  background-color:	#ADD8E6;
-  border: $border-thick;
-  width: 100%;
-  height: 600px;
-  margin-top: 15px;
+background-color: #ADD8E6;
+border: $border-thick;
+width: 100%;
+height: 600px;
+margin-top: 15px;
 }
 
 .game-canvas {
-  margin: 0px auto;
-  position: relative;
+margin: 0px auto;
+position: relative;
 }
 
 .hud {
-  .score {
+
+    .score {
     position: absolute;
     top: 17px;
     left: 10px;
     font-weight: bold;
     font-size: 2rem;
     color: $orange;
-  }
+    }
+
 }
 
 .hud-list-group {
-  table {
+
+    table {
     background: none;
     border: none;
-    tr, td {
-      background-color: rgba(0,0,0,0);
+
+        tr, td {
+        background-color: rgba(0,0,0,0);
+        }
+
+        td {
+        padding: 5px;
+        font-size: 1.5rem;
+        font-weight: bold;
+
+            &.resource-icon {
+            text-align: center;
+            }
+
+            &.resource-value {
+            text-align: right;
+            }
+
+        }
+
     }
-    td {
-      padding: 5px;
-      font-size: 1.5rem;
-      font-weight: bold;
-      &.resource-icon {
-        text-align: center;
-      }
-      &.resource-value {
-        text-align: right;
-      }
-    }
-  }
-  &.infos {
+
+    &.infos {
     position: absolute;
     top: 60px;
-  }
-  &.resources {
+    }
+
+    &.resources {
     position: absolute;
     top: 25px;
-    right:10px;
-    .engine {
-      i {
-        margin-left: 4px;
-      }
+    right: 10px;
+
+        .engine {
+
+            i {
+            margin-left: 4px;
+            }
+
+        }
+
     }
-  }
+
 }
 
 .control-infos {
-  font-size: 	22px;
-  padding: 5px 0;
-  i {
+font-size: 22px;
+padding: 5px 0;
+
+    i {
     color: #333;
     border: 2px solid darken($darkblue, 20%);
     background-color: $darkblue;
@@ -75,8 +92,11 @@
     line-height: 35px;
     margin: 3px;
     border-radius: 5px;
-    &:hover {
-      background-color: lighten($darkblue, 10%);
+        
+        &:hover {
+        background-color: lighten($darkblue, 10%);
+        }
+
     }
-  }
+
 }

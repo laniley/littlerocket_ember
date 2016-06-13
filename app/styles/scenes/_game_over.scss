@@ -1,59 +1,75 @@
 .gameOver {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 15px;
-  left: 0;
-  bottom: 0;
-  width: 500px;
-  margin: 0px auto;
-  z-index: 1;
-  .congratz {
-    font-family: Kraash;
+position: absolute;
+display: flex;
+justify-content: center;
+align-items: center;
+top: 15px;
+left: 0;
+bottom: 0;
+width: 500px;
+margin: 0px auto;
+z-index: 1;
+
+    .congratz {
+    font-family: "Kraash";
     font-size: 20px;
     margin: 35px 0;
-  }
-  .congratz_menu {
+    }
+
+    .congratz_menu {
     font-size: 45px;
-    .item {
-      margin: 0 5px;
-      color: $darkblue;
-      &:hover {
-        cursor: pointer;
-        color: lighten($darkblue, 10%);
-      }
-      &.active {
-        color: white;
-        &:hover {
-          cursor: default;
+
+        .item {
+        margin: 0 5px;
+        color: $darkblue;
+
+            &:hover {
+            cursor: pointer;
+            color: lighten($darkblue, 10%);
+            }
+
+            &.active {
+            color: white;
+
+                &:hover {
+                cursor: default;
+                }
+
+            }
+
         }
-      }
+
+        .fa-stack {
+        font-size: 27px;
+        }
+
     }
-    .fa-stack {
-      font-size: 27px;
-    }
-  }
-  .score {
-    font-size: 35px;
-    margin-bottom: 20px;
-    background: lightblue;
-    color: #576C73;
-  }
-  .fb-button {
-    font-size: 1.2rem;
-    padding: 10px;
-    border: 1px solid #2C2B54;
-    text-align: center;
+
+}
+
+.score {
+font-size: 35px;
+margin-bottom: 20px;
+background: lightblue;
+color: #576C73;
+}
+
+.fb-button {
+font-size: 1.2rem;
+padding: 10px;
+border: 1px solid #2C2B54;
+text-align: center;
+
     &.post {
-      margin: 25px 0;
+    margin: 25px 0;
     }
+
     &.login {
-      position: absolute;
-      margin-top: 90px;
-      width: 50%;
-      left: 50%;
-      margin-left: -25%;
+    position: absolute;
+    margin-top: 90px;
+    width: 50%;
+    left: 50%;
+    margin-left: -25%;
     }
-  }
+
 }

@@ -1,11 +1,16 @@
 table {
-  border-collapse: collapse;
-  tr {
-    td {
-      color: $primary-text-color;
+border-collapse: collapse;
+
+    tr {
+
+        td {
+        color: $primary-text-color;
+        }
+
+        &:nth-of-type(even) {
+        background-color: lighten($lightblue, 8%);
+        }
+
     }
-    &:nth-of-type(even) {
-      background-color: lighten($lightblue, 8%);
-    }
-  }
+
 }

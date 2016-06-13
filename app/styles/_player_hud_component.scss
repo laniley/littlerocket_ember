@@ -1,144 +1,188 @@
 .hud-container {
-  .content {
+
+    .content {
     border-bottom: 2px solid #8AA8B2;
     height: 540px;
     overflow: hidden;
-  }
-  .empty-info-text {
+    }
+
+    .empty-info-text {
     text-align: center;
     margin-top: 45px;
-  }
-  .login-info, .locked-info {
+    }
+
+    .login-info, .locked-info {
     text-align: center;
     font-size: 2.5rem;
     color: white;
-    .fa-stack {
-      color: white;
-    }
     background-color: $primary-color;
     border: 1px solid $primary-text-color;
-  }
-  .login-info {
+
+        .fa-stack {
+        color: white;
+        }
+
+    }
+
+    .login-info {
     padding: 20px;
     height: 600px;
     margin-top: 15px;
     line-height: 5rem;
-  }
-  .locked-info {
+    }
+
+    .locked-info {
     position: absolute;
     left: 15px;
     right: 15px;
     margin-top: 5px;
     height: 80%;
     padding: 30% 0;
-  }
-  .table-container {
+    }
+
+    .table-container {
     display: flex;
     flex-direction: row;
     font-size: 1.2rem;
-    .container-column {
-      &:last-of-type {
-        flex-grow: 2;
-      }
-      .list-item-label {
-        font-weight: bold;
-        padding-right: 25px;
-      }
+
+        .container-column {
+
+            &:last-of-type {
+            flex-grow: 2;
+            }
+
+            .list-item-label {
+            font-weight: bold;
+            padding-right: 25px;
+            }
+
+        }
+
     }
-  }
-  .title {
+
+    .title {
     font-size: 1.75rem;
-  	margin: 15px 0;
-  	color: rgb(127, 154, 163);
+    margin: 15px 0;
+    color: rgb(127, 154, 163);
     border-bottom: $border-thick;
-    a {
-      background: none;
+
+        a {
+        background: none;
+        }
+
+        .item {
+        display: inline-block;
+        padding: 0 5px;
+        height: 44px;
+        width: 45px;
+
+            &.loader {
+            font-size: 27px;
+            line-height: 42px;
+            }
+
+            .counter {
+            left: 35px;
+            }
+
+            .fa-stack {
+            line-height: 1rem;
+            height: 100%;
+            top: 11px;
+            right: 11px;
+
+                .tooltip-component {
+                left: 3px;
+                position: relative;
+                top: 10px;
+                }
+
+                .fa-star {
+                font-size: 0.8em;
+                }
+
+                .fa-circle-o {
+                font-size: 1.4em;
+                }
+
+                .pietimer {
+                top: -31% !important;
+                width: 79% !important;
+                left: 5px !important;
+                }
+
+            }
+
+        }
+
     }
-    .item {
-      display: inline-block;
-      padding: 0 5px;
-      height: 44px;
-      width: 45px;
-      &.loader {
-        font-size: 27px;
-        line-height: 42px;
-      }
-      .counter {
-        left: 35px;
-      }
-      .fa-stack {
-        line-height: 1rem;
-        height: 100%;
-        top: 11px;
-        right: 11px;
-        .tooltip-component {
-          left: 3px;
-          position: relative;
-          top: 10px;
-        }
-        .fa-star {
-          font-size: 0.8em;
-        }
-        .fa-circle-o {
-          font-size: 1.4em;
-        }
-        .pietimer {
-          top: -31% !important;
-          width: 79% !important;
-          left: 5px !important;
-        }
-      }
-    }
-  }
-  .player-1 {
+
+    .player-1 {
     left: -10px;
-  }
-  .player-2 {
+    }
+
+    .player-2 {
     left: 10px;
-  }
-  .versus {
+    }
+
+    .versus {
     color: #484B4C;
     top: 10px;
-  }
-  h2 {
-    .versus {
-      top: 5px;
     }
-    .pvp {
-      padding: 0 5px;
-      &:not(.active) {
-        .player-1, .player-2 {
-          color: $primary-color;
+
+    h2 {
+
+        .versus {
+        top: 5px;
         }
-      }
-      .fa-stack {
-        line-height: 1.8em;
-        height: 1.8em;
-      }
+
+        .pvp {
+        padding: 0 5px;
+
+            &:not(.active) {
+
+                .player-1, .player-2 {
+                color: $primary-color;
+                }
+
+            }
+
+            .fa-stack {
+            line-height: 1.8em;
+            height: 1.8em;
+            }
+
+        }
+
+        .player-1 {
+        left: -7px;
+        }
+
+        .player-2 {
+        left: 7px;
+        }
+
     }
-    .player-1 {
-      left: -7px;
-    }
-    .player-2 {
-      left: 7px;
-    }
-  }
+
 }
 
 .search {
-  width: 100%;
-  height: 30px;
-  float: right;
-  input {
+width: 100%;
+height: 30px;
+float: right;
+
+    input {
     height: 27px;
     margin: 20px 20px 0 0;
     width: 100%;
-  }
-  .fa-search {
+    }
+
+    .fa-search {
     position: relative;
     float: right;
     top: -23px;
     right: 5px;
     font-size: 18px;
-  }
+    }
+
 }

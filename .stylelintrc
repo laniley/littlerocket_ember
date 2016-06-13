@@ -1,6 +1,6 @@
 "rules": {
   "font-family-name-quotes": "double-unless-keyword",
-  "max-nesting-depth": 4,
+  "max-nesting-depth": 7,
   "string-quotes": "double",
   "declaration-bang-space-before": "always",
   "declaration-bang-space-after": "never",
