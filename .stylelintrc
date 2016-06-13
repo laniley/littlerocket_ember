@@ -1,0 +1,12 @@
+"rules": {
+  "font-family-name-quotes": "double-unless-keyword",
+  "max-nesting-depth": 4,
+  "string-quotes": "double",
+  "declaration-bang-space-before": "always",
+  "declaration-bang-space-after": "never",
+  "declaration-colon-space-after": "always",
+  "declaration-block-semicolon-newline-after": "always",
+  "declaration-block-trailing-semicolon": "always",
+  "block-closing-brace-newline-after": "always",
+  "selector-attribute-brackets-space-inside": "never"
+}
