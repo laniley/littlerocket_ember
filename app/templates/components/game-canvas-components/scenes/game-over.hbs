@@ -1,56 +1,68 @@
-{{#if congratzMessageExists }}
-  <div class="congratz">CONGRATULATIONS</div>
-  <div class="congratz_menu flex center-xy">
-    {{#if isNewHighscore}}
-      <div class="item {{if (if-equals currentCongratzSection 'highscore') 'active' }}" {{action 'openSection' 'highscore'}}>
-        {{fa-icon "trophy" fixedWidth=true}}
-      </div>
-    {{/if}}
-    {{#if reachedNewStage}}
-      <div class="item {{if (if-equals currentCongratzSection 'new_stage') 'active' }}" {{action 'openSection' 'new_stage'}}>
-        {{fa-icon "signal" fixedWidth=true}}
-      </div>
+<div class="menu-content">
+  {{#if congratzMessageExists }}
+    <div class="congratz">CONGRATULATIONS</div>
+    <div class="congratz_menu flex center-xy">
+      {{#if isNewHighscore}}
+        <div class="item {{if (if-equals currentCongratzSection 'highscore') 'active' }}" {{action 'openSection' 'highscore'}}>
+          {{fa-icon "trophy" fixedWidth=true}}
+        </div>
+      {{/if}}
+      {{#if reachedNewStage}}
+        <div class="item {{if (if-equals currentCongratzSection 'new_stage') 'active' }}" {{action 'openSection' 'new_stage'}}>
+          {{fa-icon "signal" fixedWidth=true}}
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
+
+  <div class="text-box">
+    {{#if (if-equals currentCongratzSection 'highscore')}}
+      You beat your own highscore!
+    {{else}}
+      {{#if (if-equals currentCongratzSection 'new_stage')}}
+        You reached a new stage!
+      {{else}}
+        {{#if gameState.reached_end}}
+          You reached the finish:
+        {{else}}
+          Your score:
+        {{/if}}
+      {{/if}}
     {{/if}}
   </div>
-{{/if}}
 
-{{#if (if-equals currentCongratzSection 'highscore')}}
-  <div class="congratz_sub">You beat your own highscore!</div>
-{{else}}
   {{#if (if-equals currentCongratzSection 'new_stage')}}
-    <div class="congratz_sub">You reached a new stage!</div>
+    <div class="score">{{newStage}}</div>
   {{else}}
-    {{#if gameState.reached_end}}
-      <div class="congratz_sub">You reached the finish:</div>
+    <div class="score">{{newScore}}</div>
+  {{/if}}
+
+  {{#if (if-equals currentCongratzSection 'highscore')}}
+    {{#unless highscoreHasBeenPosted}}
+      <div class="fb-button post" {{action 'postScoreToFB'}}>{{fa-icon "facebook-square"}} post new score</div>
     {{else}}
-      <div class="congratz_sub">Your score:</div>
+      <div class="fb-button post disabled">{{fa-icon "check"}} new score posted</div>
+    {{/unless}}
+  {{else}}
+    {{#if (if-equals currentCongratzSection 'new_stage')}}
+      {{#unless newStageHasBeenPosted}}
+        <div class="fb-button post" {{action 'postNewStageToFB'}}>{{fa-icon "facebook-square"}} post new stage</div>
+      {{else}}
+        <div class="fb-button post disabled">{{fa-icon "check"}} new stage posted</div>
+      {{/unless}}
     {{/if}}
   {{/if}}
-{{/if}}
-
-{{#if (if-equals currentCongratzSection 'new_stage')}}
-  <div class="score">{{newStage}}</div>
-{{else}}
-  <div class="score">{{newScore}}</div>
-{{/if}}
-
-{{#if (if-equals currentCongratzSection 'highscore')}}
-  {{#unless highscoreHasBeenPosted}}
-    <div class="fb-button post" {{action 'postScoreToFB'}}>{{fa-icon "facebook-square"}} post new score</div>
+  {{#if outOfEnergy}}
+    <div class="text-box">You're out of energy !!!</div>
+    <div class="row">
+      <div id="button-1" class="button buy-energy active" {{action "openBuyEnergyDialog"}}>{{fa-icon 'bolt'}} GET MORE ENERGY {{fa-icon 'bolt'}}</div>
+    </div>
   {{else}}
-    <div class="fb-button post disabled">{{fa-icon "check"}} new score posted</div>
-  {{/unless}}
-{{else}}
-  {{#if (if-equals currentCongratzSection 'new_stage')}}
-    {{#unless newStageHasBeenPosted}}
-      <div class="fb-button post" {{action 'postNewStageToFB'}}>{{fa-icon "facebook-square"}} post new stage</div>
-    {{else}}
-      <div class="fb-button post disabled">{{fa-icon "check"}} new stage posted</div>
-    {{/unless}}
+    <div class="row">
+      <div id="button-1" class="button active try-again" {{action "tryAgain"}}>RETRY STAGE ( costs 1 {{fa-icon 'bolt'}} )</div>
+    </div>
   {{/if}}
-{{/if}}
-
-<div class="buttons">
-  <div class="button active try-again" {{action "tryAgain"}}>RETRY STAGE ( costs 1 {{fa-icon 'bolt'}} )</div>
-  <div class="button select-stage" {{action "selectStage"}} {{action "activate" on=""}}>SELECT STAGE</div>
+    <div class="row">
+      <div id="button-2" class="button select-stage" {{action "selectStage"}} {{action "activate" on=""}}>SELECT STAGE</div>
+    </div>
 </div>

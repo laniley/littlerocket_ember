@@ -1,8 +1,21 @@
 .menu {
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 15px;
+  left: 0;
+  bottom: 0;
+  width: 500px;
+  margin: 0px auto;
   z-index: 1;
-  left: 50%;
-  margin-left: -40%;
+}
+.text-box {
+  margin-bottom: 15px;
+  line-height: 2rem;
+}
+.menu-content {
+  z-index: 2;
   width: 80%;
   padding: 15px;
   background-color: #576C73;
@@ -15,17 +28,16 @@
   font-family: Helvetica;
   text-align: center;
   .button {
-    width: 60%;
     margin-bottom: 10px;
     font-weight: bold;
     background: lightblue;
     border: 3px solid;
     padding: 1rem;
     &.active {
-      width: 66%;
       color: $primary-text-color;
       border: 3px solid $primary-text-color;
       background: white;
+      padding: 1rem 2rem;
     }
   }
 }

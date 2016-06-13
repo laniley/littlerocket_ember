@@ -5,11 +5,10 @@ import FacebookLoginMixin from './../../../mixins/facebook-login';
 import ENV from './../../../config/environment';
 
 export default Ember.Component.extend(FacebookLoginMixin, {
-  classNames: ['menu','gameOver'],
-  classNameBindings: ['congratzMessageExists:big:small'],
+  classNames: ['menu', 'gameOver'],
+  // classNameBindings: ['congratzMessageExists:big:small'],
   gameState: null,
   me: null,
-  selectedAction: 'tryAgainAction',
   tryAgainAction: null,
   selectStageAction: null,
   isNewHighscore: false,
@@ -20,6 +19,26 @@ export default Ember.Component.extend(FacebookLoginMixin, {
   newScore: 0,
   oldScore: 0,
   currentCongratzSection: '',
+
+  selectedButton: 'button-1',
+
+  outOfEnergy: Ember.computed('me.user.energy.current', function() {
+    return this.get('me.user.energy.current') <= 0;
+  }),
+
+  selectedAction: Ember.computed('outOfEnergy', 'selectedButton', function() {
+    if(Ember.$("#button-1").hasClass("active")) {
+      if(this.get('outOfEnergy')) {
+        return 'openBuyEnergyDialogAction';
+      }
+      else {
+        return 'tryAgainAction';
+      }
+    }
+    else {
+      return 'selectStageAction';
+    }
+  }),
 
   reachedNewStage: Ember.computed('gameState.new_stage_reached', function() {
     return this.get('gameState').get('new_stage_reached');
@@ -215,15 +234,15 @@ export default Ember.Component.extend(FacebookLoginMixin, {
     // console.log('key pressed', e);
     // arrow up
     if(e.keyCode === 38) {
-      Ember.$(".try-again").addClass("active");
-      Ember.$(".select-stage").removeClass("active");
-      e.data._self.set('selectedAction', 'tryAgainAction');
+      Ember.$("#button-1").addClass("active");
+      Ember.$("#button-2").removeClass("active");
+      e.data._self.set('selectedButton', 'button-1');
     }
     // arrow down
     else if(e.keyCode === 40) {
-      Ember.$(".try-again").removeClass("active");
-      Ember.$(".select-stage").addClass("active");
-      e.data._self.set('selectedAction', 'selectStageAction');
+      Ember.$("#button-1").removeClass("active");
+      Ember.$("#button-2").addClass("active");
+      e.data._self.set('selectedButton', 'button-2');
     }
     // enter
     else if(e.keyCode === 13) {
@@ -268,6 +287,10 @@ export default Ember.Component.extend(FacebookLoginMixin, {
     },
     openSection(section) {
       this.set('currentCongratzSection', section);
+    },
+    openBuyEnergyDialog() {
+      console.log('test');
+      this.get('openBuyEnergyDialogAction')();
     }
   }
 

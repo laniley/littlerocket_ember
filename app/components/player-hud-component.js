@@ -12,19 +12,6 @@ export default Ember.Component.extend(ObjectMixin, {
   currentCockpitSection: 'workbench',
   currentLabSection: 'cannon',
 
-  showBuyEnergyDialog: false,
-  showBuyEnergyDialogObserver: Ember.observer('me.user.energy.current', 'me.user.energy.max', function() {
-    this.get('me').get('user').then(user => {
-      if(!Ember.isEmpty(user)) {
-        user.get('energy').then(energy => {
-          if(!Ember.isEmpty(energy) && energy.get('current') === energy.get('max')) {
-            this.set('showBuyEnergyDialog', false);
-          }
-        });
-      }
-    });
-  }),
-
   time_till_next_recharge: Ember.computed('me.user.energy.last_recharge', 'clock.time', function() {
     return DS.PromiseObject.create({
       promise: this.get('me').get('user').then(user => {
@@ -87,9 +74,6 @@ export default Ember.Component.extend(ObjectMixin, {
   }),
 
   actions: {
-    openBuyEnergyDialog() {
-      this.set('showBuyEnergyDialog', true);
-    },
     buyLab() {
       this.get('me').get('user').then(user => {
         user.get('lab').then(component => {

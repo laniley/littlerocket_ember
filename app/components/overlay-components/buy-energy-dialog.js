@@ -3,9 +3,6 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   actions: {
-    close() {
-      this.get('targetObject').set('showBuyEnergyDialog', false);
-    },
     buy() {
       this.get('me').get('user').then(user => {
         if(!Ember.isEmpty(user)) {

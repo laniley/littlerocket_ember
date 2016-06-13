@@ -1,10 +1,14 @@
 .gameOver {
-  &.small {
-    top: 200px;
-  }
-  &.big {
-    top: 50px;
-  }
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 15px;
+  left: 0;
+  bottom: 0;
+  width: 500px;
+  margin: 0px auto;
+  z-index: 1;
   .congratz {
     font-family: Kraash;
     font-size: 20px;
@@ -29,9 +33,6 @@
     .fa-stack {
       font-size: 27px;
     }
-  }
-  .congratz_sub {
-    margin-bottom: 15px;
   }
   .score {
     font-size: 35px;

@@ -42,6 +42,9 @@
           {{/if}}
         </div>
       {{/if}}
+      {{#if (eq overlay_section 'buy-energy-dialog')}}
+        {{overlay-components/buy-energy-dialog me=me}}
+      {{/if}}
     </div>
   </div>
 {{/if}}

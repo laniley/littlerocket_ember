@@ -3,11 +3,30 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['menu','main-menu'],
 
-  selectedAction: 'startStageAction',
   startStageAction: null,
   selectStageAction: null,
 
   gameState: null,
+
+  selectedButton: 'button-1',
+
+  outOfEnergy: Ember.computed('me.user.energy.current', function() {
+    return this.get('me.user.energy.current') <= 0;
+  }),
+
+  selectedAction: Ember.computed('outOfEnergy', 'selectedButton', function() {
+    if(Ember.$("#button-1").hasClass("active")) {
+      if(this.get('outOfEnergy')) {
+        return 'openBuyEnergyDialogAction';
+      }
+      else {
+        return 'startStageAction';
+      }
+    }
+    else {
+
+    }
+  }),
 
   init() {
     this._super();
@@ -24,15 +43,15 @@ export default Ember.Component.extend({
     // console.log('key pressed', e);
     // arrow up
     if(e.keyCode === 38) {
-      Ember.$(".start-stage").addClass("active");
-      Ember.$(".select-stage").removeClass("active");
-      e.data._self.set('selectedAction', 'startStageAction');
+      Ember.$("#button-1").addClass("active");
+      Ember.$("#button-2").removeClass("active");
+      e.data._self.set('selectedButton', 'button-1');
     }
     // arrow down
     else if(e.keyCode === 40) {
-      Ember.$(".start-stage").removeClass("active");
-      Ember.$(".select-stage").addClass("active");
-      e.data._self.set('selectedAction', 'selectStageAction');
+      Ember.$("#button-1").removeClass("active");
+      Ember.$("#button-2").addClass("active");
+      e.data._self.set('selectedButton', 'button-2');
     }
     // enter
     else if(e.keyCode === 13) {
@@ -51,5 +70,8 @@ export default Ember.Component.extend({
     selectStage() {
       this.get('selectStageAction')();
     },
+    openBuyEnergyDialog() {
+      this.get('router').transitionTo('intern',  {queryParams: {overlay_section: 'buy-energy-dialog'}});
+    }
   }
 });

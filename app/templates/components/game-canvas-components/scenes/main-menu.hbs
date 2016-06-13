@@ -1,4 +1,15 @@
-<div class="buttons">
-  <div class="button active start-stage" {{action "startStage"}}>START ( costs 1 {{fa-icon 'bolt'}} )</div>
-  <div class="button select-stage" {{action "selectStage"}} {{action "activate" on=""}}>SELECT STAGE</div>
+<div class="menu-content">
+  {{#if outOfEnergy}}
+    <div class="text-box">You're out of energy !!!</div>
+    <div class="row">
+      <div id="button-1" class="button buy-energy active" {{action "openBuyEnergyDialog"}}>{{fa-icon 'bolt'}} GET MORE ENERGY {{fa-icon 'bolt'}}</div>
+    </div>
+  {{else}}
+    <div class="row">
+      <div id="button-1" class="button active start-stage" {{action "startStage"}}>START ( costs 1 {{fa-icon 'bolt'}} )</div>
+    </div>
+  {{/if}}
+  <div class="row">
+    <div id="button-2" class="button select-stage" {{action "selectStage"}} {{action "activate" on=""}}>SELECT STAGE</div>
+  </div>
 </div>

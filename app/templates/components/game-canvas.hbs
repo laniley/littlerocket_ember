@@ -15,16 +15,20 @@
 
 {{#if (if-equals currentScene 'mainMenu') }}
   {{game-canvas-components/scenes/main-menu
+      me=me
       gameState=gameState
       startStageAction=(action "startStage")
-      selectStageAction=(action "selectStage")}}
+      selectStageAction=(action "selectStage")
+      openBuyEnergyDialogAction=(action "openBuyEnergyDialog")}}
 {{/if}}
 
 {{#if (if-equals currentScene 'gameOver') }}
   {{game-canvas-components/scenes/game-over
+      me=me
       newScore=newScore
       tryAgainAction=(action "startStage")
-      selectStageAction=(action "selectStage")}}
+      selectStageAction=(action "selectStage")
+      openBuyEnergyDialogAction=(action "openBuyEnergyDialog")}}
 {{/if}}
 
 {{#if showHud}}

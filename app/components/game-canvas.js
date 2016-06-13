@@ -976,6 +976,9 @@ export default Ember.Component.extend(
     },
     selectStage() {
       this.selectStage();
+    },
+    openBuyEnergyDialog() {
+      this.get('router').transitionTo('intern',  {queryParams: {overlay_section: 'buy-energy-dialog'}});
     }
   }
 
