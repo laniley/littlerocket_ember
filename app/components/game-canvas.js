@@ -781,7 +781,7 @@ export default Ember.Component.extend(
       Q.stage().insert(this.get('asteroidMaker'));
     }
 
-    this.get('asteroidMaker').p.launchRandomFactor = 0.4 - (width / 10000);
+    this.get('asteroidMaker').p.launchRandomFactor = 0.3 - (width / 10000);
 
     if(level >= 2) {
 
@@ -790,7 +790,7 @@ export default Ember.Component.extend(
         Q.stage().insert(this.get('ufoMaker'));
       }
 
-      this.get('asteroidMaker').p.launchRandomFactor = 0.5 - (width / 10000);
+      this.get('asteroidMaker').p.launchRandomFactor = 0.3 - (width / 10000);
       this.get('ufoMaker').p.isActive = 1;
       this.get('ufoMaker').p.launchRandomFactor = 1 - (width / 10000);
     }
