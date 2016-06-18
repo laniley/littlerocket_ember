@@ -7,13 +7,7 @@
 
 			<div class="row">
 
-				<div class="columns hud-container cockpit">
-					{{player-hud-component
-						me=model
-						currentSection=player_hud_section
-						currentCockpitSection=cockpit_section
-						currentLabSection=lab_section}}
-				</div>
+				{{player-hud-component-loading}}
 
 				<div class="columns game">
 					<div id="game-canvas-container" style="width: 420px; height='600'; margin: 0px auto; position: relative;">
@@ -28,14 +22,7 @@
 					</div>
 				</div>
 
-				<div class="columns hud-container leaderboard">
-					{{social-component
-						me=model
-						currentSection=social_section
-						currentChallengesSection=challenges_section
-						leaderboardFilterBy=leaderboard_filterBy
-						leaderboardSortBy=leaderboard_sortBy}}
-				</div>
+				{{social-component-loading}}
 
 			</div>
 
