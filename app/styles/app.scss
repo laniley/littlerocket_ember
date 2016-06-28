@@ -35,7 +35,7 @@
 
 
 .fa-stack {
-color: $darkblue;
+    color: $darkblue;
 }
 
 .active {
@@ -45,22 +45,22 @@ color: $darkblue;
 }
 
 .little_rocket {
-font-family: Agency_FB;
-font-style: italic;
-font-weight: bold;
-font-size: 1.5rem;
-padding: 9px;
+    font-family: Agency_FB;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding: 9px;
 }
 
 .scrollable-list {
-  height: 495px;
-  width: 100%;
-  overflow: auto;
-  font-size: 18px;
+    height: 495px;
+    width: 100%;
+    overflow: auto;
+    font-size: 18px;
 }
 
 #game {
-  width: 100%;
+    width: 100%;
 }
 
 body {
@@ -374,16 +374,4 @@ body {
   &.clouds_right {
   	right: 0;
   }
-}
-
-  // iframe
-#footer_banner {
-  position: relative;
-  left: 50%;
-  margin-left: -376px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  width: 752px;
-  height: 110px;
-  border: none;
 }

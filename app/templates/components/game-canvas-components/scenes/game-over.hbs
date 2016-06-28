@@ -38,18 +38,22 @@
   {{/if}}
 
   {{#if (if-equals currentCongratzSection 'highscore')}}
-    {{#unless highscoreHasBeenPosted}}
-      <div class="fb-button post" {{action 'postScoreToFB'}}>{{fa-icon "facebook-square"}} post new score</div>
-    {{else}}
-      <div class="fb-button post disabled">{{fa-icon "check"}} new score posted</div>
-    {{/unless}}
+    <div class="row">
+      {{#unless highscoreHasBeenPosted}}
+        <div class="fb-button post" {{action 'postScoreToFB'}}>{{fa-icon "facebook-square"}} post new score</div>
+      {{else}}
+        <div class="fb-button post disabled">{{fa-icon "check"}} new score posted</div>
+      {{/unless}}
+    </div>
   {{else}}
     {{#if (if-equals currentCongratzSection 'new_stage')}}
-      {{#unless newStageHasBeenPosted}}
-        <div class="fb-button post" {{action 'postNewStageToFB'}}>{{fa-icon "facebook-square"}} post new stage</div>
-      {{else}}
-        <div class="fb-button post disabled">{{fa-icon "check"}} new stage posted</div>
-      {{/unless}}
+      <div class="row">
+        {{#unless newStageHasBeenPosted}}
+          <div class="fb-button post" {{action 'postNewStageToFB'}}>{{fa-icon "facebook-square"}} post new stage</div>
+        {{else}}
+          <div class="fb-button post disabled">{{fa-icon "check"}} new stage posted</div>
+        {{/unless}}
+      </div>
     {{/if}}
   {{/if}}
   {{#if outOfEnergy}}
@@ -62,7 +66,8 @@
       <div id="button-1" class="button active try-again" {{action "tryAgain"}}>RETRY STAGE ( costs 1 {{fa-icon 'bolt'}} )</div>
     </div>
   {{/if}}
-    <div class="row">
-      <div id="button-2" class="button select-stage" {{action "selectStage"}} {{action "activate" on=""}}>SELECT STAGE</div>
-    </div>
+  <div class="row">
+    <div id="button-2" class="button select-stage" {{action "selectStage"}} {{action "activate" on=""}}>SELECT STAGE</div>
+  </div>
+  {{ad-banner id='menu_banner'}}
 </div>

@@ -1,63 +1,77 @@
 .overlay_bg {
-  position: absolute;
-  background: #000;
-  opacity: 0.9;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
+position: absolute;
+background: #000;
+opacity: 0.9;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+z-index: 2;
 }
+
 .overlay {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 3;
-  .content {
-    background: $lightblue;
-    padding: 20px;
-    .close {
-      float: right;
-      cursor: pointer;
-      color: $darkblue;
-      &:hover {
-        color: $primary-text-color;
-      }
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: $lightblue;
+        padding: 20px;
+        min-width: 728px;
+
+        .close {
+            align-self: flex-end;
+            cursor: pointer;
+            color: $darkblue;
+
+            &:hover {
+                color: $primary-text-color;
+            }
+        }
+
+        h1 {
+            font-family: Agency_FB;
+        }
+
+        .messages {
+            height: 500px;
+            background-color: white;
+            border: 1px solid $primary-text-color;
+
+            .empty {
+                display: block;
+                text-align: center;
+                margin-top: 50px;
+            }
+
+            .index {
+                min-width: 30px;
+                text-align: right;
+                margin-right: 5px;
+            }
+
+            .img_container {
+                margin-right: 5px;
+                min-width: 60px;
+            }
+
+            .topic {
+                flex-grow: 2;
+            }
+
+            .button {
+                padding: 0.5rem;
+                width: 90px;
+            }
+        }
     }
-    h1 {
-      font-family: Agency_FB;
-    }
-    .messages {
-      width: 500px;
-      height: 500px;
-      background-color: white;
-      border: 1px solid $primary-text-color;
-      .empty {
-        display: block;
-        text-align: center;
-        margin-top: 50px;
-      }
-      .index {
-        min-width: 30px;
-        text-align: right;
-        margin-right: 5px;
-      }
-      .img_container {
-        margin-right: 5px;
-        min-width: 60px;
-      }
-      .topic {
-        flex-grow: 2;
-      }
-      .button {
-        padding: 0.5rem;
-        width: 90px;
-      }
-    }
-  }
 }
