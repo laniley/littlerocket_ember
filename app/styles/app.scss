@@ -35,21 +35,21 @@
 
 
 .fa-stack {
-  color: $darkblue;
+color: $darkblue;
 }
 
 .active {
-  .fa-stack {
+    .fa-stack {
     color: white;
-  }
+    }
 }
 
 .little_rocket {
-  font-family: Agency_FB;
-  font-style: italic;
-  font-weight: bold;
-  font-size: 1.5rem;
-  padding: 9px;
+font-family: Agency_FB;
+font-style: italic;
+font-weight: bold;
+font-size: 1.5rem;
+padding: 9px;
 }
 
 .scrollable-list {
