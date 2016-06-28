@@ -30,7 +30,7 @@
 .column-center {
   @media (max-width: $bp-xs-max)
   {
-    $columns:12
+    $columns: 12;
   }
 
   @media (min-width: $bp-md-min) and (max-width: $bp-md-max)

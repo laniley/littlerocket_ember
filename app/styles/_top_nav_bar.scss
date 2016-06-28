@@ -96,15 +96,15 @@ $topbar-media-query: "#{$screen} and (min-width:#{lower-bound($topbar-breakpoint
   }
 	.name {
 		h1 {
-			font-family: Agency_FB;
-			font-style: italic;
-      font-size: 2rem;
-			img {
-				width:35px;
-				margin-top: -7px;
-				margin-right: 7px;
-			}
-		}
+		font-family: Agency_FB;
+		font-style: italic;
+        font-size: 2rem;
+    		img {
+    		width: 35px;
+    		margin-top: -7px;
+    		margin-right: 7px;
+    		}
+    	}
 	}
   .invite-button, .like-button, .donate-button, .user-img {
     @media screen and (max-width: $topbar-breakpoint) {
@@ -144,7 +144,7 @@ $topbar-media-query: "#{$screen} and (min-width:#{lower-bound($topbar-breakpoint
       width: 35px;
       border-radius: 5px;
       margin-top: 5px;
-  		float:right;
+  		float: right;
     }
   }
   .account {
@@ -528,7 +528,7 @@ $topbar-media-query: "#{$screen} and (min-width:#{lower-bound($topbar-breakpoint
               color: $topbar-link-color;
               // line-height: ($topbar-height / 2);
               display: block;
-              &:hover { background:none; }
+              &:hover { background: none; }
             }
           }
 

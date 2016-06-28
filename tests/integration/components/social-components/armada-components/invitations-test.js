@@ -19,9 +19,9 @@ test('it renders - no invitations', function(assert) {
 });
 
 test('it renders - with invitations', function(assert) {
-  var armada = server.create('armada');
+  var armada = window.server.create('armada');
   var invitations = {};
-  var content = server.createList('fb-app-request', 3, { type: 'armada-invitation', armada_id: armada.id });
+  var content = window.server.createList('fb-app-request', 3, { type: 'armada-invitation', armada_id: armada.id });
   invitations.content = content;
   this.set('invitations', invitations);
   this.render(hbs`{{social-components/armada-components/invitations invitations=invitations}}`);
