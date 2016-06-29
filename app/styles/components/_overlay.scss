@@ -27,12 +27,15 @@ z-index: 2;
         background: $lightblue;
         padding: 20px;
         min-width: 728px;
+        max-height: 90%;
 
         .close {
             align-self: flex-end;
             cursor: pointer;
-            color: $darkblue;
+        }
 
+        .close, .close a {
+            color: $darkblue;
             &:hover {
                 color: $primary-text-color;
             }
@@ -42,8 +45,9 @@ z-index: 2;
             font-family: Agency_FB;
         }
 
-        .messages {
+        .body {
             height: 500px;
+            width: 100%;
             background-color: white;
             border: 1px solid $primary-text-color;
 
@@ -72,6 +76,11 @@ z-index: 2;
                 padding: 0.5rem;
                 width: 90px;
             }
+        }
+
+        .text-box {
+            font-size: 2rem;
+            padding: 20px;
         }
     }
 }

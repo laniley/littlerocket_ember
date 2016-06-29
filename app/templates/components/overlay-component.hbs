@@ -5,7 +5,7 @@
       <div class="close" {{action 'close'}}>{{fa-icon 'close'}}</div>
       {{#if (eq overlay_section 'messages')}}
         <h1>Messages</h1>
-        <div class="messages scrollable-list">
+        <div class="body scrollable-list">
           {{#if (gt me.user.messages_amount 0)}}
             {{#each messages.content as |message index|}}
               {{#if (eq message.type 'energy-reception')}}

@@ -1,0 +1,48 @@
+<div class="overlay_bg"></div>
+<div class="overlay">
+  <div class="content">
+    <div class="close">
+      {{#link-to "intern"}}
+        {{fa-icon 'close'}}
+      {{/link-to}}
+    </div>
+    <h1>Welcome to <span class="game-title">{{fa-icon "rocket"}} little rocket</span></h1>
+    <div class="text-box align-center">
+      <p>
+        Hi {{model.user.first_name}}, <br />
+        You always wanted to fly your own spaceship? Well today is your lucky day, little rocketeer!
+      </p>
+      <p>Just fly as far as you can! But be careful, don't get hit by the asteroids!</p>
+      <p>Use the arrow keys to control your rocket.</p>
+    </div>
+    <div class="row">
+		  <div class="control-infos show-for-large-up">
+		      <div class="flex direction-column">
+		        <div class="flex-item center control-info-button">
+		          {{#tooltip-component tooltip="shoot"}}
+		            {{fa-icon "caret-up" size="lg"}}
+		          {{/tooltip-component}}
+		        </div>
+		        <div class="flex-item center flex direction-row">
+		          <div class="control-info-button left">
+		            {{#tooltip-component tooltip="move left"}}
+		              {{fa-icon "caret-left" size="lg"}}
+		            {{/tooltip-component}}
+		          </div>
+		          <div class="control-info-button down">
+		            {{#tooltip-component tooltip="slow down"}}
+		              {{fa-icon "caret-down" size="lg"}}
+		            {{/tooltip-component}}
+		          </div>
+		          <div class="control-info-button right">
+		            {{#tooltip-component tooltip="move right"}}
+		              {{fa-icon "caret-right" size="lg"}}
+		            {{/tooltip-component}}
+		          </div>
+		        </div>
+		      </div>
+		  </div>
+		</div>
+    {{ad-banner id='overlay_banner'}}
+  </div>
+</div>

@@ -4,6 +4,8 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
+  scope: 'id,email,first_name,last_name,picture.width(120).height(120),gender,friends,invitable_friends',
+
   model: function() {
     var me = this.store.peekRecord('me', 1);
 
@@ -21,9 +23,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
   getUserDataFromFB(callback) {
     console.log('Welcome!  Fetching your information.... ');
-    var self = this;
     var store = this.get('store');
-  	FB.api('/me', { fields: 'id,email,first_name,last_name,picture.width(120).height(120),gender,friends,invitable_friends' }, function(response) {
+  	FB.api('/me', { fields: this.get('scope') }, response => {
   		if( !response.error ) {
         console.log('Successful login for: ' + response.first_name + " " + response.last_name, response);
         var me = store.peekRecord('me', 1);
@@ -40,14 +41,15 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
             user.set('img_url', response.picture.data.url);
             user.set('gender', response.gender);
             user.save().then(user => {
-              self.loadRocket(user);
-              self.loadLab(user);
+              this.loadRocket(user);
+              this.loadLab(user);
+              this.transitionTo('intern.welcome');
             });
           }
           else {
             user = users.get('firstObject');
-            self.loadRocket(user);
-            self.loadLab(user);
+            this.loadRocket(user);
+            this.loadLab(user);
             me.set('user', user);
             user.set('fb_id', response.id);
             user.set('fb_id', response.id);
@@ -57,7 +59,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
             user.set('img_url', response.picture.data.url);
             user.set('gender', response.gender);
           }
-          self.loadFriends(me, response);
+          this.loadFriends(me, response);
         });
   		}
   		else {
