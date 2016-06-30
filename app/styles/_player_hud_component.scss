@@ -1,6 +1,4 @@
 .hud-container {
-background-color: $primary-color;
-border: 1px solid $primary-text-color;
 
     .content {
     border-bottom: 2px solid #8AA8B2;
@@ -17,6 +15,8 @@ border: 1px solid $primary-text-color;
     text-align: center;
     font-size: 2.5rem;
     color: white;
+    background-color: $primary-color;
+    border: 1px solid $primary-text-color;
 
         .fa-stack {
         color: white;
