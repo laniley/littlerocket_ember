@@ -1,20 +1,22 @@
 .login-container {
-  position: relative;
-  width: 420px;
-  height: 600px;
-  margin: 0px auto;
-  background-color: #ADD8E6;
-  border: $border-thick;
-  height: 600px;
-  margin-top: 15px;
-  .login-content {
+position: relative;
+width: 420px;
+height: 600px;
+margin: 0px auto;
+background-color: #ADD8E6;
+border: $border-thick;
+height: 600px;
+margin-top: 15px;
+
+    .login-content {
     position: absolute;
     top: 27%;
     left: 50%;
     margin-left: -136px;
-    .loader {
-      text-align: center;
-      margin: 75px;
+
+        .loader {
+        text-align: center;
+        margin: 75px;
+        }
     }
-  }
 }

@@ -1,62 +1,65 @@
 .gameOver {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 15px;
-    left: 0;
-    min-width: 100%;
-    margin: 0px auto;
-    z-index: 1;
+position: absolute;
+display: flex;
+justify-content: center;
+align-items: center;
+top: 15px;
+left: 0;
+min-width: 100%;
+margin: 0px auto;
+z-index: 1;
 
     .congratz {
-        font-family: Kraash;
-        font-size: 20px;
-        margin: 35px 0;
+    font-family: Kraash;
+    font-size: 20px;
+    margin: 35px 0;
     }
 
     .congratz_menu {
-        font-size: 45px;
+    font-size: 45px;
 
         .item {
-            margin: 0 5px;
-            color: $darkblue;
+        margin: 0 5px;
+        color: $darkblue;
+
             &:hover {
-                cursor: pointer;
-                color: lighten($darkblue, 10%);
+            cursor: pointer;
+            color: lighten($darkblue, 10%);
             }
+
             &.active {
-                color: white;
+            color: white;
+
                 &:hover {
-                    cursor: default;
+                cursor: default;
                 }
             }
         }
 
         .fa-stack {
-          font-size: 27px;
+        font-size: 27px;
         }
     }
 
     .score {
-        display: inline-block;
-        padding: 0px 50px;
-        min-width: 150px;
-        font-size: 35px;
-        margin-bottom: 20px;
-        background: lightblue;
-        color: #576C73;
+    display: inline-block;
+    padding: 0px 50px;
+    min-width: 150px;
+    font-size: 35px;
+    margin-bottom: 20px;
+    background: lightblue;
+    color: #576C73;
     }
 
     .fb-button {
-        font-size: 1.2rem;
-        padding: 10px;
-        border: 1px solid #2C2B54;
-        text-align: center;
+    font-size: 1.2rem;
+    padding: 10px;
+    border: 1px solid #2C2B54;
+    text-align: center;
 
         &.post {
-            display: inline-block;
-            margin: 25px 0;
+        display: inline-block;
+        margin: 25px 0;
         }
     }
 }

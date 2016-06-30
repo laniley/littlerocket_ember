@@ -1,5 +1,6 @@
 .upgrade-content {
-  .list-item {
+
+    .list-item {
     display: flex;
     justify-content: space-between;
     background-color: white;
@@ -7,82 +8,96 @@
     padding: 0;
     margin-top: 10px;
     margin-bottom: 10px;
-    .block-button {
-      height: 63px;
-      border-top: none;
-      border-left: none;
-      border-bottom: none;
-    }
-    .component-level-upgrades {
-      flex-grow: 3;
-      padding: 0 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      .info {
-        display: inline-block;
-        font-size: 18px;
-        margin-right: 10px;
-      }
-      .model-upgrades {
-        display: inline-block;
-        margin-right: 10px;
-        &.unlocked {
-          .level-upgrade {
-            &.locked {
-              cursor: pointer;
-            }
-          }
-        }
-        &:not(.unlocked) {
-          .level-upgrade {
-            background-color: $darkgrey;
-            color: white;
-          }
-        }
-        &.capacity-upgrades {
-          @media (min-width: 1110px) and (max-width: 1441px)
-          {
-            margin-left: 10px;
-            margin-right: 20px;
-          }
-          @media (min-width: 1621px)
-          {
-            margin-left: 10px;
-            margin-right: 20px;
-          }
-        }
-        button {
-          padding: 8px;
-          margin-left: 5px;
-        }
-      }
-    }
-    .button-column {
-      margin-right: 10px;
-    }
-  }
 
-  .upgrade-button {
+        .block-button {
+        height: 63px;
+        border-top: none;
+        border-left: none;
+        border-bottom: none;
+        }
+
+        .component-level-upgrades {
+        flex-grow: 3;
+        padding: 0 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+            .info {
+            display: inline-block;
+            font-size: 18px;
+            margin-right: 10px;
+            }
+
+            .model-upgrades {
+            display: inline-block;
+            margin-right: 10px;
+
+                &.unlocked {
+
+                    .level-upgrade {
+
+                        &.locked {
+                        cursor: pointer;
+                        }
+                    }
+                }
+
+                &:not(.unlocked) {
+
+                    .level-upgrade {
+                    background-color: $darkgrey;
+                    color: white;
+                    }
+                }
+
+                &.capacity-upgrades {
+
+                    @media (min-width: 1110px) and (max-width: 1441px) {
+                    margin-left: 10px;
+                    margin-right: 20px;
+                    }
+
+                    @media (min-width: 1621px) {
+                    margin-left: 10px;
+                    margin-right: 20px;
+                    }
+                }
+
+                button {
+                padding: 8px;
+                margin-left: 5px;
+                }
+            }
+        }
+
+        .button-column {
+        margin-right: 10px;
+        }
+    }
+
+    .upgrade-button {
     padding: 10px 15px;
     width: 100px;
-    @media (max-width: 1110px)
-    {
-      width: 75px !important;
-      padding: 10px 0 !important;
+
+        @media (max-width: 1110px) {
+        width: 75px !important;
+        padding: 10px 0 !important;
+        }
+
+        @media (min-width: 1442px) and (max-width: 1620px) {
+        width: 75px !important;
+        padding: 10px 0 !important;
+        }
     }
-    @media (min-width: 1442px) and (max-width: 1620px)
-    {
-      width: 75px !important;
-      padding: 10px 0 !important;
-    }
-  }
-  .description-flex-container {
+
+    .description-flex-container {
     display: flex;
     align-items: center;
-  }
-  .description {
+    }
+
+    .description {
     line-height: 20px;
     padding: 0 5px;
-  }
+    }
 }

@@ -1,118 +1,119 @@
 @import "templates/flex";
 
 .row {
-  max-width: 100%;
+ max-width: 100%;
 }
 
 .cockpit {
-  @media (max-width: $bp-xs-max)
-  {
+
+    @media (max-width: $bp-xs-max) {
     display: none;
-  }
+    }
 
-  @media (min-width: $bp-md-min) and (max-width: $bp-md-max)
-  {
-    @include grid-column(
-      // Control the number of columns
-      $columns:6
-    );
-  }
+    @media (min-width: $bp-md-min) and (max-width: $bp-md-max) {
 
-  @media (min-width: $bp-lg-min)
-  {
-    @include grid-column(
-      // Control the number of columns
-      $columns:4
-    );
-  }
+        @include grid-column(
+        // Control the number of columns
+        $columns:6
+        );
+    }
+
+    @media (min-width: $bp-lg-min) {
+
+        @include grid-column(
+        // Control the number of columns
+        $columns:4
+        );
+    }
 }
 
 .column-center {
-  @media (max-width: $bp-xs-max)
-  {
+
+    @media (max-width: $bp-xs-max) {
     $columns: 12;
-  }
+    }
 
-  @media (min-width: $bp-md-min) and (max-width: $bp-md-max)
-  {
-    @include grid-column(
-      // Control the number of columns
-      $columns:6
-    );
-  }
+    @media (min-width: $bp-md-min) and (max-width: $bp-md-max) {
 
-  @media (min-width: $bp-lg-min)
-  {
-    @include grid-column(
-      // Control the number of columns
-      $columns:4
-    );
-  }
+        @include grid-column(
+        // Control the number of columns
+        $columns:6
+        );
+    }
+
+    @media (min-width: $bp-lg-min) {
+
+        @include grid-column(
+        // Control the number of columns
+        $columns:4
+        );
+    }
 }
 
 .game {
-  @media (max-width: $bp-xs-max)
-  {
-    @include grid-column(
-      // Control the number of columns
-      $columns:12
-    );
-  }
 
-  @media (min-width: $bp-md-min) and (max-width: $bp-md-max)
-  {
-    @include grid-column(
-      // Control the number of columns
-      $columns:6
-    );
-  }
+    @media (max-width: $bp-xs-max) {
 
-  @media (min-width: $bp-lg-min)
-  {
-    @include grid-column(
-      // Control the number of columns
-      $columns:4
-    );
-  }
+        @include grid-column(
+        // Control the number of columns
+        $columns:12
+        );
+    }
+
+    @media (min-width: $bp-md-min) and (max-width: $bp-md-max) {
+
+        @include grid-column(
+        // Control the number of columns
+        $columns:6
+        );
+    }
+
+    @media (min-width: $bp-lg-min) {
+
+        @include grid-column(
+        // Control the number of columns
+        $columns:4
+        );
+    }
 }
 
 .leaderboard {
-  @media (max-width: $bp-xs-max)
-  {
+
+    @media (max-width: $bp-xs-max) {
     display: none;
-  }
+    }
 
-  @media (min-width: $bp-md-min) and (max-width: $bp-md-max)
-  {
-    @include grid-column(
-      // Control the number of columns
-      $columns:6,
-      // Specify how many columns to pull this element past
-			$pull:3
-    );
-  }
+    @media (min-width: $bp-md-min) and (max-width: $bp-md-max) {
 
-  @media (min-width: $bp-lg-min)
-  {
-    @include grid-column(
-      // Control the number of columns
-      $columns:4
-    );
-  }
+        @include grid-column(
+        // Control the number of columns
+        $columns:6,
+        // Specify how many columns to pull this element past
+        $pull:3
+        );
+    }
+
+    @media (min-width: $bp-lg-min) {
+
+        @include grid-column(
+        // Control the number of columns
+        $columns:4
+        );
+    }
 }
 
 .inline-block {
-  display: inline-block;
+display: inline-block;
 }
 
 .align-left {
-  text-align: left;
+text-align: left;
 }
 
 .align-right {
-  text-align: right;
+text-align: right;
 }
 
 .align-center {
-  text-align: center;
+text-align: center;
 }

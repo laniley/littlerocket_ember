@@ -26,10 +26,12 @@ $tooltip-font-color: $primary-text-color;
 // $tooltip-max-width: 300px;
 
 .has-tip {
-  color: $tooltip-font-color;
-  border-bottom: $has-tip-border-bottom;
-  &:hover {
+color: $tooltip-font-color;
+border-bottom: $has-tip-border-bottom;
+
+    &:hover {
     border-bottom: $has-tip-border-bottom;
     color: $primary-text-color;
-  }
+    }
+
 }

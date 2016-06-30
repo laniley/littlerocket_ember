@@ -1,26 +1,32 @@
 
 .flex {
-  display: flex;
-  &__right {
+display: flex;
+
+    &__right {
     margin-left: auto;
-  }
-  &.center {
+    }
+
+    &.center {
     justify-content: center;
-  }
-  &.center-y {
+    }
+
+    &.center-y {
     align-items: center;
-  }
-  &.center-xy {
+    }
+
+    &.center-xy {
     justify-content: center;
     align-items: center;
-  }
-  &.direction-column {
+    }
+
+    &.direction-column {
     flex-direction: column;
-  }
+    }
 }
 
 .flex-item {
-  &.center {
+
+    &.center {
     align-self: center;
-  }
+    }
 }

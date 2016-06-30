@@ -1,33 +1,38 @@
 .stage-selection {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  width: 420px;
-  margin: 0px auto;
-  .title {
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+height: 100%;
+width: 420px;
+margin: 0px auto;
+
+    .title {
     font-family: Agency_FB;
     font-weight: bold;
     text-align: center;
     margin-top: 20px;
     font-size: 3rem;
-  }
-  img {
+    }
+
+    img {
     position: absolute;
     top: 0;
-  }
-  .stage-selection-clouds {
+    }
+
+    .stage-selection-clouds {
     top: 75px;
     left: 80px;
     height: auto;
     width: 300px;
-  }
-  .stage {
+    }
+
+    .stage {
     position: absolute;
     width: 46px;
-  }
-  .stage-number {
+    }
+
+    .stage-number {
     position: absolute;
     font-weight: bold;
     width: 100%;
@@ -35,61 +40,75 @@
     line-height: 50px;
     text-align: center;
     cursor: pointer;
-  }
-  .stage-1 {
+    }
+
+    .stage-1 {
     top: 497px;
     left: 60px;
-  }
-  .stage-2 {
+    }
+
+    .stage-2 {
     top: 474px;
     left: 172px;
-  }
-  .stage-3 {
+    }
+
+    .stage-3 {
     top: 444px;
     left: 284px;
-  }
-  .stage-4 {
+    }
+
+    .stage-4 {
     top: 347px;
     left: 299px;
-  }
-  .stage-5 {
+    }
+
+    .stage-5 {
     top: 312px;
     left: 188px;
-  }
-  .stage-6 {
+    }
+
+    .stage-6 {
     top: 287px;
     left: 90px;
-  }
-  .stage-7 {
+    }
+
+    .stage-7 {
     top: 212px;
     left: 44px;
-  }
-  .stage-8 {
+    }
+
+    .stage-8 {
     top: 157px;
     left: 96px;
-  }
-  .stage-9 {
+    }
+
+    .stage-9 {
     top: 121px;
     left: 193px;
-  }
-  .game-mode-selection {
+    }
+
+    .game-mode-selection {
     position: absolute;
     bottom: 23px;
     width: 100%;
     text-align: center;
-    .info {
-      font-size: 20px;
-      margin: 0 10px;
+
+        .info {
+        font-size: 20px;
+        margin: 0 10px;
+        }
+
+        .button {
+        width: 30%;
+        padding: 7px;
+
+            &.first {
+            border-radius: 15px 0 0 15px;
+            }
+
+            &.last {
+            border-radius: 0 15px 15px 0px;
+            }
+        }
     }
-    .button {
-      width: 30%;
-      padding: 7px;
-      &.first{
-        border-radius: 15px 0 0 15px;
-      }
-      &.last {
-        border-radius: 0 15px 15px 0px;
-      }
-    }
-  }
 }
