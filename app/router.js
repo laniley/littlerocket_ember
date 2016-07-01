@@ -10,6 +10,7 @@ Router.map(function() {
   this.route('intern', function() {
     this.route('welcome');
     this.route('messages');
+    this.route('buy-energy');
   });
 });
 

@@ -2,11 +2,7 @@
 <div class="overlay">
   <div class="content">
     <div class="close" {{action 'close'}}>{{fa-icon 'close'}}</div>
-    {{#if (eq overlay_section 'buy-energy-dialog')}}
-      {{overlay-components/buy-energy-dialog me=me}}
-    {{else}}
-      {{yield}}
-    {{/if}}
+    {{yield}}
     {{ad-banner id='overlay_banner'}}
   </div>
 </div>

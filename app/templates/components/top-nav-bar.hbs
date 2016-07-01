@@ -12,7 +12,7 @@
 	    <ul class="right">
 				{{#if session.isAuthenticated}}
 					{{!-- messages --}}
-					{{#link-to 'intern' (query-params overlay_section="messages")}}
+					{{#link-to 'intern.messages'}}
 						<li class="item">
 							{{fa-icon 'envelope'}}
 							{{#if (gt me.user.messages_amount 0)}}

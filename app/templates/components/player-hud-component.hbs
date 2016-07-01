@@ -63,7 +63,7 @@
           <div class="recharge-info-item timer">
             {{fa-icon 'clock-o'}} {{minutes_till_next_recharge.content}}:{{seconds_till_next_recharge.content}}
           </div>
-          {{#link-to 'intern' (query-params overlay_section="buy-energy-dialog")}}
+          {{#link-to 'intern.buy-energy'}}
             <div class="recharge-info-item add-more">
               {{fa-icon 'plus'}}
             </div>

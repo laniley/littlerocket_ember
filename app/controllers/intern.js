@@ -5,7 +5,6 @@ export default Ember.Controller.extend({
     appController: Ember.inject.controller('application'),
 
     queryParams: [
-      'overlay_section',
       'player_hud_section',
         'cockpit_section',
         'lab_section',
@@ -16,7 +15,6 @@ export default Ember.Controller.extend({
         'armada_section',
         'armada_main_section'
     ],
-    overlay_section: 'none',
     player_hud_section: 'rocket',
       cockpit_section: 'workbench',
       lab_section: 'cannon',
@@ -25,9 +23,5 @@ export default Ember.Controller.extend({
       leaderboard_filterBy: 'all',
       leaderboard_sortBy: 'score',
       armada_section: 'main',
-      armada_main_section: 'home',
-
-  overlaySectionObserver: Ember.observer('overlay_section', function() {
-    this.get('appController').set('overlay_section', this.get('overlay_section'));
-  })
+      armada_main_section: 'home'
 });
