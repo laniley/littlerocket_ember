@@ -1,29 +1,6 @@
 import Ember from 'ember';
-import DS from 'ember-data';
 
 export default Ember.Component.extend({
-  fb_app_requests: Ember.computed('me.user.fb_app_requests_received.length', function() {
-    return DS.PromiseObject.create({
-      promise:  this.get('me').get('user').then(user => {
-        if(!Ember.isEmpty(user)) {
-          return user.get('fb_app_requests_received').then(fb_app_requests_received => {
-            return fb_app_requests_received;
-          });
-        }
-      })
-    });
-  }),
-  messages: Ember.computed('me.user.messages_received.length', function() {
-    return DS.PromiseObject.create({
-      promise:  this.get('me').get('user').then(user => {
-        if(!Ember.isEmpty(user)) {
-          return user.get('messages_received').then(messages_received => {
-            return messages_received;
-          });
-        }
-      })
-    });
-  }),
   actions: {
     close() {
       this.get('router').transitionTo('intern', { queryParams: { overlay_section: 'none' }});

@@ -9,6 +9,7 @@ Router.map(function() {
   this.route('login');
   this.route('intern', function() {
     this.route('welcome');
+    this.route('messages');
   });
 });
 

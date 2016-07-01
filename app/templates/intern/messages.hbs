@@ -1,0 +1,39 @@
+{{#overlay-component}}
+  <h1>Messages</h1>
+  <div class="body scrollable-list">
+    {{#if (gt model.user.messages_amount 0)}}
+      {{#each model.user.messages_received.content as |message index|}}
+        {{#if (eq message.type 'energy-reception')}}
+          <div class="list-item">
+            <div class="index">{{math index "+" 1}}.</div>
+            <div class="img_container">
+              <img src="http://graph.facebook.com/{{message.from_user.fb_id}}/picture" class="profile small" />
+            </div>
+            <div class="topic">{{message.from_user.name}} sends you 1 energy.</div>
+              {{#if model.user.energy.isFull}}
+                {{#tooltip-component tooltip='Your energy is full.' direction='left'}}
+                  <div class="button join disabled">Claim 1 {{fa-icon 'bolt'}}</div>
+                {{/tooltip-component}}
+              {{else}}
+                <div class="button join" {{action 'receiveEnergy' message}}>Claim 1 {{fa-icon 'bolt'}}</div>
+              {{/if}}
+          </div>
+        {{/if}}
+      {{/each}}
+      {{#each model.user.fb_app_requests_received.content as |message index|}}
+        {{#if (eq message.type 'energy-request')}}
+          <div class="list-item">
+            <div class="index">{{math index "+" 1}}.</div>
+            <div class="img_container">
+              <img src="http://graph.facebook.com/{{message.from_user.fb_id}}/picture" class="profile small" />
+            </div>
+            <div class="topic">{{message.from_user.name}} asks for 1 energy.</div>
+              <div class="button" {{action 'sendEnergy' message}}>Send 1 {{fa-icon 'bolt'}}</div>
+          </div>
+        {{/if}}
+      {{/each}}
+    {{else}}
+      <div class="list-item empty">No messages.</div>
+    {{/if}}
+  </div>
+{{/overlay-component}}
