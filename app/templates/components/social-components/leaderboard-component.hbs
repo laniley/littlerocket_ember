@@ -40,7 +40,7 @@
   {{/link-to}} --}}
 </h2>
 
-<div class="leaderboard_list scrollable_list">
+{{#scrollable-list class="leaderboard_list"}}
   {{#each sortedPlayers as |top_player index|}}
     <div class="list-item">
       <div class="img_container">
@@ -96,4 +96,4 @@
       </div>
     {{/if}}
   {{/each}}
-</div>
+{{/scrollable-list}}

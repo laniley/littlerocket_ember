@@ -46,6 +46,7 @@
     "ember-font-awesome": "2.0.0",
     "ember-inject-script": "0.0.2",
     "ember-load-initializers": "^0.5.1",
+    "ember-perfect-scrollbar": "0.0.2",
     "ember-resolver": "^2.0.3",
     "ember-simple-auth": "1.1.0",
     "ember-truth-helpers": "1.1.0",
