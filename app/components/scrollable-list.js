@@ -5,4 +5,6 @@ export default Ember.Component.extend(PerfectScrollbarMixin, {
 
   classNames: ['scrollable_list'],
 
+  classNameBindings: ['scrollbars:scrollable_list--with-scrollbars'],
+
 });
