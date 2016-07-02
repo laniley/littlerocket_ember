@@ -43,7 +43,7 @@ $className: ".lr-progress";
             position: absolute;
             left: 50%;
             top: 54%;
-            font-family: "Kraash";
+            font-family: Kraash;
             font-size: 10px;
             color: $progress-bar-color;
             -webkit-transform: translate(-50%, -50%);
@@ -62,7 +62,7 @@ $className: ".lr-progress";
         margin-left: 20px;
         display: flex;
         align-items: center;
-        font-family: "Kraash";
+        font-family: Kraash;
         font-size: 10px;
         justify-content: space-between;
 
