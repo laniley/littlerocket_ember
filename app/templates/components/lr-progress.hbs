@@ -1,0 +1,12 @@
+<div class="lr-progress__bar">
+  <div class="lr-progress__bar__progress {{if isCompleted 'lr-progress__bar__progress--completed'}}" style={{barWidth}}></div>
+  <div class="lr-progress__bar__text {{if inProgress 'lr-progress__bar__text--in-progress'}}">
+    {{reached}} / {{total}}
+  </div>
+</div>
+{{#if withAchievementPoints}}
+  <div class="lr-progress__points">
+    <img class="lr-progress__points__star" src="assets/images/star.png">
+    <span class="lr-progress__points__achievement-points">{{achievementPoints}}</span>
+  </div>
+{{/if}}

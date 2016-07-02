@@ -1,62 +1,78 @@
-.progress-bar-container {
-  display: flex;
-  margin-bottom: 5px;
-  .exp-meter {
-    flex-grow: 2;
-  }
-  .points {
-    width: 30px;
-    text-align: center;
-    border: 1px solid;
-    border-radius: 5px;
-    margin-left: 8px;
-    &:not(.in_progress) {
-      background-color: $primary-text-color;
-      border: 1px solid #537079;
-      background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, $primary-text-color), color-stop(1, lighten($primary-text-color, 20%)));
-      background-image: -webkit-linear-gradient(center bottom, $primary-text-color 37%, lighten($primary-text-color, 20%) 69%);
-      background-image: -moz-linear-gradient(center bottom, $primary-text-color 37%, lighten($primary-text-color, 20%) 69%);
-      background-image: -ms-linear-gradient(center bottom, $primary-text-color 37%, lighten($primary-text-color, 20%) 69%);
-      background-image: -o-linear-gradient(center bottom, $primary-text-color 37%, lighten($primary-text-color, 20%) 69%);
-      color: #fff;
-    }
-  }
-}
+$progress-bar-height: 24px;
+$progress-bar-bg: #ccc;
+$progress-bar-color: rgba(0, 0, 0, .3);
+$progress-bar-border-color: rgba(0, 0, 0, .3);
+$progress-bar-progress-border-color: rgba(0, 0, 0, .3);
+$progress-bar-radius: 5px;
 
-.exp-meter {
-  background-color: #eaeaea;
-  height: 18px;
-  top: 131px;
-  left: 100px;
-  right: 28px;
-  margin-top: 5px;
-  border-radius: 5px;
-  border: 1px solid #BDBDBD;
-  text-align: center;
-  line-height: 15px;
-  // margin-top: 4px;
-  .exp-meter-progress {
-    background-color: #2bc253;
-    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #2bc253), color-stop(1, #54f054));
-    background-image: -webkit-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
-    background-image: -moz-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
-    background-image: -ms-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
-    background-image: -o-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
-    &.in_progress {
-      background-color: #606762;
-      background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #606762), color-stop(1, #D0E0D0));
-      background-image: -moz-linear-gradient(center bottom, #606762 37%, #D0E0D0 69%);
-      background-image: -ms-linear-gradient(center bottom, #606762 37%, #D0E0D0 69%);
-      background-image: -o-linear-gradient(center bottom, #606762 37%, #D0E0D0 69%);
+$className: ".lr-progress";
+
+#{$className} {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+
+    &__bar {
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        position: relative;
+        overflow: hidden;
+        background: $progress-bar-bg;
+        height: $progress-bar-height;
+        flex-grow: 1;
+        border-radius: $progress-bar-radius;
+        box-shadow: inset 0 0 0 2px $progress-bar-border-color;
+
+        &__progress {
+            height: 100%;
+            border-radius: $progress-bar-radius;
+            background: linear-gradient(to bottom, #fff, #ccc);
+            box-shadow: inset 0 0 0 2px $progress-bar-progress-border-color;
+
+            &--completed {
+                background: linear-gradient(to bottom, #52f552, #25b94c);
+
+                + #{$className}__bar__text {
+                color: #fff;
+                }
+            }
+        }
+
+        &__text {
+            position: absolute;
+            left: 50%;
+            top: 54%;
+            font-family: "Kraash";
+            font-size: 10px;
+            color: $progress-bar-color;
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+
+            &--in-progress {
+            color: rgba(0, 0, 0, .6);
+            }
+        }
     }
-    border-radius: 5px;
-    height: 99%;
-  }
-  .exp-meter-text {
-    position: relative;
-    font-weight: bold;
-  }
-  .text {
-    top: -1rem;
-  }
+
+    &__points {
+        width: 58px;
+        text-align: center;
+        margin-left: 20px;
+        display: flex;
+        align-items: center;
+        font-family: "Kraash";
+        font-size: 10px;
+        justify-content: space-between;
+
+        &__star {
+            height: $progress-bar-height;
+            vertical-align: middle;
+        }
+
+        &__achievement-points {
+            margin-top: 3px;
+        }
+    }
 }
