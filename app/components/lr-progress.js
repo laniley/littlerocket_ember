@@ -4,6 +4,8 @@ export default Ember.Component.extend({
 
   classNames: ['lr-progress'],
 
+  classNameBindings: ['isCompleted:lr-progress--is-completed', 'success:lr-progress--success'],
+
   reached: 0,
 
   total: 100,
