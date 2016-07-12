@@ -1,16 +1,11 @@
 <div class="level-info-container first-row">
   <div class="img_container">
-    <img src={{me.user.img_url}} />
+    <img class="avatar" src={{me.user.img_url}} />
   </div>
 
   <div class="level-info-container__right">
-    <div class="exp_level">Exp. level
-      {{#lr-progress}}
-        template block text
-      {{/lr-progress}}
-      {{!-- {{me.user.exp_level}} --}}
-    </div>
-    {{!-- {{lr-progress reached=me.user.experience total=me.user.needed_exp_for_next_level success=true}} --}}
+    <div class="exp_level">Exp. level {{me.user.exp_level}}</div>
+    {{lr-progress reached=me.user.experience total=me.user.needed_exp_for_next_level success=true}}
   </div>
 </div>
 <div class="flex second-row">

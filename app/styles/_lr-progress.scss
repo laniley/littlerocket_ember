@@ -10,7 +10,7 @@ $className: ".lr-progress";
 #{$className} {
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 
     &__bar {
         display: flex;
@@ -69,34 +69,30 @@ $className: ".lr-progress";
     }
 
     &__points {
-        width: 65px;
-        text-align: center;
+        width: 60px;
+        position: relative;
         margin-left: 15px;
+        height: $progress-bar-height;
+        border-radius: 100px;
         display: flex;
         align-items: center;
+        justify-content: center;
         font-family: Kraash;
-        font-size: 10px;
-        justify-content: space-between;
+        font-size: 7px;
+        color: rgba(0, 0, 0, .5);
 
-        &__icon {
-            height: $progress-bar-height;
-            vertical-align: middle;
-            margin-left: 10px;
-            font-size: 24px;
-            width: 24px;
-            line-height: 1;
+        #{$className}--is-completed & {
+            color: #fff;
+            background: #f8b606;
+            border: 2px solid rgba(0, 0, 0, .25);
+            font-size: 8px;
 
-            > i:last-child {
-                font-size: 0.7em;
-                line-height: 1.5;
-            //  font-family: FontAwesome !important;
+            &:before {
+                content: "\f067";
+                margin-right: 5px;
+                font-size: 12px;
+                font-family: FontAwesome;
             }
-        }
-
-        &__achievement-points {
-            margin-top: 3px;
-            text-align: right;
-            flex-grow: 1;
         }
     }
 }
