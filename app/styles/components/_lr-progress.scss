@@ -73,7 +73,7 @@ $className: ".lr-progress";
     &__points {
         width: 40px;
         position: relative;
-        margin-left: 15px;
+
         height: $progress-bar-height;
         border-radius: $progress-bar-radius;
         display: flex;
@@ -84,7 +84,15 @@ $className: ".lr-progress";
         color: rgba(0, 0, 0, .5);
         border: 2px dashed rgba(0, 0, 0, .25);
 
-        #{$className}--is-completed & {
+        &__left {
+            margin-right: 15px;
+        }
+
+        &:not(&__left) {
+            margin-left: 15px;
+        }
+
+        &__left, #{$className}--is-completed & {
             color: #fff;
             background: #f8b606;
             border-style: solid;

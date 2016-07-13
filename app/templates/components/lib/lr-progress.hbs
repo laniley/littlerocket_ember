@@ -1,3 +1,6 @@
+{{#if withExpLevel}}
+  <div class="lr-progress__points lr-progress__points__left">{{expLevelCurrent}}</div>
+{{/if}}
 <div class="lr-progress__bar">
   <div class="lr-progress__bar__progress" style={{barWidth}}></div>
   <div class="lr-progress__bar__text {{if inProgress 'lr-progress__bar__text--in-progress'}}">
@@ -6,4 +9,7 @@
 </div>
 {{#if withAchievementPoints}}
   <div class="lr-progress__points">{{achievementPoints}}</div>
+{{/if}}
+{{#if withExpLevel}}
+  <div class="lr-progress__points">{{math expLevelCurrent "+" 1}}</div>
 {{/if}}

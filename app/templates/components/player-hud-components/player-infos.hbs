@@ -5,7 +5,9 @@
 
   <div class="level-info-container__right">
     <div class="exp_level">Exp. level {{me.user.exp_level}}</div>
-    {{lib/lr-progress reached=me.user.experience total=me.user.needed_exp_for_next_level success=true}}
+    <div class="exp_level_progress">
+      {{lib/lr-progress reached=reached.content total=total.content success=true withExpLevel=true expLevelCurrent=me.user.exp_level}}
+    </div>
   </div>
 </div>
 <div class="flex second-row">
