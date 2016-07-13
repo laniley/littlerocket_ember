@@ -32,6 +32,7 @@ $className: ".lr-progress";
             border-radius: $progress-bar-radius;
             background: linear-gradient(to bottom, #fff, #ccc);
             box-shadow: inset 0 0 0 2px $progress-bar-progress-border-color;
+            transition: all 1s ease-in-out;
 
             #{$className}--success &,
             #{$className}--is-completed & {
