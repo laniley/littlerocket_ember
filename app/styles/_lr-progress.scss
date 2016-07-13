@@ -10,7 +10,10 @@ $className: ".lr-progress";
 #{$className} {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+
+    &#{$className}--with-margin-bottom {
+        margin-bottom: 10px;
+    }
 
     &__bar {
         display: flex;
@@ -51,11 +54,11 @@ $className: ".lr-progress";
             transform: translate(-50%, -50%);
 
             &--in-progress {
-            color: rgba(0, 0, 0, .6);
+                color: rgba(0, 0, 0, .6);
             }
 
             #{$className}--is-completed & {
-            color: #fff;
+                color: #fff;
             }
 
         }
