@@ -8,16 +8,15 @@
   {{#scrollable-list}}
     <h3>Flights</h3>
     {{#each flight_achievements.content as |achievement|}}
-      {{lr-progress reached=achievement.reached_progress_points.content total=achievement.needed_progress_points withAchievementPoints=true achievementPoints=achievement.achievement_points}}
-      {{lr-progress reached=100 total=100 withAchievementPoints=true achievementPoints=100}}
+      {{lib/lr-progress reached=achievement.reached_progress_points.content total=achievement.needed_progress_points withAchievementPoints=true achievementPoints=achievement.achievement_points}}
     {{/each}}
     <h3>Stars (all time)</h3>
     {{#each stars_all_time_achievements.content as |achievement|}}
-      {{lr-progress reached=achievement.reached_progress_points.content total=achievement.needed_progress_points withAchievementPoints=true achievementPoints=achievement.achievement_points}}
+      {{lib/lr-progress reached=achievement.reached_progress_points.content total=achievement.needed_progress_points withAchievementPoints=true achievementPoints=achievement.achievement_points}}
     {{/each}}
     <h3>Friends</h3>
     {{#each friends_achievements.content as |achievement|}}
-      {{lr-progress reached=achievement.reached_progress_points.content total=achievement.needed_progress_points withAchievementPoints=true achievementPoints=achievement.achievement_points}}
+      {{lib/lr-progress reached=achievement.reached_progress_points.content total=achievement.needed_progress_points withAchievementPoints=true achievementPoints=achievement.achievement_points}}
     {{/each}}
   {{/scrollable-list}}
 
