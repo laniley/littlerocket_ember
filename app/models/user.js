@@ -52,6 +52,10 @@ export default DS.Model.extend({
     return Math.floor(Math.sqrt(this.get('experience')/500)) + 1;
   }),
 
+  needed_exp_for_current_level: Ember.computed('exp_level', function() {
+    return 500 * Math.pow(this.get('exp_level') - 1, 2);
+  }),
+
   needed_exp_for_next_level: Ember.computed('exp_level', function() {
     return 500 * Math.pow(this.get('exp_level'), 2);
   }),

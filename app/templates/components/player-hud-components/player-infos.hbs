@@ -1,14 +1,12 @@
 <div class="level-info-container first-row">
   <div class="img_container">
-    <img src={{me.user.img_url}} />
+    <img class="avatar" src={{me.user.img_url}} />
   </div>
-  <div class="flex">
+
+  <div class="level-info-container__right">
     <div class="exp_level">Exp. level {{me.user.exp_level}}</div>
-  </div>
-  <div class="exp-meter">
-    <div class="exp-meter-progress"></div>
-    <div class="exp-meter-text">
-      {{me.user.experience}} / {{me.user.needed_exp_for_next_level}}
+    <div class="exp_level_progress">
+      {{lib/lr-progress reached=reached.content total=total.content success=true withExpLevel=true expLevelCurrent=me.user.exp_level}}
     </div>
   </div>
 </div>

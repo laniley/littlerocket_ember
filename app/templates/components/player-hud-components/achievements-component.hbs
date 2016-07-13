@@ -6,17 +6,17 @@
   </h2>
 
   {{#scrollable-list}}
-    <h3>flights</h3>
+    <h3>Flights</h3>
     {{#each flight_achievements.content as |achievement|}}
-      {{progress-bar achievement=achievement}}
+      {{lib/lr-progress reached=achievement.reached_progress_points.content total=achievement.needed_progress_points withAchievementPoints=true achievementPoints=achievement.achievement_points}}
     {{/each}}
-    <h3>stars (all time)</h3>
+    <h3>Stars (all time)</h3>
     {{#each stars_all_time_achievements.content as |achievement|}}
-      {{progress-bar achievement=achievement}}
+      {{lib/lr-progress reached=achievement.reached_progress_points.content total=achievement.needed_progress_points withAchievementPoints=true achievementPoints=achievement.achievement_points}}
     {{/each}}
-    <h3>friends</h3>
+    <h3>Friends</h3>
     {{#each friends_achievements.content as |achievement|}}
-      {{progress-bar achievement=achievement}}
+      {{lib/lr-progress reached=achievement.reached_progress_points.content total=achievement.needed_progress_points withAchievementPoints=true achievementPoints=achievement.achievement_points}}
     {{/each}}
   {{/scrollable-list}}
 
