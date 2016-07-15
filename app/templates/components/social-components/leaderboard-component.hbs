@@ -43,9 +43,7 @@
 {{#scrollable-list class="leaderboard_list"}}
   {{#each sortedPlayers as |top_player index|}}
     <div class="list-item">
-      <div class="img_container">
-        <img src="http://graph.facebook.com/{{top_player.fb_id}}/picture" class="profile avatar small" />
-      </div>
+      {{lr-avatar imgUrl=top_player.avatar addonContent="344"}}
       <div class="center_column">
         {{#if (eq sortBy 'score')}}
           {{top_player.rank_by_score}}.
