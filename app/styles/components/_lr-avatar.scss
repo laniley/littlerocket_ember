@@ -1,7 +1,7 @@
 
 $lr-avatar-border-radius: 15%;
 $lr-avatar-addon-border-radius: 5px;
-$lr-avatar-addon-bg: #4080ff;
+$lr-avatar-addon-bg: $darkblue;
 $lr-avatar-addon-color: #fff;
 $lr-avatar-addon-height: 20px;
 $lr-avatar-addon-font-size: 7px;
@@ -36,14 +36,19 @@ $className: ".lr-avatar";
 		z-index: 1;
 		bottom: -3px;
 		left: -3px;
-		background: $lr-avatar-addon-bg;
-		color: $lr-avatar-addon-color;
-		height: $lr-avatar-addon-height;
-		line-height: $lr-avatar-addon-height;
 		font-size: $lr-avatar-addon-font-size;
 		font-family: Kraash;
-		padding: $lr-avatar-addon-padding;
-		border-radius: $lr-avatar-addon-border-radius;
-		border: $lr-avatar-addon-border;
+
+		&__rank {
+			display: flex;
+			align-items: center;
+			background: $lr-avatar-addon-bg;
+			color: $lr-avatar-addon-color;
+			height: $lr-avatar-addon-height;
+			line-height: $lr-avatar-addon-height;
+			padding: $lr-avatar-addon-padding;
+			border-radius: $lr-avatar-addon-border-radius;
+			border: $lr-avatar-addon-border;
+		}
 	}
 }

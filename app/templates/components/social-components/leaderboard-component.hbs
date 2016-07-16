@@ -44,7 +44,11 @@
   {{#each sortedPlayers as |top_player index|}}
     <div class="list-item">
       <div class="img_container">
-        {{lr-avatar imgUrl=top_player.avatar addonContent=(concat (math index '+' 1) '.')}}
+        {{#lib/lr-avatar imgUrl=top_player.avatar}}
+          <div class="lr-avatar__addon__rank">
+            {{concat (math index '+' 1) '.'}}
+          </div>
+        {{/lib/lr-avatar}}
       </div>
       <div class="center_column">
         {{#if (eq sortBy 'score')}}

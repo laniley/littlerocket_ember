@@ -1,10 +1,10 @@
 <div class="level-info-container first-row">
   <div class="img_container">
-    {{lr-avatar imgUrl=me.user.img_url}}
+    {{lib/lr-avatar imgUrl=me.user.img_url}}
   </div>
 
   <div class="level-info-container__right">
-    <div class="exp_level">Exp. level {{me.user.exp_level}}</div>
+    <div class="exp_level">Experience</div>
     <div class="exp_level_progress">
       {{lib/lr-progress reached=reached.content total=total.content success=true withExpLevel=true expLevelCurrent=me.user.exp_level}}
     </div>
