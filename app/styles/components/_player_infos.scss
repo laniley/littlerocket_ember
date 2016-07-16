@@ -1,9 +1,12 @@
+$avatar-size: 58px;
+
 .player-infos {
   .img_container {
     height: 100%;
     margin-right: 20px;
-    img {
-      height: 100%;
+    width: $avatar-size;
+    .lr-avatar {
+        height: $avatar-size;
     }
   }
   .level-info-container {
