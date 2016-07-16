@@ -1,3 +1,5 @@
 <img class="lr-avatar__image" src="{{imgUrl}}" alt="">
-
+{{#if addonContent}}
+  <div class="lr-avatar__addon">{{addonContent}}</div>
+{{/if}}
 {{yield}}

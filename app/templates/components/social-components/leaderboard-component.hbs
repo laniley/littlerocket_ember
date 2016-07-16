@@ -43,7 +43,9 @@
 {{#scrollable-list class="leaderboard_list"}}
   {{#each sortedPlayers as |top_player index|}}
     <div class="list-item">
-      {{lr-avatar imgUrl=top_player.avatar addonContent="344"}}
+      <div class="img_container">
+        {{lr-avatar imgUrl=top_player.avatar addonContent=(concat (math index '+' 1) '.')}}
+      </div>
       <div class="center_column">
         {{#if (eq sortBy 'score')}}
           {{top_player.rank_by_score}}.

@@ -1,5 +1,12 @@
 
 $lr-avatar-border-radius: 15%;
+$lr-avatar-addon-border-radius: 5px;
+$lr-avatar-addon-bg: #4080ff;
+$lr-avatar-addon-color: #fff;
+$lr-avatar-addon-height: 20px;
+$lr-avatar-addon-font-size: 7px;
+$lr-avatar-addon-padding: 0 5px;
+$lr-avatar-addon-border: 2px solid rgba(0, 0, 0, 0.25);
 
 $className: ".lr-avatar";
 
@@ -14,11 +21,29 @@ $className: ".lr-avatar";
 		top: 0;
 		right: 0;
 		bottom: 0;
-		border: 1px solid rgba(0, 0, 0, .3);
+		border: 2px solid rgba(0, 0, 0, .3);
 		border-radius: $lr-avatar-border-radius;
 	}
 
 	&__image {
 		border-radius: $lr-avatar-border-radius;
+		max-width: 100%;
+		max-height: 100%;
+	}
+
+	&__addon {
+		position: absolute;
+		z-index: 1;
+		bottom: -3px;
+		left: -3px;
+		background: $lr-avatar-addon-bg;
+		color: $lr-avatar-addon-color;
+		height: $lr-avatar-addon-height;
+		line-height: $lr-avatar-addon-height;
+		font-size: $lr-avatar-addon-font-size;
+		font-family: Kraash;
+		padding: $lr-avatar-addon-padding;
+		border-radius: $lr-avatar-addon-border-radius;
+		border: $lr-avatar-addon-border;
 	}
 }
