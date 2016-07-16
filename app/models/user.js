@@ -73,7 +73,7 @@ export default DS.Model.extend({
     });
   }),
 
-  avatar: Ember.computed('fb_id', function () {
+  img_url: Ember.computed('fb_id', function () {
     return `http://graph.facebook.com/${this.get('fb_id')}/picture`;
   }),
 });

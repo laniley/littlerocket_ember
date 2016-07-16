@@ -7,7 +7,7 @@
   {{#each me.user.armada.users as |user index|}}
     <div class="list-item flex center-y">
       <div class="img_container">
-        {{#lib/lr-avatar imgUrl=top_player.avatar}}
+        {{#lib/lr-avatar imgUrl=user.img_url}}
           <div class="lr-avatar__addon__rank">
             {{math index "+" 1}}.
           </div>

@@ -14,12 +14,6 @@
   .members-count {
     float: right;
   }
-  .list-item {
-    height: auto;
-    div {
-      padding: 0.5rem 0.7rem 0.5rem;
-    }
-  }
   .button {
     &.big {
       margin: 30px;
@@ -90,5 +84,10 @@
         }
       }
     }
+  }
+  .lr-avatar {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
   }
 }
