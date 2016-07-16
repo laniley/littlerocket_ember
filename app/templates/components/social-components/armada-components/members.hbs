@@ -6,9 +6,12 @@
 <div class="scrollable-list members-list align-center">
   {{#each me.user.armada.users as |user index|}}
     <div class="list-item flex center-y">
-      <div class="index">{{math index "+" 1}}</div>
       <div class="img_container">
-        <img src="http://graph.facebook.com/{{user.fb_id}}/picture" class="profile small" />
+        {{#lib/lr-avatar imgUrl=top_player.avatar}}
+          <div class="lr-avatar__addon__rank">
+            {{math index "+" 1}}.
+          </div>
+        {{/lib/lr-avatar}}
       </div>
       <div class="name">{{user.name}}</div>
       <div class="rank">
