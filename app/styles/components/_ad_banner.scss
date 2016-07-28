@@ -1,6 +1,14 @@
-.ad-banner {
-    position: absolute;
-    bottom: -125px;
-    left: 50%;
-    margin-left: -364px;
+#menu_banner {
+    &.ad-banner {
+        position: absolute;
+        bottom: -125px;
+        left: 50%;
+        margin-left: -364px;
+    }
+}
+
+#overlay_banner {
+    &.ad-banner {
+        margin-top: 20px;
+    }
 }
