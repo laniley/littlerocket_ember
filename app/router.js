@@ -11,6 +11,7 @@ Router.map(function() {
     this.route('welcome');
     this.route('messages');
     this.route('buy-energy');
+    this.route('quests');
   });
 });
 
