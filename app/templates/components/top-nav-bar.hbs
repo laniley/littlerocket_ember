@@ -11,8 +11,21 @@
 	    <!-- Right Nav Section -->
 	    <ul class="right">
 				{{#if session.isAuthenticated}}
+					{{!-- quests --}}
+					{{#link-to 'intern.quests' title='quests'}}
+						<li class="item">
+							{{!-- {{fa-icon 'warning'}} --}}
+							<span class="fa-stack">
+				        {{fa-icon "circle-o" stack=2}}
+				        {{fa-icon "exclamation " stack=1}}
+				      </span>
+							{{!-- {{#if (gt me.user.messages_amount 0)}}
+								<div class="counter">{{me.user.messages_amount}}</div>
+							{{/if}} --}}
+						</li>
+					{{/link-to}}
 					{{!-- messages --}}
-					{{#link-to 'intern.messages'}}
+					{{#link-to 'intern.messages' title='messages'}}
 						<li class="item">
 							{{fa-icon 'envelope'}}
 							{{#if (gt me.user.messages_amount 0)}}
