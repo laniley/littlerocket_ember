@@ -41,6 +41,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
             user.set('img_url', response.picture.data.url);
             user.set('gender', response.gender);
             user.save().then(user => {
+              this.loadQuests(user);
               this.loadRocket(user);
               this.loadLab(user);
               this.transitionTo('intern.welcome');
@@ -48,6 +49,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
           }
           else {
             user = users.get('firstObject');
+            this.loadQuests(user);
             this.loadRocket(user);
             this.loadLab(user);
             me.set('user', user);
@@ -69,6 +71,10 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
         callback();
       }
   	});
+  },
+
+  loadQuests(user) {
+    this.store.query('userQuest', { 'user_id': user.id });
   },
 
   loadFriends(me, response) {
