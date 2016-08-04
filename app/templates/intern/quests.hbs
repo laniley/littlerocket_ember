@@ -1,6 +1,12 @@
 {{#overlay-component}}
   <h1>Quests</h1>
   <div class="body scrollable-list">
-    
+    {{#each model.user.quests.content as |user_quest|}}
+      {{user_quest.quest.id}}
+      {{#each user_quest.quest.content.quest_fulfillment_conditions.content as |condition|}}
+        {{condition.fulfillment_condition_type.id}}
+        {{condition.fulfillment_amount}}
+      {{/each}}
+    {{/each}}
   </div>
 {{/overlay-component}}

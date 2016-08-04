@@ -24,9 +24,11 @@ export default DS.Model.extend({
   energy: DS.belongsTo('user-energy', { async: true }),
   lab: DS.belongsTo('lab', { async: true }),
   rocket: DS.belongsTo('rocket', { async: true }),
+  armada: DS.belongsTo('armada', { async: true }),
+
   challenges: DS.hasMany('challenge', { async: true, inverse: null }),
   achievements: DS.hasMany('achievement'),
-  armada: DS.belongsTo('armada', { async: true }),
+  quests: DS.hasMany('user-quest', { async: true }),
 
   messages_send: DS.hasMany('message', { async: true }),
   messages_received: DS.hasMany('message', { async: true }),
