@@ -76,8 +76,10 @@
           position: relative;
           top: 10px;
         }
-        .fa-star {
-          font-size: 0.8em;
+        i:last-of-type {
+            &:not(.fa-flask) {
+                font-size: 0.8em;
+            }
         }
         .fa-circle-o {
           font-size: 1.4em;
