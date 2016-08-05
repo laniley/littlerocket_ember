@@ -1,39 +1,42 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
+import { belongsTo, hasMany } from 'ember-data/relationships';
 
-export default DS.Model.extend({
-  fb_id: DS.attr('string'),
-  email: DS.attr('string'),
-  first_name: DS.attr('string'),
-  last_name: DS.attr('string'),
-  gender: DS.attr('string'),
+export default Model.extend({
+  fb_id: attr('string'),
+  email: attr('string'),
+  first_name: attr('string'),
+  last_name: attr('string'),
+  gender: attr('string'),
 
-  rank_by_score: DS.attr('number', { defaultValue: 0 }),
-  rank_by_won_challenges: DS.attr('number', { defaultValue: 0 }),
-  rank_by_achievement_points: DS.attr('number', { defaultValue: 0 }),
-  score: DS.attr('number', { defaultValue: 0 }),
-  stars: DS.attr('number', { defaultValue: 0 }),
-  stars_all_time: DS.attr('number', { defaultValue: 0 }),
-  challenges_won: DS.attr('number', { defaultValue: 0 }),
-  reached_level: DS.attr('number', { defaultValue: 1 }),
-  flights: DS.attr('number', { defaultValue: 0 }),
-  experience: DS.attr('number', { defaultValue: 0 }),
-  achievement_points: DS.attr('number', { defaultValue: 0 }),
-  armada_rank: DS.attr('string'),
+  rank_by_score: attr('number', { defaultValue: 0 }),
+  rank_by_won_challenges: attr('number', { defaultValue: 0 }),
+  rank_by_achievement_points: attr('number', { defaultValue: 0 }),
+  score: attr('number', { defaultValue: 0 }),
+  stars: attr('number', { defaultValue: 0 }),
+  stars_all_time: attr('number', { defaultValue: 0 }),
+  challenges_won: attr('number', { defaultValue: 0 }),
+  reached_level: attr('number', { defaultValue: 1 }),
+  flights: attr('number', { defaultValue: 0 }),
+  experience: attr('number', { defaultValue: 0 }),
+  achievement_points: attr('number', { defaultValue: 0 }),
+  armada_rank: attr('string'),
 
-  energy: DS.belongsTo('user-energy', { async: true }),
-  lab: DS.belongsTo('lab', { async: true }),
-  rocket: DS.belongsTo('rocket', { async: true }),
-  armada: DS.belongsTo('armada', { async: true }),
+  energy: belongsTo('user-energy'),
+  lab: belongsTo('lab'),
+  rocket: belongsTo('rocket'),
+  armada: belongsTo('armada'),
 
-  challenges: DS.hasMany('challenge', { async: true, inverse: null }),
-  achievements: DS.hasMany('achievement'),
-  quests: DS.hasMany('user-quest', { async: true }),
+  challenges: hasMany('challenge', { inverse: null }),
+  achievements: hasMany('achievement'),
+  quests: hasMany('user-quest'),
 
-  messages_send: DS.hasMany('message', { async: true }),
-  messages_received: DS.hasMany('message', { async: true }),
-  fb_app_requests_send: DS.hasMany('fb-app-request', { async: true }),
-  fb_app_requests_received: DS.hasMany('fb-app-request', { async: true }),
+  messages_send: hasMany('message'),
+  messages_received: hasMany('message'),
+  fb_app_requests_send: hasMany('fb-app-request'),
+  fb_app_requests_received: hasMany('fb-app-request'),
 
   messages_amount: Ember.computed('messages_received', 'fb_app_requests_received', function () {
     return this.get('messages_received.length') + this.get('fb_app_requests_received.length');
