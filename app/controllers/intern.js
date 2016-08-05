@@ -15,7 +15,7 @@ export default Ember.Controller.extend({
         'armada_section',
         'armada_main_section'
     ],
-    player_hud_section: 'rocket',
+    player_hud_section: 'quests',
       cockpit_section: 'workbench',
       lab_section: 'cannon',
     social_section: 'leaderboard',

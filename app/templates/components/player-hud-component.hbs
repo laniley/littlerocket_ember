@@ -1,14 +1,14 @@
 <div class="title">
-  {{#link-to 'intern' (query-params player_hud_section="rocket")}}
-    <div class={{if (if-equals currentSection 'rocket') 'active item' 'item' }}>
-      {{fa-icon "fa-rocket" fixedWidth=true}}
+
+  {{#link-to 'intern' (query-params player_hud_section="quests")}}
+    <div class={{if (if-equals currentSection 'quests') 'active item' 'item' }}>
+      <span class="fa-stack">
+        {{fa-icon "circle-o" stack=1}}
+        {{fa-icon "exclamation " stack=1}}
+      </span>
     </div>
   {{/link-to}}
-  {{#link-to 'intern' (query-params player_hud_section="statistics")}}
-    <div class={{if (if-equals currentSection 'statistics') 'active item' 'item' }}>
-      {{fa-icon "fa-bar-chart-o" fixedWidth=true}}
-    </div>
-  {{/link-to}}
+
   {{#link-to 'intern' (query-params player_hud_section="achievements")}}
     <div class={{if (if-equals currentSection 'achievements') 'active item' 'item' }}>
       <span class="fa-stack">
@@ -17,6 +17,13 @@
       </span>
     </div>
   {{/link-to}}
+
+  {{#link-to 'intern' (query-params player_hud_section="rocket")}}
+    <div class={{if (if-equals currentSection 'rocket') 'active item' 'item' }}>
+      {{fa-icon "fa-rocket" fixedWidth=true}}
+    </div>
+  {{/link-to}}
+
   {{#if me.user.lab}}
     {{#link-to 'intern' (query-params player_hud_section="lab")}}
       {{#if (eq me.user.lab.status 'unlocked') }}
@@ -48,6 +55,13 @@
         {{/if}}
       {{/if}}
     {{/link-to}}
+
+    {{#link-to 'intern' (query-params player_hud_section="statistics")}}
+      <div class={{if (if-equals currentSection 'statistics') 'active item' 'item' }}>
+        {{fa-icon "fa-bar-chart-o" fixedWidth=true}}
+      </div>
+    {{/link-to}}
+    
   {{else}}
     <div class="loader item">
       {{fa-icon "fa-circle-o-notch" spin=true}}
@@ -84,24 +98,24 @@
 
 
 <div class="content">
+  {{#if (if-equals currentSection 'quests') }}
+    {{player-hud-components/quest-component me=me}}
+  {{/if}}
+  {{#if (if-equals currentSection 'achievements') }}
+    {{player-hud-components/achievements-component me=me}}
+  {{/if}}
   {{#if (if-equals currentSection 'rocket') }}
     {{player-hud-components/cockpit-component
         me=me
         currentSection=currentCockpitSection
         currentLabSection=currentLabSection}}
-  {{else}}
-    {{#if (if-equals currentSection 'statistics') }}
-      {{player-hud-components/statistics-component
-          me=me}}
-    {{else}}
-      {{#if (if-equals currentSection 'achievements') }}
-        {{player-hud-components/achievements-component
-            me=me}}
-      {{else}}
-        {{player-hud-components/lab-component
-            me=me
-            currentLabSection=currentLabSection}}
-      {{/if}}
-    {{/if}}
+  {{/if}}
+  {{#if (if-equals currentSection 'lab') }}
+    {{player-hud-components/lab-component
+        me=me
+        currentLabSection=currentLabSection}}
+  {{/if}}
+  {{#if (if-equals currentSection 'statistics') }}
+    {{player-hud-components/statistics-component me=me}}
   {{/if}}
 </div>

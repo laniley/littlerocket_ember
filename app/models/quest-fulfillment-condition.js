@@ -4,6 +4,7 @@ import { belongsTo /*, hasMany*/ } from 'ember-data/relationships';
 
 export default Model.extend({
   quest: belongsTo('quest'),
-  fulfillment_condition_type: belongsTo('quest-fulfillment-condition-type'),
-  fulfillment_amount: attr('number', { defaultValue: 0 })
+  action: attr('string'),
+  amount: attr('number', { defaultValue: 0 }),
+  object: attr('string'),
 });
