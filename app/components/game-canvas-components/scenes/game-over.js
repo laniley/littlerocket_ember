@@ -76,6 +76,8 @@ export default Ember.Component.extend(FacebookLoginMixin, {
     this.set('me', this.store.peekRecord('me', 1));
 
     this.get('me').get('user').then(user => {
+
+      // score
       this.set('oldScore', user.get('score'));
       if(this.get('newScore') > user.get('score')) {
         user.set('score', this.get('newScore'));
@@ -86,6 +88,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
         this.set('isNewHighscore', false);
       }
 
+      // challenges
       if(this.get('me').get('activeChallenge')) {
         if(this.get('me').get('activeChallenge').get('iAm') === 'from_player') {
           this.get('me').get('activeChallenge').set('from_player_score', this.get('newScore'));
@@ -99,15 +102,34 @@ export default Ember.Component.extend(FacebookLoginMixin, {
         this.get('me').set('activeChallenge', null);
       }
 
+      // stars
       var new_stars_amount = user.get('stars') + (this.get('gameState').get('stars') * this.get('gameState').get('level'));
       var new_experience = user.get('experience') + this.get('newScore');
       user.set('stars', new_stars_amount);
       user.set('stars_all_time', user.get('stars_all_time') + (this.get('gameState').get('stars') * this.get('gameState').get('level')));
+
+      // experience
       user.set('experience', new_experience);
+
+      // flights
       user.set('flights', user.get('flights') + 1);
 
       user.save();
 
+      // quests
+      user.get('user_quests').then(userQuests => {
+        userQuests.forEach(currentUserQuest => {
+          currentUserQuest.get('quest').then(quest => {
+            quest.get('quest_fulfillment_conditions').then(conditions => {
+              conditions.forEach(condition => {
+                if(condition.get('action') === 'collect' && condition.get('object') === 'stars') {
+                  currentUserQuest.set('current_amount', currentUserQuest.get('current_amount') + new_stars_amount);
+                }
+              });
+            });
+          });
+        });
+      });
     });
   },
 

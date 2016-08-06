@@ -31,7 +31,7 @@ export default Model.extend({
 
   challenges: hasMany('challenge', { inverse: null }),
   achievements: hasMany('achievement'),
-  quests: hasMany('user-quest'),
+  user_quests: hasMany('user-quest'),
 
   messages_send: hasMany('message'),
   messages_received: hasMany('message'),
