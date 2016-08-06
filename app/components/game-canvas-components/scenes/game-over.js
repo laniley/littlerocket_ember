@@ -71,18 +71,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
     this.get('gameState').set('speed', 0);
     this.set('newStage', this.get('gameState').get('level'));
 
-    try {
-      new LSM_Slot({
-          adkey: '6df',
-          ad_size: '728x90',
-          slot: 'slot126743',
-          _render_div_id: 'footer_banner',
-          _preload: true
-      });
-    }
-    catch(e) {
-      console.log(e);
-    }
+    this.reloadAdBanner();
 
     this.set('me', this.store.peekRecord('me', 1));
 
@@ -291,6 +280,21 @@ export default Ember.Component.extend(FacebookLoginMixin, {
     openBuyEnergyDialog() {
       console.log('test');
       this.get('openBuyEnergyDialogAction')();
+    }
+  },
+
+  reloadAdBanner() {
+    try {
+      new LSM_Slot({
+          adkey: '6df',
+          ad_size: '728x90',
+          slot: 'slot126743',
+          _render_div_id: 'footer_banner',
+          _preload: true
+      });
+    }
+    catch(e) {
+      console.log(e);
     }
   }
 
