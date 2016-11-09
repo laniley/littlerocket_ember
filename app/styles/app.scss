@@ -22,6 +22,7 @@
 @import "game_canvas";
 @import "leaderboard";
 @import "lists";
+@import "top_nav_bar";
 
 @import "pietimer";
 
@@ -56,89 +57,6 @@
     width: 100%;
 }
 
-body {
-	margin: 0px;
-	color: $primary-text-color;
-	font-family: Calibri, sans-serif;
-
-	.withoutFriendsPermission {
-		display: none;
-	}
-
-	.withFriendsPermission {
-		display: none;
-		overflow: auto;
-	}
-
-	.logged_in {
-		display: none;
-	}
-
-	#loading {
-		position: absolute;
-		left: 25%;
-		top: 45%;
-		width: 50%;
-		height: 50px;
-		text-align: center;
-		z-index: 2;
-
-		#loading_container {
-			position: relative;
-			margin: 0 auto;
-			width: 100%;
-			height: 50px;
-			background: #A5C6D1;
-			-moz-border-radius: 25px;
-			-webkit-border-radius: 25px;
-			border-radius: 25px;
-			padding: 10px;
-			-webkit-box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
-			-moz-box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
-			box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
-
-			#loading_progress {
-				display: block;
-				height: 100%;
-				width: 0;
-				color: white;
-				-webkit-border-top-right-radius: 20px;
-				-webkit-border-bottom-right-radius: 20px;
-				-moz-border-radius-topright: 20px;
-				-moz-border-radius-bottomright: 20px;
-				border-top-right-radius: 20px;
-				border-bottom-right-radius: 20px;
-				-webkit-border-top-left-radius: 20px;
-				-webkit-border-bottom-left-radius: 20px;
-				-moz-border-radius-topleft: 20px;
-				-moz-border-radius-bottomleft: 20px;
-				border-top-left-radius: 20px;
-				border-bottom-left-radius: 20px;
-				background-color: #2bc253;
-				background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #2bc253), color-stop(1, #54f054));
-				background-image: -webkit-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
-				background-image: -moz-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
-				background-image: -ms-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
-				background-image: -o-linear-gradient(center bottom, #2bc253 37%, #54f054 69%);
-				-webkit-box-shadow: inset 0 2px 9px rgba(255, 255, 255, 0.3), inset 0 -2px 6px rgba(0, 0, 0, 0.4);
-				-moz-box-shadow: inset 0 2px 9px rgba(255, 255, 255, 0.3), inset 0 -2px 6px rgba(0, 0, 0, 0.4);
-				position: relative;
-				overflow: hidden;
-
-				span {
-			 		position: absolute;
-					left: 0;
-					height: 100%;
-					width: 100%;
-					top: 25%;
-					display: block;
-					font-family: sans-serif;
-				}
-			}
-		}
-	}
-}
-
 .list-item-column {
   .pietimer {
     top: -65px;
@@ -146,26 +64,6 @@ body {
   .button {
       width: 100px;
   }
-}
-
-#main {
-	position: absolute;
-
-	top: 45px;
-	bottom: 0;
-
-	width: 100%;
-
-	overflow-y: auto;
-
-	background: #ffffff;
-	background: -moz-linear-gradient(top,  #ffffff 0%, #c3dde5 70%, #add8e6 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(70%,#c3dde5), color-stop(100%,#add8e6));
-	background: -webkit-linear-gradient(top,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
-	background: -o-linear-gradient(top,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
-	background: -ms-linear-gradient(top,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
-	background: linear-gradient(to bottom,  #ffffff 0%,#c3dde5 70%,#add8e6 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#ffffff", endColorstr="#add8e6",GradientType=0 );
 }
 
 .prompt {
@@ -346,25 +244,5 @@ body {
     .info {
       color: white;
     }
-  }
-}
-
-.clouds {
-	position: absolute;
-	bottom: 20px;
-	width: 600px;
-	height: 113px;
-	margin: 10px;
-
-	@media only screen and (max-device-width:800px) {
-		display: none;
-	}
-
-  &.clouds_left {
-  	left: 0;
-  }
-
-  &.clouds_right {
-  	right: 0;
   }
 }
