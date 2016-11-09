@@ -5,9 +5,9 @@ export default Ember.Component.extend({
 
   session: Ember.inject.service('session'),
 
-  didRender: function() {
-    Ember.$(document).foundation();
-  },
+  // didRender: function() {
+  //   Ember.$(document).foundation();
+  // },
 
   actions: {
     login: function() {

@@ -7,11 +7,10 @@ module.exports = function(defaults) {
     'fingerprint': {
       'exclude': ['images']
     },
-    'sassOptions': {
-      includePaths: [
-        'bower_components/foundation/scss'
-      ]
-    }
+    // 'sassOptions': {
+    //   includePaths: [
+    //   ]
+    // }
   });
 
   // Use `app.import` to add additional libraries to the generated
@@ -28,10 +27,6 @@ module.exports = function(defaults) {
   // along with the exports of each module as its value.
   app.import('vendor/quintus/dist/quintus-all.js');
   app.import('vendor/jquery/jquery.pietimer.js');
-  app.import('bower_components/foundation/js/vendor/fastclick.js');
-  app.import('bower_components/foundation/js/vendor/modernizr.js');
-  app.import('bower_components/foundation/js/vendor/placeholder.js');
-  app.import('bower_components/foundation/js/foundation.min.js');
 
   return app.toTree();
 };

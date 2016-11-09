@@ -9,7 +9,6 @@ export default Ember.Component.extend({
   direction: 'bottom',
 
   didInsertElement: function() {
-    Ember.$('#' + this.get('elementId')).foundation();
     this.set('id', Ember.$('#' + this.get('elementId') + ' > .has-tip').attr('aria-describedby'));
     Ember.$('#' + this.get('id')).html(this.get('tooltip'));
   },
