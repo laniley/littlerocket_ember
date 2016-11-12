@@ -32,7 +32,7 @@ module.exports = function(environment) {
     }
   };
 
-  ENV.backend_namespace = 'api/v1';
+  ENV.backend_namespace = 'api';
 
   ENV['ember-simple-auth'] = {
     routeAfterAuthentication: 'intern',
