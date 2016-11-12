@@ -36,19 +36,21 @@
 			{{/link-to}}
 			{{!-- invite --}}
 			<div>
-				<div class="invite-button">
+				<div class=" item invite-button">
 					<div class="fb-button" {{action 'invite'}}>
 						{{fa-icon "facebook-square" size="lg"}} Invite friends
 					</div>
 				</div>
 			</div>
 			<!-- like -->
-			<div class="like-button">
+			<div class="item like-button">
 				{{lib/fb-like-button}}
 			</div>
 		  <!-- login / logout -->
       {{#top-nav-bar/dropdown}}
-        <img src={{me.user.img_url}} />
+        <div class="dropdown-title item --last">
+          <img src={{me.user.img_url}} />
+        </div>
   			<div class="dropdown-options">
           <div class="--option" {{action 'logout'}}>
   					{{fa-icon "sign-out"}} LOGOUT

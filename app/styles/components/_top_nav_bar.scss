@@ -61,7 +61,7 @@ $topbar-dropdown-option-color: $white;
 	    align-items: center;
 
 		img {
-			width: 35px;
+			width: $topbar-app-icon-size;
 			border-radius: 5px;
 		}
 	}
@@ -77,6 +77,9 @@ $topbar-dropdown-option-color: $white;
 			font-family: Agency_FB;
 			font-style: italic;
 	        font-size: 2rem;
+			@media (max-width: 500px) {
+				display: none;
+			}
 		}
 	}
 
@@ -87,12 +90,17 @@ $topbar-dropdown-option-color: $white;
 		height: $topbar-bg-height;
 		padding: 0 $topbar-bg-padding-sides;
 
-		@media (max-width: 650px) {
-			display: none;
+		.item {
+			padding: 0 20px;
+			&.--last {
+				padding: 0 0 0 20px;
+			}
 		}
 
 	    .invite-button, .like-button {
-	      margin: 0 15px;
+		  @media (max-width: 860px) {
+			  display: none;
+		  }
 	    }
 
 	    .invite-button {
@@ -122,6 +130,10 @@ $topbar-dropdown-option-color: $white;
 					height: 35px;
 				}
 			}
+		}
+
+		.dropdown-title {
+			height: $topbar-app-icon-size;
 		}
 
 		.dropdown-options {
