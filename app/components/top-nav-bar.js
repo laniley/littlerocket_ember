@@ -5,9 +5,10 @@ export default Ember.Component.extend({
 
   session: Ember.inject.service('session'),
 
-  // didRender: function() {
-  //   Ember.$(document).foundation();
-  // },
+  classNames: ['top-nav-bar'],
+
+  didRender: function() {
+  },
 
   actions: {
     login: function() {

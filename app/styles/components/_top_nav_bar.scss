@@ -1,0 +1,194 @@
+// App-Icon
+$topbar-app-icon-size: 35px;
+
+// Background
+$topbar-bg-color: $darkblue;
+$topbar-bg-color-hover: darken($topbar-bg-color, 10%);
+$topbar-bg-start: darken($topbar-bg-color, 5%);
+$topbar-bg: $topbar-bg-color;
+$topbar-bg-end: darken($topbar-bg-color, 10%);
+$topbar-bg-padding-top-bottom: 5px;
+$topbar-bg-padding-sides: 15px;
+$topbar-bg-height: $topbar-app-icon-size + ( 2 * $topbar-bg-padding-top-bottom);
+
+// Title
+$topbar-title-font-size:  1.6em;
+
+// Links
+$topbar-link-bg-hover: darken($topbar-bg-color, 10%);
+$topbar-link-color-hover: $white;
+
+// Dropdown
+$topbar-dropdown-option-bg: darken($topbar-bg-color, 20%);
+$topbar-dropdown-option-bg-hover: darken($topbar-bg-color, 25%);
+$topbar-dropdown-option-color: $white;
+
+.top-nav-bar {
+
+	position: absolute;
+	display: flex;
+	left: 0;
+	right: 0;
+
+	font-family: Label, sans-serif;
+
+	padding: $topbar-bg-padding-top-bottom $topbar-bg-padding-sides;
+
+	.top-nav-bar-bg {
+		position: absolute;
+		z-index: 2;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: $topbar-bg-height;
+		background: $topbar-bg;
+		background: -moz-linear-gradient(top,  $topbar-bg-start 0%, $topbar-bg 70%, $topbar-bg-end 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $topbar-bg-start), color-stop(70%,$topbar-bg), color-stop(100%, $topbar-bg-end));
+		background: -webkit-linear-gradient(top, $topbar-bg-start 0%,$topbar-bg 70%, $topbar-bg-end 100%);
+		background: -o-linear-gradient(top, $topbar-bg-start 0%,$topbar-bg 70%, $topbar-bg-end 100%);
+		background: -ms-linear-gradient(top, $topbar-bg-start 0%,$topbar-bg 70%, $topbar-bg-end 100%);
+		background: linear-gradient(to bottom, $topbar-bg-start 0%,$topbar-bg 70%, $topbar-bg-end 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="$topbar-bg-start", endColorstr=$topbar-bg-end,GradientType=0 );
+
+		-webkit-box-shadow: 0px 2px 10px #666;	/* webkit browser*/
+		-moz-box-shadow: 0px 2px 10px #666;	/* firefox */
+		box-shadow: 0px 2px 10px #666;
+	}
+
+	.title-area, .menu-area {
+		z-index: 3;
+		display: flex;
+	    align-items: center;
+
+		img {
+			width: 35px;
+			border-radius: 5px;
+		}
+	}
+
+	.title-area a {
+		display: flex;
+		align-items: center;
+		height: $topbar-app-icon-size;
+		img {
+			margin-right: 10px;
+		}
+		.app-name {
+			font-family: Agency_FB;
+			font-style: italic;
+	        font-size: 2rem;
+		}
+	}
+
+	.menu-area {
+		position: absolute;
+		top: 0;
+		right: 0;
+		height: $topbar-bg-height;
+		padding: 0 $topbar-bg-padding-sides;
+
+		@media (max-width: 650px) {
+			display: none;
+		}
+
+	    .invite-button, .like-button {
+	      margin: 0 15px;
+	    }
+
+	    .invite-button {
+	      .fb-button {
+	        font-size: 11px;
+	        padding: 5px;
+	      }
+	    }
+
+	    .loading {
+	      width: 45px;
+	      background-color: $darkblue;
+	      img {
+	        width: 100%;
+	        padding: 5px;
+	      }
+	    }
+
+		.dropdown {
+			display: flex;
+	    	align-items: center;
+			height: 100%;
+			cursor: pointer;
+
+			&.--open {
+				.dropdown-options {
+					height: 35px;
+				}
+			}
+		}
+
+		.dropdown-options {
+			z-index: 1;
+			-webkit-transition: height 0.2s ease-in;
+			transition: height 0.2s ease-in;
+			overflow: hidden;
+			height: 0;
+			position: absolute;
+			top: 43px;
+			right: 0;
+			padding: 0 15px;
+			line-height: 35px;
+			cursor: pointer;
+			color: $topbar-dropdown-option-color;
+
+			background: $topbar-dropdown-option-bg;
+			&:hover {
+				background: $topbar-dropdown-option-bg-hover;
+			}
+
+			-webkit-box-shadow: 0px 2px 10px #666;	/* webkit browser*/
+			-moz-box-shadow: 0px 2px 10px #666;	/* firefox */
+			box-shadow: 0px 2px 10px #666;
+			.--option {
+				display: flex;
+				align-items: center;
+				i {
+					margin-right: 5px;
+				}
+			}
+		}
+	}
+
+	// .fa-stack {
+	//   color: $primary-text-color;
+	//   font-size: 17px;
+	// }
+
+  // &.expanded {
+  // .top-bar-section {
+  //   ul li {
+  //     background: $topbar-dropdown-bg;
+  //   }
+  //   li:not(.has-form) a:not(.button) {
+  //     background: $topbar-bg-color;
+  //   }
+  //   .item {
+  //       height: 2.8125rem;
+  //         cursor: pointer;
+  //         font-size: 24px;
+  //         width: 50px;
+  //         margin-right: 20px;
+  //         display: flex;
+  //         align-items: center;
+  //         justify-content: center;
+  //   }
+  //   a.active {
+  //     .item {
+  //       background-color: $primary-text-color;
+  //     }
+  //   }
+  //   .counter {
+  //     position: absolute;
+  //     line-height: 1rem;
+  //     bottom: -50px;
+  //     margin-left: -5px;
+  //   }
+  // }
+}

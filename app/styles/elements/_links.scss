@@ -1,0 +1,12 @@
+a {
+	text-decoration: none;
+	color: $primary-text-color;
+
+	&:hover {
+		color: lighten($primary-text-color, 10%);
+	}
+
+	&.active {
+		color: white;
+	}
+}

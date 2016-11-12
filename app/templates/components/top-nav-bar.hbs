@@ -1,86 +1,71 @@
-<div class="fixed">
-	<nav class="top-bar" data-topbar role="navigation">
-	  <ul class="title-area">
-	    <li class="name">
-	      <h1>{{#link-to 'intern'}}<img src="assets/images/top_nav_logo_64x64.png" width="42px" /> little rocket{{/link-to}}</h1>
-	    </li>
-	    <li class="toggle-topbar menu-icon">{{#link-to 'intern'}}<span></span>{{/link-to}}</li>
-	  </ul>
+<div class="top-nav-bar-bg"></div>
+<div class="title-area">
+  {{#link-to 'intern'}}
+    <img src="assets/images/top_nav_logo_64x64.png" width="42px" />
+    <div class="app-name">
+      little <span class="font-rocket">Rocket</span>
+    </div>
+  {{/link-to}}
+  <div class="toggle-topbar menu-icon">
+    {{#link-to 'intern'}}<span></span>{{/link-to}}
+  </div>
+</div>
 
-	  <section class="top-bar-section">
-	    <!-- Right Nav Section -->
-	    <ul class="right">
-				{{#if session.isAuthenticated}}
-					{{!-- quests --}}
-					{{!-- {{#link-to 'intern.quests' title='quests'}}
-						<li class="item">
-							<span class="fa-stack">
-				        {{fa-icon "circle-o" stack=2}}
-				        {{fa-icon "exclamation " stack=1}}
-				      </span>
-							{{#if (gt me.user.messages_amount 0)}}
-								<div class="counter">{{me.user.messages_amount}}</div>
-							{{/if}}
-						</li>
-					{{/link-to}} --}}
-					{{!-- messages --}}
-					{{#link-to 'intern.messages' title='messages'}}
-						<li class="item">
-							{{fa-icon 'envelope'}}
-							{{#if (gt me.user.messages_amount 0)}}
-								<div class="counter">{{me.user.messages_amount}}</div>
-							{{/if}}
-						</li>
-					{{/link-to}}
-					{{!-- invite --}}
-					<li>
-						<div class="invite-button">
-							<div class="fb-button" {{action 'invite'}}>
-								{{fa-icon "facebook-square" size="lg"}} Invite friends
-							</div>
-						</div>
-					</li>
-					<!-- like -->
-					<li class="like-button">
-						{{lib/fb-like-button}}
-					</li>
-				{{/if}}
-				<!-- donate -->
-				<li class="donate-button">
-					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-						<input type="hidden" name="cmd" value="_s-xclick">
-						<input type="hidden" name="hosted_button_id" value="J29L63ZSAF48G">
-						<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
-						<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
-					</form>
-				</li>
-				<!-- login / logout -->
-				{{#if session.isAuthenticated}}
-					<li class="has-dropdown">
-		        <a href="#">
-							<span class="user-img"><img src={{me.user.img_url}} /></span>
-							<span class="account">Account</span>
-						</a>
-		        <ul class="dropdown">
-		          <li class="logout" {{action 'logout'}}>
-								<a href="#">Logout</a>
-							</li>
-		        </ul>
-		      </li>
-				{{else}}
-					{{#if isLoading}}
-						<li class="loading">
-							<img src="assets/images/preloaders/preloader_dark.gif" />
-						</li>
-					{{else}}
-			      <li {{action 'login'}}>
-							<a href="#">
-								{{fa-icon "facebook-square"}} login
-							</a>
-						</li>
+<div class="menu-area">
+		{{#if session.isAuthenticated}}
+			{{!-- quests --}}
+			{{!-- {{#link-to 'intern.quests' title='quests'}}
+				<li class="item">
+					<span class="fa-stack">
+		        {{fa-icon "circle-o" stack=2}}
+		        {{fa-icon "exclamation " stack=1}}
+		      </span>
+					{{#if (gt me.user.messages_amount 0)}}
+						<div class="counter">{{me.user.messages_amount}}</div>
 					{{/if}}
-				{{/if}}
-	    </ul>
-	  </section>
-	</nav>
+				</li>
+			{{/link-to}} --}}
+			{{!-- messages --}}
+			{{#link-to 'intern.messages' title='messages'}}
+				<div class="item">
+					{{fa-icon 'envelope'}}
+					{{#if (gt me.user.messages_amount 0)}}
+						<div class="counter">{{me.user.messages_amount}}</div>
+					{{/if}}
+				</div>
+			{{/link-to}}
+			{{!-- invite --}}
+			<div>
+				<div class="invite-button">
+					<div class="fb-button" {{action 'invite'}}>
+						{{fa-icon "facebook-square" size="lg"}} Invite friends
+					</div>
+				</div>
+			</div>
+			<!-- like -->
+			<div class="like-button">
+				{{lib/fb-like-button}}
+			</div>
+		  <!-- login / logout -->
+      {{#top-nav-bar/dropdown}}
+        <img src={{me.user.img_url}} />
+  			<div class="dropdown-options">
+          <div class="--option" {{action 'logout'}}>
+  					{{fa-icon "sign-out"}} LOGOUT
+  				</div>
+        </div>
+      {{/top-nav-bar/dropdown}}
+		{{else}}
+			{{#if isLoading}}
+				<div class="loading">
+					<img src="assets/images/preloaders/preloader_dark.gif" />
+				</div>
+			{{else}}
+	      <div {{action 'login'}}>
+					<a href="#">
+						{{fa-icon "facebook-square"}} login
+					</a>
+				</div>
+			{{/if}}
+		{{/if}}
 </div>

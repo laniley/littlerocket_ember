@@ -29,7 +29,6 @@ $primary-text-color: darken($primary-color, 30%);
 $border: 1px solid $border-color;
 $border-thick: 2px solid $border-color;
 
-$topbar-bg-color: $darkblue;
-$topbar-bg: $topbar-bg-color;
-$topbar-link-bg-hover: darken($darkblue, 10%);
-$topbar-link-color-hover: white;
+.clickable {
+	cursor: pointer;
+}

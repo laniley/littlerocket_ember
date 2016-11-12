@@ -7,3 +7,17 @@
   font-family: Kraash;
   src: url("/assets/fonts/kraash_black.ttf") format("truetype") /* Safari, Android, iOS, Chrome, Firefox */
 }
+
+@font-face {
+  font-family: Label;
+  src: url("/assets/fonts/label.ttf") format("truetype") /* Safari, Android, iOS, Chrome, Firefox */
+}
+
+@font-face {
+  font-family: Rocket;
+  src: url("/assets/fonts/rocketpop.otf") format("truetype") /* Safari, Android, iOS, Chrome, Firefox */
+}
+
+.font-rocket {
+	font-family: Rocket, sans-serif;
+}
