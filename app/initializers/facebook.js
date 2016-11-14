@@ -21,7 +21,7 @@ function initFacebook(FB) {
     FB.init({
         appId      : ENV.fb_app_id,
         xfbml      : true,
-        version    : 'v2.4'
+        version    : 'v2.7'
     });
 }
 
