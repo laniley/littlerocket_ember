@@ -1373,12 +1373,12 @@ var Quintus = function Quintus(opts)
 
 	 	if(!Q.el)
 	 	{
-			Q.el = document.createElement("canvas");
-			Q.el.width = options.width || 320;
-			Q.el.height = options.height || 420;
-			Q.el.id = id;
-
-			document.body.appendChild(Q.el);
+			// Q.el = document.createElement("canvas");
+			// Q.el.width = options.width || 320;
+			// Q.el.height = options.height || 420;
+			// Q.el.id = id;
+            //
+			// document.body.appendChild(Q.el);
 	 	}
 
 	 	// var mouse_x = 0;
@@ -1396,83 +1396,83 @@ var Quintus = function Quintus(opts)
 	 	// 	}
 	 	// );
 
-		var w = parseInt(Q.el.width,10);
-		var h = parseInt(Q.el.height,10);
+	// 	var w = parseInt(Q.el.width,10);
+	// 	var h = parseInt(Q.el.height,10);
+     //
+	//  var maxWidth = options.maxWidth || 5000,
+	// 	  maxHeight = options.maxHeight || 5000,
+	// 	  resampleWidth = options.resampleWidth,
+	// 	  resampleHeight = options.resampleHeight,
+	// 	  upsampleWidth = options.upsampleWidth,
+	// 	  upsampleHeight = options.upsampleHeight;
+     //
+	//  	if(options.maximize === true || (Q.touchDevice && options.maximize === 'touch'))
+	//  	{
+	// 		document.body.style.padding = 0;
+	// 		document.body.style.margin = 0;
+     //
+	// 		w = options.width || Math.min(window.innerWidth,maxWidth) - ((options.pagescroll)?17:0);
+	// 		h = options.height || Math.min(window.innerHeight - 5,maxHeight);
+     //
+	// 		if(Q.touchDevice)
+	// 		{
+	// 	  		Q.el.style.height = (h*2) + "px";
+	// 	  		window.scrollTo(0,1);
+     //
+	// 	  		w = Math.min(window.innerWidth,maxWidth);
+	// 	  		h = Math.min(window.innerHeight,maxHeight);
+	// 		}
+	//  	}
+	//  	else if(Q.touchDevice)
+	//  	{
+	// 		window.scrollTo(0,1);
+	//  	}
 
-	 var maxWidth = options.maxWidth || 5000,
-		  maxHeight = options.maxHeight || 5000,
-		  resampleWidth = options.resampleWidth,
-		  resampleHeight = options.resampleHeight,
-		  upsampleWidth = options.upsampleWidth,
-		  upsampleHeight = options.upsampleHeight;
+	//  if((upsampleWidth && w <= upsampleWidth) ||
+	// 	 (upsampleHeight && h <= upsampleHeight)) {
+	// 	Q.el.style.height = h + "px";
+	// 	Q.el.style.width = w + "px";
+	// 	Q.el.width = w * 2;
+	// 	Q.el.height = h * 2;
+	//  }
+	//  else if(((resampleWidth && w > resampleWidth) ||
+	// 	  (resampleHeight && h > resampleHeight)) &&
+	// 	 Q.touchDevice) {
+	// 	Q.el.style.height = h + "px";
+	// 	Q.el.style.width = w + "px";
+	// 	Q.el.width = w / 2;
+	// 	Q.el.height = h / 2;
+	//  } else {
+	// 	Q.el.style.height = h + "px";
+	// 	Q.el.style.width = w + "px";
+	// 	Q.el.width = w;
+	// 	Q.el.height = h;
+	//  }
 
-	 	if(options.maximize === true || (Q.touchDevice && options.maximize === 'touch'))
-	 	{
-			document.body.style.padding = 0;
-			document.body.style.margin = 0;
+	//  var elParent = Q.el.parentNode;
+     //
+	//  if(elParent) {
+	// 	Q.wrapper = document.createElement("div");
+	// 	Q.wrapper.id = Q.el.id + '_container';
+	// 	Q.wrapper.style.width = w + "px";
+	// 	Q.wrapper.style.margin = "0 auto";
+	// 	Q.wrapper.style.position = "relative";
+     //
+     //
+	// 	elParent.insertBefore(Q.wrapper,Q.el);
+	// 	Q.wrapper.appendChild(Q.el);
+	//  }
 
-			w = options.width || Math.min(window.innerWidth,maxWidth) - ((options.pagescroll)?17:0);
-			h = options.height || Math.min(window.innerHeight - 5,maxHeight);
-
-			if(Q.touchDevice)
-			{
-		  		Q.el.style.height = (h*2) + "px";
-		  		window.scrollTo(0,1);
-
-		  		w = Math.min(window.innerWidth,maxWidth);
-		  		h = Math.min(window.innerHeight,maxHeight);
-			}
-	 	}
-	 	else if(Q.touchDevice)
-	 	{
-			window.scrollTo(0,1);
-	 	}
-
-	 if((upsampleWidth && w <= upsampleWidth) ||
-		 (upsampleHeight && h <= upsampleHeight)) {
-		Q.el.style.height = h + "px";
-		Q.el.style.width = w + "px";
-		Q.el.width = w * 2;
-		Q.el.height = h * 2;
-	 }
-	 else if(((resampleWidth && w > resampleWidth) ||
-		  (resampleHeight && h > resampleHeight)) &&
-		 Q.touchDevice) {
-		Q.el.style.height = h + "px";
-		Q.el.style.width = w + "px";
-		Q.el.width = w / 2;
-		Q.el.height = h / 2;
-	 } else {
-		Q.el.style.height = h + "px";
-		Q.el.style.width = w + "px";
-		Q.el.width = w;
-		Q.el.height = h;
-	 }
-
-	 var elParent = Q.el.parentNode;
-
-	 if(elParent) {
-		Q.wrapper = document.createElement("div");
-		Q.wrapper.id = Q.el.id + '_container';
-		Q.wrapper.style.width = w + "px";
-		Q.wrapper.style.margin = "0 auto";
-		Q.wrapper.style.position = "relative";
-
-
-		elParent.insertBefore(Q.wrapper,Q.el);
-		Q.wrapper.appendChild(Q.el);
-	 }
-
-	 Q.el.style.position = 'relative';
-
-	 Q.ctx = Q.el.getContext &&
-				Q.el.getContext("2d");
-
-
-	 Q.width = parseInt(Q.el.width,10);
-	 Q.height = parseInt(Q.el.height,10);
-	 Q.cssWidth = w;
-	 Q.cssHeight = h;
+	//  Q.el.style.position = 'relative';
+     //
+	//  Q.ctx = Q.el.getContext &&
+	// 			Q.el.getContext("2d");
+     //
+     //
+	//  Q.width = parseInt(Q.el.width,10);
+	//  Q.height = parseInt(Q.el.height,10);
+	//  Q.cssWidth = w;
+	//  Q.cssHeight = h;
 
 	 window.addEventListener('orientationchange',function() {
 		setTimeout(function() { window.scrollTo(0,1); }, 0);
