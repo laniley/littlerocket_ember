@@ -55,9 +55,7 @@
     width: 100%; /* 1 - (2 * border width) */
     height: 100%; /* 1 - (2 * border width) */
     clip: rect(0em,0.5em,1em,0em);
-    -moz-border-radius: 0.5em;
-    -webkit-border-radius: 0.5em;
-    border-radius: 0.5em;
+	@include border-radius(0.5em);
 }
 .pietimer > .slice > .pie.fill {
     -moz-transform: rotate(180deg) !important;

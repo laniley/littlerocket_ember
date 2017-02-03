@@ -1,34 +1,47 @@
 import Ember from 'ember';
+import DS from 'ember-data';
 
 export default Ember.Component.extend({
-  classNames: ['stage'],
-  classNameBindings: ['stageClass'],
+    classNames: ['stage'],
+    classNameBindings: ['stageClass', 'is_end_boss_stage', 'is_locked'],
 
-  Q: null,
-  me: null,
-  gameState: null,
+    Q: null,
+    me: Ember.inject.service('me'),
+    gameState: Ember.inject.service('game-state'),
 
-  reached_level: 1,
-  stage: 0,
+    stage: 0,
+    is_end_boss_stage: false,
 
-  stageClass: Ember.computed('stage', function() {
-    return "stage-" + this.get('stage');
-  }),
+    stageClass: Ember.computed('stage', function() {
+        return "stage-" + this.get('stage');
+    }),
 
-  init() {
-    this._super();
-    this.get('me').get('user').then(user => {
-      this.set('reached_level', user.get('reached_level'));
-    });
-  },
+    reached_stage: Ember.computed('me.user.reached_level', function() {
+        return DS.PromiseObject.create({
+            promise: this.get('me').get('user').then(user => {
+                return user.get('reached_level');
+            })
+        });
+    }),
 
-  actions: {
-    loadStage() {
-      if(this.get('reached_level') >= this.get('stage')) {
-        this.get('gameState').set('level', this.get('stage'));
-    		this.get('Q').clearStages();
-    		this.get('Q').stageScene("mainMenu");
-      }
+    is_locked: Ember.computed('reached_stage', 'stage', function() {
+        return DS.PromiseObject.create({
+            promise: this.get('reached_stage').then(reached_stage => {
+                return reached_stage > this.get('stage');
+            })
+        });
+    }),
+
+    actions: {
+        loadStage() {
+            this.get('reached_stage').then(reached_stage => {
+                if(reached_stage >= this.get('stage')) {
+                    this.get('gameState').set('stage', this.get('stage'));
+                    this.get('router').transitionTo('intern.stage');
+                	// this.get('Q').clearStages();
+                	// this.get('Q').stageScene("mainMenu");
+                }
+            });
+        }
     }
-  }
 });

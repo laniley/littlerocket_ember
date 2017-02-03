@@ -67,9 +67,7 @@ button, .button {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#4c69ba", endColorstr="#3b55a0",GradientType=0 ); /* IE6-9 */
 
 	border: none;
-	-webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+	@include border-radius(2px);
 	color: #fff;
 	cursor: pointer;
 	font-weight: bold;

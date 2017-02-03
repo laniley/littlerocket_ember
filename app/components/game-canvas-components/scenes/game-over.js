@@ -117,13 +117,20 @@ export default Ember.Component.extend(FacebookLoginMixin, {
       user.save();
 
       // quests
-      user.get('user_quests').then(userQuests => {
+      user.get('unlocked_user_quest').then(userQuests => {
         userQuests.forEach(currentUserQuest => {
           currentUserQuest.get('quest').then(quest => {
             quest.get('quest_fulfillment_conditions').then(conditions => {
               conditions.forEach(condition => {
                 if(condition.get('action') === 'collect' && condition.get('object') === 'stars') {
-                  currentUserQuest.set('current_amount', currentUserQuest.get('current_amount') + new_stars_amount);
+                  var new_amount = currentUserQuest.get('current_amount') + this.get('gameState').get('stars');
+                  console.log(new_amount, " <= ", condition.get('amount'));
+                  if(new_amount < condition.get('amount')) {
+                    currentUserQuest.set('current_amount', new_amount);
+                  }
+                  else {
+                    currentUserQuest.set('current_amount', condition.get('amount'));
+                  }
                 }
               });
             });
@@ -300,7 +307,6 @@ export default Ember.Component.extend(FacebookLoginMixin, {
       this.set('currentCongratzSection', section);
     },
     openBuyEnergyDialog() {
-      console.log('test');
       this.get('openBuyEnergyDialogAction')();
     }
   },

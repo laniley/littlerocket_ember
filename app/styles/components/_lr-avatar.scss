@@ -12,7 +12,7 @@ $className: ".lr-avatar";
 
 #{$className} {
 	position: relative;
-	border-radius: $lr-avatar-border-radius;
+	@include border-radius($lr-avatar-border-radius);
 
 	&:after {
 		content: "";
@@ -22,11 +22,11 @@ $className: ".lr-avatar";
 		right: 0;
 		bottom: 0;
 		border: 2px solid rgba(0, 0, 0, .3);
-		border-radius: $lr-avatar-border-radius;
+		@include border-radius($lr-avatar-border-radius);
 	}
 
 	&__image {
-		border-radius: $lr-avatar-border-radius;
+		@include border-radius($lr-avatar-border-radius);
 		max-width: 100%;
 		max-height: 100%;
 	}
@@ -47,7 +47,7 @@ $className: ".lr-avatar";
 			height: $lr-avatar-addon-height;
 			line-height: $lr-avatar-addon-height;
 			padding: $lr-avatar-addon-padding;
-			border-radius: $lr-avatar-addon-border-radius;
+			@include border-radius($lr-avatar-addon-border-radius);
 			border: $lr-avatar-addon-border;
 		}
 	}

@@ -31,7 +31,17 @@ export default Model.extend({
 
   challenges: hasMany('challenge', { inverse: null }),
   achievements: hasMany('achievement'),
+
   user_quests: hasMany('user-quest'),
+  unlocked_user_quest: Ember.computed('user_quests.@each.is_unlocked', function() {
+    return DS.PromiseObject.create({
+      promise: this.get('user_quests').then(user_quests => {
+        return user_quests.filter(quest => {
+          return quest.get('is_unlocked');
+        });
+      }),
+    });
+  }),
 
   messages_send: hasMany('message'),
   messages_received: hasMany('message'),

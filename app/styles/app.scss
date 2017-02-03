@@ -19,7 +19,6 @@
 @import "cockpit";
 @import "component_level_upgrades";
 @import "friends";
-@import "game_canvas";
 @import "leaderboard";
 @import "lists";
 
@@ -50,10 +49,6 @@
     width: 100%;
     overflow: auto;
     font-size: 18px;
-}
-
-#game {
-    width: 100%;
 }
 
 .list-item-column {

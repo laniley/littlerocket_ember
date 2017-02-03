@@ -1,0 +1,19 @@
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+@mixin rotate($deg) {
+  -webkit-transform: rotate($deg);
+  	 -moz-transform: rotate($deg);
+  	  -ms-transform: rotate($deg);
+  		  transform: rotate($deg);
+}
+
+@mixin box-shadow($top, $left, $blur, $color, $inset:"") {
+  -webkit-box-shadow: $top $left $blur $color #{$inset};
+	 -moz-box-shadow: $top $left $blur $color #{$inset};
+		  box-shadow: $top $left $blur $color #{$inset};
+}

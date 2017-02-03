@@ -3,19 +3,4 @@
   {{!-- <div class="flex__right h_info">{{achievementPoints.content}} / {{achievementPointsTotal.content}}</div> --}}
 </h2>
 
-{{#scrollable-list}}
-  {{#each me.user.user_quests.content as |user_quest index|}}
-    <div class="list-item">
-      {{#each user_quest.quest.content.quest_fulfillment_conditions.content as |condition|}}
-        <div class="quest-task">
-          {{#if (eq condition.object "stage")}}
-            {{condition.action}} {{condition.object}} {{condition.amount}}
-          {{else}}
-            {{condition.action}} {{condition.amount}} {{condition.object}}
-          {{/if}}
-        </div>
-        <div class="quest-progress">{{user_quest.current_amount}} / {{condition.amount}}</div>
-      {{/each}}
-    </div>
-  {{/each}}
-{{/scrollable-list}}
+{{player-hud-components/quest-component/quest-list quests=me.user.user_quests}}

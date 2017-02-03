@@ -33,9 +33,6 @@ export default Ember.Component.extend(
   currentScene: null,
   showHud: false,
   components_ready: 0,
-
-  width: 0,
-
   asteroidMaker: null,
   ufoMaker: null,
   bigAsteroidMaker: null,
@@ -49,16 +46,12 @@ export default Ember.Component.extend(
   init: function() {
     this._super();
 
-    this.set('width', 500);
-
-    this.set('gameState', this.store.createRecord('game-state', { id: 1 }));
-
     var Q = window.Q = new Quintus({
-      development: false,
-      audioSupported: [ 'mp3' ],
-      imagePath: "./assets/images/",
-      audioPath: "./assets/audio/",
-      dataPath: "./assets/data/"
+        development: false,
+        audioSupported: [ 'mp3' ],
+        imagePath: "./assets/images/",
+        audioPath: "./assets/audio/",
+        dataPath: "./assets/data/"
     })
     .include("Sprites, Anim, Input, Scenes, 2D, Touch, UI, Audio");
 
@@ -66,9 +59,6 @@ export default Ember.Component.extend(
   },
 
   didInsertElement: function() {
-
-    Ember.$('.game-canvas').width(this.get('width'));
-
     var Q = this.get('Q');
     var self = this;
     Q.setup('game', {

@@ -1,0 +1,11 @@
+@import "intern/stage_selection";
+@import "intern/welcome";
+
+.intern-content {
+	position: absolute;
+	top: 45px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+}

@@ -1,0 +1,36 @@
+{{#scrollable-list}}
+  {{#each quests as |quest index|}}
+    <div class="list-item {{if quest.is_unlocked 'unlocked' 'locked'}}">
+      <div class="quest">
+
+        <div class="quest-title">
+          {{#each quest.quest.content.quest_fulfillment_conditions.content as |condition|}}
+            <div class="quest-task">
+              {{#if (eq condition.object "stage")}}
+                {{condition.action}} {{condition.object}} {{condition.amount}}
+              {{else}}
+                {{condition.action}} {{condition.amount}} {{condition.object}}
+              {{/if}}
+            </div>
+            {{#if quest.is_unlocked}}
+              <div class="quest-progress">{{quest.current_amount}} / {{condition.amount}}</div>
+            {{else}}
+              <div class="lock-icon">{{fa-icon 'lock'}}</div>
+            {{/if}}
+          {{/each}}
+        </div>
+
+        <div class="quest-rewards">
+          <div class="quest-rewards-title">Rewards:</div>
+          {{#each quest.quest.content.quest_rewards.content as |reward|}}
+            <div class="quest-reward">
+              <div class="quest-reward-amount">{{reward.amount}}</div>
+              <div class="quest-reward-object {{reward.object}}">{{reward.object}}</div>
+            </div>
+          {{/each}}
+        </div>
+
+      </div>
+    </div>
+  {{/each}}
+{{/scrollable-list}}

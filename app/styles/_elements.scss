@@ -6,7 +6,7 @@
   display: inline-block;
   color: white;
   font-size: 0.8rem;
-  border-radius: 30px;
+  @include border-radius(30px);
   padding: 5px 9px;
   width: auto;
   background-color: #F17F40;

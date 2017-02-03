@@ -1,9 +1,12 @@
 #menu_banner {
     &.ad-banner {
         position: absolute;
-        bottom: -125px;
+        bottom: 15px;
         left: 50%;
         margin-left: -364px;
+		@media (max-width: 799px) {
+			display: none;
+		}
     }
 }
 

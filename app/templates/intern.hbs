@@ -1,17 +1,21 @@
-{{outlet}}
+<div class="intern-content">
+
+  {{!-- {{#game-canvas me=model}} --}}
+  <div class="game-canvas">
+    {{outlet}}
+  </div>
+  {{!-- {{/game-canvas}} --}}
+
+</div>
 
 {{top-nav-bar me=model}}
 
-{{!-- <div class="columns hud-container cockpit">
+{{!-- <div class="hud-container cockpit">
   {{player-hud-component
     me=model
     currentSection=player_hud_section
     currentCockpitSection=cockpit_section
     currentLabSection=lab_section}}
-</div> --}}
-
-{{!-- <div class="columns game">
-  {{game-canvas me=model}}
 </div> --}}
 
 {{!-- <div class="columns hud-container leaderboard">
@@ -23,5 +27,4 @@
     leaderboardSortBy=leaderboard_sortBy
     armadaSection=armada_section
     armadaMainSection=armada_main_section}}
-</div>
- --}}
+</div> --}}

@@ -1,12 +1,14 @@
-<canvas id='game' class="{{if aChallengeIsActive "active-challenge"}}" width={{width}} height='600'>
+{{!-- <canvas id='game' class="{{if aChallengeIsActive "active-challenge"}}" width={{width}} height='600'>
   Your browser doesn't support this game. :(
-</canvas>
+</canvas> --}}
 
 {{#if isLoading}}
   {{game-canvas-components/progress-bar}}
 {{/if}}
 
-{{#if (if-equals currentScene 'stageSelection') }}
+{{yield}}
+
+{{!-- {{#if (if-equals currentScene 'stageSelection') }}
   {{game-canvas-components/scenes/stage-selection
       Q=Q
       me=me
@@ -36,4 +38,4 @@
       me=me
       newScore=newScore
       gameState=gameState}}
-{{/if}}
+{{/if}} --}}

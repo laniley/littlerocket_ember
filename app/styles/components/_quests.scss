@@ -1,12 +1,61 @@
-.quest-task {
-	flex-grow: 2;
-	font-weight: bold;
-    font-size: 26px;
-}
+.quest-list {
+	.list-item {
 
-.quest-progress {
-	font-family: Kraash;
-	font-size: 12px;
-	line-height: 1;
-	margin-right: 10px;
+		&.locked {
+			color: lighten($primary-text-color, 40%);
+		}
+
+		.quest {
+			width: 100%;
+		}
+
+		.quest-title {
+			display: flex;
+		    align-items: center;
+			padding: 10px 0;
+		}
+
+		.quest-task {
+			flex-grow: 2;
+			font-weight: bold;
+		    font-size: 26px;
+		}
+
+		.quest-progress {
+			font-family: Kraash;
+			font-size: 12px;
+			line-height: 1;
+			margin-right: 10px;
+		}
+
+		.lock-icon {
+			font-size: 24px;
+			margin-right: 20px;
+		}
+
+		.quest-rewards {
+			display: flex;
+		    padding: 0 0 20px 0;
+			line-height: 30px;
+
+			.quest-rewards-title {
+				font-weight: bold;
+			}
+
+			.quest-reward {
+				display: flex;
+				margin-left: 20px;
+
+				.quest-reward-amount {
+					font-size: 24px;
+					margin-right: 5px;
+				}
+
+				.XP {
+					font-family: Kraash;
+					// font-size: 11px;
+				}
+			}
+		}
+	}
 }

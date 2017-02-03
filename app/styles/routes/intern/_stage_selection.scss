@@ -1,0 +1,207 @@
+.scene-content {
+
+	position: absolute;
+	margin: 0px auto;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	@media (min-width: 800px) {
+		bottom: 120px;
+	}
+
+	.title {
+		font-family: Agency_FB;
+		font-weight: bold;
+		text-align: center;
+		margin-top: 20px;
+		font-size: 3rem;
+	}
+
+	img {
+		width: 100%;
+	}
+
+	.stage-selection-clouds {
+		top: 75px;
+		left: 80px;
+		height: auto;
+		width: 300px;
+	}
+	.stage {
+		position: absolute;
+		z-index: 2;
+		width: 15%;
+		height: 15%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		background-repeat: no-repeat;
+	    background-size: contain;
+	    background-position: center;
+		background-image: url(../assets/images/stage_selection/star.png);
+		&.is_locked {
+			background-image: url(../assets/images/stage_selection/star_locked.png);
+		}
+	}
+	.stage-number {
+		font-weight: bold;
+		font-family: Kraash, sans-serif;
+		font-size: 0.8rem;
+		@media (min-width: 600px) {
+			font-size: 1rem;
+		}
+	}
+	.stage-1 {
+		bottom: 5%;
+		left: 5%;
+	}
+	.stage-2 {
+		bottom: 7%;
+		left: 35%;
+	}
+	.stage-3 {
+		bottom: 9%;
+		right: 25%;
+	}
+	.stage-4 {
+		bottom: 22%;
+		right: 5%;
+	}
+	.stage-5 {
+		bottom: 28%;
+		right: 30%;
+	}
+	.stage-6 {
+		bottom: 32%;
+		left: 30%;
+	}
+	.stage-7 {
+		bottom: 45%;
+		left: 10%;
+	}
+	.stage-8 {
+		bottom: 58%;
+		left: 32%;
+		background-image: url(../assets/images/stage_selection/star_coming_soon.png);
+	}
+	.stage-9 {
+		bottom: 62%;
+		right: 28%;
+		background-image: url(../assets/images/stage_selection/star_coming_soon.png);
+	}
+	.stage-10 {
+		bottom: 60%;
+		right: 15px;
+		width: 20%;
+		height: 20%;
+		background-image: url(../assets/images/stage_selection/moon.png);
+	}
+
+	.connector {
+		z-index: 1;
+		position: absolute;
+		border: solid 4px $white;
+		@media (min-width: 600px) {
+			border: solid 7px $white;
+		}
+		@include box-shadow(0px, 0px, 5px, $primary-text-color, "");
+		@include border-radius(15px);
+	}
+	.connector-1 {
+		width: 12%;
+		left: 21%;
+		bottom: 12%;
+		@include rotate(-3deg);
+
+		@media (min-width: 600px) {
+			width: 18%;
+			left: 18%;
+			bottom: 10%;
+		}
+	}
+	.connector-2 {
+		width: 10%;
+		bottom: 14%;
+		left: 49%;
+		@include rotate(-15deg);
+
+		@media (min-width: 400px) {
+			width: 13%;
+	  		bottom: 13%;
+			left: 48%;
+			@include rotate(-3deg);
+		}
+	}
+	.connector-3 {
+		width: 10%;
+  		bottom: 21%;
+		right: 16%;
+		@include rotate(-45deg);
+
+		@media (min-width: 700px) {
+			width: 10%;
+	  		bottom: 20%;
+			right: 16%;
+			@include rotate(-20deg);
+		}
+	}
+	.connector-4 {
+		width: 12%;
+	    bottom: 31%;
+	    right: 19%;
+		@include rotate(6deg);
+	}
+	.connector-5 {
+		width: 12%;
+		bottom: 35%;
+		right: 43%;
+		@include rotate(6deg);
+	}
+	.connector-6 {
+		width: 10%;
+		bottom: 44%;
+		right: 67%;
+		@include rotate(20deg);
+	}
+	.connector-7 {
+		width: 10%;
+		bottom: 56%;
+		right: 67%;
+		@include rotate(-16deg);
+	}
+	.connector-8 {
+		width: 10%;
+		bottom: 65%;
+		right: 42%;
+		@include rotate(-5deg);
+	}
+	.connector-9 {
+		width: 10%;
+		bottom: 68%;
+		right: 19%;
+		@include rotate(-3deg);
+	}
+
+	.game-mode-selection {
+    position: absolute;
+    bottom: 23px;
+    width: 100%;
+    text-align: center;
+    .info {
+      font-size: 20px;
+      margin: 0 10px;
+    }
+    .button {
+      width: 30%;
+      padding: 7px;
+      &.first{
+		@include border-radius(15px 0 0 15px);
+      }
+      &.last {
+		@include border-radius(15px 0 0 15px);
+      }
+    }
+  }
+}

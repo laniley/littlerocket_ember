@@ -49,10 +49,7 @@ $topbar-dropdown-option-color: $white;
 		background: -ms-linear-gradient(top, $topbar-bg-start 0%,$topbar-bg 70%, $topbar-bg-end 100%);
 		background: linear-gradient(to bottom, $topbar-bg-start 0%,$topbar-bg 70%, $topbar-bg-end 100%);
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="$topbar-bg-start", endColorstr=$topbar-bg-end,GradientType=0 );
-
-		-webkit-box-shadow: 0px 2px 10px #666;	/* webkit browser*/
-		-moz-box-shadow: 0px 2px 10px #666;	/* firefox */
-		box-shadow: 0px 2px 10px #666;
+		@include box-shadow(0px, 2px, 10px, #666, "");
 	}
 
 	.title-area, .menu-area {
@@ -62,7 +59,7 @@ $topbar-dropdown-option-color: $white;
 
 		img {
 			width: $topbar-app-icon-size;
-			border-radius: 5px;
+			@include border-radius(5px);
 		}
 	}
 
@@ -155,10 +152,7 @@ $topbar-dropdown-option-color: $white;
 			&:hover {
 				background: $topbar-dropdown-option-bg-hover;
 			}
-
-			-webkit-box-shadow: 0px 2px 10px #666;	/* webkit browser*/
-			-moz-box-shadow: 0px 2px 10px #666;	/* firefox */
-			box-shadow: 0px 2px 10px #666;
+			@include box-shadow(0px, 2px, 10px, #666, "");
 			.--option {
 				display: flex;
 				align-items: center;

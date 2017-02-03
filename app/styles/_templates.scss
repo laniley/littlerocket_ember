@@ -4,62 +4,11 @@
   max-width: 100%;
 }
 
-.cockpit {
-	@media (max-width: $bp-xs-max)
-	{
-		display: none;
-	}
-
-	@media (min-width: $bp-md-min) and (max-width: $bp-md-max)
-	{
-		width: 50%;
-	}
-
-	@media (min-width: $bp-lg-min)
-	{
-		width: 33.333%;
-	}
-}
-
 .column-center {
 	@media (max-width: $bp-xs-max)
 	{
 		width: 100%;
 	}
-
-  @media (min-width: $bp-md-min) and (max-width: $bp-md-max)
-  {
-    width: 50%;
-  }
-
-  @media (min-width: $bp-lg-min)
-  {
-    width: 33.333%;
-  }
-}
-
-.game {
-  @media (max-width: $bp-xs-max)
-  {
-    width: 100%;
-  }
-
-  @media (min-width: $bp-md-min) and (max-width: $bp-md-max)
-  {
-    width: 50%;
-  }
-
-  @media (min-width: $bp-lg-min)
-  {
-    width: 33.333%;
-  }
-}
-
-.leaderboard {
-  @media (max-width: $bp-xs-max)
-  {
-    display: none;
-  }
 
   @media (min-width: $bp-md-min) and (max-width: $bp-md-max)
   {
