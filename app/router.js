@@ -15,6 +15,7 @@ Router.map(function() {
     this.route('stage', function() {
       this.route('menu');
     });
+    this.route('main-menu');
   });
 });
 

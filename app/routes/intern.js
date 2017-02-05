@@ -43,9 +43,10 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                         user.save().then(user => {
                             me.set('user', user);
                             this.get('session').set('data.user_id', user.get('id'));
-                            this.loadQuests(user);
-                            this.loadRocket(user);
-                            this.loadLab(user);
+                            // this.loadQuests(user);
+                            // this.loadRocket(user);
+                            // this.loadLab(user);
+                            // this.loadFriends(me, response);
                             this.transitionTo('intern.welcome');
                         });
                     }
@@ -53,19 +54,20 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                         user = users.get('firstObject');
                         me.set('user', user);
                         this.get('session').set('data.user_id', user.get('id'));
-                        this.loadQuests(user);
-                        this.loadRocket(user);
-                        this.loadLab(user);
                         user.set('fb_id', response.id);
                         user.set('email', response.email);
                         user.set('first_name', response.first_name);
                         user.set('last_name', response.last_name);
                         user.set('img_url', response.picture.data.url);
                         user.set('gender', response.gender);
-                        this.transitionTo('intern.stage_selection');
+                        // this.loadQuests(user);
+                        // this.loadRocket(user);
+                        // this.loadLab(user);
+                        // this.loadFriends(me, response);
+                        this.transitionTo('intern.main-menu');
                     }
 
-                    this.loadFriends(me, response);
+
                 });
 		    }
   		    else {

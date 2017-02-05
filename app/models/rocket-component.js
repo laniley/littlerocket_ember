@@ -1,19 +1,19 @@
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
+import { belongsTo, hasMany } from 'ember-data/relationships';
 
-export default DS.Model.extend({
-  type: DS.attr('String'),
-  rocket: DS.belongsTo('rocket', { async: true, inverse: null }),
-  costs: DS.attr('number', { defaultValue: 500 }),
-  construction_time: DS.attr('number', { defaultValue: 240 }),
-  construction_start: DS.attr('number', { defaultValue: 0 }),
-  status: DS.attr('String', { defaultValue: 'locked' }),
-  selectedRocketComponentModelMm: DS.belongsTo('rocket-component-model-mm', { async: true }),
-  rocketComponentModelMms: DS.hasMany('rocket-component-model-mm', { async: true }),
+export default Model.extend({
+    rocket: belongsTo('rocket', { async: true, inverse: null }),
+    rocketComponentType: belongsTo('rocket-component-type', { async: true }),
+    construction_start: attr('number', { defaultValue: 0 }),
+    status: attr('String', { defaultValue: 'locked' }),
+    selectedRocketComponentModelMm: belongsTo('rocket-component-model-mm', { async: true }),
+    rocketComponentModelMms: hasMany('rocket-component-model-mm', { async: true }),
 
-  currentValue: DS.attr('number', { defaultValue: 0 }),
-  isReloading: DS.attr('boolean', { defaultValue: false }),
+    currentValue: attr('number', { defaultValue: 0 }),
+    isReloading: attr('boolean', { defaultValue: false }),
 
-  tooltip: function() {
-    return "You need " + this.get('costs') + " stars to unlock the " + this.get('type') + "!";
-  }.property('costs')
+    tooltip: function() {
+        return "You need " + this.get('costs') + " stars to unlock the " + this.get('type') + "!";
+    }.property('costs')
 });
