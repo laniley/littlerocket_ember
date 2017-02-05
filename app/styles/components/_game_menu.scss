@@ -20,8 +20,10 @@
 		font-size: 0.8rem;
 		font-family: Kraash;
 		border: 0.3rem solid;
-		border-radius: 15px;
+		@include border-radius(15px);
 		background: $lightblue;
+		cursor: pointer;
+
 
 		&:not(:last-of-type) {
 			margin-bottom: 20px;

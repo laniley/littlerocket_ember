@@ -11,7 +11,7 @@ Router.map(function() {
     this.route('welcome');
     this.route('messages');
     this.route('buy-energy');
-    this.route('stage_selection');
+    this.route('stage-selection');
     this.route('stage', function() {
       this.route('menu');
     });

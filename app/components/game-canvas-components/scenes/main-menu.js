@@ -43,15 +43,15 @@ export default Ember.Component.extend({
     // console.log('key pressed', e);
     // arrow up
     if(e.keyCode === 38) {
-      Ember.$("#button-1").addClass("active");
-      Ember.$("#button-2").removeClass("active");
-      e.data._self.set('selectedButton', 'button-1');
+      Ember.$("#button-0").addClass("active");
+      Ember.$("#button-1").removeClass("active");
+      e.data._self.set('selectedButton', 'button-0');
     }
     // arrow down
     else if(e.keyCode === 40) {
-      Ember.$("#button-1").removeClass("active");
-      Ember.$("#button-2").addClass("active");
-      e.data._self.set('selectedButton', 'button-2');
+      Ember.$("#button-0").removeClass("active");
+      Ember.$("#button-1").addClass("active");
+      e.data._self.set('selectedButton', 'button-1');
     }
     // enter
     else if(e.keyCode === 13) {
