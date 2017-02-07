@@ -1,13 +1,27 @@
-#menu_banner {
-    &.ad-banner {
-        position: absolute;
-        bottom: 15px;
-        left: 50%;
-        margin-left: -364px;
-		@media (max-width: 799px) {
+.ad-banner {
+	&.vertical {
+		@media (max-width: 800px) {
 			display: none;
 		}
-    }
+	}
+}
+
+#ad_banner_left {
+	left: 15px;
+}
+
+#ad_banner_right {
+	right: 15px;
+}
+
+#ad_banner_bottom {
+	position: absolute;
+	bottom: 15px;
+	left: 50%;
+	margin-left: -364px;
+	@media (max-width: 799px) {
+		display: none;
+	}
 }
 
 #overlay_banner {

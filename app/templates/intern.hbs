@@ -1,30 +1,13 @@
 <div class="intern-content">
 
-  {{!-- {{#game-canvas me=model}} --}}
-  <div class="game-canvas">
-    {{outlet}}
-  </div>
-  {{!-- {{/game-canvas}} --}}
+    {{ad-banner id="ad_banner_left" type="vertical" adKey="d93" adSize="160x600" slot="slot168551"}}
+
+    <div class="game-canvas">
+        {{outlet}}
+    </div>
+
+    {{ad-banner id="ad_banner_right" type="vertical" adKey="d93" adSize="160x600" slot="slot168551"}}
 
 </div>
 
 {{top-nav-bar me=model}}
-
-{{!-- <div class="hud-container cockpit">
-  {{player-hud-component
-    me=model
-    currentSection=player_hud_section
-    currentCockpitSection=cockpit_section
-    currentLabSection=lab_section}}
-</div> --}}
-
-{{!-- <div class="columns hud-container leaderboard">
-  {{social-component
-    me=model
-    currentSection=social_section
-    currentChallengesSection=challenges_section
-    leaderboardFilterBy=leaderboard_filterBy
-    leaderboardSortBy=leaderboard_sortBy
-    armadaSection=armada_section
-    armadaMainSection=armada_main_section}}
-</div> --}}
