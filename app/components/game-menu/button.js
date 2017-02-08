@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
     classNames: ['button'],
-    classNameBindings: ['active'],
+    classNameBindings: ['name', 'focused'],
 
     init() {
         this._super();

@@ -8,12 +8,6 @@
 	}
 }
 
-#ad_banner_left {
-}
-
-#ad_banner_right {
-}
-
 #ad_banner_bottom {
 	position: absolute;
 	bottom: 15px;
@@ -22,10 +16,4 @@
 	@media (max-width: 799px) {
 		display: none;
 	}
-}
-
-#overlay_banner {
-    &.ad-banner {
-        margin-top: 20px;
-    }
 }

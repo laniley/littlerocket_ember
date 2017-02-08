@@ -32,14 +32,14 @@ export default Ember.Component.extend({
     },
 
     goButtonUp() {
-        Ember.$("#button-0").addClass("active");
-        Ember.$("#button-1").removeClass("active");
+        Ember.$("#button-0").addClass("focused");
+        Ember.$("#button-1").removeClass("focused");
         this.set('selectedButton', this.get('buttons')[0]);
     },
 
     goButtonDown() {
-        Ember.$("#button-0").removeClass("active");
-        Ember.$("#button-1").addClass("active");
+        Ember.$("#button-0").removeClass("focused");
+        Ember.$("#button-1").addClass("focused");
         this.set('selectedButton', this.get('buttons')[1]);
     },
 

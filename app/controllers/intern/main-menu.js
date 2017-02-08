@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
         {
             display: 'PLAY',
             icon: 'rocket',
-            active: 'active',
+            focused: 'focused',
             action(self) {
                 self.get('router').transitionTo('intern.stage-selection');
             },
