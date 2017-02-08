@@ -1,5 +1,6 @@
 import Ember from 'ember';
+import { PerfectScrollbarMixin } from 'ember-perfect-scrollbar';
 
-export default Ember.Component.extend({
-    classNames: ['internal-content-container']
+export default Ember.Component.extend(PerfectScrollbarMixin, {
+    classNames: ['internal-content-container'],
 });

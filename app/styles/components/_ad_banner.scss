@@ -1,6 +1,7 @@
 .ad-banner {
 	&.vertical {
 		display: table-cell;
+		width: 160px;
 		@media (max-width: 800px) {
 			display: none;
 		}
@@ -8,11 +9,9 @@
 }
 
 #ad_banner_left {
-	left: 15px;
 }
 
 #ad_banner_right {
-	right: 15px;
 }
 
 #ad_banner_bottom {
