@@ -1,5 +1,6 @@
 .ad-banner {
 	&.vertical {
+		display: table-cell;
 		@media (max-width: 800px) {
 			display: none;
 		}
