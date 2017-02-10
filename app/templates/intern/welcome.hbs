@@ -1,39 +1,52 @@
-{{#overlay-component}}
-  <h1>Welcome to <span class="game-title">{{fa-icon "rocket"}} little rocket</span></h1>
-  <div class="text-box align-center">
-    <p>
-      Hi {{model.user.first_name}}, <br />
-      You always wanted to fly your own spaceship? Well today is your lucky day, little rocketeer!
-    </p>
-    <p>Just fly as far as you can! But be careful, don't get hit by the asteroids!</p>
-    <p>Use the arrow keys to control your rocket.</p>
-  </div>
-  <div class="row">
-    <div class="control-infos show-for-large-up">
-        <div class="flex direction-column">
-          <div class="flex-item center control-info-button">
-            {{#tooltip-component tooltip="shoot"}}
-              {{fa-icon "caret-up" size="lg"}}
-            {{/tooltip-component}}
-          </div>
-          <div class="flex-item center flex direction-row">
-            <div class="control-info-button left">
-              {{#tooltip-component tooltip="move left"}}
-                {{fa-icon "caret-left" size="lg"}}
-              {{/tooltip-component}}
+<div class="welcome">
+
+    <h1 class="title">
+        Welcome to <span class="game-title">little <span class="font-rocket">Rocket</span></span> Commander {{model.user.first_name}}
+    </h1>
+
+    <div class="body">
+        <p>
+            We received a call for help from a planet 50 parsecs away from our current position.
+        </p>
+        <p>
+            If we fly with full speed we can reach them in time, but we have to be careful. The planet lies behind an asteroid belt!
+        </p>
+        <p>
+            Are you willed to take the risk?
+        </p>
+        <p>
+            (Use the arrow keys to control your rocket.)
+        </p>
+
+        <div class="control-infos show-for-large-up">
+            <div class="flex direction-column">
+              <div class="flex-item center control-info-button">
+                {{#tooltip-component tooltip="shoot"}}
+                  {{fa-icon "caret-up" size="lg"}}
+                {{/tooltip-component}}
+              </div>
+              <div class="flex-item center flex direction-row">
+                <div class="control-info-button left">
+                  {{#tooltip-component tooltip="move left"}}
+                    {{fa-icon "caret-left" size="lg"}}
+                  {{/tooltip-component}}
+                </div>
+                <div class="control-info-button down">
+                  {{#tooltip-component tooltip="slow down"}}
+                    {{fa-icon "caret-down" size="lg"}}
+                  {{/tooltip-component}}
+                </div>
+                <div class="control-info-button right">
+                  {{#tooltip-component tooltip="move right"}}
+                    {{fa-icon "caret-right" size="lg"}}
+                  {{/tooltip-component}}
+                </div>
+              </div>
             </div>
-            <div class="control-info-button down">
-              {{#tooltip-component tooltip="slow down"}}
-                {{fa-icon "caret-down" size="lg"}}
-              {{/tooltip-component}}
-            </div>
-            <div class="control-info-button right">
-              {{#tooltip-component tooltip="move right"}}
-                {{fa-icon "caret-right" size="lg"}}
-              {{/tooltip-component}}
-            </div>
-          </div>
         </div>
+
+        {{game-menu buttons=buttons}}
+
     </div>
-  </div>
-{{/overlay-component}}
+
+</div>

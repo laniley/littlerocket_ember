@@ -1,7 +1,7 @@
 <div class="menu-content">
     {{#each buttons as |button index|}}
-        {{#lr-button index=index name=button.name focused=button.focused buttonAction=(action button.action)}}
+        {{#lib/lr-button index=index name=button.name focused=button.focused buttonAction=(action button.action)}}
             {{fa-icon button.icon size="lg"}} {{button.display}}
-        {{/lr-button}}
+        {{/lib/lr-button}}
     {{/each}}
 </div>

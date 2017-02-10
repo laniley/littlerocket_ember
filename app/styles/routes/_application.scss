@@ -9,7 +9,8 @@ body {
 	margin: 0px;
 
 	color: $primary-text-color;
-	font-family: Calibri, sans-serif;
+	// font-family: Calibri, sans-serif;
+	font-family: $font-family-main, sans-serif;
 
 	overflow: hidden;
 

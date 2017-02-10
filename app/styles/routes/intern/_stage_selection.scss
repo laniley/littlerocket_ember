@@ -11,52 +11,27 @@
 		font-size: 3rem;
 	}
 
+	.planet-list {
+		position: absolute;
+		left: 0;
+		width: 100%;
+		top: 0;
+		bottom: 0;
+	}
+
 	.button {
 		position: absolute;
-		bottom: 15px;
 		margin-bottom: 0;
 	}
 
 	.back-button {
 		left: 15px;
+		top: 15px;
 	}
 
 	.start-button {
 		right: 15px;
-	}
-}
-
-.stage-selection-clouds {
-	top: 75px;
-	left: 80px;
-	height: auto;
-	width: 300px;
-}
-
-.stage {
-	position: absolute;
-	z-index: 2;
-	width: 15%;
-	height: 15%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: pointer;
-	background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-	background-image: url(../assets/images/stage_selection/star.png);
-	&.is_locked {
-		background-image: url(../assets/images/stage_selection/star_locked.png);
-	}
-}
-
-.stage-number {
-	font-weight: bold;
-	font-family: Kraash, sans-serif;
-	font-size: 0.8rem;
-	@media (min-width: 600px) {
-		font-size: 1rem;
+		bottom: 15px;
 	}
 }
 
@@ -98,13 +73,11 @@
 .stage-8 {
 	bottom: 58%;
 	left: 32%;
-	background-image: url(../assets/images/stage_selection/star_coming_soon.png);
 }
 
 .stage-9 {
 	bottom: 62%;
 	right: 28%;
-	background-image: url(../assets/images/stage_selection/star_coming_soon.png);
 }
 
 .stage-10 {

@@ -25,24 +25,6 @@
 
 @import "vendor/perfect-scroll";
 
-.fa-stack {
-    color: $darkblue;
-}
-
-.active {
-    .fa-stack {
-    color: white;
-    }
-}
-
-.little_rocket {
-    font-family: Agency_FB;
-    font-style: italic;
-    font-weight: bold;
-    font-size: 1.5rem;
-    padding: 9px;
-}
-
 .scrollable-list {
     height: 495px;
     width: 100%;

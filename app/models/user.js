@@ -18,7 +18,7 @@ export default Model.extend({
   stars: attr('number', { defaultValue: 0 }),
   stars_all_time: attr('number', { defaultValue: 0 }),
   challenges_won: attr('number', { defaultValue: 0 }),
-  reached_level: attr('number', { defaultValue: 1 }),
+  reached_stage: attr('number', { defaultValue: 1 }),
   flights: attr('number', { defaultValue: 0 }),
   experience: attr('number', { defaultValue: 0 }),
   achievement_points: attr('number', { defaultValue: 0 }),

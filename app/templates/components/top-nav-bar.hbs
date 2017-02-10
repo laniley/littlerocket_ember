@@ -12,8 +12,8 @@
 </div>
 
 <div class="menu-area">
-		{{#if session.isAuthenticated}}
-			{{!-- quests --}}
+	{{#if session.isAuthenticated}}
+		{{!-- quests --}}
 			{{!-- {{#link-to 'intern.quests' title='quests'}}
 				<li class="item">
 					<span class="fa-stack">
@@ -26,48 +26,48 @@
 				</li>
 			{{/link-to}} --}}
 			{{!-- messages --}}
-			{{#link-to 'intern.messages' title='messages'}}
-				<div class="item">
+		{{#link-to 'intern.messages' title='messages'}}
+			<div class="item">
 					{{fa-icon 'envelope'}}
 					{{#if (gt me.user.messages_amount 0)}}
 						<div class="counter">{{me.user.messages_amount}}</div>
 					{{/if}}
 				</div>
-			{{/link-to}}
-			{{!-- invite --}}
-			<div>
-				<div class=" item invite-button">
+		{{/link-to}}
+		{{!-- invite --}}
+		<div>
+			<div class=" item invite-button">
 					<div class="fb-button" {{action 'invite'}}>
 						{{fa-icon "facebook-square" size="lg"}} Invite friends
 					</div>
 				</div>
-			</div>
-			<!-- like -->
-			<div class="item like-button">
+		</div>
+		<!-- like -->
+		<div class="item like-button">
 				{{lib/fb-like-button}}
 			</div>
-		  <!-- login / logout -->
-      {{#top-nav-bar/dropdown}}
-        <div class="dropdown-title item --last">
-          <img src={{me.user.img_url}} />
-        </div>
+		<!-- login / logout -->
+        {{#top-nav-bar/dropdown}}
+            <div class="dropdown-title item --last">
+                <img src={{me.user.img_url}} />
+            </div>
   			<div class="dropdown-options">
-          <div class="--option" {{action 'logout'}}>
+                <div class="--option" {{action 'logout'}}>
   					{{fa-icon "sign-out"}} LOGOUT
   				</div>
-        </div>
-      {{/top-nav-bar/dropdown}}
+            </div>
+        {{/top-nav-bar/dropdown}}
+	{{else}}
+		{{#if isLoading}}
+			<div class="loading">
+				<img src="assets/images/preloaders/preloader_dark.gif" />
+			</div>
 		{{else}}
-			{{#if isLoading}}
-				<div class="loading">
-					<img src="assets/images/preloaders/preloader_dark.gif" />
-				</div>
-			{{else}}
-	      <div {{action 'login'}}>
-					<a href="#">
-						{{fa-icon "facebook-square"}} login
-					</a>
-				</div>
-			{{/if}}
+	        <div {{action 'login'}}>
+				<a href="#">
+					{{fa-icon "facebook-square"}} login
+				</a>
+			</div>
 		{{/if}}
+	{{/if}}
 </div>

@@ -1,5 +1,21 @@
-.game-title {
-	font-style: italic;
-    font-weight: bold;
-    margin-left: 13px;
+.welcome {
+	text-align: center;
+	padding: 5px;
+
+	.title {
+		.game-title {
+			font-style: italic;
+		    font-weight: normal;
+		    margin: 0 13px;
+			white-space: nowrap;
+		}
+	}
+
+	.body {
+		margin: 2rem 0;
+	}
+
+	.control-infos{
+		margin-bottom: 2rem;
+	}
 }

@@ -12,7 +12,7 @@ export default Ember.Controller.extend({
             },
         },
         {
-            display: 'START',
+            display: 'ATTACK',
             icon: 'rocket',
             name: 'start-button',
             // focused: 'focused',

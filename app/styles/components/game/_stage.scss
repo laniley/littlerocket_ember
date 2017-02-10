@@ -1,0 +1,40 @@
+.stage {
+	position: absolute;
+	z-index: 2;
+	// width: 15%;
+	// height: 15%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+
+	i {
+		font-size: 3rem;
+	}
+
+	.fa-star {
+		color: $yellow;
+		// glow effect
+		text-shadow: 0 0 0.2em lighten($yellow, 20%), 0 0 0.2em lighten($yellow, 20%), 0 0 0.2em lighten($yellow, 20%);
+	}
+
+	&.is-locked {
+
+	}
+
+	&.is-end-boss-stage {
+		background-repeat: no-repeat;
+	    background-size: contain;
+	    background-position: center;
+	}
+}
+
+.stage-number {
+	font-weight: bold;
+	font-family: Kraash, sans-serif;
+	font-size: 0.8rem;
+	z-index:2;
+	@media (min-width: 600px) {
+		font-size: 1rem;
+	}
+}
