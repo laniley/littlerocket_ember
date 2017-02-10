@@ -9,7 +9,7 @@ export default Ember.Service.extend({
         var user_id = this.get('session.data.user_id');
         if(!Ember.isEmpty(user_id)) {
             return DS.PromiseObject.create({
-              promise: this.get('store').findRecord('user', user_id)
+                promise: this.get('store').findRecord('user', user_id)
             });
         }
     })
