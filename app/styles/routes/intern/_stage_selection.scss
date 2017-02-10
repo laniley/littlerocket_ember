@@ -11,18 +11,18 @@
 		font-size: 3rem;
 	}
 
-	.back-button {
+	.button {
 		position: absolute;
-		left: 15px;
 		bottom: 15px;
 		margin-bottom: 0;
 	}
 
+	.back-button {
+		left: 15px;
+	}
+
 	.start-button {
-		position: absolute;
 		right: 15px;
-		bottom: 15px;
-		margin-bottom: 0;
 	}
 }
 
