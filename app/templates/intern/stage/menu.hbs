@@ -1,24 +1,27 @@
 <div class="menu main-menu">
 
-  <div class="menu-content">
+    <div class="menu-content">
+        {{#if (gt me.user.planets.length 0)}}
+            {{#if outOfEnergy}}
+                <div class="text-box">You're out of energy !!!</div>
+                <div id="button-1" class="button buy-energy active" {{action "openBuyEnergyDialog"}}>
+                    {{fa-icon 'bolt'}} GET MORE ENERGY {{fa-icon 'bolt'}}
+                </div>
+            {{else}}
+                <div id="button-1" class="button active start-stage" {{action "startStage"}}>
+                    START ( costs 1 {{fa-icon 'bolt'}} )
+                </div>
+            {{/if}}
 
-    {{#if outOfEnergy}}
-      <div class="text-box">You're out of energy !!!</div>
-      <div id="button-1" class="button buy-energy active" {{action "openBuyEnergyDialog"}}>
-        {{fa-icon 'bolt'}} GET MORE ENERGY {{fa-icon 'bolt'}}
-      </div>
-    {{else}}
-      <div id="button-1" class="button active start-stage" {{action "startStage"}}>
-        START ( costs 1 {{fa-icon 'bolt'}} )
-      </div>
-    {{/if}}
+            <div id="button-2" class="button select-stage" {{action "selectStage"}} {{action "activate" on=""}}>
+                SELECT STAGE
+            </div>
+        {{else}}
+            <div id="button-1" class="button active start-stage" {{action "startStage"}}>
+                START
+            </div>
+        {{/if}}
 
-    <div id="button-2" class="button select-stage" {{action "selectStage"}} {{action "activate" on=""}}>
-      SELECT STAGE
     </div>
-
-  </div>
-
-  {{ad-banner id='menu_banner'}}
 
 </div>

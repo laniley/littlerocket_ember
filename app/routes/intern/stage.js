@@ -1,9 +1,3 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
-
-    beforeModel() {
-        this.transitionTo('intern.stage.menu');
-    }
-
-});
+export default Ember.Route.extend({});

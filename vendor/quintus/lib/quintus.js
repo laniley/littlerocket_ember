@@ -46,10 +46,8 @@ various other modules:
 
 @class Quintus
 **/
-var Quintus = function Quintus(opts)
-{
-
-  /**
+var Quintus = function Quintus(opts) {
+    /**
 	A la jQuery - the returned `Q` object is actually
 	a method that calls `Q.select`. `Q.select` doesn't do anything
 	initially, but can be overridden by a module to allow
@@ -61,23 +59,22 @@ var Quintus = function Quintus(opts)
 		 // Set the angry property on all Enemy1 class objects to true
 		 Q("Enemy1").p({ angry: true });
 
-	 @method Q
-	 @for Quintus
-  */
-  var Q = function(selector,scope,options)
-  {
-	 return Q.select(selector,scope,options);
-  };
+	@method Q
+	@for Quintus
+    */
+    var Q = function(selector,scope,options) {
+	    return Q.select(selector,scope,options);
+    };
 
-  /**
+    /**
 	Default no-op select method. Replaced with the Quintus.Scene class
 
 	@method Q.select
 	@for Quintus
-  */
-  Q.select = function() { /* No-op */ };
+    */
+    Q.select = function() { /* No-op */ };
 
-  /**
+    /**
 	Default no-op select method. Replaced with the Quintus.Scene class
 
 
@@ -90,18 +87,17 @@ var Quintus = function Quintus(opts)
 	@param {String} mod - A comma separated list of module names
 	@return {Quintus} returns Quintus instance for chaining.
 	@for Quintus
-  */
-  Q.include = function(mod)
-  {
-	 Q._each(Q._normalizeArg(mod),function(name) {
-		var m = Quintus[name] || name;
-		if(!Q._isFunction(m)) { throw "Invalid Module:" + name; }
-		m(Q);
-	 });
-	 return Q;
-  };
+    */
+    Q.include = function(mod) {
+        Q._each(Q._normalizeArg(mod),function(name) {
+		    var m = Quintus[name] || name;
+            if(!Q._isFunction(m)) { throw "Invalid Module:" + name; }
+            m(Q);
+        });
+        return Q;
+    };
 
-  /**
+    /**
 	An internal utility method (utility methods are prefixed with underscores)
 	It's used to take a string of comma separated names and turn it into an `Array`
 	of names. If an array of names is passed in, it's left as is. Example usage:
@@ -125,20 +121,18 @@ var Quintus = function Quintus(opts)
 	@param {String or Array} arg - Either a comma separated string or an array
 	@return {Array} array of normalized names
 	@for Quintus
-  */
-  Q._normalizeArg = function(arg)
-  {
-	 if(Q._isString(arg)) {
-		arg = arg.replace(/\s+/g,'').split(",");
-	 }
-	 if(!Q._isArray(arg)) {
-		arg = [ arg ];
-	 }
-	 return arg;
-  };
+    */
+    Q._normalizeArg = function(arg) {
+        if(Q._isString(arg)) {
+            arg = arg.replace(/\s+/g,'').split(",");
+        }
+        if(!Q._isArray(arg)) {
+            arg = [ arg ];
+        }
+        return arg;
+    };
 
-
-  /**
+    /**
 	Extends a destination object with a source object (modifies destination object)
 
 	@method Q._extend
@@ -146,50 +140,47 @@ var Quintus = function Quintus(opts)
 	@param {Object} source - source object
 	@return {Object} returns the dest object
 	@for Quintus
-  */
-  Q._extend = function(dest,source)
-  {
-	 if(!source) { return dest; }
-	 for (var prop in source) {
-		dest[prop] = source[prop];
-	 }
-	 return dest;
-  };
+    */
+    Q._extend = function(dest,source) {
+        if(!source) { return dest; }
+        for (var prop in source) {
+		    dest[prop] = source[prop];
+        }
+        return dest;
+    };
 
-  /**
+    /**
 	Return a shallow copy of an object. Sub-objects (and sub-arrays) are not cloned. (uses extend internally)
 
 	@method Q._clone
 	@param {Object} obj - object to clone
 	@return {Object} cloned object
 	@for Quintus
-  */
-  Q._clone = function(obj)
-  {
-	 return Q._extend({},obj);
-  };
+    */
+    Q._clone = function(obj) {
+        return Q._extend({},obj);
+    };
 
 	/**
-	 Method that adds default properties onto an object only if the key on dest is undefined
+	Method that adds default properties onto an object only if the key on dest is undefined
 
 	@method Q._defaults
 	@param {Object} dest - destination object
 	@param {Object} source - source object
 	@return {Object} returns the dest object
 	@for Quintus
-  */
-  Q._defaults = function(dest,source)
-  {
-	 if(!source) { return dest; }
-	 for (var prop in source) {
-		if(dest[prop] === void 0) {
-		  dest[prop] = source[prop];
-		}
-	 }
-	 return dest;
-  };
+    */
+    Q._defaults = function(dest,source) {
+        if(!source) { return dest; }
+        for (var prop in source) {
+            if(dest[prop] === void 0) {
+                dest[prop] = source[prop];
+            }
+        }
+        return dest;
+    };
 
-  /**
+    /**
 	Shortcut for hasOwnProperty
 
 	@method Q._defaults
@@ -197,11 +188,10 @@ var Quintus = function Quintus(opts)
 	@param {String} key - key to check for
 	@return {Boolean}
 	@for Quintus
-  */
-  Q._has = function(obj, key)
-  {
-	 return Object.prototype.hasOwnProperty.call(obj, key);
-  };
+    */
+    Q._has = function(obj, key) {
+        return Object.prototype.hasOwnProperty.call(obj, key);
+    };
 
 	/**
 	Check if something is a string
@@ -212,37 +202,34 @@ var Quintus = function Quintus(opts)
 	@param {Var} obj - object to check
 	@return {Boolean}
 	@for Quintus
-  */
-  Q._isString = function(obj)
-  {
-	 return typeof obj === "string";
-  };
+    */
+    Q._isString = function(obj) {
+        return typeof obj === "string";
+    };
 
-  /**
+    /**
 	Check if something is a number
 
 	@method Q._isNumber
 	@param {Var} obj - object to check
 	@return {Boolean}
 	@for Quintus
-  */
-  Q._isNumber = function(obj)
-  {
-	 return Object.prototype.toString.call(obj) === '[object Number]';
-  };
+    */
+    Q._isNumber = function(obj) {
+        return Object.prototype.toString.call(obj) === '[object Number]';
+    };
 
-  /**
+    /**
 	Check if something is a function
 
 	@method Q._isFunction
 	@param {Var} obj - object to check
 	@return {Boolean}
 	@for Quintus
-  */
-  Q._isFunction = function(obj)
-  {
-	 return Object.prototype.toString.call(obj) === '[object Function]';
-  };
+    */
+    Q._isFunction = function(obj) {
+        return Object.prototype.toString.call(obj) === '[object Function]';
+    };
 
 	/**
 	Check if something is an Object
@@ -251,39 +238,36 @@ var Quintus = function Quintus(opts)
 	@param {Var} obj - object to check
 	@return {Boolean}
 	@for Quintus
-  */
-  Q._isObject = function(obj)
-  {
-	 return Object.prototype.toString.call(obj) === '[object Object]';
-  };
+    */
+    Q._isObject = function(obj) {
+        return Object.prototype.toString.call(obj) === '[object Object]';
+    };
 
-  /**
+    /**
 	Check if something is an Array
 
 	@method Q._isArray
 	@param {Var} obj - object to check
 	@return {Boolean}
 	@for Quintus
-  */
-  Q._isArray = function(obj)
-  {
-	 return Object.prototype.toString.call(obj) === '[object Array]';
-  };
+    */
+    Q._isArray = function(obj) {
+        return Object.prototype.toString.call(obj) === '[object Array]';
+    };
 
-  /**
+    /**
 	Check if something is undefined
 
 	@method Q._isUndefined
 	@param {Var} obj - object to check
 	@return {Boolean}
 	@for Quintus
-  */
-  Q._isUndefined = function(obj)
-  {
-	 return obj === void 0;
-  };
+    */
+    Q._isUndefined = function(obj) {
+        return obj === void 0;
+    };
 
-  /**
+    /**
 	Removes a property from an object and returns it if it exists
 
 	@method Q._popProperty
@@ -291,15 +275,14 @@ var Quintus = function Quintus(opts)
 	@param {String} property - property to pop off the object
 	@return {Var} popped property
 	@for Quintus
-  */
-  Q._popProperty = function(obj,property)
-  {
-	 var val = obj[property];
-	 delete obj[property];
-	 return val;
-  };
+    */
+    Q._popProperty = function(obj,property) {
+        var val = obj[property];
+        delete obj[property];
+        return val;
+    };
 
-  /**
+    /**
 	Basic iteration method. This can often be a performance
 	handicap when the callback iterator is created inline,
 	as this leads to lots of functions that need to be GC'd.
@@ -310,24 +293,23 @@ var Quintus = function Quintus(opts)
 	@param {Array or Object} obj
 	@param {Function iterator function, `this` is used for each object
 	@for Quintus
-  */
-  Q._each = function(obj,iterator,context)
-  {
-	 if (obj == null) { return; }
-	 if (obj.forEach) {
-		obj.forEach(iterator,context);
-	 } else if (obj.length === +obj.length) {
-		for (var i = 0, l = obj.length; i < l; i++) {
-		  iterator.call(context, obj[i], i, obj);
-		}
-	 } else {
-		for (var key in obj) {
-		  iterator.call(context, obj[key], key, obj);
-		}
-	 }
-  };
+    */
+    Q._each = function(obj,iterator,context) {
+        if (obj == null) { return; }
+        if (obj.forEach) {
+            obj.forEach(iterator,context);
+        } else if (obj.length === +obj.length) {
+            for (var i = 0, l = obj.length; i < l; i++) {
+                iterator.call(context, obj[i], i, obj);
+            }
+        } else {
+            for (var key in obj) {
+                iterator.call(context, obj[key], key, obj);
+            }
+        }
+    };
 
-  /**
+    /**
 	Invoke the named property on each element of the array
 
 	@method Q._invoke
@@ -336,18 +318,15 @@ var Quintus = function Quintus(opts)
 	@param {Var} [arg1]
 	@param {Var} [arg2]
 	@for Quintus
-  */
-  Q._invoke = function(arr,property,arg1,arg2)
-  {
-	 if (arr == null) { return; }
-	 for (var i = 0, l = arr.length; i < l; i++) {
-		arr[i][property](arg1,arg2);
-	 }
-  };
+    */
+    Q._invoke = function(arr,property,arg1,arg2) {
+        if (arr == null) { return; }
+        for (var i = 0, l = arr.length; i < l; i++) {
+            arr[i][property](arg1,arg2);
+        }
+    };
 
-
-
-  /**
+    /**
 	Basic detection method, returns the first instance where the
 	iterator returns truthy.
 
@@ -359,27 +338,26 @@ var Quintus = function Quintus(opts)
 	@param {Var} [arg2]
 	@returns {Var} first truthy value
 	@for Quintus
-  */
-  Q._detect = function(obj,iterator,context,arg1,arg2)
-  {
-	 var result;
-	 if (obj == null) { return; }
-	 if (obj.length === +obj.length) {
-		for (var i = 0, l = obj.length; i < l; i++) {
-		  result = iterator.call(context, obj[i], i, arg1,arg2);
-		  if(result) { return result; }
-		}
-		return false;
-	 } else {
-		for (var key in obj) {
-		  result = iterator.call(context, obj[key], key, arg1,arg2);
-		  if(result) { return result; }
-		}
-		return false;
-	 }
-  };
+    */
+    Q._detect = function(obj,iterator,context,arg1,arg2) {
+        var result;
+        if (obj == null) { return; }
+        if (obj.length === +obj.length) {
+            for (var i = 0, l = obj.length; i < l; i++) {
+                result = iterator.call(context, obj[i], i, arg1,arg2);
+                if(result) { return result; }
+            }
+            return false;
+        } else {
+            for (var key in obj) {
+                result = iterator.call(context, obj[key], key, arg1,arg2);
+                if(result) { return result; }
+            }
+            return false;
+        }
+    };
 
-  /**
+    /**
 	Returns a new Array with entries set to the return value of the iterator.
 
 	@method Q._detect
@@ -388,71 +366,67 @@ var Quintus = function Quintus(opts)
 	@param {Object} context
 	@returns {Array}
 	@for Quintus
-  */
-  Q._map = function(obj, iterator, context)
-  {
-	 var results = [];
-	 if (obj == null) { return results; }
-	 if (obj.map) { return obj.map(iterator, context); }
-	 Q._each(obj, function(value, index, list) {
-		results[results.length] = iterator.call(context, value, index, list);
-	 });
-	 if (obj.length === +obj.length) { results.length = obj.length; }
-	 return results;
-  };
+    */
+    Q._map = function(obj, iterator, context) {
+        var results = [];
+        if (obj == null) { return results; }
+        if (obj.map) { return obj.map(iterator, context); }
+        Q._each(obj, function(value, index, list) {
+            results[results.length] = iterator.call(context, value, index, list);
+        });
+        if (obj.length === +obj.length) { results.length = obj.length; }
+        return results;
+    };
 
-  /**
+    /**
 	Returns a sorted copy of unique array elements with null removed
 
 	@method Q._uniq
 	@param {Array} arr
 	@returns {Array} uniq'd sorted copy of array
 	@for Quintus
-  */
-  Q._uniq = function(arr)
-  {
-	 arr = arr.slice().sort();
+    */
+    Q._uniq = function(arr) {
+        arr = arr.slice().sort();
 
-	 var output = [];
+        var output = [];
 
-	 var last = null;
-	 for(var i=0;i<arr.length;i++) {
-		if(arr[i] !== void 0 && last !== arr[i]) {
-		  output.push(arr[i]);
-		}
-		last = arr[i];
-	 }
-	 return output;
-  };
+        var last = null;
+        for(var i=0;i<arr.length;i++) {
+            if(arr[i] !== void 0 && last !== arr[i]) {
+                output.push(arr[i]);
+            }
+            last = arr[i];
+        }
+        return output;
+    };
 
-  /**
+    /**
 	Returns a new array with the same entries as the source but in a random order.
 
 	@method Q._shuffle
 	@param {Array} arr
 	@returns {Array} copy or arr in shuffled order
 	@for Quintus
-  */
-  Q._shuffle = function(obj)
-  {
-	 var shuffled = [], rand;
-	 Q._each(obj, function(value, index, list) {
-		rand = Math.floor(Math.random() * (index + 1));
-		shuffled[index] = shuffled[rand];
-		shuffled[rand] = value;
-	 });
-	 return shuffled;
-  };
+    */
+    Q._shuffle = function(obj) {
+        var shuffled = [], rand;
+        Q._each(obj, function(value, index, list) {
+            rand = Math.floor(Math.random() * (index + 1));
+            shuffled[index] = shuffled[rand];
+            shuffled[rand] = value;
+        });
+        return shuffled;
+    };
 
-
-  /**
+    /**
 	Return an object's keys as a new Array
 
 	@method Q._keys
 	@param {Object} obj
 	@returns {Array}
 	@for Quintus
-  */
+    */
   Q._keys = Object.keys || function(obj)
   {
 	 if(Q._isObject(obj)) { throw new TypeError('Invalid object'); }
@@ -504,7 +478,7 @@ var Quintus = function Quintus(opts)
 
 
 
-  /**
+    /**
 	Options
 
 	Default engine options defining the paths
@@ -535,9 +509,8 @@ var Quintus = function Quintus(opts)
 	@property Q.options
 	@type Object
 	@for Quintus
-  */
-  	Q.options =
-  	{
+    */
+  	Q.options = {
 	 	imagePath: "images/",
 	 	audioPath: "audio/",
 	 	dataPath:  "data/",
@@ -549,8 +522,7 @@ var Quintus = function Quintus(opts)
 
   	if(opts) { Q._extend(Q.options,opts); }
 
-
-  /**
+    /**
 	Game Loop support
 
 	By default the engine doesn't start a game loop until you actually tell it to.
@@ -574,9 +546,8 @@ var Quintus = function Quintus(opts)
 	@method Q.gameLoop
 	@param {Function} callback
 	@for Quintus
-  */
-  	Q.gameLoop = function(callback)
-  	{
+    */
+  	Q.gameLoop = function(callback) {
 	 Q.lastGameLoopFrame = new Date().getTime();
 
 	 // Short circuit the loop check in case multiple scenes
@@ -976,9 +947,6 @@ var Quintus = function Quintus(opts)
 	});
 
 
-
-
-
   /**
 	The master list of registered components, indexed in an object by name.
 
@@ -1063,10 +1031,10 @@ var Quintus = function Quintus(opts)
 	 }
   });
 
-  /**
+    /**
 
-	 Game Objects
-	 ============
+	Game Objects
+	============
 
 	This is the base class most Quintus objects are derived from, it extends
 	`Q.Evented` and adds component support to an object, allowing components to
@@ -1077,44 +1045,43 @@ var Quintus = function Quintus(opts)
 	@class Q.GameObject
 	@extends Q.Evented
 	@for Quintus
-  */
-  Q.Evented.extend("GameObject",{
+    */
+    Q.Evented.extend("GameObject", {
+        /**
+        Simple check to see if a component already exists
+        on an object by searching for a property of the same name.
 
-	 /**
-	  Simple check to see if a component already exists
-	  on an object by searching for a property of the same name.
+        @method has
+        @for Q.GameObject
+        @param {String} component - name of component to test against
+        @returns {Boolean}
+        */
+        has: function(component) {
+            return this[component] ? true : false;
+        },
 
-	  @method has
-	  @for Q.GameObject
-	  @param {String} component - name of component to test against
-	  @returns {Boolean}
-	 */
-	 has: function(component) {
-		return this[component] ? true : false;
-	 },
+        /**
+        Adds one or more components to an object. Accepts either
+        a comma separated string or an array of strings that map
+        to component names.
 
-	 /**
-	  Adds one or more components to an object. Accepts either
-	  a comma separated string or an array of strings that map
-	  to component names.
+        Instantiates a new component object of the correct type
+        (if the component exists) and then triggers an addComponent
+        event.
 
-	  Instantiates a new component object of the correct type
-	  (if the component exists) and then triggers an addComponent
-	  event.
+        For example:
 
-	  For example:
+        this.add("2d, aiBounce")
 
-			this.add("2d, aiBounce")
+        Returns the object to allow chaining.
 
-	  Returns the object to allow chaining.
-
-	  @for Q.GameObject
-	  @method add
-	  @param {String} components - comma separated list of components to add
-	  @return {Object} returns this for chaining purposes
-	 */
-	 add: function(components) {
-		components = Q._normalizeArg(components);
+        @for Q.GameObject
+        @method add
+        @param {String} components - comma separated list of components to add
+        @return {Object} returns this for chaining purposes
+        */
+        add: function(components) {
+            components = Q._normalizeArg(components);
 		if(!this.activeComponents) { this.activeComponents = []; }
 		for(var i=0,len=components.length;i<len;i++) {
 		  var name = components[i],
@@ -1291,31 +1258,28 @@ var Quintus = function Quintus(opts)
 	 get: function(property) {
 		return this.p[property];
 	 }
-  });
+    });
 
-  /**
+    /**
 	Top-level `Q.GameState` instance, generally used for global state in the game
 
 	@for Quintus
 	@property Q.state
 	@type Q.GameState
-  */
-  Q.state = new Q.GameState();
+    */
+    Q.state = new Q.GameState();
 
-  /**
+    /**
 	Reset the global game state
 
 	@for Quintus
 	@method Q.reset
-  */
-  Q.reset = function() { Q.state.reset(); };
+    */
+    Q.reset = function() { Q.state.reset(); };
 
+    Q.touchDevice = ('ontouchstart' in document);
 
-
-
-  Q.touchDevice = ('ontouchstart' in document);
-
-  /**
+    /**
 
 	Canvas Methods
 
@@ -1349,10 +1313,9 @@ var Quintus = function Quintus(opts)
 	@method Q.setup
 	@param {String} [id="quintus"] - id of the canvas element to trigger quintus on
 	@param {Object} [options] - options hash
-
-  */
+    */
   	Q.setup = function(id, options)
-  	{
+    {
 	 	if(Q._isObject(id))
 	 	{
 			options = id;
@@ -1930,53 +1893,53 @@ var Quintus = function Quintus(opts)
 		}
 	 });
 
-  };
+    };
 
-  // Array to store any assets that need to be
-  // preloaded
-  Q.preloads = [];
+    // Array to store any assets that need to be
+    // preloaded
+    Q.preloads = [];
 
-  /**
+    /**
 	Let us gather assets to load at a later time,
 	and then preload them all at the same time with
 	a single callback. Options are passed through to the
 	Q.load method if used.
 
 	Example usage:
-		  Q.preload("sprites.png");
-		  ...
-		  Q.preload("sprites.json");
-		  ...
+    Q.preload("sprites.png");
+    ...
+    Q.preload("sprites.json");
+    ...
 
-		  Q.preload(function() {
-			  Q.stageScene("level1"); // or something to start the game
-		  });
-  @for Quintus
-  @method Q.preload
-  @param {String or Function} arg - comma separated string of assets to load, or callback
-  @param {Object} [options] - options to pass to load
-  */
-  Q.preload = function(arg,options) {
-	 if(Q._isFunction(arg)) {
-		Q.load(Q._uniq(Q.preloads),arg,options);
-		Q.preloads = [];
-	 } else {
-		Q.preloads = Q.preloads.concat(arg);
-	 }
-  };
+    Q.preload(function() {
+      Q.stageScene("level1"); // or something to start the game
+    });
+    @for Quintus
+    @method Q.preload
+    @param {String or Function} arg - comma separated string of assets to load, or callback
+    @param {Object} [options] - options to pass to load
+    */
+    Q.preload = function(arg,options) {
+        if(Q._isFunction(arg)) {
+            Q.load(Q._uniq(Q.preloads),arg,options);
+            Q.preloads = [];
+        } else {
+            Q.preloads = Q.preloads.concat(arg);
+        }
+    };
 
 
-  // Math Methods
-  // ==============
-  //
-  // Math methods, for rotating and scaling points
+    // Math Methods
+    // ==============
+    //
+    // Math methods, for rotating and scaling points
 
-  // A list of matrices available
-  Q.matrices2d = [];
+    // A list of matrices available
+    Q.matrices2d = [];
 
-  Q.matrix2d = function() {
-	 return Q.matrices2d.length > 0 ? Q.matrices2d.pop().identity() : new Q.Matrix2D();
-  };
+    Q.matrix2d = function() {
+        return Q.matrices2d.length > 0 ? Q.matrices2d.pop().identity() : new Q.Matrix2D();
+    };
 
   /**
 	A 2D matrix class, optimized for 2D points,
@@ -2259,11 +2222,11 @@ var Quintus = function Quintus(opts)
 
   });
 
-  // And that's it..
-  // ===============
-  //
-  // Return the `Q` object from the `Quintus()` factory method. Create awesome games. Repeat.
-  return Q;
+    // And that's it..
+    // ===============
+    //
+    // Return the `Q` object from the `Quintus()` factory method. Create awesome games. Repeat.
+    return Q;
 };
 
 // Lastly, add in the `requestAnimationFrame` shim, if necessary. Does nothing

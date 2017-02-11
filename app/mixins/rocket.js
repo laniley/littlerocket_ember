@@ -4,50 +4,51 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
 
-  FB: null,
-  rocket: null,
+    gameState: Ember.inject.service('game-state'),
 
-  initRocket: function() {
+    FB: null,
 
-    this.set('FB', FB);
+    initRocket: function() {
 
-    var self = this;
-    var y  = Q.height/6 * 5;
+        this.set('FB', FB);
 
-    if(Q.touchDevice) {
-    	y -= 100;
-    }
+        var self = this;
+        var y  = Q.height/6 * 5;
 
-    Q.TransformableSprite.extend("Rocket", {
-    	init: function(p) {
-    		  this._super(p, {
+        if(Q.touchDevice) {
+            y -= 100;
+        }
+
+        Q.TransformableSprite.extend("Rocket", {
+            init: function(p) {
+                this._super(p, {
     				name: "Rocket",
     				sheet: "rocket",
     				frame: 0,
     				direction: 'up',
     				stars: 0,
-            z: 0,
+                    z: 0,
     				tileW: 50,
     				tileH: 140,
     				type: Q.SPRITE_ROCKET,
     				collisionMask: Q.SPRITE_STAR,
-            lastSpeedUp: 0,
-            points: [],
-            scale: Q.state.get('scale'),
-            hasACannon: false,
-            cannon: null,
-            shield: null,
-            engine: null
-    		  });
+                    lastSpeedUp: 0,
+                    points: [],
+                    scale: Q.state.get('scale'),
+                    hasACannon: false,
+                    cannon: null,
+                    shield: null,
+                    engine: null
+                });
 
-          if(!Ember.isEmpty(self.get('rocket').get('cannon'))) {
-            this.p.hasACannon = true;
-          }
-    		  else {
-            this.p.hasACannon = false;
-          }
+                // if(!Ember.isEmpty(self.get('rocket').get('cannon'))) {
+                //     this.p.hasACannon = true;
+                // }
+                // else {
+                //     this.p.hasACannon = false;
+                // }
 
-          this.p.speed = 300;
+                this.p.speed = 300;
 
           // x location of the center
           this.p.x = Q.width / 2;
@@ -82,8 +83,8 @@ export default Ember.Mixin.create({
 
     		  this.on('exploded', this, 'destroy');
     		  this.on('fireCannon', this, 'fireCannon');
-          this.on('slowdown', this, 'slowdown');
-          this.on('collided', this, 'handleCollision');
+              this.on('slowdown', this, 'slowdown');
+              this.on('collided', this, 'handleCollision');
     	},
 
     	step: function(dt) {

@@ -1,9 +1,9 @@
-{{!-- <canvas id='game' class="{{if aChallengeIsActive "active-challenge"}}" width={{width}} height='600'>
-  Your browser doesn't support this game. :(
-</canvas> --}}
+<canvas id='game' class="{{if aChallengeIsActive "active-challenge"}}" width={{width}} height={{height}}>
+    Your browser doesn't support this game. :(
+</canvas>
 
 {{#if isLoading}}
-  {{game-canvas-components/progress-bar}}
+    {{game/game-progress-bar}}
 {{/if}}
 
 {{yield}}

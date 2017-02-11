@@ -17,4 +17,8 @@
 
 p {
     font-size: 1.2rem;
+	// only on mobile
+	@media (max-width: 799px) {
+		font-size: 1.1rem;
+	}
 }

@@ -1,5 +1,10 @@
 h1 {
-  color: $primary-text-color;
+	font-size: 2rem;
+  	color: $primary-text-color;
+	// only on mobile
+	@media (max-width: 799px) {
+		font-size: 1.5rem;
+	}
 }
 
 h2 {

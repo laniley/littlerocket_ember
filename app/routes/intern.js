@@ -44,9 +44,9 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                             me.set('user', user);
                             this.get('session').set('data.user_id', user.get('id'));
                             // this.loadQuests(user);
-                            // this.loadRocket(user);
+                            this.loadRocket(user);
                             // this.loadLab(user);
-                            // this.loadFriends(me, response);
+                            this.loadFriends(me, response);
                             this.transitionTo('intern.welcome');
                         });
                     }
@@ -61,9 +61,9 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                         user.set('img_url', response.picture.data.url);
                         user.set('gender', response.gender);
                         // this.loadQuests(user);
-                        // this.loadRocket(user);
+                        this.loadRocket(user);
                         // this.loadLab(user);
-                        // this.loadFriends(me, response);
+                        this.loadFriends(me, response);
                     }
 
 
@@ -83,35 +83,36 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     },
 
     loadFriends(me, response) {
+
         console.log('friends', response["friends"]);
         response.friends.data.forEach(friend => {
-          var aFriend = this.store.createRecord('friend', {
-            me: me,
-            fb_id: friend.id, // real user-id
-            name: friend.name,
-            img_url: 'http://graph.facebook.com/' + friend.id + '/picture',
-            is_already_playing: true
-          });
-          // load user
-          this.store.query('user', { 'fb_id': friend.id }).then(users => {
-            aFriend.set('user', users.get('firstObject'));
-          });
+            var aFriend = this.store.createRecord('friend', {
+                me: me,
+                fb_id: friend.id, // real user-id
+                name: friend.name,
+                img_url: 'http://graph.facebook.com/' + friend.id + '/picture',
+                is_already_playing: true
+            });
+            // load user
+            this.store.query('user', { 'fb_id': friend.id }).then(users => {
+                aFriend.set('user', users.get('firstObject'));
+            });
         });
+
         console.log('invitable_friends', response.invitable_friends);
         response.invitable_friends.data.forEach(friend => {
-          this.store.createRecord('friend', {
-            me: me,
-            fb_id: friend.id, // session-id
-            name: friend.name,
-            img_url: friend.picture.data.url,
-            is_already_playing: false
-          });
+            this.store.createRecord('friend', {
+                me: me,
+                fb_id: friend.id, // session-id
+                name: friend.name,
+                img_url: friend.picture.data.url,
+                is_already_playing: false
+            });
         });
     },
 
     loadRocket(user) {
         var rocket = this.store.query('rocket', { user: user.get('id') }).then(rockets => {
-            console.log('rockets', rockets);
             if(Ember.isEmpty(rockets)) {
                 rocket = this.store.createRecord('rocket');
                 rocket.set('user', user);
@@ -129,35 +130,34 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     },
 
     loadRocketCallback(user, rocket) {
-        this.loadRocketComponent('cannon', 500, 120, user, rocket);
-        this.loadRocketComponent('shield', 750, 240, user, rocket);
-        this.loadRocketComponent('engine', 1000, 600, user, rocket);
+        this.loadRocketComponent('cannon', 1, rocket);
+        this.loadRocketComponent('shield', 2, rocket);
+        this.loadRocketComponent('engine', 3, rocket);
     },
 
-    loadRocketComponent(type, costs, construction_time, user, rocket) {
+    loadRocketComponent(type, type_id, rocket) {
         rocket.get(type).then(component => {
-          if(Ember.isEmpty(component)) {
-             this.store.query('rocket-component', {
-               type: type,
-               rocket: rocket.get('id')
-             }).then(components => {
-               if(Ember.isEmpty(components)) {
-                 component = this.store.createRecord('rocket-component');
-                 component.set('type', type);
-                 component.set('costs', costs);
-                 component.set('construction_time', construction_time);
-                 component.set('rocket', rocket);
-                 component.save().then(component => {
-                   rocket.set(type, component);
-                   this.loadRocketComponentModelMms(component);
-                 });
-               }
-               else {
-                 component = components.get('firstObject');
-                 rocket.set(type, component);
-                 this.loadRocketComponentModelMms(component);
-               }
-             });
+            if(Ember.isEmpty(component)) {
+                this.store.query('rocket-component', {
+                    type: type_id,
+                    rocket: rocket.get('id')
+                }).then(components => {
+                    if(Ember.isEmpty(components)) {
+                        this.store.findRecord('rocket-component-type', type_id);
+                        // component = this.store.createRecord('rocket-component');
+                        // component.set('rocketComponentType_id', type_id);
+                        // component.set('rocket', rocket);
+                        // component.save().then(component => {
+                        //     rocket.set(type, component);
+                        //     this.loadRocketComponentModelMms(component);
+                        // });
+                    }
+                    else {
+                        component = components.get('firstObject');
+                        rocket.set(type, component);
+                        this.loadRocketComponentModelMms(component);
+                    }
+                });
           }
           else {
             this.loadRocketComponentModelMms(component);

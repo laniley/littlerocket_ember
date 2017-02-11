@@ -9,8 +9,8 @@ Quintus.UI = function(Q)
 
   Q.UI = {};
 
-  // Draw a rounded rectangle centered on 0,0
-  Q.UI.roundRect = function(ctx, rect) {
+    // Draw a rounded rectangle centered on 0,0
+    Q.UI.roundRect = function(ctx, rect) {
     ctx.beginPath();
     ctx.moveTo(-rect.cx + rect.radius, -rect.cy);
     ctx.lineTo(-rect.cx + rect.w - rect.radius, -rect.cy);
@@ -27,14 +27,10 @@ Quintus.UI = function(Q)
     ctx.closePath();
   };
 
-
-
-  Q.UI.Container = Q.Sprite.extend("UI.Container",
-  {
+    Q.UI.Container = Q.Sprite.extend("UI.Container", {
     	init: function(p,defaults)
     	{
-      	var adjustedP = Q._clone(p||{}),
-          	match;
+      	    var adjustedP = Q._clone(p||{}), match;
 
 	      if(p && Q._isString(p.w) && (match = p.w.match(/^[0-9]+%$/))) {
 	        adjustedP.w = parseInt(p.w,10) * Q.width / 100;
@@ -167,8 +163,7 @@ Quintus.UI = function(Q)
     }
   });
 
-  Q.UI.Text = Q.Sprite.extend("UI.Text",
-  {
+  Q.UI.Text = Q.Sprite.extend("UI.Text", {
     init: function(p,defaultProps)
     {
       this._super(Q._defaults(p||{},defaultProps),

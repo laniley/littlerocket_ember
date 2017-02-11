@@ -1,10 +1,13 @@
 .internal-content-container {
 	position: absolute;
-    display: flex;
     padding: 15px;
     top: 45px;
     left: 0;
     right: 0;
     bottom: 0;
     overflow: auto;
+
+	@media (min-width: 800px) {
+		display: flex;
+	}
 }
