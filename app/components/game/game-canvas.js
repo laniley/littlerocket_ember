@@ -10,12 +10,17 @@ export default Ember.Component.extend({
 
     didInsertElement() {
         var ctx = this.get('element').getContext('2d');
+        this.get('gameState').set('canvas', this);
         this.get('gameState').set('context', ctx);
 
         ctx.canvas.width  = Ember.$('#game-canvas-container').innerWidth();
         ctx.canvas.height = Ember.$('#game-canvas-container').innerHeight();
 
-        // ctx.fillStyle = "#000";
-        // ctx.fillRect(0, 0, 100, 100);
+        this.draw();
     },
+    draw() {
+        var ctx = this.get('element').getContext('2d');
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, 100, 100);
+    }
 });
