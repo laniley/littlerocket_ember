@@ -143,120 +143,121 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                     rocket: rocket.get('id')
                 }).then(components => {
                     if(Ember.isEmpty(components)) {
-                        this.store.findRecord('rocket-component-type', type_id);
-                        // component = this.store.createRecord('rocket-component');
-                        // component.set('rocketComponentType_id', type_id);
-                        // component.set('rocket', rocket);
-                        // component.save().then(component => {
-                        //     rocket.set(type, component);
-                        //     this.loadRocketComponentModelMms(component);
-                        // });
+                        this.store.findRecord('rocket-component-type', type_id).then(type => {
+                            component = this.store.createRecord('rocket-component');
+                            component.set('rocket', rocket);
+                            component.set('rocketComponentType', type);
+                            component.save().then(component => {
+                                rocket.set(type, component);
+                                // this.loadRocketComponentModelMms(component);
+                            });
+                        });
                     }
                     else {
                         component = components.get('firstObject');
                         rocket.set(type, component);
-                        this.loadRocketComponentModelMms(component);
+                        // this.loadRocketComponentModelMms(component);
                     }
                 });
           }
           else {
-            this.loadRocketComponentModelMms(component);
+            // this.loadRocketComponentModelMms(component);
           }
         });
     },
 
-    loadRocketComponentModelMms(component) {
-        this.getAllComponentModels(component).then(models => {
-          this.getMyComponentModelMms(component).then(myComponentModelMms => {
-            models.forEach(aModel => {
-              var componentModelMm = null;
-              myComponentModelMms.forEach(aMyComponentModelMm => {
-                if(aMyComponentModelMm.get('rocketComponentModel').get('id') === aModel.get('id')) {
-                  componentModelMm = aMyComponentModelMm;
-                }
-              });
-              if(Ember.isEmpty(componentModelMm)) {
-                var status = 'locked';
-                if(aModel.get('model') === 1) {
-                  status = 'unlocked';
-                }
-                componentModelMm = this.store.createRecord('rocket-component-model-mm', {
-                  rocketComponent: component,
-                  rocketComponentModel: aModel,
-                  status: status
-                });
-                componentModelMm.save().then(() => {
-                  this.loadSelectedRocketComponentModelMM(component);
-                });
-              }
-              else {
-                this.loadSelectedRocketComponentModelMM(component);
-              }
-            });
-          });
-        });
-    },
+    // loadRocketComponentModelMms(component) {
+    //     this.getAllComponentModels(component).then(models => {
+    //       this.getMyComponentModelMms(component).then(myComponentModelMms => {
+    //         models.forEach(aModel => {
+    //           var componentModelMm = null;
+    //           myComponentModelMms.forEach(aMyComponentModelMm => {
+    //             if(aMyComponentModelMm.get('rocketComponentModel').get('id') === aModel.get('id')) {
+    //               componentModelMm = aMyComponentModelMm;
+    //             }
+    //           });
+    //           if(Ember.isEmpty(componentModelMm)) {
+    //             var status = 'locked';
+    //             if(aModel.get('model') === 1) {
+    //               status = 'unlocked';
+    //             }
+    //             componentModelMm = this.store.createRecord('rocket-component-model-mm', {
+    //               rocketComponent: component,
+    //               rocketComponentModel: aModel,
+    //               status: status
+    //             });
+    //             componentModelMm.save().then(() => {
+    //               this.loadSelectedRocketComponentModelMM(component);
+    //             });
+    //           }
+    //           else {
+    //             this.loadSelectedRocketComponentModelMM(component);
+    //           }
+    //         });
+    //       });
+    //     });
+    // },
 
-    loadSelectedRocketComponentModelMM(component) {
-        component.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-           if(Ember.isEmpty(selectedRocketComponentModelMm)) {
-             this.setSelectedRocketComponentModelMM(component);
-           }
-        });
-    },
+    // loadSelectedRocketComponentModelMM(component) {
+    //     component.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+    //        if(Ember.isEmpty(selectedRocketComponentModelMm)) {
+    //          this.setSelectedRocketComponentModelMM(component);
+    //        }
+    //     });
+    // },
 
-    getAllComponentModels(component) {
-        return this.store.query('rocket-component-model', { 'type': component.get('type') }).then(models => {
-          return models;
-        });
-    },
+    // getAllComponentModels(component) {
+    //     return this.store.query('rocket-component-model', { 'type': component.get('type') }).then(models => {
+    //       return models;
+    //     });
+    // },
 
-    getMyComponentModelMms(component) {
-        return component.get('rocketComponentModelMms').then(rocketComponentModelMms => {
-          return rocketComponentModelMms;
-        });
-    },
+    // getMyComponentModelMms(component) {
+    //     return component.get('rocketComponentModelMms').then(rocketComponentModelMms => {
+    //       return rocketComponentModelMms;
+    //     });
+    // },
 
-    setSelectedRocketComponentModelMM(component) {
-        this.store.query('rocketComponentModel', {
-          type: component.get('type'),
-          model: 1
-        }).then(rocketComponentModels => {
-          if(Ember.isEmpty(rocketComponentModels)) {
-            console.log('ERROR: No rocketComponentModel found in the DB for type ' + component.get('type') + ' and model 1');
-          }
-          else {
-             this.store.query('rocketComponentModelMm', {
-               rocketComponent: component.get('id'),
-               rocketComponentModel: rocketComponentModels.get('firstObject').get('id')
-             }).then(rocketComponentModelMms => {
-
-               var rocketComponentModelMm = {};
-
-               if(Ember.isEmpty(rocketComponentModelMms)) {
-                 rocketComponentModelMm = this.store.createRecord('rocket-component-model-mm', {
-                   rocketComponent: component,
-                   rocketComponentModel: rocketComponentModels.get('firstObject'),
-                   status: 'unlocked'
-                 });
-                 rocketComponentModelMm.save().then(rocketComponentModelMm => {
-                   component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
-                   component.save().then(component => {
-                     this.loadRocketComponentModelMms(component);
-                   });
-                 });
-               }
-               else {
-                 rocketComponentModelMm = rocketComponentModelMms.get('firstObject');
-                 component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
-                 component.save().then(component => {
-                   this.loadRocketComponentModelMms(component);
-                 });
-               }
-             });
-           }
-        });
-    },
+    // setSelectedRocketComponentModelMM(component) {
+    //     this.store.query('rocketComponentModel', {
+    //       type: component.get('type'),
+    //       model: 1
+    //     }).then(rocketComponentModels => {
+    //       if(Ember.isEmpty(rocketComponentModels)) {
+    //         console.log('ERROR: No rocketComponentModel found in the DB for type ' + component.get('type') + ' and model 1');
+    //       }
+    //       else {
+    //          this.store.query('rocketComponentModelMm', {
+    //            rocketComponent: component.get('id'),
+    //            rocketComponentModel: rocketComponentModels.get('firstObject').get('id')
+    //          }).then(rocketComponentModelMms => {
+    //
+    //            var rocketComponentModelMm = {};
+    //
+    //            if(Ember.isEmpty(rocketComponentModelMms)) {
+    //              rocketComponentModelMm = this.store.createRecord('rocket-component-model-mm', {
+    //                rocketComponent: component,
+    //                rocketComponentModel: rocketComponentModels.get('firstObject'),
+    //                status: 'unlocked'
+    //              });
+    //              rocketComponentModelMm.save().then(rocketComponentModelMm => {
+    //                component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
+    //                component.save().then(component => {
+    //                  this.loadRocketComponentModelMms(component);
+    //                });
+    //              });
+    //            }
+    //            else {
+    //              rocketComponentModelMm = rocketComponentModelMms.get('firstObject');
+    //              component.set('selectedRocketComponentModelMm', rocketComponentModelMm);
+    //              component.save().then(component => {
+    //                this.loadRocketComponentModelMms(component);
+    //              });
+    //            }
+    //          });
+    //        }
+    //     });
+    // },
 
     loadLab(user) {
         user.get('lab').then(lab => {

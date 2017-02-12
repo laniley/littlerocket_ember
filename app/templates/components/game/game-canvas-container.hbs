@@ -1,0 +1,36 @@
+{{#game/game-canvas width=width height=height}}
+    Your browser doesn't support this game. :(
+{{/game/game-canvas}}
+
+{{#if isLoading}}
+    {{game/game-progress-bar}}
+{{/if}}
+
+{{!-- {{#if (if-equals currentScene 'stageSelection') }}
+  {{game-canvas-components/scenes/stage-selection
+      Q=Q
+      me=me
+      gameState=gameState}}
+{{/if}}
+--}}
+{{!-- {{#if (if-equals currentScene 'mainMenu') }}
+  {{game-canvas-components/scenes/main-menu
+      me=me
+      gameState=gameState
+      startStageAction=(action "startStage")
+      selectStageAction=(action "selectStage")
+      openBuyEnergyDialogAction=(action "openBuyEnergyDialog")}}
+{{/if}} --}}
+{{!--
+{{#if (if-equals currentScene 'gameOver') }}
+  {{game-canvas-components/scenes/game-over
+      me=me
+      newScore=newScore
+      tryAgainAction=(action "startStage")
+      selectStageAction=(action "selectStage")
+      openBuyEnergyDialogAction=(action "openBuyEnergyDialog")}}
+{{/if}}
+ --}}
+{{#if showHud}}
+    {{game/game-hud newScore=newScore}}
+{{/if}}
