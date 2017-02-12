@@ -9,6 +9,8 @@ export default Ember.Service.extend({
     canvas: null,
     context: null,
 
+    isLoading: true,
+
     currentScene: '',
 
     distance_to_goal: 0,

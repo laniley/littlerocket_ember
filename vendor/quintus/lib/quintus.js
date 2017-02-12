@@ -411,7 +411,7 @@ var Quintus = function Quintus(opts) {
     */
     Q._shuffle = function(obj) {
         var shuffled = [], rand;
-        Q._each(obj, function(value, index, list) {
+        Q._each(obj, function(value, index) {
             rand = Math.floor(Math.random() * (index + 1));
             shuffled[index] = shuffled[rand];
             shuffled[rand] = value;
@@ -427,13 +427,13 @@ var Quintus = function Quintus(opts) {
 	@returns {Array}
 	@for Quintus
     */
-  Q._keys = Object.keys || function(obj)
-  {
-	 if(Q._isObject(obj)) { throw new TypeError('Invalid object'); }
-	 var keys = [];
-	 for (var key in obj) { if (Q._has(obj, key)) { keys[keys.length] = key; } }
-	 return keys;
-  };
+	Q._keys = Object.keys || function(obj)
+	{
+		if(Q._isObject(obj)) { throw new TypeError('Invalid object'); }
+		var keys = [];
+		for (var key in obj) { if (Q._has(obj, key)) { keys[keys.length] = key; } }
+		return keys;
+	};
 
 
   /**
