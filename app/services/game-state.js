@@ -6,9 +6,6 @@ export default Ember.Service.extend({
     store: Ember.inject.service('store'),
     me: Ember.inject.service('me'),
 
-    canvas: null,
-    context: null,
-
     isLoading: true,
 
     currentScene: '',
