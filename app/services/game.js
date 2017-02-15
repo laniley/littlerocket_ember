@@ -1,11 +1,17 @@
 import Ember from 'ember';
+import ENV from  '../config/environment';
 
 export default Ember.Service.extend({
 
 	gameState: Ember.inject.service('game-state'),
+	gameScenes: Ember.inject.service('game-scenes'),
+	gameAudio: Ember.inject.service('game-audio'),
 
 	canvas: null,
 	context: null,
+
+	imagePath: '',
+	audioPath: '',
 
 	assets: [],
 
@@ -14,70 +20,69 @@ export default Ember.Service.extend({
 	   ogg: 'Audio', wav: 'Audio', m4a: 'Audio', mp3: 'Audio'
    	},
 
-	audio: {
-		supportedTypes: [ 'mp3' ],
-      	channels: [],
-      	channelMax:  10,
-      	active: {},
-      	play: function() {}
-  	},
-
 	load() {
 		console.log('Loading Game...');
-		this.loadAssets (this.get('assets'), () => {
-            // Q.sheet("rocket", "rocket.png", { tileW: 50, tileH: 140 });
-            // Q.sheet("cannon", "cannon.png", { tileW: 50, tileH: 140 });
-            // Q.sheet("shield", "shield.png", { tileW: 50, tileH: 140 });
-            // Q.sheet("engine", "engine.png", { tileW: 50, tileH: 140 });
-            // Q.sheet("decoration", "decoration_stars.png", { tileW: 50, tileH: 140 });
-            // Q.sheet("bullet","bullet.png", { tileW: 20, tileH: 20 });
-            // Q.sheet("star","star.png", { tileW: 60, tileH: 60 });
-            // Q.sheet("asteroid","asteroid.png", { tileW: 70, tileH: 70 });
-            // Q.sheet("bigAsteroid","bigAsteroid.png", { tileW: 100, tileH: 100 });
-            // Q.sheet("explodingAsteroid","explodingAsteroid.png", { tileW: 200, tileH: 200 });
-            // Q.sheet("ufo","ufo.png", { tileW: 72, tileH: 40 });
+		this.loadAssets (
+			// assets
+			this.get('assets'),
+			// callback
+			() => {
+	            // Q.sheet("rocket", "rocket.png", { tileW: 50, tileH: 140 });
+	            // Q.sheet("cannon", "cannon.png", { tileW: 50, tileH: 140 });
+	            // Q.sheet("shield", "shield.png", { tileW: 50, tileH: 140 });
+	            // Q.sheet("engine", "engine.png", { tileW: 50, tileH: 140 });
+	            // Q.sheet("decoration", "decoration_stars.png", { tileW: 50, tileH: 140 });
+	            // Q.sheet("bullet","bullet.png", { tileW: 20, tileH: 20 });
+	            // Q.sheet("star","star.png", { tileW: 60, tileH: 60 });
+	            // Q.sheet("asteroid","asteroid.png", { tileW: 70, tileH: 70 });
+	            // Q.sheet("bigAsteroid","bigAsteroid.png", { tileW: 100, tileH: 100 });
+	            // Q.sheet("explodingAsteroid","explodingAsteroid.png", { tileW: 200, tileH: 200 });
+	            // Q.sheet("ufo","ufo.png", { tileW: 72, tileH: 40 });
 
-            // Q.animations('rocket', {
-            //   explosion: { frames: [1,2,3,4,5], rate: 1/15, loop: false, trigger: "exploded" }
-            // });
+	            // Q.animations('rocket', {
+	            //   explosion: { frames: [1,2,3,4,5], rate: 1/15, loop: false, trigger: "exploded" }
+	            // });
 
-            // Q.animations('cannon', {
-            //   reloading: { frames: [0], rate: 1/1, loop: false },
-            //   reloaded: { frames: [1], rate: 1/1, loop: false }
-            // });
+	            // Q.animations('cannon', {
+	            //   reloading: { frames: [0], rate: 1/1, loop: false },
+	            //   reloaded: { frames: [1], rate: 1/1, loop: false }
+	            // });
 
-            // Q.animations('shield', {
-            //   reloading: { frames: [0], rate: 1/1, loop: false },
-            //   reloaded: { frames: [1], rate: 1/1, loop: false }
-            // });
+	            // Q.animations('shield', {
+	            //   reloading: { frames: [0], rate: 1/1, loop: false },
+	            //   reloaded: { frames: [1], rate: 1/1, loop: false }
+	            // });
 
-            // Q.animations('engine', {
-            //   reloading: { frames: [0], rate: 1/1, loop: false },
-            //   reloaded: { frames: [1], rate: 1/1, loop: false }
-            // });
+	            // Q.animations('engine', {
+	            //   reloading: { frames: [0], rate: 1/1, loop: false },
+	            //   reloaded: { frames: [1], rate: 1/1, loop: false }
+	            // });
 
-            // Q.animations('explodingAsteroid', {
-            //   // flying: { frames: [0], loop: false },
-            //   explosion: { frames: [0,1,2], rate: 1/15, loop: false, trigger: "exploded" }
-            // });
-            //
-            // Q.debug = true;
-            // Q.debugFill = true;
-        }, {
-            progressCallback: function(loaded,total) {
+	            // Q.animations('explodingAsteroid', {
+	            //   // flying: { frames: [0], loop: false },
+	            //   explosion: { frames: [0,1,2], rate: 1/15, loop: false, trigger: "exploded" }
+	            // });
+	            //
+	            // Q.debug = true;
+	            // Q.debugFill = true;
+        	},
+			// options
+			{
+	            progressCallback: (loaded,total) => {
 
-                var element = document.getElementById("loading_progress");
+	                var element = document.getElementById("loading_progress");
 
-                if(element) {
-                    element.style.width = Math.floor(loaded/total*100) + "%";
-                }
+	                if(element) {
+	                    element.style.width = Math.floor(loaded/total*100) + "%";
+	                }
 
-                if(loaded/total === 1) {
-                    this.get('gameState').set('isLoading', false);
-                    this.stageScene("mainMenu");
-                }
-            }
-        });
+	                if(loaded/total === 1) {
+	                    this.get('gameState').set('isLoading', false);
+	                    this.get('gameScenes').stageScene("mainMenu");
+	                }
+	            }
+        	}
+		);
 	},
 
 	loadAssets(assets, callback, options) {
@@ -100,8 +105,6 @@ export default Ember.Service.extend({
         if(Ember.typeOf(assets) === 'string') {
 	        assets = this.normalizeArg(assets);
         }
-
-		console.log(assets);
 
         /* If the user passed in an array, convert it */
         /* to a hash with lookups by filename */
@@ -171,26 +174,68 @@ export default Ember.Service.extend({
 			/* passing in our per-asset callback */
 			/* Dropping our asset by name into assets */
 			else {
-				this["loadAsset" + assetType](
-					key,
-					itm,
-					loadedCallback,
-					function() { errorCallback(itm);
-				);
+				if(this.get("loadAsset" + assetType)) {
+
+					this.get("loadAsset" + assetType)(
+						this,
+						key,
+						itm,
+						loadedCallback,
+						() => { errorCallback(itm); }
+					);
+				}
+				else {
+					console.log("ERROR: No loading function available for assetType \"" + assetType + "\"");
+				}
 			}
 		});
-
 	},
+	/**
+		Loader for Images, creates a new `Image` object and uses the
+		load callback to determine that the image has been loaded
+	*/
+	loadAssetImage(self, key, src, callback, errorCallback) {
+		var img = new Image();
+		img.onload = function() {  callback(key,img); };
+		img.onerror = errorCallback;
+		img.src = self._assetUrl(self, self.get('imagePath'), src);
+	},
+	/**
+  		Asset loader for Audio files if using the WebAudio API engine
+	*/
+	loadAssetWebAudio(self, key, src, callback, errorCallback) {
+		var request = new XMLHttpRequest(),
+  		  	baseName = self._removeExtension(src),
+  		  	extension = self._audioAssetExtension(self);
 
-	loadAssetImage() {
-		var func = function(key, src, callback, errorCallback) {
-			var img = new Image();
-			img.onload = function() {  callback(key,img); };
-			img.onerror = errorCallback;
-			// img.src = Q.assetUrl(Q.options.imagePath,src);
+		request.open("GET", self._assetUrl(self, self.get('audioPath'), baseName + "." + extension), true);
+		request.responseType = "arraybuffer";
+
+  	 	// Our asynchronous callback
+		request.onload = function() {
+			self.get('gameAudio').get('audioContext').decodeAudioData(
+				request.response,
+				function(buffer) {
+					callback(key,buffer);
+				},
+				errorCallback
+			);
 		};
-		return func;
-	},
+		request.send();
+ 	},
+
+	_assetUrl(self, base, url) {
+	   	var timestamp = "";
+	   	if(self.get('config.environment') === 'development') {
+		  	timestamp = (/\?/.test(url) ? "&" : "?") + "_t=" + new Date().getTime();
+	   	}
+	   	if(/^https?:\/\//.test(url) || url[0] === "/") {
+		  	return url + timestamp;
+	   	}
+		else {
+		  	return base + url + timestamp;
+	   	}
+   	},
 
 	_has(obj, key) {
 		return Object.prototype.hasOwnProperty.call(obj, key);
@@ -209,7 +254,7 @@ export default Ember.Service.extend({
 		return keys;
 	},
 
-	_each(obj,iterator,context) {
+	_each(obj, iterator, context) {
 		if (obj == null) { return; }
 		if (obj.forEach) {
 			obj.forEach(iterator,context);
@@ -224,14 +269,60 @@ export default Ember.Service.extend({
 		}
 	},
 
+	/**
+		Basic detection method, returns the first instance where the
+		iterator returns truthy.
+	*/
+	_detect(obj, iterator, context, arg1, arg2) {
+		var result;
+		if (obj == null) { return; }
+		if (obj.length === +obj.length) {
+			for (var i = 0, l = obj.length; i < l; i++) {
+				result = iterator.call(context, obj[i], i, arg1,arg2);
+				if(result) { return result; }
+			}
+			return false;
+		} else {
+			for (var key in obj) {
+				result = iterator.call(context, obj[key], key, arg1,arg2);
+				if(result) { return result; }
+			}
+			return false;
+		}
+	},
+	/**
+		Determine the type of asset based on the `assetTypes` lookup table
+	*/
 	_assetType(asset) {
 		/* Determine the lowercase extension of the file */
 		var fileExt = this._fileExtension(asset);
 		/* Use the web audio loader instead of the regular loader
 		   if it's supported. */
 		var fileType =  this.get('assetTypes')[fileExt];
+		if(fileType === 'Audio' && this.get('gameAudio').get('settings.type') === "WebAudio") {
+   			fileType = 'WebAudio';
+		}
 		/* Lookup the asset in the assetTypes hash, or return other */
 		return fileType || 'Other';
+	},
+
+	_audioAssetExtension(self) {
+	 	if(self.get('gameAudio').get('settings.audioAssetPreferredExtension')) {
+			return self.get('gameAudio').get('settings.audioAssetPreferredExtension');
+		}
+		else {
+			var snd = new Audio();
+
+		 	/* Find a supported type */
+			var extension = self._detect(
+				self.get('gameAudio').get('settings.supportedTypes'),
+				function(extension) {
+					return snd.canPlayType(self.get('gameAudio').get('mimeTypes')[extension]) ? extension : null;
+				}
+			);
+			self.get('gameAudio').get('settings.audioAssetPreferredExtension', extension);
+		 	return extension;
+		}
 	},
 
 	_fileExtension(filename) {
@@ -240,4 +331,7 @@ export default Ember.Service.extend({
 	   return fileExt;
    	},
 
+	_removeExtension(filename) {
+	 	return filename.replace(/\.(\w{3,4})$/,"");
+  	},
 });

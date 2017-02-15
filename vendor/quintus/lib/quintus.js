@@ -181,81 +181,6 @@ var Quintus = function Quintus(opts) {
     };
 
     /**
-	Shortcut for hasOwnProperty
-
-	@method Q._defaults
-	@param {Object} object - destination object
-	@param {String} key - key to check for
-	@return {Boolean}
-	@for Quintus
-    */
-    Q._has = function(obj, key) {
-        return Object.prototype.hasOwnProperty.call(obj, key);
-    };
-
-	/**
-	Check if something is a string
-
-	NOTE: this fails for non-primitives
-
-	@method Q._isString
-	@param {Var} obj - object to check
-	@return {Boolean}
-	@for Quintus
-    */
-    Q._isString = function(obj) {
-        return typeof obj === "string";
-    };
-
-    /**
-	Check if something is a number
-
-	@method Q._isNumber
-	@param {Var} obj - object to check
-	@return {Boolean}
-	@for Quintus
-    */
-    Q._isNumber = function(obj) {
-        return Object.prototype.toString.call(obj) === '[object Number]';
-    };
-
-    /**
-	Check if something is a function
-
-	@method Q._isFunction
-	@param {Var} obj - object to check
-	@return {Boolean}
-	@for Quintus
-    */
-    Q._isFunction = function(obj) {
-        return Object.prototype.toString.call(obj) === '[object Function]';
-    };
-
-	/**
-	Check if something is an Object
-
-	@method Q._isObject
-	@param {Var} obj - object to check
-	@return {Boolean}
-	@for Quintus
-    */
-    Q._isObject = function(obj) {
-        return Object.prototype.toString.call(obj) === '[object Object]';
-    };
-
-    /**
-	Check if something is an Array
-
-	@method Q._isArray
-	@param {Var} obj - object to check
-	@return {Boolean}
-	@for Quintus
-    */
-    Q._isArray = function(obj) {
-        return Object.prototype.toString.call(obj) === '[object Array]';
-    };
-
-    /**
 	Check if something is undefined
 
 	@method Q._isUndefined
@@ -418,23 +343,6 @@ var Quintus = function Quintus(opts) {
         });
         return shuffled;
     };
-
-    /**
-	Return an object's keys as a new Array
-
-	@method Q._keys
-	@param {Object} obj
-	@returns {Array}
-	@for Quintus
-    */
-	Q._keys = Object.keys || function(obj)
-	{
-		if(Q._isObject(obj)) { throw new TypeError('Invalid object'); }
-		var keys = [];
-		for (var key in obj) { if (Q._has(obj, key)) { keys[keys.length] = key; } }
-		return keys;
-	};
-
 
   /**
 	Return an array in the range from start to stop
@@ -1314,10 +1222,9 @@ var Quintus = function Quintus(opts) {
 	@param {String} [id="quintus"] - id of the canvas element to trigger quintus on
 	@param {Object} [options] - options hash
     */
-  	Q.setup = function(id, options)
-    {
-	 	if(Q._isObject(id))
-	 	{
+  	Q.setup = function(id, options) {
+
+		if(Q._isObject(id)) {
 			options = id;
 			id = null;
 	 	}
@@ -1325,17 +1232,14 @@ var Quintus = function Quintus(opts) {
 	 	options = options || {};
 	 	id = id || "quintus";
 
-	 	if(Q._isString(id))
-		{
+	 	if(Q._isString(id)) {
 			Q.el = document.getElementById(id); // HTMLCanvasElement
 		}
-		else
-		{
+		else {
 			Q.el = id;
 		}
 
-	 	if(!Q.el)
-	 	{
+	 	if(!Q.el) {
 			// Q.el = document.createElement("canvas");
 			// Q.el.width = options.width || 320;
 			// Q.el.height = options.height || 420;
@@ -1359,7 +1263,7 @@ var Quintus = function Quintus(opts) {
 	 	// 	}
 	 	// );
 
-	// 	var w = parseInt(Q.el.width,10);
+		// 	var w = parseInt(Q.el.width,10);
 	// 	var h = parseInt(Q.el.height,10);
      //
 	//  var maxWidth = options.maxWidth || 5000,
@@ -1391,7 +1295,7 @@ var Quintus = function Quintus(opts) {
 	// 		window.scrollTo(0,1);
 	//  	}
 
-	//  if((upsampleWidth && w <= upsampleWidth) ||
+		//  if((upsampleWidth && w <= upsampleWidth) ||
 	// 	 (upsampleHeight && h <= upsampleHeight)) {
 	// 	Q.el.style.height = h + "px";
 	// 	Q.el.style.width = w + "px";
@@ -1412,7 +1316,7 @@ var Quintus = function Quintus(opts) {
 	// 	Q.el.height = h;
 	//  }
 
-	//  var elParent = Q.el.parentNode;
+		//  var elParent = Q.el.parentNode;
      //
 	//  if(elParent) {
 	// 	Q.wrapper = document.createElement("div");
@@ -1426,23 +1330,23 @@ var Quintus = function Quintus(opts) {
 	// 	Q.wrapper.appendChild(Q.el);
 	//  }
 
-	//  Q.el.style.position = 'relative';
-     //
-	//  Q.ctx = Q.el.getContext &&
-	// 			Q.el.getContext("2d");
-     //
-     //
-	//  Q.width = parseInt(Q.el.width,10);
-	//  Q.height = parseInt(Q.el.height,10);
-	//  Q.cssWidth = w;
-	//  Q.cssHeight = h;
+		//  Q.el.style.position = 'relative';
+     	//
+		//  Q.ctx = Q.el.getContext &&
+		// 			Q.el.getContext("2d");
+     	//
+     	//
+		//  Q.width = parseInt(Q.el.width,10);
+		//  Q.height = parseInt(Q.el.height,10);
+		//  Q.cssWidth = w;
+		//  Q.cssHeight = h;
 
-	 window.addEventListener('orientationchange',function() {
-		setTimeout(function() { window.scrollTo(0,1); }, 0);
-	 });
+	 	window.addEventListener('orientationchange',function() {
+			setTimeout(function() { window.scrollTo(0,1); }, 0);
+	 	});
 
-	 return Q;
-  };
+	 	return Q;
+  	};
 
 
   /**
@@ -1553,28 +1457,6 @@ var Quintus = function Quintus(opts) {
   };
 
   /**
-	Determine the type of asset based on the `Q.assetTypes` lookup table
-
-	@for Quintus
-	@method Q.assetType
-	@param {String} asset
-  */
-  Q.assetType = function(asset) {
-	 /* Determine the lowercase extension of the file */
-	 var fileExt = Q._fileExtension(asset);
-
-	 // Use the web audio loader instead of the regular loader
-	 // if it's supported.
-	 var fileType =  Q.assetTypes[fileExt];
-	 if(fileType === 'Audio' && Q.audio && Q.audio.type === "WebAudio") {
-		fileType = 'WebAudio';
-	 }
-
-	 /* Lookup the asset in the assetTypes hash, or return other */
-	 return fileType || 'Other';
-  };
-
-  /**
 	Either return an absolute URL, or add a base to a relative URL
 
 	@for Quintus
@@ -1594,49 +1476,6 @@ var Quintus = function Quintus(opts) {
 		return base + url + timestamp;
 	 }
   };
-
-  /**
-  Loader for Images, creates a new `Image` object and uses the
-  load callback to determine the image has been loaded
-
-  @for Quintus
-  @method Q.loadAssetImage
-  @param {String} key
-  @param {String} src
-  @param {Function} callback
-  @param {Function} errorCallback
-  */
-  Q.loadAssetImage = function(key,src,callback,errorCallback) {
-	 var img = new Image();
-	 img.onload = function() {  callback(key,img); };
-	 img.onerror = errorCallback;
-	 img.src = Q.assetUrl(Q.options.imagePath,src);
-  };
-
-
-  // List of mime types given an audio file extension, used to
-  // determine what sound types the browser can play using the
-  // built-in `Sound.canPlayType`
-  Q.audioMimeTypes = { mp3: 'audio/mpeg',
-							  ogg: 'audio/ogg; codecs="vorbis"',
-							  m4a: 'audio/m4a',
-							  wav: 'audio/wav' };
-
-
-  Q._audioAssetExtension = function() {
-	 if(Q._audioAssetPreferredExtension) { return Q._audioAssetPreferredExtension; }
-
-	 var snd = new Audio();
-
-	 /* Find a supported type */
-	 return Q._audioAssetPreferredExtension =
-		Q._detect(Q.options.audioSupported,
-			function(extension) {
-			return snd.canPlayType(Q.audioMimeTypes[extension]) ?
-										  extension : null;
-		});
-  };
-
 
   /**
 	Loader for Audio assets. By default chops off the extension and
@@ -1688,36 +1527,6 @@ var Quintus = function Quintus(opts) {
   };
 
   /**
-	Asset loader for Audio files if using the WebAudio API engine
-
-  @for Quintus
-  @method Q.loadAssetWebAudio
-  @param {String} key
-  @param {String} src
-  @param {Function} callback
-  @param {Function} errorCallback
-  */
-  Q.loadAssetWebAudio = function(key,src,callback,errorCallback) {
-	 var request = new XMLHttpRequest(),
-		  baseName = Q._removeExtension(src),
-		  extension = Q._audioAssetExtension();
-
-	 request.open("GET", Q.assetUrl(Q.options.audioPath,baseName + "." + extension), true);
-	 request.responseType = "arraybuffer";
-
-	 // Our asynchronous callback
-	 request.onload = function() {
-		var audioData = request.response;
-
-		Q.audioContext.decodeAudioData(request.response, function(buffer) {
-		  callback(key,buffer);
-		}, errorCallback);
-	 };
-	 request.send();
-
-  };
-
-  /**
 	Loader for other file types, just stores the data returned from an Ajax call.
 
 	Just makes a Ajax request for all other file types
@@ -1753,22 +1562,22 @@ var Quintus = function Quintus(opts) {
 	 request.send(null);
   };
 
-  /**
+  	/**
 	Helper method to return a name without an extension
 
 	@for Quintus
 	@method _removeExtension
 	@param {String} filename
 	@return {String} filename without an extension
-  */
-  Q._removeExtension = function(filename) {
-	 return filename.replace(/\.(\w{3,4})$/,"");
-  };
+  	*/
+  	Q._removeExtension = function(filename) {
+	 	return filename.replace(/\.(\w{3,4})$/,"");
+  	};
 
-  // Asset hash storing any loaded assets
-  Q.assets = {};
+  	// Asset hash storing any loaded assets
+  	Q.assets = {};
 
-  /**
+  	/**
 	Getter method to return an asset by its name.
 
 	Asset names default to their filenames, but can be overridden
@@ -1777,10 +1586,10 @@ var Quintus = function Quintus(opts) {
 	@for Quintus
 	@method asset
 	@param {String} name - name of asset to lookup
-  */
-  Q.asset = function(name) {
-	 return Q.assets[name];
-  };
+  	*/
+  	Q.asset = function(name) {
+	 	return Q.assets[name];
+  	};
 
   /**
 	Load assets, and call our callback when done.

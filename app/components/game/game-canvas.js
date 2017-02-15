@@ -14,6 +14,9 @@ export default Ember.Component.extend(/*RocketMixin,*/ {
 		'height'
 	],
 
+	imagePath: "./assets/images/",
+	audioPath: "./assets/audio/",
+
 	assets: [
 		"rocket.png",
 		"cannon.png",
@@ -35,11 +38,12 @@ export default Ember.Component.extend(/*RocketMixin,*/ {
     init: function() {
         this._super();
 
+		this.get('game').set('assets', this.get('assets'));
+		this.get('game').set('imagePath', this.get('imagePath'));
+		this.get('game').set('audioPath', this.get('audioPath'));
         // var Q = window.Q = new Quintus({
         //     development: false,
         //     audioSupported: [ 'mp3' ],
-        //     imagePath: "./assets/images/",
-        //     audioPath: "./assets/audio/",
         //     dataPath: "./assets/data/"
         // })
         // .include("Sprites, Anim, Input, Scenes, 2D, Touch, UI, Audio");
@@ -55,7 +59,6 @@ export default Ember.Component.extend(/*RocketMixin,*/ {
         ctx.canvas.width  = Ember.$('#game-canvas-container').innerWidth();
         ctx.canvas.height = Ember.$('#game-canvas-container').innerHeight();
 
-		this.get('game').set('assets', this.get('assets'));
         this.get('game').load();
 
         // this.draw();
