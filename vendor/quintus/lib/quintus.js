@@ -132,35 +132,6 @@ var Quintus = function Quintus(opts) {
         return arg;
     };
 
-    /**
-	Extends a destination object with a source object (modifies destination object)
-
-	@method Q._extend
-	@param {Object} dest - destination object
-	@param {Object} source - source object
-	@return {Object} returns the dest object
-	@for Quintus
-    */
-    Q._extend = function(dest,source) {
-        if(!source) { return dest; }
-        for (var prop in source) {
-		    dest[prop] = source[prop];
-        }
-        return dest;
-    };
-
-    /**
-	Return a shallow copy of an object. Sub-objects (and sub-arrays) are not cloned. (uses extend internally)
-
-	@method Q._clone
-	@param {Object} obj - object to clone
-	@return {Object} cloned object
-	@for Quintus
-    */
-    Q._clone = function(obj) {
-        return Q._extend({},obj);
-    };
-
 	/**
 	Method that adds default properties onto an object only if the key on dest is undefined
 
@@ -178,33 +149,6 @@ var Quintus = function Quintus(opts) {
             }
         }
         return dest;
-    };
-
-    /**
-	Check if something is undefined
-
-	@method Q._isUndefined
-	@param {Var} obj - object to check
-	@return {Boolean}
-	@for Quintus
-    */
-    Q._isUndefined = function(obj) {
-        return obj === void 0;
-    };
-
-    /**
-	Removes a property from an object and returns it if it exists
-
-	@method Q._popProperty
-	@param {Object} obj
-	@param {String} property - property to pop off the object
-	@return {Var} popped property
-	@for Quintus
-    */
-    Q._popProperty = function(obj,property) {
-        var val = obj[property];
-        delete obj[property];
-        return val;
     };
 
     /**
@@ -1454,27 +1398,6 @@ var Quintus = function Quintus(opts) {
 	 var fileParts = filename.split("."),
 		  fileExt = fileParts[fileParts.length-1].toLowerCase();
 	 return fileExt;
-  };
-
-  /**
-	Either return an absolute URL, or add a base to a relative URL
-
-	@for Quintus
-	@method Q.assetUrl
-	@param {String} base - base for relative paths
-	@param {String} url - url to resolve to asset url
-	@return {String} resolved url
-  */
-  Q.assetUrl = function(base,url) {
-	 var timestamp = "";
-	 if(Q.options.development) {
-		timestamp = (/\?/.test(url) ? "&" : "?") + "_t=" +new Date().getTime();
-	 }
-	 if(/^https?:\/\//.test(url) || url[0] === "/") {
-		return url + timestamp;
-	 } else {
-		return base + url + timestamp;
-	 }
   };
 
   /**

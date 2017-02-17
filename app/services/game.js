@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import ENV from  '../config/environment';
 
 export default Ember.Service.extend({
 
@@ -190,25 +189,21 @@ export default Ember.Service.extend({
 			}
 		});
 	},
-	/**
-		Loader for Images, creates a new `Image` object and uses the
-		load callback to determine that the image has been loaded
-	*/
+	// Loader for Images, creates a new `Image` object and uses the
+	// load callback to determine that the image has been loaded
 	loadAssetImage(self, key, src, callback, errorCallback) {
 		var img = new Image();
 		img.onload = function() {  callback(key,img); };
 		img.onerror = errorCallback;
-		img.src = self._assetUrl(self, self.get('imagePath'), src);
+		img.src = self.HF.assetUrl(self, self.get('imagePath'), src);
 	},
-	/**
-  		Asset loader for Audio files if using the WebAudio API engine
-	*/
+	//Asset loader for Audio files if using the WebAudio API engine
 	loadAssetWebAudio(self, key, src, callback, errorCallback) {
 		var request = new XMLHttpRequest(),
   		  	baseName = self._removeExtension(src),
   		  	extension = self._audioAssetExtension(self);
 
-		request.open("GET", self._assetUrl(self, self.get('audioPath'), baseName + "." + extension), true);
+		request.open("GET", self.HF.assetUrl(self, self.get('audioPath'), baseName + "." + extension), true);
 		request.responseType = "arraybuffer";
 
   	 	// Our asynchronous callback
@@ -223,19 +218,6 @@ export default Ember.Service.extend({
 		};
 		request.send();
  	},
-
-	_assetUrl(self, base, url) {
-	   	var timestamp = "";
-	   	if(self.get('config.environment') === 'development') {
-		  	timestamp = (/\?/.test(url) ? "&" : "?") + "_t=" + new Date().getTime();
-	   	}
-	   	if(/^https?:\/\//.test(url) || url[0] === "/") {
-		  	return url + timestamp;
-	   	}
-		else {
-		  	return base + url + timestamp;
-	   	}
-   	},
 
 	_has(obj, key) {
 		return Object.prototype.hasOwnProperty.call(obj, key);
@@ -269,10 +251,8 @@ export default Ember.Service.extend({
 		}
 	},
 
-	/**
-		Basic detection method, returns the first instance where the
-		iterator returns truthy.
-	*/
+	// Basic detection method, returns the first instance where the
+	// iterator returns truthy.
 	_detect(obj, iterator, context, arg1, arg2) {
 		var result;
 		if (obj == null) { return; }
@@ -290,9 +270,7 @@ export default Ember.Service.extend({
 			return false;
 		}
 	},
-	/**
-		Determine the type of asset based on the `assetTypes` lookup table
-	*/
+	// Determine the type of asset based on the `assetTypes` lookup table
 	_assetType(asset) {
 		/* Determine the lowercase extension of the file */
 		var fileExt = this._fileExtension(asset);
