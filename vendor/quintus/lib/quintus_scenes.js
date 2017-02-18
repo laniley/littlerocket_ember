@@ -281,13 +281,6 @@ Quintus.Scenes = function(Q) {
       this.trigger("destroyed");
     },
 
-    // Needs to be separated out so the current stage can be set
-    loadScene: function() {
-      if(this.scene)  {
-        this.scene.sceneFunc(this);
-      }
-    },
-
     /**
       Load an array of assets of the form:
 

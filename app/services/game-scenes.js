@@ -1,4 +1,7 @@
 import Ember from 'ember';
+import HF from './../custom-classes/helper-functions';
+import Scene from './../custom-classes/game-scene';
+import Stage from './../custom-classes/game-stage';
 
 export default Ember.Service.extend({
 	scenes: {},
@@ -7,38 +10,41 @@ export default Ember.Service.extend({
 	// Stages a scene.
 	// `num` is like a z-index. Higher numbered stages render on top of lower numbered stages!
 	stageScene(scene, num, options) {
+		console.log('Staging scene \'' + scene + '\'..., num: ' + num + ', options: ' + options);
       	// If it's a string, find a registered scene by that name
-      	if(this.HF.isString(scene)) {
-        	scene = this.scene(scene);
+		// or create a new one
+      	if(HF.isString(scene)) {
+        	scene = this.getOrCreateScene(scene);
       	}
       	// If the user skipped the num arg and went straight to options,
-      	// swap the two and grab a default for num
-      	if(this.HF.isObject(num)) {
+      	// swap num and options and grab a default for num
+      	if(HF.isObject(num)) {
         	options = num;
-        	num = this.HF.popProperty(options,"stage") || (scene && scene.opts.stage) || 0;
+        	num = HF.popProperty(options, "stage") || (scene && scene.get('stage')) || 0;
       	}
       	// Clone the options arg to prevent modification
-      	options = this.HF.clone(options);
-      	// Grab the stage class, pulling from options, the scene default, or use
-      	// the default stage
-      	var StageClass = (this.HF.popProperty(options,"stageClass")) || (scene && scene.opts.stageClass) || this.Stage;
+      	options = HF.clone(options);
       	// Figure out which stage to use
-      	num = this.HF.isUndefined(num) ? ((scene && scene.opts.stage) || 0) : num;
+      	num = HF.isUndefined(num) ? ((scene && scene.get('stage')) || 0) : num;
       	// Clean up an existing stage if necessary
       	if(this.get('stages')[num]) {
         	this.get('stages')[num].destroy();
       	}
-      	// Make this this the active stage and initialize the stage,
+      	// Make this the active stage and initialize the stage,
       	// calling loadScene to popuplate the stage if we have a scene.
       	this.set('activeStage', num);
-      	var stage = this.get('stages')[num] = new StageClass(scene,options);
+
+      	var stage = this.get('stages')[num] = Stage.create(scene, options);
+
       	// Load an assets object array
-      	if(stage.options.asset) {
-        	stage.loadAssets(stage.options.asset);
+      	if(stage.get('assets').length > 0) {
+        	stage.loadAssets(stage.get('assets'));
       	}
+
       	if(scene) {
         	stage.loadScene();
       	}
+
       	this.set('activeStage', 0);
       	// If there's no loop active, run the default stageGameLoop
       	if(!Q.loop) {
@@ -52,17 +58,18 @@ export default Ember.Service.extend({
 		Set up a new scene or return an existing scene. If you don't pass in `sceneFunc`,
 		it'll return a scene otherwise it'll create a new one.
 	*/
-	scene(name, sceneFunc, opts) {
-      	if(sceneFunc === void 0) {
+	getOrCreateScene(name) {
+      	if(this.get('scenes')[name]) {
         	return this.get('scenes')[name];
       	}
 		else {
-        	if(this.HF.isFunction(sceneFunc)) {
-          		sceneFunc = new Q.Scene(sceneFunc,opts);
-          		sceneFunc.name = name;
-        	}
-        	this.get('scenes')[name] = sceneFunc;
-        	return sceneFunc;
+        	var scene = Scene.create({
+				name: name
+			});
+
+			this.get('scenes')[name] = scene;
+
+			return scene;
       	}
   	},
 	/**
@@ -71,9 +78,9 @@ export default Ember.Service.extend({
 		If a number is passed in, this stages is returned
 		*Warning* might return `undefined` if that stage doesnt exist!
 	*/
-	stage(num) {
-		// Use activeStage is num is undefined
+	getStage(num) {
+		// Use activeStage if num is undefined
 		num = (num === void 0) ? this.get('activeStage') : num;
-		return Q.stages[num];
+		return this.get('stages')[num];
 	}
 });

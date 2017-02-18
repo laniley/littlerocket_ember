@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import HF from './../custom-classes/helper-functions';
 
 export default Ember.Service.extend({
 
@@ -122,8 +123,6 @@ export default Ember.Service.extend({
 	        assetObj = assets;
         }
 
-		console.log(assetObj);
-
         /* Find the # of assets we're loading */
         var assetsTotal = this._keys(assetObj).length,
   		    assetsRemaining = assetsTotal;
@@ -140,14 +139,20 @@ export default Ember.Service.extend({
 	        if(!loadedAssets[key]||force) {
 
 	            /* Add the object to our asset list */
-	           loadedAssets[key] = obj;
+	           	loadedAssets[key] = obj;
 
 	            /* We've got one less asset to load */
 	            assetsRemaining--;
 
 	            /* Update our progress if we have it */
 	            if(progressCallback) {
-	               progressCallback(assetsTotal - assetsRemaining, assetsTotal);
+					if(assetsRemaining) {
+						console.log('[' + '-'.repeat(assetsTotal - assetsRemaining) + ' '.repeat(assetsRemaining) + ']');
+					}
+					else {
+						console.log('All assets loaded!');
+					}
+	               	progressCallback(assetsTotal - assetsRemaining, assetsTotal);
 	            }
 	        }
 
@@ -195,15 +200,15 @@ export default Ember.Service.extend({
 		var img = new Image();
 		img.onload = function() {  callback(key,img); };
 		img.onerror = errorCallback;
-		img.src = self.HF.assetUrl(self, self.get('imagePath'), src);
+		img.src = HF.assetUrl(self, self.get('imagePath'), src);
 	},
 	//Asset loader for Audio files if using the WebAudio API engine
 	loadAssetWebAudio(self, key, src, callback, errorCallback) {
 		var request = new XMLHttpRequest(),
-  		  	baseName = self._removeExtension(src),
+  		  	baseName = HF.removeExtension(src),
   		  	extension = self._audioAssetExtension(self);
 
-		request.open("GET", self.HF.assetUrl(self, self.get('audioPath'), baseName + "." + extension), true);
+		request.open("GET", HF.assetUrl(self, self.get('audioPath'), baseName + "." + extension), true);
 		request.responseType = "arraybuffer";
 
   	 	// Our asynchronous callback
@@ -219,17 +224,13 @@ export default Ember.Service.extend({
 		request.send();
  	},
 
-	_has(obj, key) {
-		return Object.prototype.hasOwnProperty.call(obj, key);
-	},
-
 	_keys(obj) {
 		if(Ember.typeOf(obj) !== 'object') {
 			throw new TypeError('Invalid object');
 		}
 		var keys = [];
 		for (var key in obj) {
-			if (this._has(obj, key)) {
+			if (HF.has(obj, key)) {
 				keys[keys.length] = key;
 			}
 		}
@@ -273,7 +274,7 @@ export default Ember.Service.extend({
 	// Determine the type of asset based on the `assetTypes` lookup table
 	_assetType(asset) {
 		/* Determine the lowercase extension of the file */
-		var fileExt = this._fileExtension(asset);
+		var fileExt = HF.fileExtension(asset);
 		/* Use the web audio loader instead of the regular loader
 		   if it's supported. */
 		var fileType =  this.get('assetTypes')[fileExt];
@@ -302,14 +303,4 @@ export default Ember.Service.extend({
 		 	return extension;
 		}
 	},
-
-	_fileExtension(filename) {
-	   var fileParts = filename.split("."),
-			fileExt = fileParts[fileParts.length-1].toLowerCase();
-	   return fileExt;
-   	},
-
-	_removeExtension(filename) {
-	 	return filename.replace(/\.(\w{3,4})$/,"");
-  	},
 });
