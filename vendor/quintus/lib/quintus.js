@@ -374,76 +374,8 @@ var Quintus = function Quintus(opts) {
 
   	if(opts) { Q._extend(Q.options,opts); }
 
-    /**
-	Game Loop support
 
-	By default the engine doesn't start a game loop until you actually tell it to.
-	Usually the loop is started the first time you call `Q.stageScene`, but if you
-	aren't using the `Scenes` module you can explicitly start the game loop yourself
-	and control **exactly** what the engine does each cycle. For example:
 
-		 var Q = Quintus().setup();
-
-		 var ball = new Q.Sprite({ .. });
-
-		 Q.gameLoop(function(dt) {
-			Q.clear();
-			ball.step(dt);
-			ball.draw(Q.ctx);
-		 });
-
-	The callback will be called with fraction of a second that has elapsed since
-	the last call to the loop method.
-
-	@method Q.gameLoop
-	@param {Function} callback
-	@for Quintus
-    */
-  	Q.gameLoop = function(callback) {
-	 Q.lastGameLoopFrame = new Date().getTime();
-
-	 // Short circuit the loop check in case multiple scenes
-	 // are staged immediately
-	 Q.loop = true;
-
-	 // Keep track of the frame we are on (so that animations can be synced
-	 // to the next frame)
-	 Q._loopFrame = 0;
-
-	 // Wrap the callback to save it and standardize the passed
-	 // in time.
-	 Q.gameLoopCallbackWrapper = function() {
-		var now = new Date().getTime();
-		Q._loopFrame++;
-		Q.loop = window.requestAnimationFrame(Q.gameLoopCallbackWrapper);
-		var dt = now - Q.lastGameLoopFrame;
-		/* Prevent fast-forwarding by limiting the length of a single frame. */
-		if(dt > Q.options.frameTimeLimit) { dt = Q.options.frameTimeLimit; }
-		callback.apply(Q,[dt / 1000]);
-		Q.lastGameLoopFrame = now;
-	 };
-
-	 window.requestAnimationFrame(Q.gameLoopCallbackWrapper);
-	 return Q;
-  };
-
-  /**
-	Pause the entire game by canceling the requestAnimationFrame call. If you use setTimeout or
-	setInterval in your game, those will, of course, keep on rolling...
-
-	 @method Q.pauseGame
-	 @for Quintus
-  */
-  Q.pauseGame = function()
-  {
-		 if(Q.loop) {
-				window.cancelAnimationFrame(Q.loop);
-		 }
-
-		 Q.loop = null;
-
-		 Q.state.set('isPaused', true);
-  };
 
   /**
 	Unpause the game by restarting the requestAnimationFrame-based loop.

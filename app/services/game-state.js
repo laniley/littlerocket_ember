@@ -6,7 +6,11 @@ export default Ember.Service.extend({
     store: Ember.inject.service('store'),
     me: Ember.inject.service('me'),
 
+	game: null,
+
     isLoading: true,
+	isPaused: true,
+	showHud: false,
 
     currentScene: '',
 

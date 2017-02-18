@@ -1,23 +1,43 @@
-import ENV from  '../config/environment';
 import Ember from 'ember';
 
 const HF = Ember.Object.extend({
-	// Either return an absolute URL, or add a base to a relative URL
-	assetUrl(self, base, url) {
-		var timestamp = "";
-		if(ENV.environment === 'development') {
-			timestamp = (/\?/.test(url) ? "&" : "?") + "_t=" + new Date().getTime();
-		}
-		if(/^https?:\/\//.test(url) || url[0] === "/") {
-			return url + timestamp;
-		}
-		else {
-			return base + url + timestamp;
-		}
-	},
 	// Return a shallow copy of an object. Sub-objects (and sub-arrays) are not cloned. (uses extend internally)
 	clone(obj) {
 		return this.extend({},obj);
+	},
+	// Basic detection method, returns the first instance where the
+	// iterator returns truthy.
+	detect(obj, iterator, context, arg1, arg2) {
+		var result;
+		if (obj == null) { return; }
+		if (obj.length === +obj.length) {
+			for (var i = 0, l = obj.length; i < l; i++) {
+				result = iterator.call(context, obj[i], i, arg1,arg2);
+				if(result) { return result; }
+			}
+			return false;
+		} else {
+			for (var key in obj) {
+				result = iterator.call(context, obj[key], key, arg1,arg2);
+				if(result) { return result; }
+			}
+			return false;
+		}
+	},
+
+	each(obj, iterator, context) {
+		if (obj == null) { return; }
+		if (obj.forEach) {
+			obj.forEach(iterator,context);
+		} else if (obj.length === +obj.length) {
+			for (var i = 0, l = obj.length; i < l; i++) {
+				iterator.call(context, obj[i], i, obj);
+			}
+		} else {
+			for (var key in obj) {
+				iterator.call(context, obj[key], key, obj);
+			}
+		}
 	},
 	// Extends a destination object with a source object (modifies destination object)
 	extend(dest,source) {
@@ -55,6 +75,19 @@ const HF = Ember.Object.extend({
 	isUndefined(obj) {
 		return obj === void 0;
 	},
+
+	keys(obj) {
+		if(Ember.typeOf(obj) !== 'object') {
+			throw new TypeError('Invalid object');
+		}
+		var keys = [];
+		for (var key in obj) {
+			if (this.has(obj, key)) {
+				keys[keys.length] = key;
+			}
+		}
+		return keys;
+	},
 	// Removes a property from an object and returns it if it exists
 	popProperty(obj,property) {
 		var val = obj[property];
@@ -63,7 +96,13 @@ const HF = Ember.Object.extend({
 	},
 
 	removeExtension(filename) {
-		return filename.replace(/\.(\w{3,4})$/,"");
+		if(this.isString(filename)) {
+			return filename.replace(/\.(\w{3,4})$/,"");
+		}
+		else {
+			console.error( 'EORROR: filename is not of type String\n filename: ', filename);
+			return "";
+		}
 	},
 });
 

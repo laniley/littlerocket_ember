@@ -34,8 +34,11 @@ export default Ember.Component.extend(
     isLoading: Ember.computed('gameState.isLoading', function() {
         return this.get('gameState.isLoading');
     }),
+
+	showHud: Ember.computed('gameState.showHud', function() {
+        return this.get('gameState.showHud');
+    }),
     // gameCanvasIsLoaded: false,
-    // showHud: false,
     // number_of_components_ready: 0,
     //
     // asteroidMaker: null,

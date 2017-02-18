@@ -12,7 +12,7 @@ Quintus.Audio = function(Q) {
 
   Q.hasWebAudio = (typeof AudioContext !== "undefined") || (typeof webkitAudioContext !== "undefined");
 
-  if(Q.hasWebAudio) { 
+  if(Q.hasWebAudio) {
     if(typeof AudioContext !== "undefined") {
       Q.audioContext = new AudioContext();
     } else {
@@ -36,18 +36,16 @@ Quintus.Audio = function(Q) {
 
     Q.audio.soundID = 0;
 
-    Q.audio.playingSounds = {};
-
     Q.audio.removeSound = function(soundID) {
       delete Q.audio.playingSounds[soundID];
     };
 
-    // Play a single sound, optionally debounced 
+    // Play a single sound, optionally debounced
     // to prevent repeated plays in a short time
     Q.audio.play = function(s,options) {
       var now = new Date().getTime();
 
-      // See if this audio file is currently being debounced, if 
+      // See if this audio file is currently being debounced, if
       // it is, don't do anything and just return
       if(Q.audio.active[s] && Q.audio.active[s] > now) { return; }
 
@@ -79,32 +77,23 @@ Quintus.Audio = function(Q) {
 
     };
 
-    Q.audio.stop = function(s) {
-      for(var key in Q.audio.playingSounds) {
-        var snd = Q.audio.playingSounds[key];
-        if(!s || s === snd.assetName) {
-          if(snd.stop) { snd.stop(0);  } else {  snd.noteOff(0); }
-        }
-      }
-    };
-
   };
 
   Q.audio.enableHTML5Sound = function() {
     Q.audio.type = "HTML5";
 
-    for (var i=0;i<Q.audio.channelMax;i++) {	
+    for (var i=0;i<Q.audio.channelMax;i++) {
       Q.audio.channels[i] = {};
-      Q.audio.channels[i]['channel'] = new Audio(); 
-      Q.audio.channels[i]['finished'] = -1;	
+      Q.audio.channels[i]['channel'] = new Audio();
+      Q.audio.channels[i]['finished'] = -1;
     }
 
-    // Play a single sound, optionally debounced 
+    // Play a single sound, optionally debounced
     // to prevent repeated plays in a short time
     Q.audio.play = function(s,options) {
       var now = new Date().getTime();
 
-      // See if this audio file is currently being debounced, if 
+      // See if this audio file is currently being debounced, if
       // it is, don't do anything and just return
       if(Q.audio.active[s] && Q.audio.active[s] > now) { return; }
 
@@ -119,13 +108,13 @@ Quintus.Audio = function(Q) {
       // Find a free audio channel and play the sound
       for (var i=0;i<Q.audio.channels.length;i++) {
         // Check the channel is either finished or not looping
-        if (!Q.audio.channels[i]['loop'] && Q.audio.channels[i]['finished'] < now) {	
+        if (!Q.audio.channels[i]['loop'] && Q.audio.channels[i]['finished'] < now) {
 
           Q.audio.channels[i]['channel'].src = Q.asset(s).src;
 
           // If we're looping - just set loop to true to prevent this channcel
           // from being used.
-          if(options && options['loop']) { 
+          if(options && options['loop']) {
             Q.audio.channels[i]['loop'] = true;
             Q.audio.channels[i]['channel'].loop = true;
           } else {
@@ -143,7 +132,7 @@ Quintus.Audio = function(Q) {
       var src = s ? Q.asset(s).src : null;
       var tm = new Date().getTime();
       for (var i=0;i<Q.audio.channels.length;i++) {
-        if ((!src || Q.audio.channels[i]['channel'].src === src) && 
+        if ((!src || Q.audio.channels[i]['channel'].src === src) &&
             (Q.audio.channels[i]['loop'] || Q.audio.channels[i]['finished'] >= tm)) {
           Q.audio.channels[i]['channel'].pause();
           Q.audio.channels[i]['loop'] = false;
@@ -154,4 +143,3 @@ Quintus.Audio = function(Q) {
   };
 
 };
-  

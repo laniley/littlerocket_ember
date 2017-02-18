@@ -1,10 +1,11 @@
-/* global Quintus */
 import Ember from 'ember';
+import Game from './../../custom-classes/game';
 // import RocketMixin from './../../mixins/rocket-mixin';
 
 export default Ember.Component.extend(/*RocketMixin,*/ {
 
-    game: Ember.inject.service('game'),
+    gameState: Ember.inject.service('game-state'),
+	gameScenes: Ember.inject.service('game-scenes'),
 
     elementId: 'game',
     tagName: 'canvas',
@@ -38,9 +39,16 @@ export default Ember.Component.extend(/*RocketMixin,*/ {
     init: function() {
         this._super();
 
-		this.get('game').set('assets', this.get('assets'));
-		this.get('game').set('imagePath', this.get('imagePath'));
-		this.get('game').set('audioPath', this.get('audioPath'));
+		var game = Game.create({
+			gameState: this.get('gameState'),
+			scenes: this.get('gameScenes').get('scenes'),
+			assets: this.get('assets'),
+			imagePath: this.get('imagePath'),
+			audioPath: this.get('audioPath')
+		});
+
+		this.get('gameState').set('game', game);
+
         // var Q = window.Q = new Quintus({
         //     development: false,
         //     audioSupported: [ 'mp3' ],
@@ -53,13 +61,13 @@ export default Ember.Component.extend(/*RocketMixin,*/ {
 
     didInsertElement() {
         var ctx = this.get('element').getContext('2d');
-        this.get('game.gameState').set('canvas', this);
-        this.get('game.gameState').set('context', ctx);
+        this.get('gameState').set('canvas', this);
+        this.get('gameState').set('context', ctx);
 
         ctx.canvas.width  = Ember.$('#game-canvas-container').innerWidth();
         ctx.canvas.height = Ember.$('#game-canvas-container').innerHeight();
 
-        this.get('game').load();
+    	this.get('gameState').get('game').load();
 
         // this.draw();
 
