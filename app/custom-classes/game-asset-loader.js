@@ -1,3 +1,29 @@
+/**
+  	Asset Loading Support
+
+  	The engine supports loading assets of different types using `load` or `preload`. Assets are stored by their name so the same asset won't be loaded twice if it already exists.
+
+	Augmentable list of asset types, loads a specific asset type if the file type matches, otherwise defaults to an Ajax load of the data.
+
+  	You can add new types of assets by adding the file extension to `assetTypes` and a method called loadAssetTYPENAME where TYPENAME is the name of the type you added in.
+
+  	Default bindings are:
+
+	* png, jpg, gif, jpeg -> Image
+	* ogg, wav, m4a, mp3 -> Audio
+	* Everything else -> Data
+
+  	To add a new file extension to an existing type you can just add it to asset types:
+
+	   	assetTypes['bmp'] = "Video";
+
+  	 	and add new loader, e.g.:
+
+	   	loadAssetVideo(key, src) {
+		   ...
+	   	};
+*/
+
 import Ember from 'ember';
 import ENV from  '../config/environment';
 import HF from './../custom-classes/helper-functions';
@@ -13,7 +39,6 @@ const GameAssetLoader = Ember.Object.extend({
 
 	errors: false,
 
-	loadedAssets: [],
 	amountOfAssetsTotal: 0,
 	amountOfAssetsRemaining: 0,
 	finalCallback: null,
@@ -50,7 +75,7 @@ const GameAssetLoader = Ember.Object.extend({
 		this.set('amountOfAssetsTotal', HF.keys(assetObj).length);
   		this.set('amountOfAssetsRemaining', this.get('amountOfAssetsTotal'));
 
-		var loadedAssets = [];
+		var loadedAssets = this.get('game').get('assets');
 
         /* Now actually load each asset */
         HF.each(assetObj, ( asset , key ) => {
@@ -127,9 +152,9 @@ const GameAssetLoader = Ember.Object.extend({
 	loadedCallback(key, obj, force) {
 		if(this.get('errors')) { return true; }
 		// Prevent double callbacks (I'm looking at you Firefox, canplaythrough)
-		if(!this.get('loadedAssets')[key] || force) {
+		if(!this.get('game').get('assets')[key] || force) {
 			/* Add the object to our asset list */
-			this.get('loadedAssets')[key] = obj;
+			this.get('game').get('assets')[key] = obj;
 			/* Update amount of remaining assets to be loaded */
 			this.set('amountOfAssetsRemaining', this.get('amountOfAssetsRemaining') - 1);
 			/* Update our progress if we have it */
