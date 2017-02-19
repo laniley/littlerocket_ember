@@ -5,7 +5,7 @@ const Scene = Ember.Object.extend({
 	game: null,
 	stages: [],
 	assets: [],
-	activeStage: null,
+	activeStage: 0,
 	load: null,
 	/**
 		clears all stages

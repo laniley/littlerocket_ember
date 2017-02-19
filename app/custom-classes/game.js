@@ -29,7 +29,7 @@ const Game = Ember.Object.extend({
 	spriteSheeds: {},
 
 	scenes: {},
-	activeStage: 0,
+	activeScene: null,
 
 	matrices2d: [],
 	matrix2d: Ember.computed('matrices2d.length', function() {
@@ -143,6 +143,7 @@ const Game = Ember.Object.extend({
       	// Make this the active stage and initialize the stage,
       	// calling loadScene to popuplate the stage if we have a scene.
       	scene.set('activeStage', num);
+		this.set('activeScene', scene);
 
       	var stage = scene.get('stages')[num] = Stage.create({
 			scene: scene
@@ -209,7 +210,7 @@ const Game = Ember.Object.extend({
     },
 
 	rerender() {
-		this.get('stages').forEach(stage => {
+		this.get('activeScene.stages').forEach(stage => {
 			stage.render();
 		});
 	}
