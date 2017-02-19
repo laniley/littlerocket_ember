@@ -18,8 +18,6 @@ export default Ember.Mixin.create({
     				direction: 'up',
     				stars: 0,
                     z: 0,
-    				tileW: 50,
-    				tileH: 140,
     				type: Q.SPRITE_ROCKET,
     				collisionMask: Q.SPRITE_STAR,
                     flownDisanceOfCurrentParsec: 0,
@@ -40,29 +38,7 @@ export default Ember.Mixin.create({
 
                 this.p.speed = 300;
 
-                // Drehpunkt zentral
-                this.p.points = [
-                    // links, halb oben
-                    [-this.p.tileW / 2, -20],
-                    // Raketenspitze
-                    [0, -this.p.tileH / 2],
-                    // rechts, halb oben
-                    [this.p.tileW / 2, -20],
-                    // rechts, halb unten
-                    [this.p.tileW / 2, 5],
-                    // Antriebsdüse rechts
-                    [10, 20],
-                    // rechts, unten
-                    [this.p.tileW / 2, -35 + this.p.tileH / 2],
-                    // mitte unten
-                    [0, -30  + this.p.tileH / 2],
-                    // links, unten
-                    [-this.p.tileW / 2, -35  + this.p.tileH / 2],
-                    // Antriebsdüse links
-                    [-10, 20 ],
-                    // links, halb oben
-                    [-this.p.tileW / 2, 5]
-				];
+
 
                 this.add("2d, platformerControls, animation");
 

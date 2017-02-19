@@ -18,68 +18,6 @@ Most games will include at a minimum `Quintus.Sprites` and `Quintus.Scenes`
  */
 Quintus.Sprites = function(Q)
 {
-
-  /**
-
-  Sprite sheet class - generally instantiated with `Q.sheet` new `new`
-
-
-  @class Q.SpriteSheet
-  @extends Q.Class
-  @for Quintus.Sprites
-  */
-  Q.Class.extend("SpriteSheet",
-  {
-
-
-
-    /**
-     Returns the starting x position of a single frame
-
-     @method fx
-     @for Q.SpriteSheet
-     @param {Integer} frame
-    */
-    fx: function(frame)
-    {
-      return Math.floor((frame % this.cols) * (this.tileW + this.spacingX) + this.sx);
-    },
-
-    /**
-     Returns the starting y position of a single frame
-
-     @method fy
-     @for Q.SpriteSheet
-     @param {Integer} frame
-    */
-    fy: function(frame)
-    {
-      return Math.floor(Math.floor(frame / this.cols) * (this.tileH + this.spacingY) + this.sy);
-    },
-
-    /**
-     Draw a single frame at x,y on the provided context
-
-     @method draw
-     @for Q.SpriteSheet
-     @param {Context2D} ctx
-     @param {Float} x
-     @param {Float} y
-     @param {Integer} frame
-    */
-    draw: function(ctx, x, y, frame)
-    {
-      if(!ctx) { ctx = Q.ctx; }
-      ctx.drawImage(Q.asset(this.asset),
-                    this.fx(frame),this.fy(frame),
-                    this.tileW, this.tileH,
-                    Math.floor(x),Math.floor(y),
-                    this.tileW, this.tileH);
-
-    }
-
-  });
-
   /**
    Create a number of `Q.SpriteSheet` objects from an image asset and a sprite data JSON asset
 

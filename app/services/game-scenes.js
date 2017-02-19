@@ -20,7 +20,7 @@ export default Ember.Service.extend({
 				this.get('gameState').set('showHud', true);
 
 			// 	self.get('gameState').resetRocketComponents();
-			//
+
 				var rocket = Rocket.create({
 					game: this.get('gameState').get('game')
 				});

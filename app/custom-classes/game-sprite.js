@@ -5,7 +5,7 @@ const Sprite = Ember.Object.extend({
 
 	game: null,
 
-	type: '', // can be 'sprite', 'asset' or 'color'
+	type: '', // can be 'sheet', 'asset' or 'color'
 
 	name: '',
 	assetName: '',
@@ -14,13 +14,19 @@ const Sprite = Ember.Object.extend({
 		return this.get('game.assets')[this.get('assetName')];
 	}),
 
-	cPoints: null, // collision points in world coordinates
 	matrix: null, // transformation matrix
 	container: null,
-
-	x: 0, // x location of the center
-	y: 0, // y location of the center
-
+	// x and y define the top left corner of the sprite
+	x: 0, // x location of the sprite
+	y: 0, // y location of the sprite
+	// cx and cx define the center of the sprite
+	// it will rotate around that point per default
+	cx: Ember.computed('x', function() {
+		return this.get('x') + (this.get('tileW') / 2);
+	}),
+	cy: Ember.computed('y', function() {
+		return this.get('y') + (this.get('tileH') / 2);
+	}),
 	// width of the hole asset
 	w: Ember.computed('asset', function() {
 		return this.get('asset') ? this.get('asset').width : 0;
@@ -29,21 +35,29 @@ const Sprite = Ember.Object.extend({
 	h: Ember.computed('asset', function() {
 		return this.get('asset') ? this.get('asset').height : 0;
 	}),
-	// collision points in object coordinates
-    points: Ember.computed('w', 'h', function() {
-		var halfW = this.get('w') / 2;
-        var halfH = this.get('h') / 2;
+	// default width of one tile
+	tileW: Ember.computed('w', function() {
+		return this.get('w');
+	}),
+	// default height of one tile
+	tileH: Ember.computed('h', function() {
+		return this.get('asset');
+	}),
+	// default object coordinates - a simple rectangle
+	// can be overriden on object level to better fit the precise form ob the object
+    points: Ember.computed('x', 'y', 'tileW', 'tileH', function() {
+		var halfW = this.get('tileW') / 2;
+        var halfH = this.get('tileH') / 2;
 
       	return [
 	        [ -halfW, -halfH ],
-	        [  halfW, -halfH ],
-	        [  halfW,  halfH ],
-	        [ -halfW,  halfH ]
+	        [ halfW, -halfH ],
+	        [ halfW, halfH ],
+	        [ -halfW, halfH ]
         ];
     }),
 
-	tileW: 0, // width of one tile
-	tileH: 0, // height of one tile
+	cPoints: null, // collision points in world coordinates
 
 	angle: 0, // amount of rotation
 	opacity: 1,
@@ -66,55 +80,51 @@ const Sprite = Ember.Object.extend({
      	@for Sprite
      	@param {Context2D} ctx - context to render to
     */
-    render(ctx) {
-
+    render() {
+		// do not render if hidden is true
       	if(this.get('hidden')) {
 		  	return;
 	  	}
-		// if no context has been provided as a parameter, get the default context of the game
-      	if(!ctx) {
-			ctx = this.get('game').get('context');
+		else {
+			// get the context of the game
+	      	var ctx = this.get('game').get('context');
+
+			ctx.save();
+
+	        if(this.get('opacity') !== void 0 && this.get('opacity') !== 1) {
+	          	ctx.globalAlpha = this.get('opacity');
+	        }
+
+	        this.get('matrix').setContextTransform(ctx);
+
+	        if(this.get('flip') !== "") {
+				ctx.scale.apply(ctx,this._flipArgs[this.p.flip]);
+			}
+
+	        this.draw(ctx);
+
+	      	ctx.restore();
+
+	      	// Children set up their own complete matrix from the base stage matrix
+	      	if(this.get('sort')) {
+				this.children.sort(this._sortChild);
+			}
+
+	     	// Q._invoke(this.children,"render",ctx);
+
+	      	if(this.get('game').get('debug')) {
+				this.debugRender(ctx);
+			}
 		}
-
-		// this.trigger('predraw',ctx);
-		ctx.save();
-
-        if(this.get('opacity') !== void 0 && this.get('opacity') !== 1) {
-          	ctx.globalAlpha = this.get('opacity');
-        }
-
-        this.get('matrix').setContextTransform(ctx);
-
-        if(this.get('flip') !== "") {
-			ctx.scale.apply(ctx,this._flipArgs[this.p.flip]);
-		}
-
-        // this.trigger('beforedraw',ctx);
-        this.draw(ctx);
-        // this.trigger('draw',ctx);
-
-      	ctx.restore();
-
-      	// Children set up their own complete matrix from the base stage matrix
-      	if(this.get('sort')) {
-			this.children.sort(this._sortChild);
-		}
-     //  	Q._invoke(this.children,"render",ctx);
-
-     	// this.trigger('postdraw',ctx);
-
-      	if(this.get('game').get('debug')) {
-			this.debugRender(ctx);
-		}
-
     },
 	/**
      	Draw the asset on the stage. The context passed in is alreay transformed.
-     	All you need to do is a draw the sprite centered at 0,0
+     	All you need to do is draw the sprite
     */
-    draw: function(ctx) {
+    draw(ctx) {
       	if(this.get('type') === 'sheet') {
-        	this.getOrCreateSheet(this.get('sheet')).draw(ctx,-p.cx,-p.cy,p.frame);
+			var frame = 1;
+        	this.getOrCreateSheet(this.get('sheet')).draw(ctx, frame);
       	}
 		else if(this.get('type') === 'asset') {
         	ctx.drawImage(this.get('asset'),-p.cx,-p.cy);
@@ -123,32 +133,15 @@ const Sprite = Ember.Object.extend({
         	ctx.fillStyle = this.get('color');
         	ctx.fillRect(-p.cx,-p.cy,p.w,p.h);
       	}
-    },
-	debugRender(ctx) {
-		var points = this.get('points');
-		console.log(points);
-      	ctx.save();
-      	this.get('matrix').setContextTransform(ctx);
-      	ctx.beginPath();
-      	ctx.fillStyle = this.get('hit') ? "blue" : "red";
-      	ctx.strokeStyle = "#FF0000";
-      	ctx.fillStyle = "rgba(0,0,0,0.5)";
-
-      	ctx.moveTo(points[0][0], points[0][1]);
-
-	  	for(var i = 0; i < points.length; i++) {
-        	ctx.lineTo(points[i][0], points[i][1]);
-      	}
-
-      	ctx.lineTo(points[0][0], points[0][1]);
-      	ctx.stroke();
-
-      	if(this.get('game').get('debugFill')) {
-			ctx.fill();
+		else {
+			console.error('The provided sprite type "' + this.get('type') + '" does not match one of the allowed types [sheet, asset, color]');
 		}
+    },
 
-      	ctx.restore();
-
+	debugRender(ctx) {
+		// draw object points
+		this.debugRenderObjectPoints(ctx);
+		// draw collision points if they exist
       	if(this.get('cPoints')) {
 	        var c = this.get('cPoints');
 	        ctx.save();
@@ -165,6 +158,35 @@ const Sprite = Ember.Object.extend({
 	        ctx.restore();
       	}
     },
+
+	debugRenderObjectPoints(ctx) {
+		var points = this.get('points');
+
+		var cx = this.get('cx'),
+			cy = this.get('cy');
+
+      	ctx.save();
+      	this.get('matrix').setContextTransform(ctx);
+      	ctx.beginPath();
+      	ctx.fillStyle = this.get('hit') ? "blue" : "red";
+      	ctx.strokeStyle = "#FF0000";
+      	ctx.fillStyle = "rgba(0,0,0,0.5)";
+
+      	ctx.moveTo(cx + points[0][0], cy + points[0][1]);
+
+	  	for(var i = 0; i < points.length; i++) {
+        	ctx.lineTo(cx + points[i][0], cy + points[i][1]);
+      	}
+
+      	ctx.lineTo(cx + points[0][0], cy + points[0][1]);
+      	ctx.stroke();
+
+      	if(this.get('game').get('debugFill')) {
+			ctx.fill();
+		}
+
+      	ctx.restore();
+	},
 	/**
      	Generate a square set of `cPoints` on an object from the object transform matrix and `points`
 
@@ -287,11 +309,11 @@ const Sprite = Ember.Object.extend({
 	  	if(!this.get('game').get('spriteSheeds')[sheet]) {
 			return this.get('game').get('spriteSheeds')[sheet] = SpriteSheet.create({
 				game: this.get('game'),
-				asset: this.get('asset')
+				sprite: this
 			});
 	  	}
 		else {
-			return this.get('sheets')[name];
+			return this.get('game').get('spriteSheeds')[sheet];
 	  	}
 	}
 });
