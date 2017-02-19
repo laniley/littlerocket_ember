@@ -14,14 +14,12 @@ export default Ember.Mixin.create({
         Q.TransformableSprite.extend("Rocket", {
             init: function(p) {
                 this._super(p, {
-    				frame: 0,
     				direction: 'up',
     				stars: 0,
                     z: 0,
     				type: Q.SPRITE_ROCKET,
     				collisionMask: Q.SPRITE_STAR,
                     flownDisanceOfCurrentParsec: 0,
-                    points: [],
                     scale: Q.state.get('scale'),
                     hasACannon: false,
                     cannon: null,

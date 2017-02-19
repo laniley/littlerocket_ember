@@ -29,7 +29,6 @@ const Game = Ember.Object.extend({
 	spriteSheeds: {},
 
 	scenes: {},
-	stages: [],
 	activeStage: 0,
 
 	matrices2d: [],
@@ -138,18 +137,18 @@ const Game = Ember.Object.extend({
       	// Figure out which stage to use
       	num = HF.isUndefined(num) ? ((scene && scene.get('stage')) || 0) : num;
       	// Clean up an existing stage if necessary
-      	if(this.get('stages')[num]) {
-        	this.get('stages')[num].destroy();
+      	if(scene.get('stages')[num]) {
+        	scene.get('stages')[num].destroy();
       	}
       	// Make this the active stage and initialize the stage,
       	// calling loadScene to popuplate the stage if we have a scene.
-      	this.set('activeStage', num);
+      	scene.set('activeStage', num);
 
-      	var stage = this.get('stages')[num] = Stage.create({
+      	var stage = scene.get('stages')[num] = Stage.create({
 			scene: scene
 		});
 
-		this.get('stages')[num] = stage;
+		scene.get('stages')[num] = stage;
 
 		stage.load();
   	},
@@ -161,7 +160,7 @@ const Game = Ember.Object.extend({
         	return this.get('scenes')[name];
       	}
 		else {
-        	console.error('There is no scene with the name "' + name + '" in the game-scenes service');
+        	console.error('There is no scene with the name "' + name + '". Initialize it in the game-scenes service!');
       	}
   	},
 	/**

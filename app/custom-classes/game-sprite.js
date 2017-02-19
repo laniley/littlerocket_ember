@@ -59,6 +59,8 @@ const Sprite = Ember.Object.extend({
 
 	cPoints: null, // collision points in world coordinates
 
+	frame: 0, // first frame which will be rendered
+
 	angle: 0, // amount of rotation
 	opacity: 1,
 
@@ -70,7 +72,6 @@ const Sprite = Ember.Object.extend({
 		this._super();
 		this.set('matrix', this.get('game').get('matrix2d'));
 	},
-
 	/**
      	Default render method for the sprite.
 		Don't overload this unless you want to handle all the transform and scale stuff yourself.
@@ -123,15 +124,14 @@ const Sprite = Ember.Object.extend({
     */
     draw(ctx) {
       	if(this.get('type') === 'sheet') {
-			var frame = 1;
-        	this.getOrCreateSheet(this.get('sheet')).draw(ctx, frame);
+        	this.getOrCreateSheet(this.get('sheet')).draw(ctx, this.get('frame'));
       	}
 		else if(this.get('type') === 'asset') {
-        	ctx.drawImage(this.get('asset'),-p.cx,-p.cy);
+        	ctx.drawImage(this.get('asset'), this.get('x'), this.get('y'));
       	}
 		else if(this.get('color')) {
         	ctx.fillStyle = this.get('color');
-        	ctx.fillRect(-p.cx,-p.cy,p.w,p.h);
+        	ctx.fillRect(this.get('x'), this.get('y'), this.get('w'), this.get('h'));
       	}
 		else {
 			console.error('The provided sprite type "' + this.get('type') + '" does not match one of the allowed types [sheet, asset, color]');

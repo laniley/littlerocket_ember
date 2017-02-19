@@ -1380,23 +1380,6 @@ var Quintus = function Quintus(opts) {
 	 	return filename.replace(/\.(\w{3,4})$/,"");
   	};
 
-  	// Asset hash storing any loaded assets
-  	Q.assets = {};
-
-  	/**
-	Getter method to return an asset by its name.
-
-	Asset names default to their filenames, but can be overridden
-	by passing a hash to `load` to set different names.
-
-	@for Quintus
-	@method asset
-	@param {String} name - name of asset to lookup
-  	*/
-  	Q.asset = function(name) {
-	 	return Q.assets[name];
-  	};
-
   /**
 	Load assets, and call our callback when done.
 

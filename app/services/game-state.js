@@ -12,8 +12,8 @@ export default Ember.Service.extend({
 	isPaused: true,
 	showHud: false,
 
-	width: 0,
-	height: 0,
+	width: 0, // current width of the canvas
+	height: 0, // current height of the canvas
 
     currentScene: '',
 

@@ -63,6 +63,11 @@ const Stage = Ember.Object.extend({
 		this.get('items').forEach(itm => {
 			itm.render();
 		});
+	},
+	clear() {
+		this.get('items').forEach(itm => {
+			itm.destroy();
+		});
 	}
 });
 
