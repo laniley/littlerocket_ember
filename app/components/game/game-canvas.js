@@ -1,8 +1,7 @@
 import Ember from 'ember';
 import Game from './../../custom-classes/game';
-// import RocketMixin from './../../mixins/rocket-mixin';
 
-export default Ember.Component.extend(/*RocketMixin,*/ {
+export default Ember.Component.extend({
 
     gameState: Ember.inject.service('game-state'),
 	gameScenes: Ember.inject.service('game-scenes'),
@@ -40,6 +39,8 @@ export default Ember.Component.extend(/*RocketMixin,*/ {
         this._super();
 
 		var game = Game.create({
+			debug: true,
+			debugFill: true,
 			gameState: this.get('gameState'),
 			scenes: this.get('gameScenes').get('scenes'),
 			assets: this.get('assets'),
@@ -48,24 +49,18 @@ export default Ember.Component.extend(/*RocketMixin,*/ {
 		});
 
 		this.get('gameState').set('game', game);
-
-        // var Q = window.Q = new Quintus({
-        //     development: false,
-        //     audioSupported: [ 'mp3' ],
-        //     dataPath: "./assets/data/"
-        // })
-        // .include("Sprites, Anim, Input, Scenes, 2D, Touch, UI, Audio");
-        //
-        // this.set('Q', Q);
     },
 
     didInsertElement() {
         var ctx = this.get('element').getContext('2d');
-        this.get('gameState').set('canvas', this);
-        this.get('gameState').set('context', ctx);
+        this.get('gameState').get('game').set('canvas', this);
+        this.get('gameState').get('game').set('context', ctx);
 
         ctx.canvas.width  = Ember.$('#game-canvas-container').innerWidth();
         ctx.canvas.height = Ember.$('#game-canvas-container').innerHeight();
+
+		this.get('gameState').set('width', ctx.canvas.width);
+		this.get('gameState').set('height', ctx.canvas.height);
 
     	this.get('gameState').get('game').load();
 
@@ -108,15 +103,6 @@ export default Ember.Component.extend(/*RocketMixin,*/ {
         // Q.SPRITE_ASTEROID = 4;
         // Q.SPRITE_BULLET	  = 16;
 
-        // var rocket_y  = Q.height/6 * 5;
-        //
-        // if(Q.touchDevice) {
-        //     Q.state.set('scale', 2.5);
-        //     rocket_y -= 100;
-        // }
-
-        // this.initRocket();
-
         // Q.scene("mainMenu", function(stage) {
         //
         //     Q.pauseGame();
@@ -153,8 +139,6 @@ export default Ember.Component.extend(/*RocketMixin,*/ {
             // rocket.setDecoration(decoration);
             // rocket.p.stage.insert(decoration);
   	  //   });
-
-
     },
 
 	// normalizeArg(arg) {
@@ -166,27 +150,13 @@ export default Ember.Component.extend(/*RocketMixin,*/ {
     //     }
     //     return arg;
     // },
-
-	// extend(dest,source) {
-	// 	if(!source) { return dest; }
-	// 	for (var prop in source) {
-	// 	 dest[prop] = source[prop];
-	// 	}
-	// 	return dest;
-	// },
-
-    // stageScene(scene) {
-    //     console.log('Staging scene "' + scene + '" ...');
-    //     this.get('gameState').set('currentScene', scene);
-    //     this.get('Q').stageScene(scene);
+    // draw() {
+    //     // var ctx = this.get('element').getContext('2d');
+    //     // var image = new Image();
+    //     //     image.onload = function () {
+    //     //         ctx.drawImage(image, 0, 0);
+    //     //     };
+    //     // image.src = "assets/images/rocket.png";
     // },
-    draw() {
-        // var ctx = this.get('element').getContext('2d');
-        // var image = new Image();
-        //     image.onload = function () {
-        //         ctx.drawImage(image, 0, 0);
-        //     };
-        // image.src = "assets/images/rocket.png";
-    },
 
 });

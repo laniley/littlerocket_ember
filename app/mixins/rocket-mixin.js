@@ -10,17 +10,10 @@ export default Ember.Mixin.create({
         // this.set('FB', FB);
 
         var self = this;
-        var y  = Q.height/6 * 5;
-
-        if(Q.touchDevice) {
-            y -= 100;
-        }
 
         Q.TransformableSprite.extend("Rocket", {
             init: function(p) {
                 this._super(p, {
-    				name: "Rocket",
-    				sheet: "rocket",
     				frame: 0,
     				direction: 'up',
     				stars: 0,
@@ -46,11 +39,6 @@ export default Ember.Mixin.create({
                 // }
 
                 this.p.speed = 300;
-
-                // x location of the center
-                this.p.x = Q.width / 2;
-                // y location of the center
-                this.p.y = y;
 
                 // Drehpunkt zentral
                 this.p.points = [

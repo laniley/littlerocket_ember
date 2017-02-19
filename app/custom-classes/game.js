@@ -1,10 +1,14 @@
 import Ember from 'ember';
 import HF from './../custom-classes/helper-functions';
 import AssetLoader from './../custom-classes/game-asset-loader';
+import GameMatrix2D from './../custom-classes/game-matrix-2d';
 import GameAudio from './../custom-classes/game-audio';
 import Stage from './../custom-classes/game-stage';
 
 const Game = Ember.Object.extend({
+
+	debug: false,
+	debugFill: false,
 
 	gameState: null,
 
@@ -22,10 +26,31 @@ const Game = Ember.Object.extend({
 
 	assets: [],
 	assetLoader: null,
+	spriteSheeds: {},
 
 	scenes: {},
 	stages: [],
 	activeStage: 0,
+
+	matrices2d: [],
+	matrix2d: Ember.computed('matrices2d.length', function() {
+		if( this.get('matrices2d').length > 0 ) {
+			return this.get('matrices2d').pop().identity();
+		}
+		else {
+			return GameMatrix2D.create();
+		}
+	}),
+
+	nullContainer: {
+      	cPoints: {
+        	x: 0,
+        	y: 0,
+        	angle: 0,
+        	scale: 1
+      	},
+      	matrix: null
+  	},
 
 	init() {
 		this.set('assetLoader', AssetLoader.create({
@@ -84,8 +109,8 @@ const Game = Ember.Object.extend({
 	            // Q.debugFill = true;
 			}
 		}));
-		this.set('audio', GameAudio.create({
-		}));
+		this.set('audio', GameAudio.create({}));
+		this.set('nullContainer.matrix', this.get('matrix2d'));
 	},
 
 	load() {
@@ -127,10 +152,6 @@ const Game = Ember.Object.extend({
 		this.get('stages')[num] = stage;
 
 		stage.load();
-
-     //  	if(Ember.isEmpty(this.get('loop'))) {
-        // 	this.gameLoop();
-     //  	}
   	},
 	/**
 		Set up a new scene or return an existing scene. If you don't pass in `sceneFunc`, it'll return a scene otherwise it'll create a new one.
@@ -144,9 +165,9 @@ const Game = Ember.Object.extend({
       	}
   	},
 	/**
-		The callback will be called with fraction of a second that has elapsed since the last call to the loop method.
+		The callback will be called with the fraction of a second that has elapsed since the last call to the loop method.
     */
-  	gameLoop() {
+  	startGameLoop: Ember.observer('gameState.isPaused', function() {
 		this.set('lastGameLoopFrame', new Date().getTime());
 
 		// Short circuit the loop check in case multiple scenes are staged immediately
@@ -155,18 +176,24 @@ const Game = Ember.Object.extend({
 		// Keep track of the frame we are on (so that animations can be synced to the next frame)
 		this.set('loopFrame', 0);
 
-		window.requestAnimationFrame(this.gameLoopCallback());
- 	},
+		this.set('loop', window.requestAnimationFrame(() => {
+			this.gameLoopCallback();
+		}));
+ 	}),
+
 	gameLoopCallback() {
 		var now = new Date().getTime();
 		this.set('loopFrame', this.get('loopFrame') + 1);
-		this.set('loop', window.requestAnimationFrame(this.gameLoopCallback()));
 		var dt = now - this.get('lastGameLoopFrame');
+		console.log(now, this.get('loopFrame'), dt);
 		/* Prevent fast-forwarding by limiting the length of a single frame. */
 		if(dt > this.get('frameTimeLimit')) {
 			dt = this.get('frameTimeLimit');
 		}
 		this.set('lastGameLoopFrame', now);
+		window.requestAnimationFrame(() => {
+			this.gameLoopCallback();
+		});
 	},
 	/**
   		Pause the entire game by canceling the requestAnimationFrame call. If you use setTimeout or
@@ -180,8 +207,13 @@ const Game = Ember.Object.extend({
   		this.set('loop', null);
 
   		this.get('gameState').set('isPaused', true);
-    }
+    },
 
+	rerender() {
+		this.get('stages').forEach(stage => {
+			stage.render();
+		});
+	}
 });
 
 export default Game;

@@ -16,7 +16,9 @@ export default Ember.Component.extend(ResizeAware, {
             var ctx = document.getElementById('game').getContext('2d');
             ctx.canvas.width  = width;
             ctx.canvas.height = height;
-            this.get('gameState').get('canvas').draw();
+			this.get('gameState').set('width', width);
+			this.get('gameState').set('height', height);
+            this.get('gameState').get('game').rerender();
         }
     },
 });

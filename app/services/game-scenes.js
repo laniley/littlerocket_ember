@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import HF from './../custom-classes/helper-functions';
 import Scene from './../custom-classes/game-scene';
+import Rocket from './../custom-classes/rocket';
 
 export default Ember.Service.extend({
 
@@ -13,7 +13,7 @@ export default Ember.Service.extend({
 		var mainMenu = Scene.create({
 			name: 'mainMenu',
 			game: this.get('gameState').get('game'),
-			load: () => {
+			load: (stage) => {
 				this.get('gameState').get('game').pause();
 			    this.get('gameState').get('game').get('audio').stop('rocket.mp3');
 				this.get('gameState').get('game').get('audio').stop('racing.mp3');
@@ -21,8 +21,11 @@ export default Ember.Service.extend({
 
 			// 	self.get('gameState').resetRocketComponents();
 			//
-			// 	var rocket = new Q.Rocket({ stage: stage });
-			// 	stage.insert(rocket);
+				var rocket = Rocket.create({
+					game: this.get('gameState').get('game')
+				});
+
+				stage.insert(rocket);
 			//
 			// 	if(!Ember.isEmpty(self.get('rocket').get('cannon'))) {
 			// 	    var cannon = new Q.Cannon();

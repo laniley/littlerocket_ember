@@ -23,9 +23,6 @@ stepping, rendering and collision detection.
  */
 Quintus.Scenes = function(Q) {
 
-
-
-
   /**
    Basic scene class, consisting primarily of a scene function
    and some options that are passed to the stage.
@@ -41,19 +38,6 @@ Quintus.Scenes = function(Q) {
       this.sceneFunc = sceneFunc;
     }
   });
-
-
-
-  Q._nullContainer = {
-    c: {
-      x: 0,
-      y: 0,
-      angle: 0,
-      scale: 1
-    },
-    matrix: Q.matrix2d()
-  };
-
 
   /**
    SAT collision detection between two objects
@@ -401,43 +385,7 @@ Quintus.Scenes = function(Q) {
       }
     },
 
-    /**
-     inserts an item into the scene, or inside a container
 
-     @method insert
-     @for Q.Stage
-     @param {Q.GameObject} itm - the Item to insert
-     @param container - _optional_
-     @return the inserted object for chaining
-    */
-    insert: function(itm,container) {
-      this.items.push(itm);
-      itm.stage = this;
-      itm.container = container;
-      if(container) {
-        container.children.push(itm);
-      }
-
-      itm.grid = {};
-
-
-      // Make sure we have a square of collision points
-      Q._generatePoints(itm);
-      Q._generateCollisionPoints(itm);
-
-
-      if(itm.className) { this.addToList(itm.className, itm); }
-      if(itm.activeComponents) { this.addToLists(itm.activeComponents, itm); }
-
-      if(itm.p) {
-        this.index[itm.p.id] = itm;
-      }
-      this.trigger('inserted',itm);
-      itm.trigger('inserted',this);
-
-      this.regrid(itm);
-      return itm;
-    },
 
     /**
      removes an item from the scene

@@ -3,7 +3,7 @@ import Ember from 'ember';
 const Scene = Ember.Object.extend({
 	name: '',
 	game: null,
-	stage: null,
+	stages: [],
 	assets: [],
 	load: null
 });

@@ -12,6 +12,9 @@ export default Ember.Service.extend({
 	isPaused: true,
 	showHud: false,
 
+	width: 0,
+	height: 0,
+
     currentScene: '',
 
     distance_to_goal: 0,
