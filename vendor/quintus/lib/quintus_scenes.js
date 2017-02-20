@@ -957,19 +957,7 @@ Quintus.Scenes = function(Q) {
     if(Q.input && Q.ctx) { Q.input.drawCanvas(Q.ctx); }
   };
 
-  /**
-   Destroys the stage with indes `num`
 
-   @method clearStage
-   @param {Number} num
-   @for Q
-  */
-  Q.clearStage = function(num) {
-    if(Q.stages[num]) {
-      Q.stages[num].destroy();
-      Q.stages[num] = null;
-    }
-  };
 
   /**
    Destroys all stages
