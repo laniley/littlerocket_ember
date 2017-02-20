@@ -123,6 +123,7 @@ const Game = Ember.Object.extend({
 	stageScene(scene, num, options) {
 
 		console.log('Staging scene \'' + scene + '\'..., num: ' + num + ', options: ' + options);
+		this.set('gameState.currentScene', scene);
 
 		scene = this.getScene(scene);
 

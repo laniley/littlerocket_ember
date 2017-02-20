@@ -64,10 +64,6 @@ export default Ember.Component.extend({
 
     	this.get('gameState').get('game').load();
 
-        // this.draw();
-
-        // var Q = this.get('Q');
-        // var self = this;
         // Q.setup('game', {
         //     scaleToFit: true,
         //     maximize: "touch"
@@ -102,61 +98,6 @@ export default Ember.Component.extend({
         // Q.SPRITE_STAR     = 2;
         // Q.SPRITE_ASTEROID = 4;
         // Q.SPRITE_BULLET	  = 16;
-
-        // Q.scene("mainMenu", function(stage) {
-        //
-        //     Q.pauseGame();
-        //     Q.audio.stop('rocket.mp3');
-        //     Q.audio.stop('racing.mp3');
-
-            // self.set('showHud', true);
-
-            // self.get('gameState').resetRocketComponents();
-
-            // var rocket = new Q.Rocket({ stage: stage });
-            // stage.insert(rocket);
-
-            // if(!Ember.isEmpty(self.get('rocket').get('cannon'))) {
-            //     var cannon = new Q.Cannon();
-            //     cannon.setRocket(rocket);
-            //     rocket.setCannon(cannon);
-    		//     stage.insert(cannon);
-            // }
-            // if(!Ember.isEmpty(self.get('rocket').get('shield'))) {
-            //     var shield = new Q.Shield();
-            //     shield.setRocket(rocket);
-            //     rocket.setShield(shield);
-            //     stage.insert(shield);
-            // }
-            // if(!Ember.isEmpty(self.get('rocket').get('engine'))) {
-            //     var engine = new Q.Engine();
-            //     engine.setRocket(rocket);
-            //     rocket.setShield(engine);
-            //     stage.insert(engine);
-            // }
-            // var decoration = new Q.Decoration();
-            // decoration.setRocket(rocket);
-            // rocket.setDecoration(decoration);
-            // rocket.p.stage.insert(decoration);
-  	  //   });
     },
-
-	// normalizeArg(arg) {
-    //     if(Ember.typeOf(arg) === 'string') {
-    //         arg = arg.replace(/\s+/g,'').split(",");
-    //     }
-    //     if(!Ember.isArray(arg)) {
-    //         arg = [ arg ];
-    //     }
-    //     return arg;
-    // },
-    // draw() {
-    //     // var ctx = this.get('element').getContext('2d');
-    //     // var image = new Image();
-    //     //     image.onload = function () {
-    //     //         ctx.drawImage(image, 0, 0);
-    //     //     };
-    //     // image.src = "assets/images/rocket.png";
-    // },
 
 });

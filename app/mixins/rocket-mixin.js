@@ -7,8 +7,6 @@ export default Ember.Mixin.create({
 
     initRocket: function() {
 
-        // this.set('FB', FB);
-
         var self = this;
 
         Q.TransformableSprite.extend("Rocket", {
@@ -27,16 +25,7 @@ export default Ember.Mixin.create({
                     engine: null
                 });
 
-                // if(!Ember.isEmpty(self.get('rocket').get('cannon'))) {
-                //     this.p.hasACannon = true;
-                // }
-                // else {
-                //     this.p.hasACannon = false;
-                // }
-
                 this.p.speed = 300;
-
-
 
                 this.add("2d, platformerControls, animation");
 
@@ -103,22 +92,6 @@ export default Ember.Mixin.create({
                 }
             },
 
-            setCannon: function(cannon) {
-                this.p.cannon = cannon;
-            },
-
-            setShield: function(shield) {
-                this.p.shield = shield;
-            },
-
-            setEngine: function(engine) {
-                this.p.engine = engine;
-            },
-
-            setDecoration: function(decoration) {
-                this.p.decoration = decoration;
-            },
-
             fireCannon: function() {
             	if( this.p.hasACannon &&
                     !self.get('cannon').get('isReloading') &&
@@ -176,8 +149,8 @@ export default Ember.Mixin.create({
             },
 
             destroy: function() {
-    		Q.pauseGame();
-    	},
+    			Q.pauseGame();
+    		},
 
         });
     }

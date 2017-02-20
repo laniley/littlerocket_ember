@@ -38,6 +38,10 @@ export default Ember.Component.extend(
 	showHud: Ember.computed('gameState.showHud', function() {
         return this.get('gameState.showHud');
     }),
+
+	currentScene: Ember.computed('gameState.currentScene', function() {
+        return this.get('gameState.currentScene');
+    }),
     // gameCanvasIsLoaded: false,
     // number_of_components_ready: 0,
     //
