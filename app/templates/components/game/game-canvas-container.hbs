@@ -7,12 +7,7 @@
 {{/if}}
 
 {{#if (if-equals currentScene 'mainMenu') }}
-  {{game-canvas-components/scenes/main-menu
-      me=me
-      gameState=gameState
-      startStageAction=(action "startStage")
-      selectStageAction=(action "selectStage")
-      openBuyEnergyDialogAction=(action "openBuyEnergyDialog")}}
+  	{{game/game-menu buttons=stageMenuButtons}}
 {{/if}}
 {{!--
 {{#if (if-equals currentScene 'gameOver') }}

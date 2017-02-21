@@ -42,6 +42,17 @@ export default Ember.Component.extend(
 	currentScene: Ember.computed('gameState.currentScene', function() {
         return this.get('gameState.currentScene');
     }),
+
+	stageMenuButtons: [
+        {
+            display: 'PLAY',
+            icon: 'rocket',
+            focused: 'focused',
+            action() {
+
+            },
+        },
+    ],
     // gameCanvasIsLoaded: false,
     // number_of_components_ready: 0,
     //
