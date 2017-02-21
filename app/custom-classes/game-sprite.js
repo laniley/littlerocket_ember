@@ -9,11 +9,13 @@ const Sprite = Ember.Object.extend({
 
 	name: '',
 	assetName: '',
-
 	asset: Ember.computed('game.assets.length', function() {
 		return this.get('game.assets')[this.get('assetName')];
 	}),
 
+	model: null, // the belonging Ember Model
+
+	stages: [], // all stages this sprite is in
 	matrix: null, // transformation matrix
 	container: null,
 	// x and y define the top left corner of the sprite

@@ -6,21 +6,14 @@
     {{game/game-progress-bar}}
 {{/if}}
 
-{{!-- {{#if (if-equals currentScene 'stageSelection') }}
-  {{game-canvas-components/scenes/stage-selection
-      Q=Q
-      me=me
-      gameState=gameState}}
-{{/if}}
---}}
-{{!-- {{#if (if-equals currentScene 'mainMenu') }}
+{{#if (if-equals currentScene 'mainMenu') }}
   {{game-canvas-components/scenes/main-menu
       me=me
       gameState=gameState
       startStageAction=(action "startStage")
       selectStageAction=(action "selectStage")
       openBuyEnergyDialogAction=(action "openBuyEnergyDialog")}}
-{{/if}} --}}
+{{/if}}
 {{!--
 {{#if (if-equals currentScene 'gameOver') }}
   {{game-canvas-components/scenes/game-over

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import DS from 'ember-data';
 import Sprite from './../custom-classes/game-sprite';
 
 const Rocket = Sprite.extend({
@@ -6,6 +7,16 @@ const Rocket = Sprite.extend({
 	name: 'Rocket',
 	type: 'sheet',
 	assetName: 'rocket.png',
+
+	model: Ember.computed('game.gameState.me.user.rocket', function() {
+		return DS.PromiseObject.create({
+	      	promise: this.get('game.gameState.me.user').then(user => {
+				return user.get('rocket').then(rocket => {
+					return rocket;
+				});
+			})
+		});
+	}),
 
 	tileW: 50,
 	tileH: 140,
@@ -46,7 +57,39 @@ const Rocket = Sprite.extend({
 			// links, halb oben
 			[-halfW, 5]
 		];
-	})
+	}),
+
+	cannon: null,
+	shield: null,
+	engine: null,
+
+	init() {
+		this._super();
+
+		// var cannon = Cannon.create({
+		// 	rocket: this
+		// });
+		// this.set('cannon', cannon);
+		// stage.insert(cannon);
+
+		// var shield = Shield.create({
+		// 	rocket: this
+		// });
+		// this.set('shield', shield);
+		// stage.insert(shield);
+
+		// var engine = Engine.create({
+		// 	rocket: this
+		// });
+		// this.set('engine', engine);
+		// stage.insert(engine);
+
+		// 	var decoration = new Q.Decoration();
+		// 	decoration.setRocket(rocket);
+		// 	rocket.setDecoration(decoration);
+		// 	rocket.p.stage.insert(decoration);
+		// });
+	}
 });
 
 export default Rocket;

@@ -31,6 +31,7 @@ const Stage = Ember.Object.extend({
     */
     insert: function(itm, container) {
       	this.get('items').push(itm);
+		itm.get('stages').push(this);
     //   	itm.stage = this;
     //   	itm.container = container;
     //   	if(container) {

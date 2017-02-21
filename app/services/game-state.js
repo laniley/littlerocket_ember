@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import DS from 'ember-data';
 
 export default Ember.Service.extend({
 
@@ -21,15 +20,10 @@ export default Ember.Service.extend({
     collected_stars: 0,
     speed_percentage: 0,
 
-    rocket: Ember.computed('me.user.rocket', function() {
-        return DS.PromiseObject.create({
-            promise: this.get('me.user').then(user => {
-                return user.get('rocket').then(rocket => {
-                    return rocket;
-                });
-            })
-        });
-    }),
+    rocket: null,
+	cannon: null,
+	shield: null,
+	engine: null,
 
     resetRocketComponents: function() {
         this.resetRocketComponent('cannon');
@@ -38,22 +32,24 @@ export default Ember.Service.extend({
     },
 
     resetRocketComponent: function(componentType) {
-        this.get('rocket').then(rocket => {
-            if(!Ember.isEmpty(rocket)) {
-                rocket.get(componentType).then(component => {
-                    if(component.get('status') === "unlocked") {
-                        component.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
-                            component.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
-                            component.set('isReloading', false);
-                        });
-                    }
-                    else {
-                        component.set('currentValue', 0);
-                        component.set('isReloading', false);
-                    }
-                });
-            }
-        });
+		this.get('me.user').then(user => {
+			user.get('rocket').then(rocket => {
+	            if(!Ember.isEmpty(rocket)) {
+	                rocket.get(componentType).then(component => {
+	                    if(component.get('status') === "unlocked") {
+	                        component.get('selectedRocketComponentModelMm').then(selectedRocketComponentModelMm => {
+	                            component.set('currentValue', selectedRocketComponentModelMm.get('capacity'));
+	                            component.set('isReloading', false);
+	                        });
+	                    }
+	                    else {
+	                        component.set('currentValue', 0);
+	                        component.set('isReloading', false);
+	                    }
+	                });
+	            }
+	        });
+		});
     },
 
 });
