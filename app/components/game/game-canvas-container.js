@@ -1,28 +1,6 @@
 import Ember from 'ember';
 
-// import FacebookLoginMixin from './../../mixins/facebook-login';
-// import RocketDecorationMixin from './../../mixins/rocket/decoration';
-// import CannonMixin from './../../mixins/rocket/rocket-components/cannon';
-// import BulletMixin from './../../mixins/rocket/rocket-components/cannon/bullet';
-// import ShieldMixin from './../../mixins/rocket/rocket-components/shield';
-// import EngineMixin from './../../mixins/rocket/rocket-components/engine';
-// import StarMixin from './../../mixins/asteroid';
-// import AsteroidMixin from './../../mixins/star';
-// import UfoMixin from './../../mixins/ufo';
-
-export default Ember.Component.extend(
-
-        // FacebookLoginMixin,
-        // RocketDecorationMixin,
-        // CannonMixin,
-        // BulletMixin,
-        // ShieldMixin,
-        // EngineMixin,
-        // AsteroidMixin,
-        // StarMixin,
-        // UfoMixin,
-
-{
+export default Ember.Component.extend({
 
     me: Ember.inject.service('me'),
     gameState: Ember.inject.service('game-state'),
@@ -43,23 +21,25 @@ export default Ember.Component.extend(
         return this.get('gameState.currentScene');
     }),
 
-	stageMenuButtons: [
-        {
-            display: 'PLAY',
-            icon: 'rocket',
-            focused: 'focused',
-            action(self) {
-				console.log(self.get('gameState'));
-				self.get('gameState').set('isPaused', false);
-				// this.startGame();
-            },
-        },
-    ],
+	stageMenuButtons: [],
+
+	init() {
+		this._super();
+		this.stageMenuButtons = [
+	        {
+				self: this,
+	            display: 'PLAY',
+	            icon: 'rocket',
+	            focused: 'focused',
+	            action: () => {
+					this.startGame();
+	            },
+	        },
+	    ];
+	},
 
 	startGame() {
-		return () => {
-			this.get('gameState').set('isPaused', false);
-		};
+		this.get('gameState').set('isPaused', false);
 	},
 
 
