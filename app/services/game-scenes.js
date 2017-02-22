@@ -15,7 +15,7 @@ export default Ember.Service.extend({
 			name: 'mainMenu',
 			game: this.get('gameState').get('game'),
 			load: (stage) => {
-				this.get('gameState').get('game').pause();
+				this.get('gameState').set('isPaused', true);
 			    this.get('gameState').get('game').get('audio').stop('rocket.mp3');
 				this.get('gameState').get('game').get('audio').stop('racing.mp3');
 				this.get('gameState').set('showHud', true);

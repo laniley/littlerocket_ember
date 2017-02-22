@@ -169,17 +169,34 @@ const Game = Ember.Object.extend({
 		The callback will be called with the fraction of a second that has elapsed since the last call to the loop method.
     */
   	startGameLoop: Ember.observer('gameState.isPaused', function() {
-		this.set('lastGameLoopFrame', new Date().getTime());
+		console.log("TEST");
+		/**
+	  		Pause the entire game by canceling the requestAnimationFrame call. If you use setTimeout or
+	  		setInterval in your game, those will, of course, keep on rolling...
+	    */
+		if(this.get('gameState.isPaused')) {
 
-		// Short circuit the loop check in case multiple scenes are staged immediately
-		this.set('loop', true);
+			if(!Ember.isEmpty(this.get('loop'))) {
+	  			window.cancelAnimationFrame(this.get('loop'));
+	  		}
 
-		// Keep track of the frame we are on (so that animations can be synced to the next frame)
-		this.set('loopFrame', 0);
+	  		this.set('loop', null);
 
-		this.set('loop', window.requestAnimationFrame(() => {
-			this.gameLoopCallback();
-		}));
+	  		this.get('gameState').set('isPaused', true);
+		}
+		else {
+			this.set('lastGameLoopFrame', new Date().getTime());
+
+			// Short circuit the loop check in case multiple scenes are staged immediately
+			this.set('loop', true);
+
+			// Keep track of the frame we are on (so that animations can be synced to the next frame)
+			this.set('loopFrame', 0);
+
+			this.set('loop', window.requestAnimationFrame(() => {
+				this.gameLoopCallback();
+			}));
+		}
  	}),
 
 	gameLoopCallback() {
@@ -196,19 +213,6 @@ const Game = Ember.Object.extend({
 			this.gameLoopCallback();
 		});
 	},
-	/**
-  		Pause the entire game by canceling the requestAnimationFrame call. If you use setTimeout or
-  		setInterval in your game, those will, of course, keep on rolling...
-    */
-    pause() {
-  		if(!Ember.isEmpty(this.get('loop'))) {
-  			window.cancelAnimationFrame(this.get('loop'));
-  		}
-
-  		this.set('loop', null);
-
-  		this.get('gameState').set('isPaused', true);
-    },
 
 	rerender() {
 		this.get('activeScene.stages').forEach(stage => {
