@@ -1,8 +1,8 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import Sprite from './../custom-classes/game-sprite';
+import Sprite2D from './../custom-classes/game-sprite-2d';
 
-const Rocket = Sprite.extend({
+const Rocket = Sprite2D.extend({
 
 	name: 'Rocket',
 	type: 'sheet',
@@ -59,6 +59,8 @@ const Rocket = Sprite.extend({
 		];
 	}),
 
+	direction: 'up',
+
 	cannon: null,
 	shield: null,
 	engine: null,
@@ -89,6 +91,8 @@ const Rocket = Sprite.extend({
 		// 	rocket.setDecoration(decoration);
 		// 	rocket.p.stage.insert(decoration);
 		// });
+
+		// this.add("2d, platformerControls, animation");
 	}
 });
 

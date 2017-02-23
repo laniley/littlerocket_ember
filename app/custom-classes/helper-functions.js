@@ -49,7 +49,9 @@ const HF = Ember.Object.extend({
 		}
 		return dest;
 	},
-
+	/**
+  		Return the file extension of a filename
+	*/
 	fileExtension(filename) {
 	   var fileParts = filename.split("."),
 			fileExt = fileParts[fileParts.length-1].toLowerCase();

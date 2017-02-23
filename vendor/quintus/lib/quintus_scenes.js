@@ -677,34 +677,6 @@ Quintus.Scenes = function(Q) {
       }
     },
 
-    markSprites: function(items,time) {
-      var viewport = this.viewport,
-          scale = viewport ? viewport.scale : 1,
-          x = viewport ? viewport.x : 0,
-          y = viewport ? viewport.y : 0,
-          viewW = Q.width / scale,
-          viewH = Q.height / scale,
-          gridX1 = Math.floor(x / this.options.gridW),
-          gridY1 = Math.floor(y / this.options.gridH),
-          gridX2 = Math.floor((x + viewW) / this.options.gridW),
-          gridY2 = Math.floor((y + viewH) / this.options.gridH),
-          gridRow, gridBlock;
-
-      for(var iy=gridY1; iy<=gridY2; iy++) {
-        if((gridRow = this.grid[iy])) {
-          for(var ix=gridX1; ix<=gridX2; ix++) {
-            if((gridBlock = gridRow[ix])) {
-              for(var id in gridBlock) {
-                if(this.index[id]) {
-                  this.index[id].mark = time;
-                  if(this.index[id].container) { this.index[id].container.mark = time; }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
 
     updateSprites: function(items,dt,isContainer) {
       var item;
@@ -722,27 +694,6 @@ Quintus.Scenes = function(Q) {
       }
     },
 
-
-
-    step:function(dt) {
-      if(this.paused) { return false; }
-
-      this.time += dt;
-      this.markSprites(this.items,this.time);
-
-      this.trigger("prestep",dt);
-      this.updateSprites(this.items,dt);
-      this.trigger("step",dt);
-
-      if(this.removeList.length > 0) {
-        for(var i=0,len=this.removeList.length;i<len;i++) {
-          this.forceRemove(this.removeList[i]);
-        }
-        this.removeList.length = 0;
-      }
-
-      this.trigger('poststep',dt);
-    },
 
     /**
      hides the scene

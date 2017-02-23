@@ -7,10 +7,10 @@ import Stage from './../custom-classes/game-stage';
 
 const Game = Ember.Object.extend({
 
+	gameState: null,
+
 	debug: false,
 	debugFill: false,
-
-	gameState: null,
 
 	canvas: null,
 	context: null,
@@ -19,6 +19,7 @@ const Game = Ember.Object.extend({
 	loop: null,
 	lastGameLoopFrame: null,
 	loopFrame: 0,
+	loopDT: 0, // time delta since last iteration of the game loop
 	frameTimeLimit: 100,
 
 	imagePath: '',
@@ -168,14 +169,13 @@ const Game = Ember.Object.extend({
 	/**
 		The callback will be called with the fraction of a second that has elapsed since the last call to the loop method.
     */
-  	startGameLoop: Ember.observer('gameState.isPaused', function() {
-		console.log("TEST");
+  	gameLoopHandler: Ember.observer('gameState.isPaused', function() {
 		/**
 	  		Pause the entire game by canceling the requestAnimationFrame call. If you use setTimeout or
 	  		setInterval in your game, those will, of course, keep on rolling...
 	    */
 		if(this.get('gameState.isPaused')) {
-
+console.log(this.get('loop'));
 			if(!Ember.isEmpty(this.get('loop'))) {
 	  			window.cancelAnimationFrame(this.get('loop'));
 	  		}
@@ -193,22 +193,57 @@ const Game = Ember.Object.extend({
 			// Keep track of the frame we are on (so that animations can be synced to the next frame)
 			this.set('loopFrame', 0);
 
-			this.set('loop', window.requestAnimationFrame(() => {
+			window.requestAnimationFrame(loop => {
+				this.set('loop', loop);
 				this.gameLoopCallback();
-			}));
+			});
 		}
  	}),
 
 	gameLoopCallback() {
+
 		var now = new Date().getTime();
+
 		this.set('loopFrame', this.get('loopFrame') + 1);
+console.log( this.get('loopFrame'));
 		var dt = now - this.get('lastGameLoopFrame');
-		console.log(now, this.get('loopFrame'), dt);
 		/* Prevent fast-forwarding by limiting the length of a single frame. */
 		if(dt > this.get('frameTimeLimit')) {
-			dt = this.get('frameTimeLimit');
+			dt =  this.get('frameTimeLimit');
 		}
+
+		this.set('loopDT', dt);
+
 		this.set('lastGameLoopFrame', now);
+
+		var i, len, stage;
+
+	    if(dt < 0) {
+			dt = 1.0/60;
+		}
+	    if(dt > 1/15) {
+			dt  = 1.0/15;
+		}
+
+	    for(i = 0, len = this.get('activeScene').get('stages').length; i < len; i++) {
+	      	stage = this.get('activeScene').get('stages')[i];
+	      	stage.step(dt);
+	    }
+
+	    // if(Q.ctx) { Q.clear(); }
+		//
+	    // for(i =0,len=Q.stages.length;i<len;i++) {
+	    //   Q.activeStage = i;
+	    //   stage = Q.stage();
+	    //   if(stage) {
+	    //     stage.render(Q.ctx);
+	    //   }
+	    // }
+		//
+	    // Q.activeStage = 0;
+		//
+	    // if(Q.input && Q.ctx) { Q.input.drawCanvas(Q.ctx); }
+		//
 		window.requestAnimationFrame(() => {
 			this.gameLoopCallback();
 		});

@@ -1270,20 +1270,6 @@ var Quintus = function Quintus(opts) {
   };
 
   /**
-	Return the file extension of a filename
-
-	@for Quintus
-	@method Q._fileExtension
-	@param {String} filename
-	@return {String} lowercased extension
-  */
-  Q._fileExtension = function(filename) {
-	 var fileParts = filename.split("."),
-		  fileExt = fileParts[fileParts.length-1].toLowerCase();
-	 return fileExt;
-  };
-
-  /**
 	Loader for Audio assets. By default chops off the extension and
 	will automatically determine which of the supported types is
 	playable by the browser and load that type.

@@ -12,7 +12,6 @@ export default Ember.Mixin.create({
         Q.TransformableSprite.extend("Rocket", {
             init: function(p) {
                 this._super(p, {
-    				direction: 'up',
     				stars: 0,
                     z: 0,
     				type: Q.SPRITE_ROCKET,

@@ -32,16 +32,28 @@ export default Ember.Component.extend({
 	            icon: 'rocket',
 	            focused: 'focused',
 	            action: () => {
-					this.startGame();
+					this.toggleStartStopGame();
 	            },
 	        },
 	    ];
 	},
 
+    toggleStartStopGame() {
+        if(this.get('gameState').get('isPaused')) {
+            this.startGame();
+        }
+        else {
+            this.stopGame();
+        }
+    },
+
 	startGame() {
 		this.get('gameState').set('isPaused', false);
 	},
 
+    stopGame() {
+        this.get('gameState').set('isPaused', true);
+    },
 
     // gameCanvasIsLoaded: false,
     // number_of_components_ready: 0,

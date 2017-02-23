@@ -13,7 +13,7 @@ concerns itself with game-type (pretty anything besides touchscreen input)
 *
 * @class Quintus.Input
 */
-Quintus.Input = function(Q) 
+Quintus.Input = function(Q)
 {
 	/**
 		* Provided key names mapped to key codes - add more names and key codes as necessary
@@ -23,7 +23,7 @@ Quintus.Input = function(Q)
 		* @type Object
 		* @static
 		*/
-  	var KEY_NAMES = Q.KEY_NAMES = 
+  	var KEY_NAMES = Q.KEY_NAMES =
   	{
 		LEFT: 37, RIGHT: 39,
 		UP: 38, DOWN: 40,
@@ -36,7 +36,7 @@ Quintus.Input = function(Q)
 		S: 83
   	};
 
-  	var DEFAULT_KEYS = 
+  	var DEFAULT_KEYS =
   	{
 		 LEFT: 'left', RIGHT: 'right',
 		 UP: 'up',     DOWN: 'down',
@@ -141,7 +141,7 @@ Quintus.Input = function(Q)
 	  * @param {String or Integer} key - name or integer keycode for to bind
 	  * @param {String} name - name of action to bind to
 	  */
-	 bindKey: function(key,name) 
+	 bindKey: function(key,name)
 	 {
 		Q.input.keys[KEY_NAMES[key] || key] = name;
 	 },
@@ -152,7 +152,7 @@ Quintus.Input = function(Q)
 	  * @for Q.InputSystem
 	  * @method enableKeyboard
 	  */
-	 enableKeyboard: function() 
+	 enableKeyboard: function()
 	 {
 		if(this.keyboardEnabled) { return false; }
 
@@ -211,7 +211,7 @@ Quintus.Input = function(Q)
 	 },
 
 	 touchLocation: function(touch) {
-		var el = Q.el, 
+		var el = Q.el,
 		  posX = touch.offsetX,
 		  posY = touch.offsetY,
 		  touchX, touchY;
@@ -259,7 +259,7 @@ Quintus.Input = function(Q)
 	  * @for Q.InputSystem
 	  * @param {Object} [opts] - Options hash
 	  */
-	 touchControls: function(opts) 
+	 touchControls: function(opts)
 	 {
 
 		if(this.touchEnabled) { return false; }
@@ -362,11 +362,11 @@ Quintus.Input = function(Q)
 		}
 	 },
 
-	 /** 
+	 /**
 	  * Activate joypad controls (i.e. 4-way touch controls)
 	  *
 	  * Lots of options, defaults are:
-	  * 
+	  *
 	  *     {
 	  *      size: 50,
 	  *      trigger: 20,
@@ -387,12 +387,12 @@ Quintus.Input = function(Q)
 	  * @for Q.InputSystem
 	  * @param {Object} [opts] -  joypad options
 	  */
-	joypadControls: function(opts) 
+	joypadControls: function(opts)
 	{
-		if(this.joypadEnabled) 
+		if(this.joypadEnabled)
 			{ return false; }
-		
-		if(!hasTouch) 
+
+		if(!hasTouch)
 			{ return false; }
 
 		var joypad = Q.joypad = Q._defaults(opts || {},{
@@ -416,14 +416,14 @@ Quintus.Input = function(Q)
 			 if(loc.x < joypad.zone) {
 				joypad.joypadTouch = touch.identifier;
 				joypad.centerX = loc.x;
-				joypad.centerY = loc.y; 
+				joypad.centerY = loc.y;
 				joypad.x = null;
 				joypad.y = null;
 			 }
 		  }
 		};
 
-		
+
 		this.joypadMove = function(e) {
 		  if(joypad.joypadTouch !== null) {
 			 var evt = e;
@@ -457,12 +457,12 @@ Quintus.Input = function(Q)
 					 if(triggers[k]) {
 						Q.inputs[actionName] = true;
 
-						if(!joypad.triggers[k]) { 
+						if(!joypad.triggers[k]) {
 						  Q.input.trigger(actionName);
 						}
 					 } else {
 						Q.inputs[actionName] = false;
-						if(joypad.triggers[k]) { 
+						if(joypad.triggers[k]) {
 						  Q.input.trigger(actionName + "Up");
 						}
 					 }
@@ -484,11 +484,11 @@ Quintus.Input = function(Q)
 		  e.preventDefault();
 		};
 
-		this.joypadEnd = function(e) { 
+		this.joypadEnd = function(e) {
 			 var evt = e;
 
 			 if(joypad.joypadTouch !== null) {
-				for(var i=0,len=evt.changedTouches.length;i<len;i++) { 
+				for(var i=0,len=evt.changedTouches.length;i<len;i++) {
 				var touch = evt.changedTouches[i];
 				  if(touch.identifier === joypad.joypadTouch) {
 					 for(var k=0;k<joypad.triggers.length;k++) {
@@ -555,7 +555,7 @@ Quintus.Input = function(Q)
 		Q._mouseMove = function(e) {
 		  e.preventDefault();
 		  var touch = e.touches ? e.touches[0] : e;
-		  var el = Q.el, 
+		  var el = Q.el,
 				posX = touch.offsetX,
 				posY = touch.offsetY,
 				eX, eY,
@@ -602,7 +602,7 @@ Quintus.Input = function(Q)
 		}
 	 },
 
-	 /** 
+	 /**
 	  * Draw the touch buttons on the screen
 	  *
 	  * overload this to change how buttons are drawn
@@ -615,7 +615,7 @@ Quintus.Input = function(Q)
 			 ctx = Q.ctx;
 
 		ctx.save();
-		ctx.textAlign = "center"; 
+		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 
 		for(var i=0;i<keypad.controls.length;i++) {
@@ -649,7 +649,7 @@ Quintus.Input = function(Q)
 		ctx.beginPath();
 		ctx.globalAlpha=joypad.alpha;
 		ctx.fillStyle = color;
-		ctx.arc(x, y, size, 0, Math.PI*2, true); 
+		ctx.arc(x, y, size, 0, Math.PI*2, true);
 		ctx.closePath();
 		ctx.fill();
 		ctx.restore();
@@ -657,7 +657,7 @@ Quintus.Input = function(Q)
 
 
 
-	 /** 
+	 /**
 	  * Draw the joypad on the screen
 	  *
 	  * overload this to change how joypad is drawn
@@ -683,7 +683,7 @@ Quintus.Input = function(Q)
 
 	 },
 
-	 /** 
+	 /**
 	  * Called each frame by the stage game loop to render any onscreen UI
 	  *
 	  * calls `drawJoypad` and `drawButtons` if enabled
@@ -703,7 +703,7 @@ Quintus.Input = function(Q)
 
 
   });
-  
+
   /**
 	* Instance of the input subsytem that is actually used during gameplay
 	*
@@ -734,120 +734,6 @@ Quintus.Input = function(Q)
 
 	 return Q;
   };
-  
-
-  /**
-	* Platformer Control Component
-	*
-	* Adds 2D platformer controls onto a Sprite
-	*
-	* Platformer controls bind to left, and right and allow the player to jump. 
-	*
-	* Adds the following properties to the entity to control speed and jumping:
-	*
-	*      { 
-	*        speed: 200,
-	*        jumpSpeed: -300
-	*      }
-	*
-	*
-	* @class platformerControls
-	* @for Quintus.Input
-	*/
-  Q.component("platformerControls", {
-	 defaults: {
-		speed: 200,
-		jumpSpeed: -300,
-		collisions: []
-	 },
-
-	 added: function() {
-		var p = this.entity.p;
-
-		Q._defaults(p,this.defaults);
-
-		this.entity.on("step",this,"step");
-		this.entity.on("bump.bottom",this,"landed");
-
-		p.landed = 0;
-		p.direction ='right';
-	 },
-
-	 landed: function(col) {
-		var p = this.entity.p;
-		p.landed = 1/5;
-	 },
-
-	 step: function(dt) {
-		var p = this.entity.p;
-		
-		if(p.ignoreControls === undefined || !p.ignoreControls) {
-		  var collision = null;
-		  
-		  // Follow along the current slope, if possible.
-		  if(p.collisions !== undefined && p.collisions.length > 0 && (Q.inputs['left'] || Q.inputs['right'] || p.landed > 0)) {
-			 if(p.collisions.length === 1) {
-				collision = p.collisions[0];
-			 } else {
-				// If there's more than one possible slope, follow slope with negative Y normal
-				collision = null;
-
-				for(var i = 0; i < p.collisions.length; i++) {
-				  if(p.collisions[i].normalY < 0) {
-					 collision = p.collisions[i];
-				  }
-				}          
-			 }
-			 
-			 // Don't climb up walls.      
-			 if(collision !== null && collision.normalY > -0.3 && collision.normalY < 0.3) {        
-				collision = null;
-			 }        
-		  }      
-
-		  if(Q.inputs['left']) {
-			 p.direction = 'left';
-			 if(collision && p.landed > 0) {
-				p.vx = p.speed * collision.normalY;
-				p.vy = -p.speed * collision.normalX;
-			 } else {
-				p.vx = -p.speed;
-			 }        
-		  } else if(Q.inputs['right']) {
-			 p.direction = 'right';
-			 if(collision && p.landed > 0) {
-				p.vx = -p.speed * collision.normalY;
-				p.vy = p.speed * collision.normalX;          
-			 } else {
-				p.vx = p.speed;
-			 }
-		  } else {
-			 p.vx = 0;
-			 if(collision && p.landed > 0) {
-				p.vy = 0;
-			 }
-		  }
-		  
-		  if(p.landed > 0 && (Q.inputs['up'] || Q.inputs['action']) && !p.jumping) {
-			 p.vy = p.jumpSpeed;
-			 p.landed = -dt;
-			 p.jumping = true;
-		  } else if(Q.inputs['up'] || Q.inputs['action']) {
-			 this.entity.trigger('jump', this.entity);
-			 p.jumping = true;
-		  }
-		  
-		  if(p.jumping && !(Q.inputs['up'] || Q.inputs['action'])) {
-			 p.jumping = false;
-			 this.entity.trigger('jumped', this.entity);
-			 if(p.vy < p.jumpSpeed / 3) {
-				p.vy = p.jumpSpeed / 3;
-			 }
-		  }
-		}
-		p.landed -= dt;
-	 }
-  });
 
 
   /**
@@ -857,7 +743,7 @@ Quintus.Input = function(Q)
 	*
 	* Adds the following properties to the entity:
 	*
-	*      { 
+	*      {
 	*        stepDistance: 32, // should be tile size
 	*        stepDelay: 0.2  // seconds to delay before next step
 	*      }
@@ -922,17 +808,16 @@ Quintus.Input = function(Q)
 		  p.diffY = p.stepDistance;
 		}
 
-		if(p.diffY || p.diffX ) { 
+		if(p.diffY || p.diffX ) {
 		  p.stepping = true;
 		  p.origX = p.x;
 		  p.origY = p.y;
 		  p.destX = p.x + p.diffX;
 		  p.destY = p.y + p.diffY;
-		  p.stepWait = p.stepDelay; 
+		  p.stepWait = p.stepDelay;
 		}
 
 	 }
 
   });
 };
-
