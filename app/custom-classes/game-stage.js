@@ -95,7 +95,6 @@ const Stage = Ember.Object.extend({
 
 	markSprites() {
 		var gameState = this.get('scene.game.gameState');
-		console.log('TEST');
 		// var viewport = this.get('viewport'),
 		// 	scale = viewport ? viewport.scale : 1,
 		// 	x = viewport ? viewport.x : 0,

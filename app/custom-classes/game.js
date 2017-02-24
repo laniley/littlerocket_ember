@@ -175,14 +175,10 @@ const Game = Ember.Object.extend({
 	  		setInterval in your game, those will, of course, keep on rolling...
 	    */
 		if(this.get('gameState.isPaused')) {
-console.log(this.get('loop'));
-			if(!Ember.isEmpty(this.get('loop'))) {
-	  			window.cancelAnimationFrame(this.get('loop'));
-	  		}
+
+			window.cancelAnimationFrame(this.get('loop'));
 
 	  		this.set('loop', null);
-
-	  		this.get('gameState').set('isPaused', true);
 		}
 		else {
 			this.set('lastGameLoopFrame', new Date().getTime());
@@ -205,7 +201,7 @@ console.log(this.get('loop'));
 		var now = new Date().getTime();
 
 		this.set('loopFrame', this.get('loopFrame') + 1);
-console.log( this.get('loopFrame'));
+
 		var dt = now - this.get('lastGameLoopFrame');
 		/* Prevent fast-forwarding by limiting the length of a single frame. */
 		if(dt > this.get('frameTimeLimit')) {
@@ -244,9 +240,11 @@ console.log( this.get('loopFrame'));
 		//
 	    // if(Q.input && Q.ctx) { Q.input.drawCanvas(Q.ctx); }
 		//
-		window.requestAnimationFrame(() => {
-			this.gameLoopCallback();
-		});
+		if(!this.get('gameState.isPaused')) {
+			window.requestAnimationFrame(() => {
+				this.gameLoopCallback();
+			});
+		}
 	},
 
 	rerender() {
