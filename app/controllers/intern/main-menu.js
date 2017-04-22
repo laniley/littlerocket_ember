@@ -16,6 +16,13 @@ export default Ember.Controller.extend({
             action() {
 
             }
+        },
+        {
+            display: 'LEADERBOARD',
+            icon: 'trophy',
+            action() {
+
+            }
         }
     ],
 });
