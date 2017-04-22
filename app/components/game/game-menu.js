@@ -4,6 +4,7 @@ export default Ember.Component.extend({
     classNames: ['menu'],
 
     selectedButton: null,
+	selectedButtonIndex: 0,
 
     selectedAction: Ember.computed('selectedButton', function() {
         return this.get('selectedButton')['action'];
@@ -32,15 +33,25 @@ export default Ember.Component.extend({
     },
 
     goButtonUp() {
-        Ember.$("#button-0").addClass("focused");
-        Ember.$("#button-1").removeClass("focused");
-        this.set('selectedButton', this.get('buttons')[0]);
+		var selectedButtonIndex = this.get("selectedButtonIndex");
+
+		if(selectedButtonIndex > 0) {
+			Ember.$("#button-" + (selectedButtonIndex - 1) ).addClass("focused");
+		   	Ember.$("#button-" + selectedButtonIndex).removeClass("focused");
+			this.set('selectedButtonIndex', (selectedButtonIndex - 1));
+		   	this.set('selectedButton', this.get('buttons')[(selectedButtonIndex - 1)]);
+		}
     },
 
     goButtonDown() {
-        Ember.$("#button-0").removeClass("focused");
-        Ember.$("#button-1").addClass("focused");
-        this.set('selectedButton', this.get('buttons')[1]);
+		var selectedButtonIndex = this.get("selectedButtonIndex");
+
+		if(selectedButtonIndex < (this.get('buttons').length - 1) ) {
+	        Ember.$("#button-" + selectedButtonIndex).removeClass("focused");
+	        Ember.$("#button-" + (selectedButtonIndex + 1)).addClass("focused");
+			this.set('selectedButtonIndex', (selectedButtonIndex + 1));
+	        this.set('selectedButton', this.get('buttons')[(selectedButtonIndex + 1)]);
+		}
     },
 
     willDestroyElement: function(){
