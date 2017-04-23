@@ -307,35 +307,6 @@ Quintus.Sprites = function(Q)
 
     },
 
-
-    /**
-     Update method is called each step with the time elapsed since the last step.
-
-     Doesn't do anything other than trigger events, call a `step` method if defined
-     and run update on all its children.
-
-     Generally leave this method alone and define a `step` method that will be called
-
-     @method update
-     @for Q.Sprite
-     @param {Float} dt - time elapsed since last call
-    */
-    update: function(dt) {
-      this.trigger('prestep',dt);
-      if(this.step) { this.step(dt); }
-      this.trigger('step',dt);
-      this.refreshMatrix();
-
-      // Ugly coupling to stage - workaround?
-      if(this.stage && this.children.length > 0) {
-        this.stage.updateSprites(this.children,dt,true);
-      }
-
-      // Reset collisions if we're tracking them
-      if(this.p.collisions) { this.p.collisions = []; }
-    },
-
-
   });
 
   /**

@@ -368,47 +368,10 @@ var Quintus = function Quintus(opts) {
 	 	dataPath:  "data/",
 	 	audioSupported: [ 'mp3','ogg' ],
 	 	sound: true,
-	 	frameTimeLimit: 100,
-	 	autoFocus: true
+	 	frameTimeLimit: 100
   	};
 
   	if(opts) { Q._extend(Q.options,opts); }
-
-
-
-
-  /**
-	Unpause the game by restarting the requestAnimationFrame-based loop.
-	Pause the entire game by canceling the requestAnimationFrame call. If you use setTimeout or
-	setInterval in your game, those will, of course, keep on rolling...
-
-	 @method Q.pauseGame
-	 @for Quintus
-  */
-  	Q.unpauseGame = function()
-  	{
-			 if(!Q.loop) {
-					Q.lastGameLoopFrame = new Date().getTime();
-					Q.loop = window.requestAnimationFrame(Q.gameLoopCallbackWrapper);
-			 }
-
-			 Q.state.set('isPaused', false);
-  	};
-
-  	// Q.pauseOrUnpauseGame = function()
-  	// {
-  	// 	if(Q.loop)
-  	// 	{
-  	// 		window.cancelAnimationFrame(Q.loop);
-  	// 		Q.loop = null;
-  	// 	}
-  	// 	else
-  	// 	{
-  	// 		Q.lastGameLoopFrame = new Date().getTime();
-  	// 		Q.loop = window.requestAnimationFrame(Q.gameLoopCallbackWrapper);
-  	// 	}
-  	// }
-
 
   /**
 	The base Class object

@@ -15,6 +15,7 @@ export default Ember.Service.extend({
 	height: 0, // current height of the canvas
 
     currentScene: '',
+	pressedKey: null,
 
     distance_to_goal: 0,
     collected_stars: 0,

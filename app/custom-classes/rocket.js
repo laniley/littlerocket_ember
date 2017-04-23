@@ -1,12 +1,13 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import Sprite2D from './../custom-classes/game-sprite-2d';
+import Sprite2DControllable from './../custom-classes/game-sprite-2d-controllable';
 
-const Rocket = Sprite2D.extend({
+const Rocket = Sprite2DControllable.extend({
 
 	name: 'Rocket',
 	type: 'sheet',
 	assetName: 'rocket.png',
+	controlType: 'step',
 
 	model: Ember.computed('game.gameState.me.user.rocket', function() {
 		return DS.PromiseObject.create({
@@ -65,7 +66,11 @@ const Rocket = Sprite2D.extend({
 	shield: null,
 	engine: null,
 
+	speed: 300,
+	flownDisanceOfCurrentParsec: 0,
+
 	init() {
+
 		this._super();
 
 		// var cannon = Cannon.create({
@@ -93,7 +98,74 @@ const Rocket = Sprite2D.extend({
 		// });
 
 		// this.add("2d, platformerControls, animation");
-	}
+	},
+
+	step: function(dt) {
+
+		this._super();
+
+		if(!this.get('game.gameState.isPaused')) {
+
+
+
+			// this.set('flownDisanceOfCurrentParsec', this.get('flownDisanceOfCurrentParsec') + dt);
+
+			// if(this.get('flownDisanceOfCurrentParsec') > 1) {
+			// 	this.get('game.gameState').set('distance_to_goal', this.get('game.gameState').get('distance_to_goal') - 1);
+			// 	this.set('flownDisanceOfCurrentParsec', 0);
+			// }
+
+			// do not allow rocket to leave the screen
+			// if(
+			// 	this.get('x') > this.get('game.gameState.width') - 30 && this.get('vx') > 0 ||
+			// 	this.get('x') < 30 && this.get('vx') < 0
+			// ) {
+			// 	this.set('vx', 0);
+			// }
+			/*
+				rotate the rocket based on the velocity
+			*/
+			// nach rechts drehen
+			// if(this.get('vx') > 0 && this.get('angle') < 45) {
+			// 	this.rotate(this.get('angle') + 5);
+			// }
+			// nach links drehen
+			// else if(this.get('vx') < 0 && this.get('angle') > -45) {
+			// 	this.rotate(this.get('angle') - 5);
+			// }
+			// else if(this.get('vx') === 0) {
+			// 	if(this.get('angle') > 0) {
+			// 		if(this.get('angle') - 5 < 0) {
+			// 			this.rotate(0);
+			// 		}
+			// 		else {
+			// 			this.rotate(this.get('angle') - 5);
+			// 		}
+			// 	}
+			// 	else {
+			// 		if(this.get('angle') + 5 > 0) {
+			// 			this.rotate(0);
+			// 		}
+			// 		else {
+			// 			this.rotate(this.get('angle') + 5);
+			// 		}
+			// 	}
+			// }
+
+			// fire Cannon
+			// if(Q.inputs['up'] && this.p.hasACannon) {
+			// 	this.trigger("fireCannon");
+			// }
+
+			// slowdown
+			// if(Q.inputs['down']) {
+			// 	this.trigger("slowdown");
+			// }
+		}
+		else {
+			this.set('speed', 0);
+		}
+	},
 });
 
 export default Rocket;

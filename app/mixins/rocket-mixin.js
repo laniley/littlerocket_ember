@@ -12,19 +12,10 @@ export default Ember.Mixin.create({
         Q.TransformableSprite.extend("Rocket", {
             init: function(p) {
                 this._super(p, {
-    				stars: 0,
                     z: 0,
     				type: Q.SPRITE_ROCKET,
     				collisionMask: Q.SPRITE_STAR,
-                    flownDisanceOfCurrentParsec: 0,
-                    scale: Q.state.get('scale'),
-                    hasACannon: false,
-                    cannon: null,
-                    shield: null,
-                    engine: null
                 });
-
-                this.p.speed = 300;
 
                 this.add("2d, platformerControls, animation");
 
@@ -34,62 +25,7 @@ export default Ember.Mixin.create({
                 // this.on('collided', this, 'handleCollision');
     	    },
 
-            step: function(dt) {
 
-                if(!Q.state.get('isPaused')) {
-
-                    this.p.flownDisanceOfCurrentParsec += dt;
-
-                    if(this.p.flownDisanceOfCurrentParsec > 1) {
-                        this.get('gameState').set('distance_to_goal', this.get('gameState').get('distance_to_goal') - 1);
-                        this.p.flownDisanceOfCurrentParsec = 0;
-                    }
-
-                    // do not allow rocket to leave the screen
-                    if( this.p.x > Q.width - 30 && this.p.vx > 0 || this.p.x < 30 && this.p.vx < 0 ) {
-                        this.p.vx = 0;
-                    }
-
-                    // rotate the rocket based on the velocity
-                    if(this.p.vx > 0 && this.p.angle < 45) { // nach rechts drehen
-                        this.rotate(this.p.angle + 5);
-                    }
-                    else if(this.p.vx < 0 && this.p.angle > -45) { // nach links drehen
-                        this.rotate(this.p.angle - 5);
-                    }
-                    else if(this.p.vx === 0) {
-                        if(this.p.angle > 0) {
-                            if(this.p.angle - 5 < 0) {
-                                this.rotate(0);
-                            }
-                            else {
-                                this.rotate(this.p.angle - 5);
-                            }
-		                }
-                        else {
-                            if(this.p.angle + 5 > 0) {
-                                this.rotate(0);
-                            }
-                            else {
-                                this.rotate(this.p.angle + 5);
-                            }
-                        }
-                    }
-
-                    // fire Cannon
-                    if(Q.inputs['up'] && this.p.hasACannon) {
-                        this.trigger("fireCannon");
-                    }
-
-                    // slowdown
-                    if(Q.inputs['down']) {
-                        this.trigger("slowdown");
-                    }
-                }
-                else {
-                    this.p.speed = 0;
-                }
-            },
 
             fireCannon: function() {
             	if( this.p.hasACannon &&

@@ -60,6 +60,7 @@ const Sprite = Ember.Object.extend({
     }),
 
 	cPoints: null, // collision points in world coordinates
+	collisions: [],
 
 	frame: 0, // first frame which will be rendered
 
@@ -281,7 +282,7 @@ const Sprite = Ember.Object.extend({
 	/*
      	Regenerates this sprite's transformation matrix
     */
-    refreshMatrix: function() {
+    refreshMatrix() {
       	var p = this.get('points');
       	var matrix = this.get('matrix').identity();
 
@@ -317,7 +318,26 @@ const Sprite = Ember.Object.extend({
 		else {
 			return this.get('game').get('spriteSheeds')[sheet];
 	  	}
-	}
+	},
+	/**
+		Update method is called each step with the time elapsed since the last step.
+
+		Doesn't do anything other than trigger events, call a `step` method if defined
+		and run update on all its children.
+
+		Generally leave this method alone and define a `step` method that will be called
+    */
+    update(dt) {
+
+		this.step(dt);
+
+      	this.refreshMatrix();
+
+      	// Reset collisions if we're tracking them
+      	if(this.get('collisions')) {
+			this.set('collisions', []);
+		}
+    },
 });
 
 export default Sprite;

@@ -46,7 +46,7 @@ export default Ember.Component.extend({
 			scenes: this.get('gameScenes').get('scenes'),
 			assets: this.get('assets'),
 			imagePath: this.get('imagePath'),
-			audioPath: this.get('audioPath')
+			audioPath: this.get('audioPath'),
 		});
 
 		this.get('gameState').set('game', game);
@@ -64,24 +64,6 @@ export default Ember.Component.extend({
 		this.get('gameState').set('height', ctx.canvas.height);
 
     	this.get('gameState').get('game').load();
-
-        // Q.setup('game', {
-        //     scaleToFit: true,
-        //     maximize: "touch"
-        // })
-        // .controls()
-        // .touch()
-        // .enableSound();
-        // // Add in the controls
-
-        //
-        // Q.gravityX = 0;
-        // Q.gravityY = 0;
-        //
-        // Q.SPRITE_ROCKET   = 1;
-        // Q.SPRITE_STAR     = 2;
-        // Q.SPRITE_ASTEROID = 4;
-        // Q.SPRITE_BULLET	  = 16;
     },
 
 });

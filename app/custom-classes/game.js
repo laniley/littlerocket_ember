@@ -3,6 +3,7 @@ import HF from './../custom-classes/helper-functions';
 import AssetLoader from './../custom-classes/game-asset-loader';
 import GameMatrix2D from './../custom-classes/game-matrix-2d';
 import GameAudio from './../custom-classes/game-audio';
+import GameInputHandler from './../custom-classes/game-input-handler';
 import Stage from './../custom-classes/game-stage';
 
 const Game = Ember.Object.extend({
@@ -42,6 +43,11 @@ const Game = Ember.Object.extend({
 		}
 	}),
 
+	gameInputHandler: null,
+	inputMethodSettings: {
+		keyboardEnabled: true
+	},
+
 	nullContainer: {
       	cPoints: {
         	x: 0,
@@ -53,6 +59,7 @@ const Game = Ember.Object.extend({
   	},
 
 	init() {
+
 		this.set('assetLoader', AssetLoader.create({
 			game: this,
 			progressCallback: (loaded, total) => {
@@ -109,8 +116,15 @@ const Game = Ember.Object.extend({
 	            // Q.debugFill = true;
 			}
 		}));
+
 		this.set('audio', GameAudio.create({}));
+
 		this.set('nullContainer.matrix', this.get('matrix2d'));
+
+		this.set('gameInputHandler', GameInputHandler.create({
+			game: this,
+			inputMethodSettings: this.get('inputMethodSettings')
+		}));
 	},
 
 	load() {

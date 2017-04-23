@@ -677,24 +677,6 @@ Quintus.Scenes = function(Q) {
       }
     },
 
-
-    updateSprites: function(items,dt,isContainer) {
-      var item;
-
-      for(var i=0,len=items.length;i<len;i++) {
-        item = items[i];
-        // If set to visible only, don't step if set to visibleOnly
-        if(!isContainer && (item.p.visibleOnly && (!item.mark || item.mark < this.time))) { continue; }
-
-        if(isContainer || !item.container) {
-          item.update(dt);
-          Q._generateCollisionPoints(item);
-          this.regrid(item);
-        }
-      }
-    },
-
-
     /**
      hides the scene
 

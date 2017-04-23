@@ -74,15 +74,21 @@ const Stage = Ember.Object.extend({
 		});
 	},
 	step(dt) {
-		if(this.get('gameState.isPaused') || !this.get('scene.game.gameState')) {
+		if(this.get('gameState.isPaused')) {
+			// console.log("TEST1");
+			return false;
+		}
+		else if(!this.get('scene.game.gameState')) {
+			// console.log("TEST2");
 			return false;
 		}
 		else {
+			// console.log("TEST3");
 			this.set('time', this.get('time') + dt);
 
 			this.markSprites();
-			// this.updateSprites(this.items, dt);
-			//
+			this.updateSprites(dt);
+
 			// if(this.removeList.length > 0) {
 			// 	for(var i=0,len=this.removeList.length;i<len;i++) {
 			// 	  this.forceRemove(this.removeList[i]);
@@ -93,163 +99,60 @@ const Stage = Ember.Object.extend({
     },
 
 	markSprites() {
+		// console.log('markSprites');
 		var gameState = this.get('scene.game.gameState');
-		// var viewport = this.get('viewport'),
-		// 	scale = viewport ? viewport.scale : 1,
-		// 	x = viewport ? viewport.x : 0,
-		// 	y = viewport ? viewport.y : 0,
-		// 	viewW = gameState.get('width') / scale,
-		// 	viewH = gameState.get('height') / scale,
-		// 	gridX1 = Math.floor(x / this.get('gridW')),
-		// 	gridY1 = Math.floor(y / this.get('gridH')),
-		// 	gridX2 = Math.floor((x + viewW) / this.get('gridW')),
-		// 	gridY2 = Math.floor((y + viewH) / this.get('gridH')),
-		// 	gridRow, gridBlock;
-		//
-		// for(var iy=gridY1; iy<=gridY2; iy++) {
-		// 	if((gridRow = this.grid[iy])) {
-		// 		for(var ix=gridX1; ix<=gridX2; ix++) {
-		// 			if((gridBlock = gridRow[ix])) {
-		// 				for(var id in gridBlock) {
-		// 					if(this.index[id]) {
-		// 						this.index[id].mark = time;
-		// 						if(this.index[id].container) {
-		// 							this.index[id].container.mark = time;
-		// 						}
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// }
+		var scale = 1;
+		var x = 0;
+		var y = 0;
+		var viewW = gameState.get('width') / scale;
+		var viewH = gameState.get('height') / scale;
+		var gridX1 = Math.floor(x / this.get('gridW'));
+		var gridY1 = Math.floor(y / this.get('gridH'));
+		var gridX2 = Math.floor((x + viewW) / this.get('gridW'));
+		var gridY2 = Math.floor((y + viewH) / this.get('gridH'));
+		var gridRow, gridBlock;
+
+		for(var iy = gridY1; iy <= gridY2; iy++) {
+			if(gridRow = this.get('grid')[iy]) {
+				for(var ix = gridX1; ix <= gridX2; ix++) {
+					if(gridBlock = gridRow[ix]) {
+						for(var id in gridBlock) {
+							if(this.get('index')[id]) {
+								this.get('index')[id].mark = this.get('time');
+								if(this.grt('index')[id].container) {
+									this.index[id].container.mark = this.get('time');
+								}
+							}
+						}
+					}
+				}
+			}
+		}
     },
 
-  // .component('viewport',
-  //
-  // added: function() {
-  // 	this.x = 0;
-  // 	this.y = 0;
-  // 	this.offsetX = 0;
-  // 	this.offsetY = 0;
-  // 	this.centerX = Q.width/2;
-  // 	this.centerY = Q.height/2;
-  // 	this.scale = 1;
-  // },
-  //
-  // xtend: {
-  //  follow: function(sprite,directions,boundingBox) {
-  // this.off('poststep',this.viewport,'follow');
-  // this.viewport.directions = directions || { x: true, y: true };
-  // this.viewport.following = sprite;
-  // this.viewport.boundingBox = boundingBox;
-  // this.on('poststep',this.viewport,'follow');
-  // this.viewport.follow(true);
-  //  },
-  //
-  //  unfollow: function() {
-  // this.off('poststep',this.viewport,'follow');
-  //  },
-  //
-  //  centerOn: function(x,y) {
-  // this.viewport.centerOn(x,y);
-  //  },
-  //
-  //  moveTo: function(x,y) {
-  // return this.viewport.moveTo(x,y);
-  //  }
-  // ,
-  //
-  // ollow: function(first) {
-  //  var followX = Q._isFunction(this.directions.x) ? this.directions.x(this.following) : this.directions.x;
-  //  var followY = Q._isFunction(this.directions.y) ? this.directions.y(this.following) : this.directions.y;
-  //
-  //  this[first === true ? 'centerOn' : 'softCenterOn'](
-  // 			followX ?
-  // 			  this.following.p.x + this.following.p.w/2 - this.offsetX :
-  // 			  undefined,
-  // 			followY ?
-  // 			 this.following.p.y + this.following.p.h/2 - this.offsetY :
-  // 			 undefined
-  // 		  );
-  // ,
-  //
-  // ffset: function(x,y) {
-  //  this.offsetX = x;
-  //  this.offsetY = y;
-  // ,
-  //
-  // oftCenterOn: function(x,y) {
-  //  if(x !== void 0) {
-  // var dx = (x - Q.width / 2 / this.scale - this.x)/3;
-  // if(this.boundingBox) {
-  //   if(this.x + dx < this.boundingBox.minX) {
-  // 	this.x = this.boundingBox.minX / this.scale;
-  //   }
-  //   else if(this.x + dx > (this.boundingBox.maxX - Q.width) / this.scale) {
-  // 	this.x = (this.boundingBox.maxX - Q.width) / this.scale;
-  //   }
-  //   else {
-  // 	this.x += dx;
-  //   }
-  // }
-  // else {
-  //   this.x += dx;
-  // }
-  //  }
-  //  if(y !== void 0) {
-  // var dy = (y - Q.height / 2 / this.scale - this.y)/3;
-  // if(this.boundingBox) {
-  //   if(this.y + dy < this.boundingBox.minY) {
-  // 	this.y = this.boundingBox.minY / this.scale;
-  //   }
-  //   else if(this.y + dy > (this.boundingBox.maxY - Q.height) / this.scale) {
-  // 	this.y = (this.boundingBox.maxY - Q.height) / this.scale;
-  //   }
-  //   else {
-  // 	this.y += dy;
-  //   }
-  // }
-  // else {
-  //   this.y += dy;
-  // }
-  //  }
-  //
-  // ,
-  // enterOn: function(x,y) {
-  //  if(x !== void 0) {
-  // this.x = x - Q.width / 2 / this.scale;
-  //  }
-  //  if(y !== void 0) {
-  // this.y = y - Q.height / 2 / this.scale;
-  //  }
-  //
-  // ,
-  //
-  // oveTo: function(x,y) {
-  //  if(x !== void 0) {
-  // this.x = x;
-  //  }
-  //  if(y !== void 0) {
-  // this.y = y;
-  //  }
-  //  return this.entity;
-  //
-  // ,
-  //
-  // rerender: function() {
-  //  this.centerX = this.x + Q.width / 2 /this.scale;
-  //  this.centerY = this.y + Q.height / 2 /this.scale;
-  //  Q.ctx.save();
-  //  Q.ctx.translate(Math.floor(Q.width/2),Math.floor(Q.height/2));
-  //  Q.ctx.scale(this.scale,this.scale);
-  //  Q.ctx.translate(-Math.floor(this.centerX), -Math.floor(this.centerY));
-  // ,
-  //
-  // ostrender: function() {
-  //  Q.ctx.restore();
-  //
-  // });
+	updateSprites(dt, isContainer) {
+		console.log('update');
+      	var item;
+	  	var items = this.get('items');
 
+      	for(var i=0, len=items.length; i<len; i++) {
+        	item = items[i];
+        	// If set to visible only, don't step if set to visibleOnly
+        	if(
+				!isContainer &&
+				(item.get('visibleOnly') &&
+				(!item.get('mark') || item.get('mark') < this.get('time')))
+			) {
+				continue;
+			}
+
+	        if(isContainer || !item.get('container')) {
+	          item.update(dt);
+	        //   Q._generateCollisionPoints(item);
+	        //   this.regrid(item);
+	        }
+      	}
+    },
 
  // Q.Sprite.extend("TileLayer",{
  //

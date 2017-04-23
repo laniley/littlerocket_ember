@@ -543,8 +543,7 @@ var Quintus = function Quintus(opts)
 	 	dataPath:  "data/",
 	 	audioSupported: [ 'mp3','ogg' ],
 	 	sound: true,
-	 	frameTimeLimit: 100,
-	 	autoFocus: true
+	 	frameTimeLimit: 100
   	};
 
   	if(opts) { Q._extend(Q.options,opts); }
@@ -3105,7 +3104,7 @@ Quintus.Anim = function(Q) {
         p.animationTime += dt;
         if(p.animationChanged) {
           p.animationChanged = false;
-        } else { 
+        } else {
           p.animationTime += dt;
           if(p.animationTime > rate) {
             stepped = Math.floor(p.animationTime / rate);
@@ -3121,7 +3120,7 @@ Quintus.Anim = function(Q) {
               entity.trigger('animEnd.' + p.animation);
               p.animation = null;
               p.animationPriority = -1;
-              if(anim.trigger) {  
+              if(anim.trigger) {
                 entity.trigger(anim.trigger,anim.triggerData);
               }
               if(anim.next) { this.play(anim.next,anim.nextPriority); }
@@ -3151,15 +3150,15 @@ Quintus.Anim = function(Q) {
         p.animation = name;
         if(resetFrame) {
           p.animationChanged = true;
-          p.animationTime = 0;          
+          p.animationTime = 0;
           p.animationFrame = 0;
-        }        
+        }
         p.animationPriority = priority;
         entity.trigger('anim');
         entity.trigger('anim.' + p.animation);
       }
     }
-  
+
   });
 
 
@@ -3274,7 +3273,7 @@ Quintus.Anim = function(Q) {
       }
 
       if(progress >= 1) {
-        if(this.options.callback) { 
+        if(this.options.callback) {
           this.options.callback.apply(this.entity);
         }
       }
@@ -3316,7 +3315,7 @@ Quintus.Anim = function(Q) {
           var lastTween = this.tween._tweens[tweenCnt - 1];
           options = options || {};
           options['delay'] = lastTween.duration - lastTween.time + lastTween.delay;
-        } 
+        }
 
         this.animate(properties,duration,easing,options);
         return this;
@@ -3357,7 +3356,7 @@ concerns itself with game-type (pretty anything besides touchscreen input)
 *
 * @class Quintus.Input
 */
-Quintus.Input = function(Q) 
+Quintus.Input = function(Q)
 {
 	/**
 		* Provided key names mapped to key codes - add more names and key codes as necessary
@@ -3367,7 +3366,7 @@ Quintus.Input = function(Q)
 		* @type Object
 		* @static
 		*/
-  	var KEY_NAMES = Q.KEY_NAMES = 
+  	var KEY_NAMES = Q.KEY_NAMES =
   	{
 		LEFT: 37, RIGHT: 39,
 		UP: 38, DOWN: 40,
@@ -3380,7 +3379,7 @@ Quintus.Input = function(Q)
 		S: 83
   	};
 
-  	var DEFAULT_KEYS = 
+  	var DEFAULT_KEYS =
   	{
 		 LEFT: 'left', RIGHT: 'right',
 		 UP: 'up',     DOWN: 'down',
@@ -3485,7 +3484,7 @@ Quintus.Input = function(Q)
 	  * @param {String or Integer} key - name or integer keycode for to bind
 	  * @param {String} name - name of action to bind to
 	  */
-	 bindKey: function(key,name) 
+	 bindKey: function(key,name)
 	 {
 		Q.input.keys[KEY_NAMES[key] || key] = name;
 	 },
@@ -3496,7 +3495,7 @@ Quintus.Input = function(Q)
 	  * @for Q.InputSystem
 	  * @method enableKeyboard
 	  */
-	 enableKeyboard: function() 
+	 enableKeyboard: function()
 	 {
 		if(this.keyboardEnabled) { return false; }
 
@@ -3555,7 +3554,7 @@ Quintus.Input = function(Q)
 	 },
 
 	 touchLocation: function(touch) {
-		var el = Q.el, 
+		var el = Q.el,
 		  posX = touch.offsetX,
 		  posY = touch.offsetY,
 		  touchX, touchY;
@@ -3603,7 +3602,7 @@ Quintus.Input = function(Q)
 	  * @for Q.InputSystem
 	  * @param {Object} [opts] - Options hash
 	  */
-	 touchControls: function(opts) 
+	 touchControls: function(opts)
 	 {
 
 		if(this.touchEnabled) { return false; }
@@ -3706,11 +3705,11 @@ Quintus.Input = function(Q)
 		}
 	 },
 
-	 /** 
+	 /**
 	  * Activate joypad controls (i.e. 4-way touch controls)
 	  *
 	  * Lots of options, defaults are:
-	  * 
+	  *
 	  *     {
 	  *      size: 50,
 	  *      trigger: 20,
@@ -3731,12 +3730,12 @@ Quintus.Input = function(Q)
 	  * @for Q.InputSystem
 	  * @param {Object} [opts] -  joypad options
 	  */
-	joypadControls: function(opts) 
+	joypadControls: function(opts)
 	{
-		if(this.joypadEnabled) 
+		if(this.joypadEnabled)
 			{ return false; }
-		
-		if(!hasTouch) 
+
+		if(!hasTouch)
 			{ return false; }
 
 		var joypad = Q.joypad = Q._defaults(opts || {},{
@@ -3760,14 +3759,14 @@ Quintus.Input = function(Q)
 			 if(loc.x < joypad.zone) {
 				joypad.joypadTouch = touch.identifier;
 				joypad.centerX = loc.x;
-				joypad.centerY = loc.y; 
+				joypad.centerY = loc.y;
 				joypad.x = null;
 				joypad.y = null;
 			 }
 		  }
 		};
 
-		
+
 		this.joypadMove = function(e) {
 		  if(joypad.joypadTouch !== null) {
 			 var evt = e;
@@ -3801,12 +3800,12 @@ Quintus.Input = function(Q)
 					 if(triggers[k]) {
 						Q.inputs[actionName] = true;
 
-						if(!joypad.triggers[k]) { 
+						if(!joypad.triggers[k]) {
 						  Q.input.trigger(actionName);
 						}
 					 } else {
 						Q.inputs[actionName] = false;
-						if(joypad.triggers[k]) { 
+						if(joypad.triggers[k]) {
 						  Q.input.trigger(actionName + "Up");
 						}
 					 }
@@ -3828,11 +3827,11 @@ Quintus.Input = function(Q)
 		  e.preventDefault();
 		};
 
-		this.joypadEnd = function(e) { 
+		this.joypadEnd = function(e) {
 			 var evt = e;
 
 			 if(joypad.joypadTouch !== null) {
-				for(var i=0,len=evt.changedTouches.length;i<len;i++) { 
+				for(var i=0,len=evt.changedTouches.length;i<len;i++) {
 				var touch = evt.changedTouches[i];
 				  if(touch.identifier === joypad.joypadTouch) {
 					 for(var k=0;k<joypad.triggers.length;k++) {
@@ -3899,7 +3898,7 @@ Quintus.Input = function(Q)
 		Q._mouseMove = function(e) {
 		  e.preventDefault();
 		  var touch = e.touches ? e.touches[0] : e;
-		  var el = Q.el, 
+		  var el = Q.el,
 				posX = touch.offsetX,
 				posY = touch.offsetY,
 				eX, eY,
@@ -3946,7 +3945,7 @@ Quintus.Input = function(Q)
 		}
 	 },
 
-	 /** 
+	 /**
 	  * Draw the touch buttons on the screen
 	  *
 	  * overload this to change how buttons are drawn
@@ -3959,7 +3958,7 @@ Quintus.Input = function(Q)
 			 ctx = Q.ctx;
 
 		ctx.save();
-		ctx.textAlign = "center"; 
+		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 
 		for(var i=0;i<keypad.controls.length;i++) {
@@ -3993,7 +3992,7 @@ Quintus.Input = function(Q)
 		ctx.beginPath();
 		ctx.globalAlpha=joypad.alpha;
 		ctx.fillStyle = color;
-		ctx.arc(x, y, size, 0, Math.PI*2, true); 
+		ctx.arc(x, y, size, 0, Math.PI*2, true);
 		ctx.closePath();
 		ctx.fill();
 		ctx.restore();
@@ -4001,7 +4000,7 @@ Quintus.Input = function(Q)
 
 
 
-	 /** 
+	 /**
 	  * Draw the joypad on the screen
 	  *
 	  * overload this to change how joypad is drawn
@@ -4027,7 +4026,7 @@ Quintus.Input = function(Q)
 
 	 },
 
-	 /** 
+	 /**
 	  * Called each frame by the stage game loop to render any onscreen UI
 	  *
 	  * calls `drawJoypad` and `drawButtons` if enabled
@@ -4047,7 +4046,7 @@ Quintus.Input = function(Q)
 
 
   });
-  
+
   /**
 	* Instance of the input subsytem that is actually used during gameplay
 	*
@@ -4078,18 +4077,18 @@ Quintus.Input = function(Q)
 
 	 return Q;
   };
-  
+
 
   /**
 	* Platformer Control Component
 	*
 	* Adds 2D platformer controls onto a Sprite
 	*
-	* Platformer controls bind to left, and right and allow the player to jump. 
+	* Platformer controls bind to left, and right and allow the player to jump.
 	*
 	* Adds the following properties to the entity to control speed and jumping:
 	*
-	*      { 
+	*      {
 	*        speed: 200,
 	*        jumpSpeed: -300
 	*      }
@@ -4124,10 +4123,10 @@ Quintus.Input = function(Q)
 
 	 step: function(dt) {
 		var p = this.entity.p;
-		
+
 		if(p.ignoreControls === undefined || !p.ignoreControls) {
 		  var collision = null;
-		  
+
 		  // Follow along the current slope, if possible.
 		  if(p.collisions !== undefined && p.collisions.length > 0 && (Q.inputs['left'] || Q.inputs['right'] || p.landed > 0)) {
 			 if(p.collisions.length === 1) {
@@ -4140,14 +4139,14 @@ Quintus.Input = function(Q)
 				  if(p.collisions[i].normalY < 0) {
 					 collision = p.collisions[i];
 				  }
-				}          
+				}
 			 }
-			 
-			 // Don't climb up walls.      
-			 if(collision !== null && collision.normalY > -0.3 && collision.normalY < 0.3) {        
+
+			 // Don't climb up walls.
+			 if(collision !== null && collision.normalY > -0.3 && collision.normalY < 0.3) {
 				collision = null;
-			 }        
-		  }      
+			 }
+		  }
 
 		  if(Q.inputs['left']) {
 			 p.direction = 'left';
@@ -4156,12 +4155,12 @@ Quintus.Input = function(Q)
 				p.vy = -p.speed * collision.normalX;
 			 } else {
 				p.vx = -p.speed;
-			 }        
+			 }
 		  } else if(Q.inputs['right']) {
 			 p.direction = 'right';
 			 if(collision && p.landed > 0) {
 				p.vx = -p.speed * collision.normalY;
-				p.vy = p.speed * collision.normalX;          
+				p.vy = p.speed * collision.normalX;
 			 } else {
 				p.vx = p.speed;
 			 }
@@ -4171,7 +4170,7 @@ Quintus.Input = function(Q)
 				p.vy = 0;
 			 }
 		  }
-		  
+
 		  if(p.landed > 0 && (Q.inputs['up'] || Q.inputs['action']) && !p.jumping) {
 			 p.vy = p.jumpSpeed;
 			 p.landed = -dt;
@@ -4180,7 +4179,7 @@ Quintus.Input = function(Q)
 			 this.entity.trigger('jump', this.entity);
 			 p.jumping = true;
 		  }
-		  
+
 		  if(p.jumping && !(Q.inputs['up'] || Q.inputs['action'])) {
 			 p.jumping = false;
 			 this.entity.trigger('jumped', this.entity);
@@ -4201,7 +4200,7 @@ Quintus.Input = function(Q)
 	*
 	* Adds the following properties to the entity:
 	*
-	*      { 
+	*      {
 	*        stepDistance: 32, // should be tile size
 	*        stepDelay: 0.2  // seconds to delay before next step
 	*      }
@@ -4266,13 +4265,13 @@ Quintus.Input = function(Q)
 		  p.diffY = p.stepDistance;
 		}
 
-		if(p.diffY || p.diffX ) { 
+		if(p.diffY || p.diffX ) {
 		  p.stepping = true;
 		  p.origX = p.x;
 		  p.origY = p.y;
 		  p.destX = p.x + p.diffX;
 		  p.destY = p.y + p.diffY;
-		  p.stepWait = p.stepDelay; 
+		  p.stepWait = p.stepDelay;
 		}
 
 	 }
@@ -4287,7 +4286,7 @@ Quintus.Input = function(Q)
 Quintus HTML5 Game Engine - Scenes Module
 
 The code in `quintus_scenes.js` defines the `Quintus.Scenes` module, which
-adds in support for Scenes and Stages into Quintus. 
+adds in support for Scenes and Stages into Quintus.
 
 Depends on the `Quintus.Sprite` module.
 
@@ -4299,7 +4298,7 @@ stepping, rendering and collision detection.
 @module Quintus.Scenes
 */
 
-/** 
+/**
  * Quintus Scenes Module Class
  *
  * @class Quintus.Scenes
@@ -4310,8 +4309,8 @@ Quintus.Scenes = function(Q) {
   Q.stages = [];
 
 
-  /** 
-   Basic scene class, consisting primarily of a scene function 
+  /**
+   Basic scene class, consisting primarily of a scene function
    and some options that are passed to the stage.
 
    Should be instantiated by calling `Q.scene` not new
@@ -4327,7 +4326,7 @@ Quintus.Scenes = function(Q) {
   });
 
   /**
-   Set up a new scene or return an existing scene. If you don't pass in `sceneFunc`, 
+   Set up a new scene or return an existing scene. If you don't pass in `sceneFunc`,
    it'll return a scene otherwise it'll create a new one.
 
    @method Q.scene
@@ -4358,7 +4357,7 @@ Quintus.Scenes = function(Q) {
     matrix: Q.matrix2d()
   };
 
- 
+
   /**
    SAT collision detection between two objects
    Thanks to doc's at: http://www.sevenson.com.au/actionscript/sat/
@@ -4369,7 +4368,7 @@ Quintus.Scenes = function(Q) {
    @property Q.collision
    @for Quintus.Scenes
   */
-  Q.collision = (function() { 
+  Q.collision = (function() {
     var normalX, normalY,
         offset = [ 0,0 ],
         result1 = { separate: [] },
@@ -4424,7 +4423,7 @@ Quintus.Scenes = function(Q) {
       } else {
         p2 = o2.p.points;
         offset[0] += -o2.p.x;
-        offset[1] += -o2.p.y; 
+        offset[1] += -o2.p.y;
       }
 
       o1 = o1.p;
@@ -4569,7 +4568,7 @@ Quintus.Scenes = function(Q) {
       this.defaults['h'] = Q.height;
 
       this.options = Q._extend({},this.defaults);
-      if(this.scene)  { 
+      if(this.scene)  {
         Q._extend(this.options,scene.opts);
       }
       if(opts) { Q._extend(this.options,opts); }
@@ -4587,7 +4586,7 @@ Quintus.Scenes = function(Q) {
 
     // Needs to be separated out so the current stage can be set
     loadScene: function() {
-      if(this.scene)  { 
+      if(this.scene)  {
         this.scene.sceneFunc(this);
       }
     },
@@ -4638,7 +4637,7 @@ Quintus.Scenes = function(Q) {
      @for Q.Stage
     */
     invoke: function(funcName) {
-      for(var i=0,len=this.items.length;i<len;i++) {              
+      for(var i=0,len=this.items.length;i<len;i++) {
         this.items[i][funcName].call(
           this.items[i],arguments[1],arguments[2]
         );
@@ -4707,7 +4706,7 @@ Quintus.Scenes = function(Q) {
 
     removeFromList: function(list, itm) {
       var listIndex = this.lists[list].indexOf(itm);
-      if(listIndex !== -1) { 
+      if(listIndex !== -1) {
         this.lists[list].splice(listIndex,1);
       }
     },
@@ -4736,7 +4735,7 @@ Quintus.Scenes = function(Q) {
       Q._generatePoints(itm);
       Q._generateCollisionPoints(itm);
 
-      
+
       if(itm.className) { this.addToList(itm.className, itm); }
       if(itm.activeComponents) { this.addToLists(itm.activeComponents, itm); }
 
@@ -4764,7 +4763,7 @@ Quintus.Scenes = function(Q) {
 
     forceRemove: function(itm) {
       var idx =  this.items.indexOf(itm);
-      if(idx !== -1) { 
+      if(idx !== -1) {
         this.items.splice(idx,1);
 
         if(itm.className) { this.removeFromList(itm.className,itm); }
@@ -4826,7 +4825,7 @@ Quintus.Scenes = function(Q) {
         if(this.grid[y]) {
           for(var x = grid.X1;x <= grid.X2;x++) {
             gridCell = this.grid[y][x];
-            if(gridCell) { 
+            if(gridCell) {
               col = Q._detect(gridCell,this._gridCellCheck,this,obj,collisionMask);
               if(col) { return col; }
             }
@@ -4841,7 +4840,7 @@ Quintus.Scenes = function(Q) {
       layer.collisionLayer = true;
       return this.insert(layer);
     },
-    
+
     _collideCollisionLayer: function(obj,collisionMask) {
       var col;
 
@@ -4879,7 +4878,7 @@ Quintus.Scenes = function(Q) {
     },
 
     _locateObj: {
-      p: { 
+      p: {
         x: 0,
         y: 0,
         cx: 0,
@@ -4929,7 +4928,7 @@ Quintus.Scenes = function(Q) {
      @for Q.Stage
     */
     collide: function(obj,options) {
-      var col, col2, collisionMask, 
+      var col, col2, collisionMask,
           maxCol, curCol, skipEvents;
       if(Q._isObject(options)) {
         collisionMask = options.collisionMask;
@@ -4947,7 +4946,7 @@ Quintus.Scenes = function(Q) {
 
       curCol = maxCol;
       while(curCol > 0 && (col = this._collideCollisionLayer(obj,collisionMask))) {
-        if(!skipEvents) { 
+        if(!skipEvents) {
           obj.trigger('hit',col);
           obj.trigger('hit.collision',col);
         }
@@ -4963,7 +4962,7 @@ Quintus.Scenes = function(Q) {
 
         // Do the recipricol collision
         // TODO: extract
-        if(!skipEvents) { 
+        if(!skipEvents) {
           var obj2 = col2.obj;
           col2.obj = obj;
           col2.normalX *= -1;
@@ -4973,7 +4972,7 @@ Quintus.Scenes = function(Q) {
           col2.separate[0] = 0;
           col2.separate[1] = 0;
 
-          
+
           obj2.trigger('hit',col2);
           obj2.trigger('hit.sprite',col2);
         }
@@ -5027,7 +5026,7 @@ Quintus.Scenes = function(Q) {
           gridY2 = Math.floor((c.y - c.cy + c.h) / this.options.gridH),
           grid = item.grid;
 
-      if(grid.X1 !== gridX1 || grid.X2 !== gridX2 || 
+      if(grid.X1 !== gridX1 || grid.X2 !== gridX2 ||
          grid.Y1 !== gridY1 || grid.Y2 !== gridY2) {
 
          if(grid.X1 !== void 0) { this.delGrid(item); }
@@ -5039,7 +5038,7 @@ Quintus.Scenes = function(Q) {
          if(!skipAdd) { this.addGrid(item); }
       }
     },
-    
+
     markSprites: function(items,time) {
       var viewport = this.viewport,
           scale = viewport ? viewport.scale : 1,
@@ -5054,7 +5053,7 @@ Quintus.Scenes = function(Q) {
           gridRow, gridBlock;
 
       for(var iy=gridY1; iy<=gridY2; iy++) {
-        if((gridRow = this.grid[iy])) { 
+        if((gridRow = this.grid[iy])) {
           for(var ix=gridX1; ix<=gridX2; ix++) {
             if((gridBlock = gridRow[ix])) {
               for(var id in gridBlock) {
@@ -5072,12 +5071,12 @@ Quintus.Scenes = function(Q) {
     updateSprites: function(items,dt,isContainer) {
       var item;
 
-      for(var i=0,len=items.length;i<len;i++) {              
+      for(var i=0,len=items.length;i<len;i++) {
         item = items[i];
         // If set to visible only, don't step if set to visibleOnly
         if(!isContainer && (item.p.visibleOnly && (!item.mark || item.mark < this.time))) { continue; }
 
-        if(isContainer || !item.container) { 
+        if(isContainer || !item.container) {
           item.update(dt);
           Q._generateCollisionPoints(item);
           this.regrid(item);
@@ -5157,7 +5156,7 @@ Quintus.Scenes = function(Q) {
       this.trigger("prerender",ctx);
       this.trigger("beforerender",ctx);
 
-      for(var i=0,len=this.items.length;i<len;i++) {              
+      for(var i=0,len=this.items.length;i<len;i++) {
         var item = this.items[i];
         // Don't render sprites with containers (sprites do that themselves)
         // Also don't render if not onscreen
@@ -5193,7 +5192,7 @@ Quintus.Scenes = function(Q) {
     },
 
     invoke: function(funcName) {
-      for(var i=0,len=this.items.length;i<len;i++) {              
+      for(var i=0,len=this.items.length;i<len;i++) {
         this.items[i][funcName].call(
           this.items[i],arguments[1],arguments[2]
         );
@@ -5334,7 +5333,7 @@ Quintus.Scenes = function(Q) {
 
     // Grab the stage class, pulling from options, the scene default, or use
     // the default stage
-    var StageClass = (Q._popProperty(options,"stageClass")) || 
+    var StageClass = (Q._popProperty(options,"stageClass")) ||
                      (scene && scene.opts.stageClass) || Q.Stage;
 
     // Figure out which stage to use
@@ -5407,8 +5406,8 @@ Quintus.Scenes = function(Q) {
    @for Q
   */
   Q.clearStage = function(num) {
-    if(Q.stages[num]) { 
-      Q.stages[num].destroy(); 
+    if(Q.stages[num]) {
+      Q.stages[num].destroy();
       Q.stages[num] = null;
     }
   };
@@ -5432,7 +5431,7 @@ Quintus.Scenes = function(Q) {
 
 /*global Quintus:false */
 
-Quintus["2D"] = function(Q) 
+Quintus["2D"] = function(Q)
 {
 
   Q.component('viewport',
@@ -5477,7 +5476,7 @@ Quintus["2D"] = function(Q)
       var followY = Q._isFunction(this.directions.y) ? this.directions.y(this.following) : this.directions.y;
 
       this[first === true ? 'centerOn' : 'softCenterOn'](
-                    followX ? 
+                    followX ?
                       this.following.p.x + this.following.p.w/2 - this.offsetX :
                       undefined,
                     followY ?
@@ -5492,7 +5491,7 @@ Quintus["2D"] = function(Q)
     },
 
     softCenterOn: function(x,y) {
-      if(x !== void 0) {        
+      if(x !== void 0) {
         var dx = (x - Q.width / 2 / this.scale - this.x)/3;
         if(this.boundingBox) {
           if(this.x + dx < this.boundingBox.minX) {
@@ -5503,13 +5502,13 @@ Quintus["2D"] = function(Q)
           }
           else {
             this.x += dx;
-          }            
+          }
         }
         else {
           this.x += dx;
         }
       }
-      if(y !== void 0) { 
+      if(y !== void 0) {
         var dy = (y - Q.height / 2 / this.scale - this.y)/3;
         if(this.boundingBox) {
           if(this.y + dy < this.boundingBox.minY) {
@@ -5520,7 +5519,7 @@ Quintus["2D"] = function(Q)
           }
           else {
             this.y += dy;
-          }            
+          }
         }
         else {
           this.y += dy;
@@ -5532,7 +5531,7 @@ Quintus["2D"] = function(Q)
       if(x !== void 0) {
         this.x = x - Q.width / 2 / this.scale;
       }
-      if(y !== void 0) { 
+      if(y !== void 0) {
         this.y = y - Q.height / 2 / this.scale;
       }
 
@@ -5542,7 +5541,7 @@ Quintus["2D"] = function(Q)
       if(x !== void 0) {
         this.x = x;
       }
-      if(y !== void 0) { 
+      if(y !== void 0) {
         this.y = y;
       }
       return this.entity;
@@ -5584,11 +5583,11 @@ Quintus["2D"] = function(Q)
       this.blocks = [];
       this.p.blockW = this.p.tileW * this.p.blockTileW;
       this.p.blockH = this.p.tileH * this.p.blockTileH;
-      this.colBounds = {}; 
+      this.colBounds = {};
       this.directions = [ 'top','left','right','bottom'];
       this.tileProperties = {};
 
-      this.collisionObject = { 
+      this.collisionObject = {
         p: {
           w: this.p.tileW,
           h: this.p.tileH,
@@ -5596,8 +5595,8 @@ Quintus["2D"] = function(Q)
           cy: this.p.tileH/2
         }
       };
-      
-      this.tileCollisionObjects = {};      
+
+      this.tileCollisionObjects = {};
 
       this.collisionNormal = { separate: []};
 
@@ -5616,7 +5615,7 @@ Quintus["2D"] = function(Q)
 
       if(this.sheet() && this.sheet().frameProperties) {
         var frameProperties = this.sheet().frameProperties;
-        for(var k in frameProperties) { 
+        for(var k in frameProperties) {
           var colObj = this.tileCollisionObjects[k] = { p: Q._clone(this.collisionObject.p) };
           Q._extend(colObj.p,frameProperties[k]);
 
@@ -5635,7 +5634,7 @@ Quintus["2D"] = function(Q)
           fileExt = fileParts[fileParts.length-1].toLowerCase(),
           data;
 
-      if (fileExt === "json") {  
+      if (fileExt === "json") {
         data = Q._isString(dataAsset) ?  Q.asset(dataAsset) : dataAsset;
       }
       else {
@@ -5647,7 +5646,7 @@ Quintus["2D"] = function(Q)
     setDimensions: function() {
       var tiles = this.p.tiles;
 
-      if(tiles) { 
+      if(tiles) {
         this.p.rows = tiles.length;
         this.p.cols = tiles[0].length;
         this.p.w = this.p.cols * this.p.tileW;
@@ -5658,34 +5657,34 @@ Quintus["2D"] = function(Q)
     getTile: function(tileX,tileY) {
       return this.p.tiles[tileY] && this.p.tiles[tileY][tileX];
     },
-    
+
     getTileProperty: function(tile, prop) {
       if(this.tileProperties[tile] !== undefined) {
-        return this.tileProperties[tile][prop];          
+        return this.tileProperties[tile][prop];
       } else {
         return;
-      }      
+      }
     },
-    
+
     getTileProperties: function(tile) {
       if(this.tileProperties[tile] !== undefined) {
-        return this.tileProperties[tile];          
+        return this.tileProperties[tile];
       } else {
         return {};
       }
     },
-    
+
     getTilePropertyAt: function(tileX, tileY, prop) {
       return this.getTileProperty(this.getTile(tileX, tileY), prop);
     },
-    
+
     getTilePropertiesAt: function(tileX, tileY) {
       return this.getTileProperties(this.getTile(tileX, tileY));
     },
-    
+
     tileHasProperty: function(tile, prop) {
       return(this.getTileProperty(tile, prop) !== undefined);
-    },    
+    },
 
     setTile: function(x,y,tile) {
       var p = this.p,
@@ -5693,7 +5692,7 @@ Quintus["2D"] = function(Q)
           blockY = Math.floor(y/p.blockTileH);
 
       if(x >= 0 && x < this.p.cols &&
-         y >= 0 && y < this.p.rows) { 
+         y >= 0 && y < this.p.rows) {
 
         this.p.tiles[y][x] = tile;
 
@@ -5718,31 +5717,31 @@ Quintus["2D"] = function(Q)
     collidableTile: function(tileNum) {
       return tileNum > 0;
     },
-    
+
     getCollisionObject: function(tileX, tileY) {
       var p = this.p,
           tile = this.getTile(tileX, tileY),
           colObj;
-      
-      colObj = (this.tileCollisionObjects[tile] !== undefined) ? 
-        this.tileCollisionObjects[tile] : this.collisionObject;     
-      
+
+      colObj = (this.tileCollisionObjects[tile] !== undefined) ?
+        this.tileCollisionObjects[tile] : this.collisionObject;
+
       colObj.p.x = tileX * p.tileW + p.x + p.tileW/2;
       colObj.p.y = tileY * p.tileH + p.y + p.tileH/2;
-      
+
       return colObj;
     },
 
     collide: function(obj) {
       var p = this.p,
-          objP = obj.c || obj.p, 
+          objP = obj.c || obj.p,
           tileStartX = Math.floor((objP.x - objP.cx - p.x) / p.tileW),
           tileStartY = Math.floor((objP.y - objP.cy - p.y) / p.tileH),
           tileEndX =  Math.ceil((objP.x - objP.cx + objP.w - p.x) / p.tileW),
           tileEndY =  Math.ceil((objP.y - objP.cy + objP.h - p.y) / p.tileH),
           normal = this.collisionNormal,
           col, colObj;
-  
+
       normal.collided = false;
 
       for(var tileY = tileStartY; tileY<=tileEndY; tileY++) {
@@ -5751,12 +5750,12 @@ Quintus["2D"] = function(Q)
             colObj = this.getCollisionObject(tileX, tileY);
 
             col = Q.collision(obj,colObj);
-      
+
             if(col && col.magnitude > 0) {
               if(colObj.p.sensor) {
                 colObj.tile = this.getTile(tileX,tileY);
-                if(obj.trigger) { 
-                  obj.trigger('sensor.tile',colObj); 
+                if(obj.trigger) {
+                  obj.trigger('sensor.tile',colObj);
                 }
               } else if(!normal.collided || normal.magnitude < col.magnitude ) {
                  normal.collided = true;
@@ -5770,7 +5769,7 @@ Quintus["2D"] = function(Q)
                  normal.tileY = tileY;
                  normal.tile = this.getTile(tileX,tileY);
                  if(obj.p.collisions !== undefined) {
-                   obj.p.collisions.push(normal);               
+                   obj.p.collisions.push(normal);
                  }
               }
             }
@@ -5886,7 +5885,7 @@ Quintus["2D"] = function(Q)
       p.y -= col.separate[1];
 
       // Top collision
-      if(col.normalY < -0.3) { 
+      if(col.normalY < -0.3) {
         if(!p.skipCollide && p.vy > 0) { p.vy = 0; }
         col.impact = impactY;
         entity.trigger("bump.bottom",col);
@@ -5898,12 +5897,12 @@ Quintus["2D"] = function(Q)
         entity.trigger("bump.top",col);
       }
 
-      if(col.normalX < -0.3) { 
+      if(col.normalX < -0.3) {
         if(!p.skipCollide && p.vx > 0) { p.vx = 0;  }
         col.impact = impactX;
         entity.trigger("bump.right",col);
       }
-      if(col.normalX > 0.3) { 
+      if(col.normalX > 0.3) {
         if(!p.skipCollide && p.vx < 0) { p.vx = 0; }
         col.impact = impactX;
 
@@ -5915,7 +5914,7 @@ Quintus["2D"] = function(Q)
       var p = this.entity.p,
           dtStep = dt;
       // TODO: check the entity's magnitude of vx and vy,
-      // reduce the max dtStep if necessary to prevent 
+      // reduce the max dtStep if necessary to prevent
       // skipping through objects.
       while(dtStep > 0) {
         dt = Math.min(1/30,dtStep);
@@ -5938,7 +5937,7 @@ Quintus["2D"] = function(Q)
     },
 
     goLeft: function(col) {
-      this.entity.p.vx = -col.impact;      
+      this.entity.p.vx = -col.impact;
       if(this.entity.p.defaultDirection === 'right') {
           this.entity.p.flip = 'x';
       }
@@ -6013,7 +6012,7 @@ Quintus.Touch = function(Q) {
     normalizeTouch: function(touch,stage) {
       var canvasPosX = touch.offsetX,
           canvasPosY = touch.offsetY;
-         
+
 
       if(Q._isUndefined(canvasPosX) || Q._isUndefined(canvasPosY)) {
         canvasPosX = touch.layerX;
@@ -6037,7 +6036,7 @@ Quintus.Touch = function(Q) {
 
       this.touchPos.p.ox = this.touchPos.p.px = canvasPosX / Q.cssWidth * Q.width;
       this.touchPos.p.oy = this.touchPos.p.py = canvasPosY / Q.cssHeight * Q.height;
-      
+
       if(stage.viewport) {
         this.touchPos.p.px /= stage.viewport.scale;
         this.touchPos.p.py /= stage.viewport.scale;
@@ -6692,7 +6691,7 @@ Quintus.Audio = function(Q) {
 
   Q.hasWebAudio = (typeof AudioContext !== "undefined") || (typeof webkitAudioContext !== "undefined");
 
-  if(Q.hasWebAudio) { 
+  if(Q.hasWebAudio) {
     if(typeof AudioContext !== "undefined") {
       Q.audioContext = new AudioContext();
     } else {
@@ -6722,12 +6721,12 @@ Quintus.Audio = function(Q) {
       delete Q.audio.playingSounds[soundID];
     };
 
-    // Play a single sound, optionally debounced 
+    // Play a single sound, optionally debounced
     // to prevent repeated plays in a short time
     Q.audio.play = function(s,options) {
       var now = new Date().getTime();
 
-      // See if this audio file is currently being debounced, if 
+      // See if this audio file is currently being debounced, if
       // it is, don't do anything and just return
       if(Q.audio.active[s] && Q.audio.active[s] > now) { return; }
 
@@ -6773,18 +6772,18 @@ Quintus.Audio = function(Q) {
   Q.audio.enableHTML5Sound = function() {
     Q.audio.type = "HTML5";
 
-    for (var i=0;i<Q.audio.channelMax;i++) {	
+    for (var i=0;i<Q.audio.channelMax;i++) {
       Q.audio.channels[i] = {};
-      Q.audio.channels[i]['channel'] = new Audio(); 
-      Q.audio.channels[i]['finished'] = -1;	
+      Q.audio.channels[i]['channel'] = new Audio();
+      Q.audio.channels[i]['finished'] = -1;
     }
 
-    // Play a single sound, optionally debounced 
+    // Play a single sound, optionally debounced
     // to prevent repeated plays in a short time
     Q.audio.play = function(s,options) {
       var now = new Date().getTime();
 
-      // See if this audio file is currently being debounced, if 
+      // See if this audio file is currently being debounced, if
       // it is, don't do anything and just return
       if(Q.audio.active[s] && Q.audio.active[s] > now) { return; }
 
@@ -6799,13 +6798,13 @@ Quintus.Audio = function(Q) {
       // Find a free audio channel and play the sound
       for (var i=0;i<Q.audio.channels.length;i++) {
         // Check the channel is either finished or not looping
-        if (!Q.audio.channels[i]['loop'] && Q.audio.channels[i]['finished'] < now) {	
+        if (!Q.audio.channels[i]['loop'] && Q.audio.channels[i]['finished'] < now) {
 
           Q.audio.channels[i]['channel'].src = Q.asset(s).src;
 
           // If we're looping - just set loop to true to prevent this channcel
           // from being used.
-          if(options && options['loop']) { 
+          if(options && options['loop']) {
             Q.audio.channels[i]['loop'] = true;
             Q.audio.channels[i]['channel'].loop = true;
           } else {
@@ -6823,7 +6822,7 @@ Quintus.Audio = function(Q) {
       var src = s ? Q.asset(s).src : null;
       var tm = new Date().getTime();
       for (var i=0;i<Q.audio.channels.length;i++) {
-        if ((!src || Q.audio.channels[i]['channel'].src === src) && 
+        if ((!src || Q.audio.channels[i]['channel'].src === src) &&
             (Q.audio.channels[i]['loop'] || Q.audio.channels[i]['finished'] >= tm)) {
           Q.audio.channels[i]['channel'].pause();
           Q.audio.channels[i]['loop'] = false;
@@ -6834,4 +6833,3 @@ Quintus.Audio = function(Q) {
   };
 
 };
-  

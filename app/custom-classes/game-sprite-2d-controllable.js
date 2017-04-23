@@ -5,119 +5,78 @@
   *
   * Platformer controls bind to left, and right and allow the player to jump.
   *
-  * Adds the following properties to the entity to control speed and jumping:
-  *
-  *      {
-  *        speed: 200,
-  *        jumpSpeed: -300
-  *      }
+  * Adds following properties to the entity to control speed and jumping:
   */
-import Ember from 'ember';
-import Sprite from './../custom-classes/game-sprite-2d';
+import Sprite2D from './../custom-classes/game-sprite-2d';
 
 const Sprite2DControllable = Sprite2D.extend({
 
-	init(control_type /*options: platformer, step */) {
+	game: null,
+
+	ignoreControls: false,
+
+	moved: false,
+	stepDistance: 32,
+	stepDelay: 0.2,
+	stepWait: 0,
+	stepping: false,
+
+	init() {
 		this._super();
-
-		if(control_type === 'platformer') {
-			this.set('speed', 200);
-			this.set('jumpSpeed', -300);
-			this.set('collisions', []);
-			this.set('landed', false);
-			this.set('direction', 'right');
-
-			// this.entity.on("step",this,"step");
-			// this.entity.on("bump.bottom",this,"landed");
-		}
-		else {
-			if(Ember.isEmpty(this.get('stepDistance'))) {
-				this.set('stepDistance', 32);
-			}
-			if(Ember.isEmpty(this.get('stepDelay'))) {
-				this.set('stepDelay', 0.2);
-			}
-
-			this.set('stepWait', 0);
-			// this.entity.on("step",this,"step");
-			// this.entity.on("hit", this,"collision");
-		}
-	},
-
-	landed(col) {
-	   var p = this.entity.p;
-	   p.landed = 1/5;
 	},
 
 	step(dt) {
-	   var p = this.entity.p;
 
-	   if(p.ignoreControls === undefined || !p.ignoreControls) {
-		 var collision = null;
+	   	if(this.get('ignoreControls') === undefined || !this.get('ignoreControls')) {
 
-		 // Follow along the current slope, if possible.
-		 if(p.collisions !== undefined && p.collisions.length > 0 && (Q.inputs['left'] || Q.inputs['right'] || p.landed > 0)) {
-			if(p.collisions.length === 1) {
-			   collision = p.collisions[0];
-			} else {
-			   // If there's more than one possible slope, follow slope with negative Y normal
-			   collision = null;
+			this.set('moved', false);
+			this.set('stepWait', this.get('stepWait') - dt);
 
-			   for(var i = 0; i < p.collisions.length; i++) {
-				 if(p.collisions[i].normalY < 0) {
-					collision = p.collisions[i];
-				 }
-			   }
+			// left
+			if(this.get('game.gameState.pressedKey') === 37) {
+				this.set('diffX', -this.get('stepDistance'));
+			}
+			// right
+			else if(this.get('game.gameState.pressedKey') === 39) {
+				this.set('diffX', this.get('stepDistance'));
 			}
 
-			// Don't climb up walls.
-			if(collision !== null && collision.normalY > -0.3 && collision.normalY < 0.3) {
-			   collision = null;
-			}
-		 }
-
-		 if(Q.inputs['left']) {
-			p.direction = 'left';
-			if(collision && p.landed > 0) {
-			   p.vx = p.speed * collision.normalY;
-			   p.vy = -p.speed * collision.normalX;
-			} else {
-			   p.vx = -p.speed;
-			}
-		 } else if(Q.inputs['right']) {
-			p.direction = 'right';
-			if(collision && p.landed > 0) {
-			   p.vx = -p.speed * collision.normalY;
-			   p.vy = p.speed * collision.normalX;
-			} else {
-			   p.vx = p.speed;
-			}
-		 } else {
-			p.vx = 0;
-			if(collision && p.landed > 0) {
-			   p.vy = 0;
-			}
-		 }
-
-		 if(p.landed > 0 && (Q.inputs['up'] || Q.inputs['action']) && !p.jumping) {
-			p.vy = p.jumpSpeed;
-			p.landed = -dt;
-			p.jumping = true;
-		 } else if(Q.inputs['up'] || Q.inputs['action']) {
-			this.entity.trigger('jump', this.entity);
-			p.jumping = true;
-		 }
-
-		 if(p.jumping && !(Q.inputs['up'] || Q.inputs['action'])) {
-			p.jumping = false;
-			this.entity.trigger('jumped', this.entity);
-			if(p.vy < p.jumpSpeed / 3) {
-			   p.vy = p.jumpSpeed / 3;
-			}
-		 }
-	   }
-	   p.landed -= dt;
-   },
+			//
+			// if(this.get('stepping')) {
+			// 	  	this.set('x', this.get('x') + this.get('diffX') * dt / this.get('stepDelay'));
+			// 	  	this.set('y', this.get('y') + this.get('diffY') * dt / this.get('stepDelay'));
+			// 	}
+			//
+			// if(this.get('stepWait') > 0) {
+			// 		return;
+			// 	}
+			//
+			// if(this.get('stepping')) {
+			// 	  	this.set('x', this.get('destX'));
+			// 	  	this.get('y', this.get('destY'));
+			// 	}
+			//
+			// this.set('stepping', false);
+			// this.set('diffX', 0);
+			// this.set('diffY', 0);
+			//
+			// if(this.get('game.inputs')['up']) {
+			// 	  	this.set('diffY', -this.get('stepDistance'));
+			// 	}
+			// else if(this.get('game.inputs')['down']) {
+			// 	  	this.set('diffY', this.get('stepDistance'));
+			// 	}
+			//
+			// if(this.get('diffY') || this.get('diffX') ) {
+			// 		this.set('stepping', true);
+			// 		this.set('origX', this.get('x'));
+			// 		this.set('origY', this.get('y'));
+			// 		this.set('destX', this.get('x') + this.get('diffX'));
+			// 		this.set('destY', this.get('y') + this.get('diffY'));
+			// 		this.set('stepWait', this.get('stepDelay'));
+			// 	}
+		}
+   	},
 
 });
 
