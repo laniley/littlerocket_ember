@@ -1,20 +1,20 @@
 import ENV from '../config/environment';
 
 export function initialize( application ) {
-  var debug = false;
+	var debug = false;
 
-  // Wait for Facebook to load before allowing the application
-  // to fully boot. This prevents `ReferenceError: FB is not defined`
-  application.deferReadiness();
+	// Wait for Facebook to load before allowing the application
+	// to fully boot. This prevents `ReferenceError: FB is not defined`
+	application.deferReadiness();
 
-  var fbAsyncInit = function() {
-      initFacebook(window.FB);
-      application.advanceReadiness();
-  };
+	var fbAsyncInit = function() {
+		initFacebook(window.FB);
+		application.advanceReadiness();
+	};
 
-  loadFacebookSDK(debug);
+	loadFacebookSDK(debug);
 
-  window.fbAsyncInit = fbAsyncInit;
+	window.fbAsyncInit = fbAsyncInit;
 }
 
 function initFacebook(FB) {
@@ -36,6 +36,6 @@ function loadFacebookSDK(debug) {
 }
 
 export default {
-  name: 'facebook',
-  initialize: initialize
+	name: 'facebook',
+	initialize: initialize
 };

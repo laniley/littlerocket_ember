@@ -6,16 +6,24 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('login');
-  this.route('intern', function() {
-    this.route('welcome');
-    this.route('messages');
-    this.route('buy-energy');
-    this.route('stage', function() {
-      this.route('menu');
-    });
-    this.route('main-menu');
-  });
+
+	this.route('login');
+
+	this.route('intern', function() {
+
+		this.route('welcome');
+
+		this.route('main-menu');
+
+		this.route('stage-selection');
+		this.route('stage', function() {
+			this.route('menu');
+		});
+
+		this.route('messages');
+
+		this.route('buy-energy');
+	});
 });
 
 export default Router;
