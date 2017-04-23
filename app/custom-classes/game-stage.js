@@ -16,7 +16,6 @@ const Stage = Ember.Object.extend({
     x: 0,
     y: 0,
 	time: 0,
-	viewport: null,
 
 	// gameState: Ember.computed('scene.game.gameState', function() {
 	// 	return this.get('scene.game.gameState');

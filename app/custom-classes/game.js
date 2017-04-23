@@ -180,6 +180,9 @@ const Game = Ember.Object.extend({
 
 	  		this.set('loop', null);
 		}
+		/*
+			Unpause the game by starting a requestAnimationFrame-based loop.
+		*/
 		else {
 			this.set('lastGameLoopFrame', new Date().getTime());
 

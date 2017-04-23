@@ -64,6 +64,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                         this.loadRocket(user);
                         // this.loadLab(user);
                         this.loadFriends(me, response);
+                        this.transitionTo('intern.main-menu');
                     }
 
 

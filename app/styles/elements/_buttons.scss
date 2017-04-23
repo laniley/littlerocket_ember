@@ -12,6 +12,9 @@ button, .button {
 	@include border-radius(15px);
 	background: $lightblue;
 	cursor: pointer;
+	@include text-not-selectable();
+
+	&:focus { outline: 0; }
 
 	&.focused {
 		background: white;

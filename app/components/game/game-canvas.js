@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import Game from './../../custom-classes/game';
 
+
 export default Ember.Component.extend({
 
     gameState: Ember.inject.service('game-state'),
@@ -72,24 +73,7 @@ export default Ember.Component.extend({
         // .touch()
         // .enableSound();
         // // Add in the controls
-        // Q.input.keyboardControls({
-        //   	LEFT: "left",
-        //   	RIGHT: "right",
-        //   	UP: "up",
-        //     DOWN: "down",
-        //   	SPACE: "space",
-        //     ENTER: "enter"
-        // });
-        //
-        // Q.input.touchControls({
-     //  	    controls: [
-        //         ['left','<' ],
-        //         [],
-        //         ['up', '*'],
-        //         [],
-        //         ['right','>' ]
-        //     ]
-        // });
+
         //
         // Q.gravityX = 0;
         // Q.gravityY = 0;

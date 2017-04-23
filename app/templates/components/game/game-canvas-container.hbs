@@ -2,13 +2,14 @@
     Your browser doesn't support this game. :(
 {{/game/game-canvas}}
 
+{{#if showHud}}
+    {{game/game-hud newScore=newScore}}
+{{/if}}
+
 {{#if isLoading}}
     {{game/game-progress-bar}}
 {{/if}}
 
-{{#if (if-equals currentScene 'mainMenu') }}
-  	{{game/game-menu buttons=stageMenuButtons}}
-{{/if}}
 {{!--
 {{#if (if-equals currentScene 'gameOver') }}
   {{game-canvas-components/scenes/game-over
@@ -19,6 +20,9 @@
       openBuyEnergyDialogAction=(action "openBuyEnergyDialog")}}
 {{/if}}
  --}}
-{{#if showHud}}
-    {{game/game-hud newScore=newScore}}
+
+{{#if (if-equals currentScene 'mainMenu')}}
+	{{game/game-stage-menu buttons=buttons}}
 {{/if}}
+
+{{outlet}}

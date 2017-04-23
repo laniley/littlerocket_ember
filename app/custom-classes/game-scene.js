@@ -2,11 +2,15 @@ import Ember from 'ember';
 
 const Scene = Ember.Object.extend({
 	name: '',
-	game: null,
+	gameState: null,
 	stages: [],
 	assets: [],
 	activeStage: 0,
 	load: null,
+
+	game: Ember.computed('gameState.game', function() {
+		return this.get('gameState').get('game');
+	}),
 	/**
 		clears all stages
 	*/
