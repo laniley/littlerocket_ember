@@ -292,7 +292,6 @@ const Sprite = Ember.Object.extend({
      	Regenerates this sprite's transformation matrix
     */
     refreshMatrix() {
-		console.log('refreshing game sprite matrix...');
       	var p = this.get('points');
       	var matrix = this.get('matrix').identity();
 

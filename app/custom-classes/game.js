@@ -229,8 +229,6 @@ const Game = Ember.Object.extend({
 
 		this.set('lastGameLoopFrame', now);
 
-		var i, len, stage;
-
 	    if(dt < 0) {
 			dt = 1.0/60;
 		}
@@ -238,25 +236,12 @@ const Game = Ember.Object.extend({
 			dt  = 1.0/15;
 		}
 
-	    for(i = 0, len = this.get('activeScene').get('stages').length; i < len; i++) {
-	      	stage = this.get('activeScene').get('stages')[i];
-	      	stage.step(dt);
-	    }
+		this.get('activeScene.stages').forEach(stage => {
+			stage.step(dt);
+		});
 
-	    // if(Q.ctx) { Q.clear(); }
-		//
-	    // for(i =0,len=Q.stages.length;i<len;i++) {
-	    //   Q.activeStage = i;
-	    //   stage = Q.stage();
-	    //   if(stage) {
-	    //     stage.render(Q.ctx);
-	    //   }
-	    // }
-		//
-	    // Q.activeStage = 0;
-		//
-	    // if(Q.input && Q.ctx) { Q.input.drawCanvas(Q.ctx); }
-		//
+		this.rerender();
+
 		if(!this.get('gameState.isPaused')) {
 			window.requestAnimationFrame(() => {
 				this.gameLoopCallback();
@@ -265,10 +250,28 @@ const Game = Ember.Object.extend({
 	},
 
 	rerender() {
+		// clear the canvas before rendering the stages
+		this.clear();
 		this.get('activeScene.stages').forEach(stage => {
 			stage.render();
 		});
-	}
+	},
+	/**
+   		Clear the canvas completely.
+
+   		If you want it cleared to a specific color - set `Q.clearColor` to that color
+	*/
+	clear() {
+	   	if(this.get('clearColor')) {
+			this.set('context.globalAlpha', 1);
+			this.set('context.fillStyle', this.get('clearColor'));
+			this.get('context').fillRect(0,0, this.get('gameState.width'), this.get('gameState.height'));
+	   	}
+		else {
+			this.get('context').clearRect(0, 0, this.get('gameState.width'), this.get('gameState.height'));
+	   	}
+    }
+
 });
 
 export default Game;
