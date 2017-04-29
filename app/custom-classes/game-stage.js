@@ -63,27 +63,27 @@ const Stage = Ember.Object.extend({
 		//   	return itm;
 		itm.render();
     },
+
 	render() {
 		this.get('items').forEach(itm => {
 			itm.render();
 		});
 	},
+
 	clear() {
 		this.get('items').forEach(itm => {
 			itm.destroy();
 		});
 	},
+
 	step(dt) {
 		if(this.get('gameState.isPaused')) {
-			// console.log("TEST1");
 			return false;
 		}
 		else if(!this.get('scene.game.gameState')) {
-			// console.log("TEST2");
 			return false;
 		}
 		else {
-			// console.log("TEST3");
 			this.set('time', this.get('time') + dt);
 
 			this.markSprites();
@@ -131,7 +131,6 @@ const Stage = Ember.Object.extend({
     },
 
 	updateSprites(dt, isContainer) {
-		console.log('update');
       	var item;
 	  	var items = this.get('items');
 
