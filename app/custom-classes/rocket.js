@@ -22,11 +22,7 @@ const Rocket = Sprite2DControllable.extend({
 	tileW: 50,
 	tileH: 140,
 
-	x: Ember.computed('game.gameState.width', function() {
-		var halfCanvasW = this.get('game.gameState.width') / 2;
-		var halfTileW = this.get('tileW') / 2;
-		return Math.floor(halfCanvasW - halfTileW);
-	}),
+	x: 0,
 	y: Ember.computed('game.gameState.height', function() {
 		var canvasH = this.get('game.gameState.height');
 		var paddingBottom = (canvasH / 100 * 5);
@@ -60,8 +56,6 @@ const Rocket = Sprite2DControllable.extend({
 		];
 	}),
 
-	direction: 'up',
-
 	cannon: null,
 	shield: null,
 	engine: null,
@@ -72,6 +66,11 @@ const Rocket = Sprite2DControllable.extend({
 	init() {
 
 		this._super();
+
+		var halfCanvasW = this.get('game.gameState.width') / 2;
+		var halfTileW = this.get('tileW') / 2;
+		this.set('x', Math.floor(halfCanvasW - halfTileW));
+
 
 		// var cannon = Cannon.create({
 		// 	rocket: this
@@ -102,7 +101,7 @@ const Rocket = Sprite2DControllable.extend({
 
 	step: function(dt) {
 
-		this._super();
+		this._super(dt);
 
 		if(!this.get('game.gameState.isPaused')) {
 

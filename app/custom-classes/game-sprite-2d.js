@@ -13,8 +13,6 @@ const Sprite2D = Sprite.extend({
 		this.set('ay', 0);
 		this.set('gravity', 1);
 		// this.set('collisinMask', Q.SPRITE_DEFAULT);
-		// entity.on('step',this,"step");
-		// entity.on('hit',this,'collision');
 	},
 
 	// collision: function(col,last) {
@@ -61,10 +59,9 @@ const Sprite2D = Sprite.extend({
     // },
 
 	step: function(dt) {
+
       	var dtStep = dt;
-		// TODO: check the entity's magnitude of vx and vy,
-		// reduce the max dtStep if necessary to prevent
-		// skipping through objects.
+
       	while(dtStep > 0) {
         	dt = Math.min(1/30, dtStep);
 	        // Updated based on the velocity and acceleration
@@ -74,7 +71,7 @@ const Sprite2D = Sprite.extend({
 			var ay = this.get('ay');
 			var gravityX = this.get('gravityX');
 			var gravityY = this.get('gravityY');
-			var gravity = this.get('gravity');
+			var gravity  = this.get('gravity');
 
 			vx += ax * dt + gravityX * dt * gravity;
 			vy += ay * dt + gravityY * dt * gravity;

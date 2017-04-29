@@ -21,10 +21,19 @@ const Sprite = Ember.Object.extend({
 	// x and y define the top left corner of the sprite
 	x: 0, // x location of the sprite
 	y: 0, // y location of the sprite
-	// cx and cx define the center of the sprite
+
+	x_percent: Ember.computed('x', function() {
+		return this.get('x') / this.get('game.gameState.width');
+	}),
+
+	// x location of the sprite - scaled
+	x_px: Ember.computed('x_percent', 'game.gameState.width', function() {
+		return this.get('game.gameState.width') * this.get('x_percent');
+	}),
+	// cx and cy define the center of the sprite
 	// it will rotate around that point per default
-	cx: Ember.computed('x', function() {
-		return this.get('x') + (this.get('tileW') / 2);
+	cx: Ember.computed('x_px', function() {
+		return this.get('x_px') + (this.get('tileW') / 2);
 	}),
 	cy: Ember.computed('y', function() {
 		return this.get('y') + (this.get('tileH') / 2);
@@ -47,7 +56,7 @@ const Sprite = Ember.Object.extend({
 	}),
 	// default object coordinates - a simple rectangle
 	// can be overriden on object level to better fit the precise form ob the object
-    points: Ember.computed('x', 'y', 'tileW', 'tileH', function() {
+    points: Ember.computed('x_px', 'y', 'tileW', 'tileH', function() {
 		var halfW = this.get('tileW') / 2;
         var halfH = this.get('tileH') / 2;
 
@@ -130,11 +139,11 @@ const Sprite = Ember.Object.extend({
         	this.getOrCreateSheet(this.get('sheet')).draw(ctx, this.get('frame'));
       	}
 		else if(this.get('type') === 'asset') {
-        	ctx.drawImage(this.get('asset'), this.get('x'), this.get('y'));
+        	ctx.drawImage(this.get('asset'), this.get('x_px'), this.get('y'));
       	}
 		else if(this.get('color')) {
         	ctx.fillStyle = this.get('color');
-        	ctx.fillRect(this.get('x'), this.get('y'), this.get('w'), this.get('h'));
+        	ctx.fillRect(this.get('x_px'), this.get('y'), this.get('w'), this.get('h'));
       	}
 		else {
 			console.error('The provided sprite type "' + this.get('type') + '" does not match one of the allowed types [sheet, asset, color]');
@@ -152,11 +161,11 @@ const Sprite = Ember.Object.extend({
 			ctx.lineWidth = 2;
 			ctx.strokeStyle = "#FF00FF";
 			ctx.beginPath();
-			ctx.moveTo(c.x - c.cx,       c.y - c.cy);
-			ctx.lineTo(c.x - c.cx + c.w, c.y - c.cy);
-			ctx.lineTo(c.x - c.cx + c.w, c.y - c.cy + c.h);
-			ctx.lineTo(c.x - c.cx      , c.y - c.cy + c.h);
-			ctx.lineTo(c.x - c.cx,       c.y - c.cy);
+			ctx.moveTo(c.x_px - c.cx,       c.y - c.cy);
+			ctx.lineTo(c.x_px - c.cx + c.w, c.y - c.cy);
+			ctx.lineTo(c.x_px - c.cx + c.w, c.y - c.cy + c.h);
+			ctx.lineTo(c.x_px - c.cx      , c.y - c.cy + c.h);
+			ctx.lineTo(c.x_px - c.cx,       c.y - c.cy);
 			ctx.stroke();
 	        ctx.restore();
       	}
@@ -210,7 +219,7 @@ const Sprite = Ember.Object.extend({
 
   		if(
 			!p.moved &&
-     		c.origX === p.x &&
+     		c.origX === p.x_px &&
      		c.origY === p.y &&
      		c.origScale === p.scale &&
      		c.origScale === p.angle
@@ -218,7 +227,7 @@ const Sprite = Ember.Object.extend({
       		return;
   		}
 
-  		c.origX = p.x;
+  		c.origX = p.x_px;
   		c.origY = p.y;
   		c.origScale = p.scale;
   		c.origAngle = p.angle;
@@ -232,10 +241,10 @@ const Sprite = Ember.Object.extend({
   		if(Ember.isEmpty(container) && (!p.scale || p.scale === 1) && p.angle === 0) {
     		for(i=0; i < p.points.length; i++) {
       			c.points[i] = c.points[i] || [];
-      			c.points[i][0] = p.x + p[i][0];
+      			c.points[i][0] = p.x_px + p[i][0];
       			c.points[i][1] = p.y + p.points[i][1];
     		}
-    		c.x = p.x; c.y = p.y;
+    		c.x_px = p.x_px; c.y = p.y;
     		c.cx = p.cx; c.cy = p.cy;
     		c.w = p.w; c.h = p.h;
     		return;
@@ -243,8 +252,8 @@ const Sprite = Ember.Object.extend({
 		else {
 			container = this.get('container') || this.get('game').get('nullContainer');
 
-			c.x = container.matrix.transformX(p.x,p.y);
-	  		c.y = container.matrix.transformY(p.x,p.y);
+			c.x_px = container.matrix.transformX(p.x_px,p.y);
+	  		c.y = container.matrix.transformY(p.x_px,p.y);
 	  		c.angle = p.angle + container.c.angle;
 	  		c.scale = (container.c.scale || 1) * (p.scale || 1);
 
@@ -283,6 +292,7 @@ const Sprite = Ember.Object.extend({
      	Regenerates this sprite's transformation matrix
     */
     refreshMatrix() {
+		console.log('refreshing game sprite matrix...');
       	var p = this.get('points');
       	var matrix = this.get('matrix').identity();
 

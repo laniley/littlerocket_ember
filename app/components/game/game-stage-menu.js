@@ -21,7 +21,6 @@ export default Ember.Component.extend({
 		this.set('buttons', buttons);
     },
 
-
 	// startStageAction: null,
 	// selectStageAction: null,
 	//
