@@ -26,55 +26,26 @@ const Sprite2DControllable = Sprite2D.extend({
 	},
 
 	step(dt) {
+		if(this.get('ignoreControls') === undefined || !this.get('ignoreControls')) {
 
-	   	if(this.get('ignoreControls') === undefined || !this.get('ignoreControls')) {
-
-			this.set('moved', false);
 			this.set('stepWait', this.get('stepWait') - dt);
 
-			// left
+			// move left
 			if(this.get('game.gameState.pressedKey') === 37) {
 				this.set('diffX', -this.get('stepDistance'));
+				this.set('stepping', true);
 			}
-			// right
+			// move right
 			else if(this.get('game.gameState.pressedKey') === 39) {
 				this.set('diffX', this.get('stepDistance'));
+				this.set('stepping', true);
 			}
 
-			//
-			// if(this.get('stepping')) {
-			// 	  	this.set('x', this.get('x') + this.get('diffX') * dt / this.get('stepDelay'));
-			// 	  	this.set('y', this.get('y') + this.get('diffY') * dt / this.get('stepDelay'));
-			// 	}
-			//
-			// if(this.get('stepWait') > 0) {
-			// 		return;
-			// 	}
-			//
-			// if(this.get('stepping')) {
-			// 	  	this.set('x', this.get('destX'));
-			// 	  	this.get('y', this.get('destY'));
-			// 	}
-			//
-			// this.set('stepping', false);
-			// this.set('diffX', 0);
-			// this.set('diffY', 0);
-			//
-			// if(this.get('game.inputs')['up']) {
-			// 	  	this.set('diffY', -this.get('stepDistance'));
-			// 	}
-			// else if(this.get('game.inputs')['down']) {
-			// 	  	this.set('diffY', this.get('stepDistance'));
-			// 	}
-			//
-			// if(this.get('diffY') || this.get('diffX') ) {
-			// 		this.set('stepping', true);
-			// 		this.set('origX', this.get('x'));
-			// 		this.set('origY', this.get('y'));
-			// 		this.set('destX', this.get('x') + this.get('diffX'));
-			// 		this.set('destY', this.get('y') + this.get('diffY'));
-			// 		this.set('stepWait', this.get('stepDelay'));
-			// 	}
+			if(this.get('stepping')) {
+			  	this.set('x', this.get('x') + this.get('diffX') * dt / this.get('stepDelay'));
+				this.render();
+				this.set('stepping', false);
+			}
 		}
    	},
 
