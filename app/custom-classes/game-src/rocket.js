@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import Sprite2DControllable from './../custom-classes/game-sprite-2d-controllable';
+import Sprite2DControllable from './../../custom-classes/game-framework/game-sprite-2d-controllable';
+import Cannon from './../../custom-classes/game-src/cannon';
 
 const Rocket = Sprite2DControllable.extend({
 
@@ -71,12 +72,12 @@ const Rocket = Sprite2DControllable.extend({
 		var halfTileW = this.get('tileW') / 2;
 		this.set('x', Math.floor(halfCanvasW - halfTileW));
 
-
-		// var cannon = Cannon.create({
-		// 	rocket: this
-		// });
-		// this.set('cannon', cannon);
-		// stage.insert(cannon);
+		var cannon = Cannon.create({
+			stage: this.get('stage'),
+			rocket: this
+		});
+		this.set('cannon', cannon);
+		// this.get('stage').insert(cannon);
 
 		// var shield = Shield.create({
 		// 	rocket: this

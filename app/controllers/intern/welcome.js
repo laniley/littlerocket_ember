@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
     buttons: [
         {
-            display: 'START',
+            display: 'PLAY',
             icon: 'rocket',
             name: 'start-button',
             focused: 'focused',

@@ -11,6 +11,8 @@ export default Ember.Service.extend({
 	isPaused: true,
 	showHud: false,
 
+	initWidth: 0, // initial width of the canvas
+	initHeight: 0, // initial width of the canvas
 	width: 0, // current width of the canvas
 	height: 0, // current height of the canvas
 

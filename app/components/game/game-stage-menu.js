@@ -9,11 +9,17 @@ export default Ember.Component.extend({
 
 		var buttons = [
 			{
-				display: 'PLAY',
+				display: 'START',
 				icon: 'rocket',
 				action() {
-					this.set('gameState.currentScene', '');
-					this.get('gameState').set('isPaused', false);
+					if(this.get('gameState').get('isPaused')) {
+			            this.get('gameState').set('isPaused', false);
+						this.set('buttonLabel', 'STOP');
+			        }
+			        else {
+			            this.get('gameState').set('isPaused', true);
+						this.set('buttonLabel', 'START');
+			        }
 				},
 			},
 		];

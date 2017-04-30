@@ -31,7 +31,7 @@ export default Model.extend({
 
     planets: hasMany('planet'),
     challenges: hasMany('challenge', { inverse: null }),
-    achievements: hasMany('achievement'),
+    // achievements: hasMany('achievement'),
 
     user_quests: hasMany('user-quest'),
     unlocked_user_quest: Ember.computed('user_quests.@each.is_unlocked', function() {

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import SpriteSheet from './../custom-classes/game-sprite-sheet';
+import SpriteSheet from './game-sprite-sheet';
 
 const Sprite = Ember.Object.extend({
 

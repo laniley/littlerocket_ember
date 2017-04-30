@@ -25,8 +25,8 @@
 */
 
 import Ember from 'ember';
-import ENV from  '../config/environment';
-import HF from './../custom-classes/helper-functions';
+import ENV from  '../../config/environment';
+import HF from './helper-functions';
 
 const GameAssetLoader = Ember.Object.extend({
 

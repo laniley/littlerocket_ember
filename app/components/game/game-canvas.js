@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Game from './../../custom-classes/game';
+import Game from './../../custom-classes/game-framework/game';
 
 
 export default Ember.Component.extend({

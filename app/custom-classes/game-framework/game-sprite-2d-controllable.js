@@ -7,7 +7,7 @@
   *
   * Adds following properties to the entity to control speed and jumping:
   */
-import Sprite2D from './../custom-classes/game-sprite-2d';
+import Sprite2D from './game-sprite-2d';
 
 const Sprite2DControllable = Sprite2D.extend({
 

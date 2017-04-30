@@ -28,11 +28,6 @@ export default Ember.Mixin.create({
   }.observes('cannonFrame'),
 
   initCannon: function() {
-    var self = this;
-    var y  = Q.height/6 * 5;
-    if(Q.touchDevice) {
-    	y -= 100;
-    }
 
     Q.TransformableSprite.extend("Cannon", {
     	init: function(p) {
@@ -64,10 +59,6 @@ export default Ember.Mixin.create({
 
   		  this.on('fire', this, 'fire');
     	},
-
-      setRocket: function(rocket) {
-        this.p.rocket = rocket;
-      },
 
     	step: function(/* dt */) {
         // x location of the center

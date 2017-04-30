@@ -21,39 +21,9 @@ export default Ember.Component.extend({
         return this.get('gameState.currentScene');
     }),
 
-	stageMenuButtons: [],
-
 	init() {
 		this._super();
-		this.stageMenuButtons = [
-	        {
-				self: this,
-	            display: 'PLAY',
-	            icon: 'rocket',
-	            focused: 'focused',
-	            action: () => {
-					this.toggleStartStopGame();
-	            },
-	        },
-	    ];
 	},
-
-    toggleStartStopGame() {
-        if(this.get('gameState').get('isPaused')) {
-            this.startGame();
-        }
-        else {
-            this.stopGame();
-        }
-    },
-
-	startGame() {
-		this.get('gameState').set('isPaused', false);
-	},
-
-    stopGame() {
-        this.get('gameState').set('isPaused', true);
-    },
 
     // gameCanvasIsLoaded: false,
     // number_of_components_ready: 0,

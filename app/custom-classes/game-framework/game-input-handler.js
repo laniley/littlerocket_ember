@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import GameObject from './../custom-classes/game-object';
+import GameObject from './game-object';
 
 const GameInputHandler = GameObject.extend({
 	/**

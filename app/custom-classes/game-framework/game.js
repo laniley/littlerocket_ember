@@ -1,10 +1,10 @@
 import Ember from 'ember';
-import HF from './../custom-classes/helper-functions';
-import AssetLoader from './../custom-classes/game-asset-loader';
-import GameMatrix2D from './../custom-classes/game-matrix-2d';
-import GameAudio from './../custom-classes/game-audio';
-import GameInputHandler from './../custom-classes/game-input-handler';
-import Stage from './../custom-classes/game-stage';
+import HF from './helper-functions';
+import AssetLoader from './game-asset-loader';
+import GameMatrix2D from './game-matrix-2d';
+import GameAudio from './game-audio';
+import GameInputHandler from './game-input-handler';
+import Stage from './game-stage';
 
 const Game = Ember.Object.extend({
 
@@ -30,8 +30,7 @@ const Game = Ember.Object.extend({
 	assetLoader: null,
 	spriteSheeds: {},
 
-	scenes: {},
-	activeScene: null,
+	stage: null,
 
 	matrices2d: [],
 	matrix2d: Ember.computed('matrices2d.length', function() {
@@ -117,6 +116,8 @@ const Game = Ember.Object.extend({
 			}
 		}));
 
+		this.set('stage', Stage.create({}));
+
 		this.set('audio', GameAudio.create({}));
 
 		this.set('nullContainer.matrix', this.get('matrix2d'));
@@ -133,39 +134,21 @@ const Game = Ember.Object.extend({
 			this.get('assets')
 		);
 	},
+
 	// Stages a scene.
-	// `num` is like a z-index. Higher numbered stages render on top of lower numbered stages!
-	stageScene(scene, num, options) {
+	stageScene(scene) {
 
-		console.log('Staging scene \'' + scene + '\'..., num: ' + num + ', options: ' + options);
+		console.log('Staging scene "' + scene + '"');
+
+		var stage = this.get('stage');
+
+		// clear stage
+		stage.clear();
+
 		this.set('gameState.currentScene', scene);
-
 		scene = this.getScene(scene);
 
-      	// If the user skipped the num arg and went straight to options,
-      	// swap num and options and grab a default for num
-      	if(HF.isObject(num)) {
-        	options = num;
-        	num = HF.popProperty(options, "stage") || (scene && scene.get('stage')) || 0;
-      	}
-      	// Clone the options arg to prevent modification
-      	options = HF.clone(options);
-      	// Figure out which stage to use
-      	num = HF.isUndefined(num) ? ((scene && scene.get('stage')) || 0) : num;
-      	// Clean up an existing stage if necessary
-      	if(scene.get('stages')[num]) {
-        	scene.get('stages')[num].destroy();
-      	}
-      	// Make this the active stage and initialize the stage,
-      	// calling loadScene to popuplate the stage if we have a scene.
-      	scene.set('activeStage', num);
-		this.set('activeScene', scene);
-
-      	var stage = scene.get('stages')[num] = Stage.create({
-			scene: scene
-		});
-
-		scene.get('stages')[num] = stage;
+		stage.set('scene', scene);
 
 		stage.load();
   	},
@@ -236,9 +219,7 @@ const Game = Ember.Object.extend({
 			dt  = 1.0/15;
 		}
 
-		this.get('activeScene.stages').forEach(stage => {
-			stage.step(dt);
-		});
+		this.get('stage').step(dt);
 
 		this.rerender();
 
@@ -252,9 +233,7 @@ const Game = Ember.Object.extend({
 	rerender() {
 		// clear the canvas before rendering the stages
 		this.clear();
-		this.get('activeScene.stages').forEach(stage => {
-			stage.render();
-		});
+		this.get('stage').render();
 	},
 	/**
    		Clear the canvas completely.
