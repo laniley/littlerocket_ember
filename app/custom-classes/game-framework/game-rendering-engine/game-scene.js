@@ -6,6 +6,8 @@ const Scene = Ember.Object.extend({
 	stage: [],
 	layers: [],
 	assets: [],
+	// abstract function
+	// gets defined in the game-scenes service
 	load: null,
 
 	game: Ember.computed('gameState.game', function() {

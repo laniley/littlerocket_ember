@@ -4,7 +4,7 @@ const Stage = Ember.Object.extend({
 
 	scene: null,
 	assets: [],
-	items: [],
+	sprites: [],
 	lists: {},
 	index: {},
 	removeList: [],
@@ -19,54 +19,42 @@ const Stage = Ember.Object.extend({
 
 	// Needs to be separated out so the current stage can be set
     load() {
-      	if(this.get('scene'))  {
-			console.log('Loading scene "' + this.get('scene').name + '"...');
-        	this.get('scene').load(this);
-      	}
+      	console.log('Loading stage...');
+        this.get('scene').load();
     },
 
 	/**
-     	inserts an item into the scene, or inside a container
+     	inserts a sprite into the stage
     */
-    insert: function(itm, container) {
-      	this.get('items').push(itm);
-		itm.get('stages').push(this);
-	  	itm.stage = this;
-	  	itm.container = container;
-	  	if(container) {
-	    	container.children.push(itm);
-	  	}
+    insert: function(sprite) {
+		console.log('Inserting ' + sprite.get('name') + ' into stage...');
+      	this.get('sprites').push(sprite);
 
-	  	itm.grid = {};
+	  	sprite.set('grid', {});
 
       	// Make sure we have a square of collision points
-      	itm.generateCollisionPoints();
+     //  	sprite.generateCollisionPoints();
 
-	  	if(itm.className) {
-			this.addToList(itm.className, itm);
-		}
-	  	if(itm.activeComponents) {
-			this.addToLists(itm.activeComponents, itm);
-		}
+		//  	if(sprite.p) {
+	    // 	this.index[itm.p.id] = itm;
+		//  	}
 
-	  	if(itm.p) {
-	    	this.index[itm.p.id] = itm;
-	  	}
+		this.regrid(sprite);
 
-		this.regrid(itm);
-
-		itm.render();
+		sprite.render();
     },
 
 	render() {
-		this.get('items').forEach(itm => {
-			itm.render();
+		console.log('Rendering stage...');
+		this.get('sprites').forEach(sprite => {
+			sprite.render();
 		});
 	},
 
 	clear() {
-		this.get('items').forEach(itm => {
-			itm.destroy();
+		console.log('Clearing stage...');
+		this.get('sprites').forEach(sprite => {
+			sprite.destroy();
 		});
 	},
 
@@ -125,26 +113,13 @@ const Stage = Ember.Object.extend({
     },
 
 	updateSprites(dt, isContainer) {
-      	var item;
-	  	var items = this.get('items');
-
-      	for(var i=0, len=items.length; i<len; i++) {
-        	item = items[i];
-        	// If set to visible only, don't step if set to visibleOnly
-        	if(
-				!isContainer &&
-				(item.get('visibleOnly') &&
-				(!item.get('mark') || item.get('mark') < this.get('time')))
-			) {
-				continue;
-			}
-
-	        if(isContainer || !item.get('container')) {
-	          item.update(dt);
+		this.get('sprites').forEach(sprite => {
+	        if(isContainer || !sprite.get('container')) {
+	          sprite.update(dt);
 	        //   Q._generateCollisionPoints(item);
 	        //   this.regrid(item);
 	        }
-      	}
+		});
     },
 
 	// Add a sprite into the collision detection grid,
@@ -174,6 +149,8 @@ const Stage = Ember.Object.extend({
 	// 	 if(!skipAdd) { this.addGrid(item); }
 	//   }
 	},
+
+
 /*
  Q.Sprite.extend("TileLayer",{
 

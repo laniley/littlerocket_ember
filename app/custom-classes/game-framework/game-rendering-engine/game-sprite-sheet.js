@@ -32,7 +32,9 @@ const SpriteSheet = Ember.Object.extend({
     },
     // Draw a single frame at x, y on the provided context
     draw: function(ctx, frame) {
+
 		var asset = this.get('sprite.asset');
+
   		ctx.drawImage(
 			asset, // the img to draw
             this.fx(frame), // starting x position of the frame in the asset

@@ -1,10 +1,9 @@
 import Ember from 'ember';
-import HF from './helper-functions';
 import AssetLoader from './game-asset-loader';
 import GameMatrix2D from './game-matrix-2d';
 import GameAudio from './game-audio';
 import GameInputHandler from './game-input-handler';
-import Stage from './game-stage';
+import Stage from './game-rendering-engine/game-stage';
 
 const Game = Ember.Object.extend({
 

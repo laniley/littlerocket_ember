@@ -15,7 +15,8 @@ const Sprite = Ember.Object.extend({
 
 	model: null, // the belonging Ember Model
 
-	stages: [], // all stages this sprite is in
+	children: [],
+
 	matrix: null, // transformation matrix
 	container: null,
 	// x and y define the top left corner of the sprite
@@ -56,6 +57,7 @@ const Sprite = Ember.Object.extend({
 	}),
 	// default object coordinates - a simple rectangle
 	// can be overriden on object level to better fit the precise form ob the object
+	// used for collision detection
     points: Ember.computed('x_px', 'y', 'tileW', 'tileH', function() {
 		var halfW = this.get('tileW') / 2;
         var halfH = this.get('tileH') / 2;
@@ -68,7 +70,6 @@ const Sprite = Ember.Object.extend({
         ];
     }),
 
-	cPoints: null, // collision points in world coordinates
 	collisions: [],
 
 	frame: 0, // first frame which will be rendered
@@ -88,10 +89,6 @@ const Sprite = Ember.Object.extend({
      	Default render method for the sprite.
 		Don't overload this unless you want to handle all the transform and scale stuff yourself.
 		Rather overload the `draw` method.
-
-     	@method render
-     	@for Sprite
-     	@param {Context2D} ctx - context to render to
     */
     render() {
 		// do not render if hidden is true
@@ -118,14 +115,11 @@ const Sprite = Ember.Object.extend({
 
 	      	ctx.restore();
 
-	      	// Children set up their own complete matrix from the base stage matrix
-	      	if(this.get('sort')) {
-				this.children.sort(this._sortChild);
-			}
+			this.get('children').forEach(child => {
+				child.render();
+			});
 
-	     	// Q._invoke(this.children,"render",ctx);
-
-	      	if(this.get('game').get('debug')) {
+			if(this.get('game').get('debug')) {
 				this.debugRender(ctx);
 			}
 		}
@@ -136,7 +130,8 @@ const Sprite = Ember.Object.extend({
     */
     draw(ctx) {
       	if(this.get('type') === 'sheet') {
-        	this.getOrCreateSheet(this.get('sheet')).draw(ctx, this.get('frame'));
+			var spriteSheed = this.getOrCreateSheet(this.get('sheet'));
+        	spriteSheed.draw(ctx, this.get('frame'));
       	}
 		else if(this.get('type') === 'asset') {
         	ctx.drawImage(this.get('asset'), this.get('x_px'), this.get('y'));
@@ -153,141 +148,122 @@ const Sprite = Ember.Object.extend({
 	debugRender(ctx) {
 		// draw object points
 		this.debugRenderObjectPoints(ctx);
-		// draw collision points if they exist
-      	if(this.get('cPoints')) {
-	        var c = this.get('cPoints');
-	        ctx.save();
-			ctx.globalAlpha = 1;
-			ctx.lineWidth = 2;
-			ctx.strokeStyle = "#FF00FF";
-			ctx.beginPath();
-			ctx.moveTo(c.x_px - c.cx,       c.y - c.cy);
-			ctx.lineTo(c.x_px - c.cx + c.w, c.y - c.cy);
-			ctx.lineTo(c.x_px - c.cx + c.w, c.y - c.cy + c.h);
-			ctx.lineTo(c.x_px - c.cx      , c.y - c.cy + c.h);
-			ctx.lineTo(c.x_px - c.cx,       c.y - c.cy);
-			ctx.stroke();
-	        ctx.restore();
-      	}
     },
 
 	debugRenderObjectPoints(ctx) {
 		var points = this.get('points');
 
-		var cx = this.get('cx'),
-			cy = this.get('cy');
+		if(points.length > 0) {
+			var cx = this.get('cx'),
+				cy = this.get('cy');
 
-      	ctx.save();
-      	this.get('matrix').setContextTransform(ctx);
-      	ctx.beginPath();
-      	ctx.fillStyle = this.get('hit') ? "blue" : "red";
-      	ctx.strokeStyle = "#FF0000";
-      	ctx.fillStyle = "rgba(0,0,0,0.5)";
+	      	ctx.save();
+	      	this.get('matrix').setContextTransform(ctx);
+	      	ctx.beginPath();
+	      	ctx.fillStyle = this.get('hit') ? "blue" : "red";
+	      	ctx.strokeStyle = "#FF0000";
+	      	ctx.fillStyle = "rgba(0,0,0,0.5)";
 
-      	ctx.moveTo(cx + points[0][0], cy + points[0][1]);
+	      	ctx.moveTo(cx + points[0][0], cy + points[0][1]);
 
-	  	for(var i = 0; i < points.length; i++) {
-        	ctx.lineTo(cx + points[i][0], cy + points[i][1]);
-      	}
+		  	for(var i = 0; i < points.length; i++) {
+	        	ctx.lineTo(cx + points[i][0], cy + points[i][1]);
+	      	}
 
-      	ctx.lineTo(cx + points[0][0], cy + points[0][1]);
-      	ctx.stroke();
+	      	ctx.lineTo(cx + points[0][0], cy + points[0][1]);
+	      	ctx.stroke();
 
-      	if(this.get('game').get('debugFill')) {
-			ctx.fill();
+	      	if(this.get('game').get('debugFill')) {
+				ctx.fill();
+			}
+
+	      	ctx.restore();
 		}
-
-      	ctx.restore();
 	},
 	/**
      	Generate a square set of `cPoints` on an object from the object transform matrix and `points`
 
      	`cPoints` represents the collision points of an sprite in world coordinates, scaled, rotated and taking into account any parent transforms.
     */
-   	generateCollisionPoints() {
-
-      	if(!this.get('matrix') && !this.get('refreshMatrix')) {
-			return;
-		}
-
-      	if(Ember.isEmpty(this.get('cPoints'))) {
-			this.set('cPoints', { points: [] } );
-		}
-
-      	var p = this.get('points'),
-			c = this.get('cPoints');
-
-  		if(
-			!p.moved &&
-     		c.origX === p.x_px &&
-     		c.origY === p.y &&
-     		c.origScale === p.scale &&
-     		c.origScale === p.angle
-		) {
-      		return;
-  		}
-
-  		c.origX = p.x_px;
-  		c.origY = p.y;
-  		c.origScale = p.scale;
-  		c.origAngle = p.angle;
-
-  		this.refreshMatrix();
-
-  		var i;
-		var container = this.get('container');
-
-		// Early out if we don't need to rotate / scale / deal with a container
-  		if(Ember.isEmpty(container) && (!p.scale || p.scale === 1) && p.angle === 0) {
-    		for(i=0; i < p.points.length; i++) {
-      			c.points[i] = c.points[i] || [];
-      			c.points[i][0] = p.x_px + p[i][0];
-      			c.points[i][1] = p.y + p.points[i][1];
-    		}
-    		c.x_px = p.x_px; c.y = p.y;
-    		c.cx = p.cx; c.cy = p.cy;
-    		c.w = p.w; c.h = p.h;
-    		return;
-  		}
-		else {
-			container = this.get('container') || this.get('game').get('nullContainer');
-
-			c.x_px = container.matrix.transformX(p.x_px,p.y);
-	  		c.y = container.matrix.transformY(p.x_px,p.y);
-	  		c.angle = p.angle + container.c.angle;
-	  		c.scale = (container.c.scale || 1) * (p.scale || 1);
-
-			var minX = Infinity,
-	      		minY = Infinity,
-	      		maxX = -Infinity,
-	      		maxY = -Infinity;
-
-			for(i=0; i<this.p.points.length;i++) {
-	    		if(!this.c.points[i]) {
-	      			this.c.points[i] = [];
-	    		}
-
-				this.matrix.transformArr(this.p.points[i],this.c.points[i]);
-
-				var x = this.c.points[i][0],
-		        	y = this.c.points[i][1];
-
-				if(x < minX) { minX = x; }
-		        if(x > maxX) { maxX = x; }
-		        if(y < minY) { minY = y; }
-		        if(y > maxY) { maxY = y; }
-
-				if(minX === maxX) { maxX+=1; }
-		      	if(minY === maxY) { maxY+=1; }
-
-				c.cx = c.x - minX;
-		      	c.cy = c.y - minY;
-
-		      	c.w = maxX - minX;
-		      	c.h = maxY - minY;
-			}
-		}
-  	},
+ //   	generateCollisionPoints() {
+	//
+    //   	if(!this.get('matrix') && !this.get('refreshMatrix')) {
+	// 		return;
+	// 	}
+	//
+    //   	var p = this.get('points');
+	//
+ //  		if(
+	// 		!p.moved &&
+    //  		c.origX === p.x_px &&
+    //  		c.origY === p.y &&
+    //  		c.origScale === p.scale &&
+    //  		c.origScale === p.angle
+	// 	) {
+    //   		return;
+ //  		}
+	//
+ //  		c.origX = p.x_px;
+ //  		c.origY = p.y;
+ //  		c.origScale = p.scale;
+ //  		c.origAngle = p.angle;
+	//
+ //  		this.refreshMatrix();
+	//
+ //  		var i;
+	// 	var container = this.get('container');
+	//
+	// 	// Early out if we don't need to rotate / scale / deal with a container
+ //  		if(Ember.isEmpty(container) && (!p.scale || p.scale === 1) && p.angle === 0) {
+    // 		for(i=0; i < p.points.length; i++) {
+    //   			c.points[i] = c.points[i] || [];
+    //   			c.points[i][0] = p.x_px + p[i][0];
+    //   			c.points[i][1] = p.y + p.points[i][1];
+    // 		}
+    // 		c.x_px = p.x_px; c.y = p.y;
+    // 		c.cx = p.cx; c.cy = p.cy;
+    // 		c.w = p.w; c.h = p.h;
+    // 		return;
+ //  		}
+	// 	else {
+	// 		container = this.get('container') || this.get('game').get('nullContainer');
+	//
+	// 		c.x_px = container.matrix.transformX(p.x_px,p.y);
+	//   		c.y = container.matrix.transformY(p.x_px,p.y);
+	//   		c.angle = p.angle + container.c.angle;
+	//   		c.scale = (container.c.scale || 1) * (p.scale || 1);
+	//
+	// 		var minX = Infinity,
+	//       		minY = Infinity,
+	//       		maxX = -Infinity,
+	//       		maxY = -Infinity;
+	//
+	// 		for(i=0; i<this.p.points.length;i++) {
+	//     		if(!this.c.points[i]) {
+	//       			this.c.points[i] = [];
+	//     		}
+	//
+	// 			this.matrix.transformArr(this.p.points[i],this.c.points[i]);
+	//
+	// 			var x = this.c.points[i][0],
+	// 	        	y = this.c.points[i][1];
+	//
+	// 			if(x < minX) { minX = x; }
+	// 	        if(x > maxX) { maxX = x; }
+	// 	        if(y < minY) { minY = y; }
+	// 	        if(y > maxY) { maxY = y; }
+	//
+	// 			if(minX === maxX) { maxX+=1; }
+	// 	      	if(minY === maxY) { maxY+=1; }
+	//
+	// 			c.cx = c.x - minX;
+	// 	      	c.cy = c.y - minY;
+	//
+	// 	      	c.w = maxX - minX;
+	// 	      	c.h = maxY - minY;
+	// 		}
+	// 	}
+ //  	},
 	/*
      	Regenerates this sprite's transformation matrix
     */
@@ -317,7 +293,10 @@ const Sprite = Ember.Object.extend({
 	 	@param {String} name - name of sheet to return or create
 	 	@param {String} [asset] - if provided, will create a sprite sheet using this asset
 	*/
-	getOrCreateSheet(sheet) {
+	getOrCreateSheet() {
+
+		var sheet = this.get('name');
+
 	  	if(!this.get('game').get('spriteSheeds')[sheet]) {
 			return this.get('game').get('spriteSheeds')[sheet] = SpriteSheet.create({
 				game: this.get('game'),

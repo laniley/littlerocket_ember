@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import Sprite2DControllable from './../../custom-classes/game-framework/game-sprite-2d-controllable';
-import Cannon from './../../custom-classes/game-src/cannon';
+import Sprite2DControllable from './../game-framework/game-rendering-engine/game-sprite-2d-controllable';
+import Cannon from './cannon';
 
 const Rocket = Sprite2DControllable.extend({
 
@@ -20,6 +20,8 @@ const Rocket = Sprite2DControllable.extend({
 		});
 	}),
 
+	children: [],
+
 	tileW: 50,
 	tileH: 140,
 
@@ -29,7 +31,8 @@ const Rocket = Sprite2DControllable.extend({
 		var paddingBottom = (canvasH / 100 * 5);
 		return Math.floor(canvasH - this.get('tileH') - paddingBottom);
 	}),
-
+	// the shape of the rocket in coordinates
+	// needed for collision detection
 	points: Ember.computed('tileW', 'tileH', function() {
 		var halfW = this.get('tileW') / 2;
         var halfH = this.get('tileH') / 2;
@@ -72,11 +75,12 @@ const Rocket = Sprite2DControllable.extend({
 		var halfTileW = this.get('tileW') / 2;
 		this.set('x', Math.floor(halfCanvasW - halfTileW));
 
-		var cannon = Cannon.create({
-			stage: this.get('stage'),
-			rocket: this
-		});
-		this.set('cannon', cannon);
+		// var cannon = Cannon.create({
+		// 	stage: this.get('stage'),
+		// 	rocket: this
+		// });
+		// this.set('cannon', cannon);
+		// this.get('children').push(cannon);
 		// this.get('stage').insert(cannon);
 
 		// var shield = Shield.create({
