@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import Scene from './../custom-classes/game-framework/game-rendering-engine/game-scene';
 import Rocket from './../custom-classes/game-src/rocket';
-import Cannon from './../custom-classes/game-src/cannon';
 
 export default Ember.Service.extend({
 
@@ -35,16 +34,6 @@ export default Ember.Service.extend({
 				stage.insert(rocket);
 
 				this.get('gameState').set('rocket', rocket);
-
-				var cannon = Cannon.create({
-					game: this.get('gameState').get('game'),
-					stage: stage,
-					rocket: rocket
-				});
-
-				stage.insert(cannon);
-
-
 			}
 		});
 		this.scenes.mainMenu = mainMenu;

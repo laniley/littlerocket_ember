@@ -41,10 +41,7 @@ export default Ember.Component.extend({
 
 
         // this.initDecoration();
-        // this.initCannon();
         // this.initBullet();
-        // this.initShield();
-        // this.initEngine();
         //
         // this.initAsteroid();
         // this.initStar();
@@ -375,24 +372,7 @@ export default Ember.Component.extend({
     //         var rocket = new Q.Rocket({ stage: stage });
     //         stage.insert(rocket);
     //
-    //         if(!Ember.isEmpty(self.get('rocket').get('cannon'))) {
-    //             var cannon = new Q.Cannon();
-    //                 cannon.setRocket(rocket);
-    //                 rocket.setCannon(cannon);
-    //             	    stage.insert(cannon);
-    //         }
-    //         if(!Ember.isEmpty(self.get('rocket').get('shield'))) {
-    //             var shield = new Q.Shield();
-    //                 shield.setRocket(rocket);
-    //                 rocket.setShield(shield);
-    //                 stage.insert(shield);
-    //         }
-    //         if(!Ember.isEmpty(self.get('rocket').get('engine'))) {
-    //             var engine = new Q.Engine();
-    //                 engine.setRocket(rocket);
-    //                 rocket.setShield(engine);
-    //                 stage.insert(engine);
-    //         }
+    //
     //         var decoration = new Q.Decoration();
     //             decoration.setRocket(rocket);
     //             rocket.setDecoration(decoration);
@@ -703,25 +683,6 @@ export default Ember.Component.extend({
   //     });
   //   });
   // },
-  //
-  // selectStage() {
-  //   this.get('Q').clearStages();
-  //   this.get('Q').stageScene('levelSelection');
-  // },
-  //
-  // actions: {
-  //   login() {
-  //     this.login();
-  //   },
-  //   startStage() {
-  //     this.startStage();
-  //   },
-  //   selectStage() {
-  //     this.selectStage();
-  //   },
-  //   openBuyEnergyDialog() {
-  //     this.get('router').transitionTo('intern.buy-energy');
-  //   }
   }
 
 });

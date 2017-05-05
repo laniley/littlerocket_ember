@@ -40,7 +40,7 @@ export default Ember.Component.extend({
         this._super();
 
 		var game = Game.create({
-			debug: true,
+			debug: false,
 			debugFill: true,
 			gameState: this.get('gameState'),
 			scenes: this.get('gameScenes').get('scenes'),

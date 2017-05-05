@@ -45,7 +45,6 @@ const Stage = Ember.Object.extend({
     },
 
 	render() {
-		console.log('Rendering stage...');
 		this.get('sprites').forEach(sprite => {
 			sprite.render();
 		});

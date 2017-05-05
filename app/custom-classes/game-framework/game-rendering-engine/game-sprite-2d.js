@@ -4,10 +4,16 @@ import Sprite from './game-sprite';
 const Sprite2D = Sprite.extend({
 
 	gameState: Ember.inject.service('game-state'),
+	// the direction the sprite is currently moving in
+	direction: '',
+	// the actual speed of the sprite in x direction
+	vx: 0,
+	// the maximum speed of the sprite in x direction
+	// always positive
+	vx_max: 0,
 
 	init() {
 		this._super();
-		this.set('vx', 0);
 		this.set('vy', 1);
 		this.set('ax', 0);
 		this.set('ay', 0);

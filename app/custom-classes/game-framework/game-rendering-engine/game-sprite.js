@@ -119,7 +119,7 @@ const Sprite = Ember.Object.extend({
 				child.render();
 			});
 
-			if(this.get('game').get('debug')) {
+			if(this.get('game.debug')) {
 				this.debugRender(ctx);
 			}
 		}

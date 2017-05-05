@@ -19,7 +19,7 @@ export default Ember.Service.extend({
     currentScene: '',
 	pressedKey: null,
 
-    distance_to_goal: 0,
+    distance_to_goal: 50,
     collected_stars: 0,
     speed_percentage: 0,
 
