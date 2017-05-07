@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import Scene from './../custom-classes/game-framework/game-rendering-engine/game-scene';
 import Rocket from './../custom-classes/game-src/rocket';
 
 export default Ember.Service.extend({
@@ -7,23 +6,22 @@ export default Ember.Service.extend({
 	me: Ember.inject.service('me'),
 	gameState: Ember.inject.service('game-state'),
 
-	scenes: {},
-
-	init() {
-		this._super();
+	gameSceneObserver: Ember.observer('gameState.currentScene', function() {
+		console.log('Loading scene "' + this.get('gameState.currentScene') + '"...');
 		/************** MAIN MENU **********************/
-		var mainMenu = Scene.create({
-			gameState: this.get('gameState'),
-			name: 'mainMenu',
-			load: () => {
-				console.log('Loading scene "mainMenu"...');
-				this.get('gameState').set('isPaused', true);
-			    this.get('gameState').get('game').get('audio').stop('rocket.mp3');
-				this.get('gameState').get('game').get('audio').stop('racing.mp3');
-				this.get('gameState').set('showHud', true);
+		if(this.get('gameState.currentScene') === 'mainMenu') {
 
-				this.get('gameState').resetRocketComponents();
+			this.get('gameState').get('game').get('audio').stop('rocket.mp3');
+			this.get('gameState').get('game').get('audio').stop('racing.mp3');
 
+			this.get('gameState').set('isPaused', true);
+			this.get('gameState').set('showMenu', true);
+			this.get('gameState').set('showPauseMenu', false);
+			this.get('gameState').set('showHud', true);
+
+			this.get('gameState').resetRocketComponents();
+
+			if(Ember.isEmpty(this.get('gameState.rocket'))) {
 				var stage = this.get('gameState.game.stage');
 
 				var rocket = Rocket.create({
@@ -35,21 +33,23 @@ export default Ember.Service.extend({
 
 				this.get('gameState').set('rocket', rocket);
 			}
-		});
-		this.scenes.mainMenu = mainMenu;
+		}
 		/************** TRACK ***********************/
-		var track = Scene.create({
-			gameState: this.get('gameState'),
-			name: 'track',
-			load: () => {
-				console.log('Loading scene "track"...');
-				this.get('gameState').set('isPaused', false);
-			    // this.get('gameState').get('game').get('audio').stop('rocket.mp3');
-				// this.get('gameState').get('game').get('audio').stop('racing.mp3');
-				this.get('gameState').set('showHud', true);
+		else if(this.get('gameState.currentScene') === 'track') {
+
+			// this.get('gameState').get('game').get('audio').start('rocket.mp3');
+			// this.get('gameState').get('game').get('audio').start('racing.mp3');
+
+			this.get('gameState').set('isPaused', false);
+			this.get('gameState').set('showMenu', false);
+			this.get('gameState').set('showPauseMenu', true);
+			this.get('gameState').set('showHud', true);
+		}
+		else {
+			if(this.get('gameState.currentScene') !== '') {
+				console.error('There is no scene with the name "' + this.get('gameState.currentScene') + '". Define it in the game-scenes service!');
 			}
-		});
-		this.scenes.track = track;
-	},
+		}
+	}).on('init')
 
 });

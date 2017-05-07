@@ -13,12 +13,7 @@ export default Ember.Component.extend({
 				icon: 'rocket',
 				action() {
 					if(this.get('gameState').get('isPaused')) {
-			            this.get('gameState').set('isPaused', false);
-						this.set('buttonLabel', 'STOP');
-			        }
-			        else {
-			            this.get('gameState').set('isPaused', true);
-						this.set('buttonLabel', 'START');
+			            this.set('gameState.currentScene', 'track');
 			        }
 				},
 			},

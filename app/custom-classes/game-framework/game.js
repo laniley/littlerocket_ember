@@ -70,7 +70,7 @@ const Game = Ember.Object.extend({
 
 				if(loaded/total === 1) {
 					this.get('gameState').set('isLoading', false);
-					this.stageScene("mainMenu");
+					this.get('gameState').set('currentScene', 'mainMenu');
 				}
 			},
 			finalCallback: () => {
@@ -115,7 +115,9 @@ const Game = Ember.Object.extend({
 			}
 		}));
 
-		this.set('stage', Stage.create({}));
+		this.set('stage', Stage.create({
+			game: this
+		}));
 
 		this.set('audio', GameAudio.create({}));
 
@@ -134,34 +136,6 @@ const Game = Ember.Object.extend({
 		);
 	},
 
-	// Stages a scene.
-	stageScene(scene) {
-
-		console.log('Staging scene "' + scene + '"');
-
-		var stage = this.get('stage');
-
-		// clear stage
-		stage.clear();
-
-		this.set('gameState.currentScene', scene);
-		scene = this.getScene(scene);
-
-		stage.set('scene', scene);
-
-		stage.load();
-  	},
-	/**
-		Set up a new scene or return an existing scene. If you don't pass in `sceneFunc`, it'll return a scene otherwise it'll create a new one.
-	*/
-	getScene(name) {
-      	if(this.get('scenes')[name]) {
-        	return this.get('scenes')[name];
-      	}
-		else {
-        	console.error('There is no scene with the name "' + name + '". Initialize it in the game-scenes service!');
-      	}
-  	},
 	/**
 		The callback will be called with the fraction of a second that has elapsed since the last call to the loop method.
     */

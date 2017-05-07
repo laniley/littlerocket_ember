@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 const Stage = Ember.Object.extend({
 
-	scene: null,
+	game: null,
 	assets: [],
 	sprites: [],
 	lists: {},
@@ -58,10 +58,11 @@ const Stage = Ember.Object.extend({
 	},
 
 	step(dt) {
-		if(this.get('gameState.isPaused')) {
+
+		if(!this.get('game.gameState')) {
 			return false;
 		}
-		else if(!this.get('scene.game.gameState')) {
+		else if(this.get('game.gameState.isPaused')) {
 			return false;
 		}
 		else {
@@ -69,19 +70,12 @@ const Stage = Ember.Object.extend({
 
 			this.markSprites();
 			this.updateSprites(dt);
-
-			// if(this.removeList.length > 0) {
-			// 	for(var i=0,len=this.removeList.length;i<len;i++) {
-			// 	  this.forceRemove(this.removeList[i]);
-			// 	}
-			// 	this.removeList.length = 0;
-			// }
 		}
     },
 
 	markSprites() {
 		// console.log('markSprites');
-		var gameState = this.get('scene.game.gameState');
+		var gameState = this.get('game.gameState');
 		var scale = 1;
 		var x = 0;
 		var y = 0;
