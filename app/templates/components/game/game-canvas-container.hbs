@@ -21,8 +21,12 @@
 {{/if}}
  --}}
 
-{{#if (if-equals currentScene 'mainMenu')}}
+{{#if showMenu}}
 	{{game/game-stage-menu}}
+{{/if}}
+
+{{#if showPauseMenu}}
+	{{game/game-pause-menu}}
 {{/if}}
 
 {{outlet}}

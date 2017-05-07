@@ -17,6 +17,14 @@ export default Ember.Component.extend({
         return this.get('gameState.showHud');
     }),
 
+	showMenu: Ember.computed('gameState.showMenu', function() {
+        return this.get('gameState.showMenu');
+    }),
+
+	showPauseMenu: Ember.computed('gameState.showPauseMenu', function() {
+        return this.get('gameState.showPauseMenu');
+    }),
+
 	currentScene: Ember.computed('gameState.currentScene', function() {
         return this.get('gameState.currentScene');
     }),

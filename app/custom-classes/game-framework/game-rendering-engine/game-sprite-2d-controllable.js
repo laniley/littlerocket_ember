@@ -28,6 +28,7 @@ const Sprite2DControllable = Sprite2D.extend({
 	},
 
 	step(dt) {
+
 		if(
 			(this.get('ignoreControls') === undefined || !this.get('ignoreControls')) &&
 			!this.get('game.gameState.isPaused')
