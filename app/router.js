@@ -15,8 +15,7 @@ Router.map(function() {
 
 		this.route('main-menu');
 
-		this.route('stage-selection');
-		this.route('stage', function() {
+		this.route('track', function() {
 			this.route('menu');
 		});
 

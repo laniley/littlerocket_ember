@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
             display: 'PLAY',
             icon: 'rocket',
             action() {
-				this.get('router').transitionTo("intern.stage");
+				this.get('router').transitionTo("intern.track");
             },
         },
         {
