@@ -4,7 +4,7 @@ const Stage = Ember.Object.extend({
 
 	game: null,
 	assets: [],
-	sprites: [],
+	objects: [],
 	lists: {},
 	index: {},
 	removeList: [],
@@ -17,6 +17,10 @@ const Stage = Ember.Object.extend({
     y: 0,
 	time: 0,
 
+	sprites: Ember.computed('objects.length', function() {
+		return this.get('objects').filterBy('class', 'Sprite');
+	}),
+
 	// Needs to be separated out so the current stage can be set
     load() {
       	console.log('Loading stage...');
@@ -24,24 +28,29 @@ const Stage = Ember.Object.extend({
     },
 
 	/**
-     	inserts a sprite into the stage
+     	inserts an object into the stage
     */
-    insert: function(sprite) {
-		console.log('Inserting ' + sprite.get('name') + ' into stage...');
-      	this.get('sprites').push(sprite);
+    insert(object) {
 
-	  	sprite.set('grid', {});
+		console.log('Inserting ' + object.get('name') + ' into stage...');
 
-      	// Make sure we have a square of collision points
-     //  	sprite.generateCollisionPoints();
+		this.get('objects').push(object);
 
-		//  	if(sprite.p) {
-	    // 	this.index[itm.p.id] = itm;
-		//  	}
+		if(object.get('class') === 'Sprite') {
 
-		this.regrid(sprite);
+			object.set('grid', {});
 
-		sprite.render();
+			// Make sure we have a square of collision points
+			//  	object.generateCollisionPoints();
+
+			// 	if(object.p) {
+			// 	this.index[itm.p.id] = itm;
+			// 	}
+
+			// this.regrid(object);
+
+			object.render();
+		}
     },
 
 	render() {
@@ -68,56 +77,54 @@ const Stage = Ember.Object.extend({
 		else {
 			this.set('time', this.get('time') + dt);
 
-			this.markSprites();
-			this.updateSprites(dt);
+			// this.markSprites();
+			this.updateObjects(dt);
 		}
     },
 
-	markSprites() {
+	// markSprites() {
 		// console.log('markSprites');
-		var gameState = this.get('game.gameState');
-		var scale = 1;
-		var x = 0;
-		var y = 0;
-		var viewW = gameState.get('width') / scale;
-		var viewH = gameState.get('height') / scale;
-		var gridX1 = Math.floor(x / this.get('gridW'));
-		var gridY1 = Math.floor(y / this.get('gridH'));
-		var gridX2 = Math.floor((x + viewW) / this.get('gridW'));
-		var gridY2 = Math.floor((y + viewH) / this.get('gridH'));
-		var gridRow, gridBlock;
+		// var gameState = this.get('game.gameState');
+		// var scale = 1;
+		// var x = 0;
+		// var y = 0;
+		// var viewW = gameState.get('width') / scale;
+		// var viewH = gameState.get('height') / scale;
+		// var gridX1 = Math.floor(x / this.get('gridW'));
+		// var gridY1 = Math.floor(y / this.get('gridH'));
+		// var gridX2 = Math.floor((x + viewW) / this.get('gridW'));
+		// var gridY2 = Math.floor((y + viewH) / this.get('gridH'));
+		// var gridRow, gridBlock;
 
-		for(var iy = gridY1; iy <= gridY2; iy++) {
-			if(gridRow = this.get('grid')[iy]) {
-				for(var ix = gridX1; ix <= gridX2; ix++) {
-					if(gridBlock = gridRow[ix]) {
-						for(var id in gridBlock) {
-							if(this.get('index')[id]) {
-								this.get('index')[id].mark = this.get('time');
-								if(this.grt('index')[id].container) {
-									this.index[id].container.mark = this.get('time');
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-    },
+		// for(var iy = gridY1; iy <= gridY2; iy++) {
+		// 	if(gridRow = this.get('grid')[iy]) {
+		// 		for(var ix = gridX1; ix <= gridX2; ix++) {
+		// 			if(gridBlock = gridRow[ix]) {
+		// 				for(var id in gridBlock) {
+		// 					if(this.get('index')[id]) {
+		// 						this.get('index')[id].mark = this.get('time');
+		// 						if(this.grt('index')[id].container) {
+		// 							this.index[id].container.mark = this.get('time');
+		// 						}
+		// 					}
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
+    // },
 
-	updateSprites(dt, isContainer) {
-		this.get('sprites').forEach(sprite => {
-	        if(isContainer || !sprite.get('container')) {
-	          sprite.update(dt);
-	        //   Q._generateCollisionPoints(item);
-	        //   this.regrid(item);
-	        }
+	updateObjects(dt) {
+		this.get('objects').forEach(object => {
+	        object.update(dt);
+			//   Q._generateCollisionPoints(item);
+			//   this.regrid(item);
 		});
     },
 
 	// Add a sprite into the collision detection grid,
 	// Ignore collision layers
-	regrid(sprite, skipAdd) {
+	// regrid(sprite, skipAdd) {
 
 		// if(sprite.collisionLayer) { return; }
 		// sprite.grid = sprite.grid || {};
@@ -141,7 +148,7 @@ const Stage = Ember.Object.extend({
 	  //
 	// 	 if(!skipAdd) { this.addGrid(item); }
 	//   }
-	},
+	// },
 
 
 /*

@@ -1,7 +1,10 @@
 import Ember from 'ember';
+import GameObject from './game-object';
 import SpriteSheet from './game-sprite-sheet';
 
-const Sprite = Ember.Object.extend({
+const Sprite = GameObject.extend({
+
+	class: 'Sprite',
 
 	game: null,
 

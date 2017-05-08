@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import Rocket from './../custom-classes/game-src/rocket';
+import AsteroidMaker from './../custom-classes/game-src/asteroid-maker';
 
 export default Ember.Service.extend({
 
@@ -7,7 +8,11 @@ export default Ember.Service.extend({
 	gameState: Ember.inject.service('game-state'),
 
 	gameSceneObserver: Ember.observer('gameState.currentScene', function() {
+
 		console.log('Loading scene "' + this.get('gameState.currentScene') + '"...');
+
+		var stage, rocket;
+
 		/************** MAIN MENU **********************/
 		if(this.get('gameState.currentScene') === 'mainMenu') {
 
@@ -22,9 +27,9 @@ export default Ember.Service.extend({
 			this.get('gameState').resetRocketComponents();
 
 			if(Ember.isEmpty(this.get('gameState.rocket'))) {
-				var stage = this.get('gameState.game.stage');
+				stage = this.get('gameState.game.stage');
 
-				var rocket = Rocket.create({
+				rocket = Rocket.create({
 					game: this.get('gameState').get('game'),
 					stage: stage
 				});
@@ -44,6 +49,32 @@ export default Ember.Service.extend({
 			this.get('gameState').set('showMenu', false);
 			this.get('gameState').set('showPauseMenu', true);
 			this.get('gameState').set('showHud', true);
+
+			if(Ember.isEmpty(this.get('gameState.rocket'))) {
+				stage = this.get('gameState.game.stage');
+
+				rocket = Rocket.create({
+					game: this.get('gameState').get('game'),
+					stage: stage
+				});
+
+				stage.insert(rocket);
+
+				this.get('gameState').set('rocket', rocket);
+			}
+
+			if(Ember.isEmpty(this.get('gameState.asteroidMaker'))) {
+				stage = this.get('gameState.game.stage');
+
+				var asteroidMaker = AsteroidMaker.create({
+					game: this.get('gameState').get('game'),
+					stage: stage
+				});
+
+				stage.insert(asteroidMaker);
+
+				this.get('gameState').set('asteroidMaker', asteroidMaker);
+			}
 		}
 		else {
 			if(this.get('gameState.currentScene') !== '') {
