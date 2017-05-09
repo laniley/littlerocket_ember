@@ -4,7 +4,7 @@ import Game from './../../custom-classes/game-framework/game';
 
 export default Ember.Component.extend({
 
-    gameState: Ember.inject.service('game-state'),
+    gameState: Ember.inject.service('game-state-service'),
 	gameScenes: Ember.inject.service('game-scenes-service'),
 
     elementId: 'game',

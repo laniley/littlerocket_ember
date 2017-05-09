@@ -3,7 +3,7 @@ import Sprite from './game-sprite';
 
 const Sprite2D = Sprite.extend({
 
-	gameState: Ember.inject.service('game-state'),
+	gameState: Ember.inject.service('game-state-service'),
 	// the direction the sprite is currently moving in
 	direction: '',
 	// the actual speed of the sprite in x direction

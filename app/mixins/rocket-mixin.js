@@ -3,7 +3,7 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
 
-    gameState: Ember.inject.service('game-state'),
+    gameState: Ember.inject.service('game-state-service'),
 
     initRocket: function() {
 

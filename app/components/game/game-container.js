@@ -3,7 +3,7 @@ import ResizeAware from 'ember-resize/mixins/resize-aware';
 
 export default Ember.Component.extend(ResizeAware, {
 
-    gameState: Ember.inject.service('game-state'),
+    gameState: Ember.inject.service('game-state-service'),
 
     classNames: ['game-container'],
     resizeWidthSensitive: true,

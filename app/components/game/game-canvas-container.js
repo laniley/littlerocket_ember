@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
     me: Ember.inject.service('me'),
-    gameState: Ember.inject.service('game-state'),
+    gameState: Ember.inject.service('game-state-service'),
 
     elementId: 'game-canvas-container',
     classNames: ['game-canvas-container'],
