@@ -8,6 +8,7 @@ import Stage from './game-rendering-engine/game-stage';
 const Game = Ember.Object.extend({
 
 	gameState: null,
+	gameLoop: null,
 
 	debug: false,
 	debugFill: false,
@@ -15,12 +16,6 @@ const Game = Ember.Object.extend({
 	canvas: null,
 	context: null,
 	audio: null,
-
-	loop: null,
-	lastGameLoopFrame: null,
-	loopFrame: 0,
-	loopDT: 0, // time delta since last iteration of the game loop
-	frameTimeLimit: 100,
 
 	imagePath: '',
 	audioPath: '',
@@ -109,9 +104,6 @@ const Game = Ember.Object.extend({
 	            //   // flying: { frames: [0], loop: false },
 	            //   explosion: { frames: [0,1,2], rate: 1/15, loop: false, trigger: "exploded" }
 	            // });
-	            //
-	            // Q.debug = true;
-	            // Q.debugFill = true;
 			}
 		}));
 
@@ -136,75 +128,9 @@ const Game = Ember.Object.extend({
 		);
 	},
 
-	/**
-		The callback will be called with the fraction of a second that has elapsed since the last call to the loop method.
-    */
-  	gameLoopHandler: Ember.observer('gameState.isPaused', function() {
-		/**
-	  		Pause the entire game by canceling the requestAnimationFrame call. If you use setTimeout or
-	  		setInterval in your game, those will, of course, keep on rolling...
-	    */
-		if(this.get('gameState.isPaused')) {
-
-			window.cancelAnimationFrame(this.get('loop'));
-
-	  		this.set('loop', null);
-		}
-		/*
-			Unpause the game by starting a requestAnimationFrame-based loop.
-		*/
-		else {
-			this.set('lastGameLoopFrame', new Date().getTime());
-
-			// Short circuit the loop check in case multiple scenes are staged immediately
-			this.set('loop', true);
-
-			// Keep track of the frame we are on (so that animations can be synced to the next frame)
-			this.set('loopFrame', 0);
-
-			window.requestAnimationFrame(loop => {
-				this.set('loop', loop);
-				this.gameLoopCallback();
-			});
-		}
- 	}),
-
-	gameLoopCallback() {
-
-		var now = new Date().getTime();
-
-		this.set('loopFrame', this.get('loopFrame') + 1);
-
-		var dt = now - this.get('lastGameLoopFrame');
-		/* Prevent fast-forwarding by limiting the length of a single frame. */
-		if(dt > this.get('frameTimeLimit')) {
-			dt =  this.get('frameTimeLimit');
-		}
-
-		this.set('loopDT', dt);
-
-		this.set('lastGameLoopFrame', now);
-
-	    if(dt < 0) {
-			dt = 1.0/60;
-		}
-	    if(dt > 1/15) {
-			dt  = 1.0/15;
-		}
-
-		this.get('stage').step(dt);
-
-		this.rerender();
-
-		if(!this.get('gameState.isPaused')) {
-			window.requestAnimationFrame(() => {
-				this.gameLoopCallback();
-			});
-		}
-	},
-
 	rerender() {
 		// clear the canvas before rendering the stages
+		console.log(this.get('gameLoop.loop'));
 		this.clear();
 		this.get('stage').render();
 	},

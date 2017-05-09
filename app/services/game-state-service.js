@@ -29,6 +29,10 @@ export default Ember.Service.extend({
 	shield: null,
 	engine: null,
 
+	isPausedObserver: Ember.observer('isPaused', function() {
+		console.log('Game is ' + (this.get('isPaused') ? 'paused.' : 'running.' ));
+	}),
+
     resetRocketComponents: function() {
         this.resetRocketComponent('cannon');
         this.resetRocketComponent('shield');

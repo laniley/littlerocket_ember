@@ -6,6 +6,7 @@ export default Ember.Component.extend({
 
     gameState: Ember.inject.service('game-state-service'),
 	gameScenes: Ember.inject.service('game-scenes-service'),
+	gameLoop: Ember.inject.service('game-loop-service'),
 
     elementId: 'game',
     tagName: 'canvas',
@@ -43,7 +44,8 @@ export default Ember.Component.extend({
 			debug: false,
 			debugFill: true,
 			gameState: this.get('gameState'),
-			scenes: this.get('gameScenes').get('scenes'),
+			scenes: this.get('gameScenes.scenes'),
+			gameLoop: this.get('gameLoop'),
 			assets: this.get('assets'),
 			imagePath: this.get('imagePath'),
 			audioPath: this.get('audioPath'),

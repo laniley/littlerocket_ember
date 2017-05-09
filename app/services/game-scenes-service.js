@@ -5,7 +5,6 @@ import AsteroidMaker from './../custom-classes/game-src/asteroid-maker';
 export default Ember.Service.extend({
 
 	me: Ember.inject.service('me'),
-	gameState: Ember.inject.service('game-state-service'),
 
 	gameSceneObserver: Ember.observer('gameState.currentScene', function() {
 
