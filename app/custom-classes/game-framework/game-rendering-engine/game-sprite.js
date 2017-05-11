@@ -100,7 +100,7 @@ const Sprite = GameObject.extend({
 	  	}
 		else {
 			// get the context of the game
-	      	var ctx = this.get('game').get('context');
+	      	var ctx = this.get('game.gameCanvas.context');
 
 			ctx.save();
 

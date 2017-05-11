@@ -2,6 +2,9 @@ import Ember from 'ember';
 
 export default Ember.Service.extend({
 
+	gameState: Ember.inject.service('game-state-service'),
+	gameRenderer: Ember.inject.service('game-render-service'),
+
 	animationFrame: null,
 	lastGameLoopFrame: null,
 	loopFrame: 0,
@@ -10,17 +13,17 @@ export default Ember.Service.extend({
 
 	/**
 		The callback will be called with the fraction of a second that has elapsed since the last call to the loop method.
-    */
-  	gameIsPausedObserver: Ember.observer('gameState.isPaused', function() {
+	*/
+	gameIsPausedObserver: Ember.observer('gameState.isPaused', function() {
 		/**
-	  		Pause the entire game by canceling the requestAnimationFrame call. If you use setTimeout or
-	  		setInterval in your game, those will, of course, keep on rolling...
-	    */
+			Pause the entire game by canceling the requestAnimationFrame call. If you use setTimeout or
+			setInterval in your game, those will, of course, keep on rolling...
+		*/
 		if(this.get('gameState.isPaused')) {
 
 			window.cancelAnimationFrame(this.get('animationFrame'));
 
-	  		this.set('animationFrame', null);
+			this.set('animationFrame', null);
 		}
 		/*
 			Unpause the game by starting a requestAnimationFrame-based loop.
@@ -40,7 +43,7 @@ export default Ember.Service.extend({
 				this.loop();
 			});
 		}
- 	}).on('init'),
+	}).on('init'),
 
 	loop() {
 
@@ -62,10 +65,10 @@ export default Ember.Service.extend({
 		}
 
 		this.set('loopDT', dt);
-console.log(dt);
-		// this.get('stage').step(dt);
 
-		// this.rerender();
+		this.get('gameRenderer').step(this.get('loopDT'));
+		this.get('gameRenderer').clear();
+		this.get('gameRenderer').render();
 
 		this.set('lastGameLoopFrame', now);
 

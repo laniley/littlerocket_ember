@@ -3,18 +3,16 @@ import AssetLoader from './game-asset-loader';
 import GameMatrix2D from './game-matrix-2d';
 import GameAudio from './game-audio';
 import GameInputHandler from './game-input-handler';
-import Stage from './game-rendering-engine/game-stage';
 
 const Game = Ember.Object.extend({
 
 	gameState: null,
+	gameCanvas: null,
 	gameLoop: null,
 
 	debug: false,
 	debugFill: false,
 
-	canvas: null,
-	context: null,
 	audio: null,
 
 	imagePath: '',
@@ -107,10 +105,6 @@ const Game = Ember.Object.extend({
 			}
 		}));
 
-		this.set('stage', Stage.create({
-			game: this
-		}));
-
 		this.set('audio', GameAudio.create({}));
 
 		this.set('nullContainer.matrix', this.get('matrix2d'));
@@ -129,27 +123,8 @@ const Game = Ember.Object.extend({
 	},
 
 	rerender() {
-		// clear the canvas before rendering the stages
-		console.log(this.get('gameLoop.loop'));
-		this.clear();
-		this.get('stage').render();
+		this.get('gameCanvas').render();
 	},
-	/**
-   		Clear the canvas completely.
-
-   		If you want it cleared to a specific color - set `Q.clearColor` to that color
-	*/
-	clear() {
-	   	if(this.get('clearColor')) {
-			this.set('context.globalAlpha', 1);
-			this.set('context.fillStyle', this.get('clearColor'));
-			this.get('context').fillRect(0,0, this.get('gameState.width'), this.get('gameState.height'));
-	   	}
-		else {
-			this.get('context').clearRect(0, 0, this.get('gameState.width'), this.get('gameState.height'));
-	   	}
-    }
-
 });
 
 export default Game;

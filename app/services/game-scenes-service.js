@@ -5,12 +5,14 @@ import AsteroidMaker from './../custom-classes/game-src/asteroid-maker';
 export default Ember.Service.extend({
 
 	me: Ember.inject.service('me'),
+	gameCanvas: Ember.inject.service('game-render-service'),
+	gameState: Ember.inject.service('game-state-service'),
 
 	gameSceneObserver: Ember.observer('gameState.currentScene', function() {
 
 		console.log('Loading scene "' + this.get('gameState.currentScene') + '"...');
 
-		var stage, rocket;
+		var canvas, rocket;
 
 		/************** MAIN MENU **********************/
 		if(this.get('gameState.currentScene') === 'mainMenu') {
@@ -26,14 +28,14 @@ export default Ember.Service.extend({
 			this.get('gameState').resetRocketComponents();
 
 			if(Ember.isEmpty(this.get('gameState.rocket'))) {
-				stage = this.get('gameState.game.stage');
+				canvas = this.get('gameCanvas');
 
 				rocket = Rocket.create({
 					game: this.get('gameState').get('game'),
-					stage: stage
+					stage: canvas
 				});
 
-				stage.insert(rocket);
+				canvas.insert(rocket);
 
 				this.get('gameState').set('rocket', rocket);
 			}
@@ -50,30 +52,30 @@ export default Ember.Service.extend({
 			this.get('gameState').set('showHud', true);
 
 			if(Ember.isEmpty(this.get('gameState.rocket'))) {
-				stage = this.get('gameState.game.stage');
+				canvas = this.get('gameCanvas');
 
 				rocket = Rocket.create({
 					game: this.get('gameState').get('game'),
-					stage: stage
+					stage: canvas
 				});
 
-				stage.insert(rocket);
+				canvas.insert(rocket);
 
 				this.get('gameState').set('rocket', rocket);
 			}
 
-			if(Ember.isEmpty(this.get('gameState.asteroidMaker'))) {
-				stage = this.get('gameState.game.stage');
-
-				var asteroidMaker = AsteroidMaker.create({
-					game: this.get('gameState').get('game'),
-					stage: stage
-				});
-
-				stage.insert(asteroidMaker);
-
-				this.get('gameState').set('asteroidMaker', asteroidMaker);
-			}
+			// if(Ember.isEmpty(this.get('gameState.asteroidMaker'))) {
+			// 	canvas = this.get('gameCanvas');
+			//
+			// 	var asteroidMaker = AsteroidMaker.create({
+			// 		game: this.get('gameState').get('game'),
+			// 		canvas: canvas
+			// 	});
+			//
+			// 	canvas.insert(asteroidMaker);
+			//
+			// 	this.get('gameState').set('asteroidMaker', asteroidMaker);
+			// }
 		}
 		else {
 			if(this.get('gameState.currentScene') !== '') {

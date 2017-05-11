@@ -6,6 +6,7 @@ export default Ember.Component.extend({
 
     gameState: Ember.inject.service('game-state-service'),
 	gameScenes: Ember.inject.service('game-scenes-service'),
+	gameCanvas: Ember.inject.service('game-render-service'),
 	gameLoop: Ember.inject.service('game-loop-service'),
 
     elementId: 'game',
@@ -44,8 +45,9 @@ export default Ember.Component.extend({
 			debug: false,
 			debugFill: true,
 			gameState: this.get('gameState'),
-			scenes: this.get('gameScenes.scenes'),
 			gameLoop: this.get('gameLoop'),
+			gameCanvas: this.get('gameCanvas'),
+			scenes: this.get('gameScenes.scenes'),
 			assets: this.get('assets'),
 			imagePath: this.get('imagePath'),
 			audioPath: this.get('audioPath'),
@@ -56,8 +58,8 @@ export default Ember.Component.extend({
 
     didInsertElement() {
         var ctx = this.get('element').getContext('2d');
-        this.get('gameState').get('game').set('canvas', this);
-        this.get('gameState').get('game').set('context', ctx);
+        this.set('gameCanvas.canvas', this);
+        this.set('gameCanvas.context', ctx);
 
         ctx.canvas.width  = Ember.$('#game-canvas-container').innerWidth();
         ctx.canvas.height = Ember.$('#game-canvas-container').innerHeight();
