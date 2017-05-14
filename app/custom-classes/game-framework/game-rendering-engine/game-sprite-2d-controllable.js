@@ -16,78 +16,43 @@ const Sprite2DControllable = Sprite2D.extend({
 
 	ignoreControls: false,
 
-	moved: false,
-	stepDelay: 0.2,
-	stepWait: 0,
-	stepping: false,
-
-	canLeaveTheViewport: true,
-
 	init() {
 		this._super();
 	},
 
-	step(dt) {
+	direction: Ember.computed('game.gameState.pressedKey', function() {
+		// not moving
+		var direction = '';
 
-		if(
-			(this.get('ignoreControls') === undefined || !this.get('ignoreControls')) &&
-			!this.get('game.gameState.isPaused')
-		) {
+		// moving left
+		if(this.get('game.gameState.pressedKey') === 37) {
+			direction = 'left';
+		}
+		// moving right
+		else if(this.get('game.gameState.pressedKey') === 39) {
+			direction = 'right';
+		}
 
-			this.set('stepWait', this.get('stepWait') - dt);
+		return direction;
+	}),
 
-			// not moving
-			if(
-				Ember.isEmpty(this.get('game.gameState.pressedKey')) ||
-				this.get('game.gameState.pressedKey') === 0
-			) {
-				this.set('direction', '');
-				this.set('stepping', false);
-			}
+	stepping: Ember.computed('game.gameState.pressedKey', 'ignoreControls', function() {
+		// not moving
+		var stepping = false;
 
+		if(!this.get('ignoreControls')) {
 			// moving left
 			if(this.get('game.gameState.pressedKey') === 37) {
-				this.set('direction', 'left');
-				this.set('stepping', true);
+				stepping = true;
 			}
 			// moving right
 			else if(this.get('game.gameState.pressedKey') === 39) {
-				this.set('direction', 'right');
-				this.set('stepping', true);
-			}
-
-			if(this.get('stepping')) {
-
-				var diffX = 0;
-
-				if(this.get('direction') === 'left') {
-					diffX = -this.get('vx');
-				}
-				else {
-					diffX = this.get('vx');
-				}
-
-				if(!this.get('canLeaveTheViewport')) {
-					if(
-						(
-							this.get('x_px') > this.get('game.gameState.width') - this.get('tileW') && this.get('direction') === 'right'
-						) ||
-						(
-							this.get('x_px') < 0 && this.get('direction') === 'left'
-						)
-					) {
-						diffX = 0;
-					}
-				}
-
-			  	this.set('x', this.get('x') + diffX * dt / this.get('stepDelay'));
-
-				this.render();
-
-				this.set('stepping', false);
+				stepping = true;
 			}
 		}
-   	},
+
+		return stepping;
+	}),
 
 });
 

@@ -83,10 +83,6 @@ export default Ember.Mixin.create({
                     }
             },
 
-            destroy: function() {
-    			Q.pauseGame();
-    		},
-
         });
     }
 });

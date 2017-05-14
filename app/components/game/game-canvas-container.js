@@ -100,22 +100,6 @@ export default Ember.Component.extend({
     //
     //         self.resetRocketComponents();
     //
- //  		    Q.unpauseGame();
-    //
-    //         Q.audio.play('racing.mp3', { loop: true });
- //  		    Q.audio.play('rocket.mp3', { loop: true });
-    //
-    //         self.get('gameState').set('flown_distance', 0);
- //  		    self.get('gameState').set('stars', 0);
-    //
-    //         self.get('gameState').set('speed', 300);
-    //
- //  		    stage.insert(new Q.StarMaker());
-    //
-    //         var rocket = new Q.Rocket({ stage: stage });
-    //         stage.insert(rocket);
-    //
-    //
     //         var decoration = new Q.Decoration();
     //             decoration.setRocket(rocket);
     //             rocket.setDecoration(decoration);

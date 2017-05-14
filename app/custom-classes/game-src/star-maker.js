@@ -1,11 +1,11 @@
 import Ember from 'ember';
-import Asteroid from './asteroid';
+import Star from './star';
 
-const AteroidMaker = Ember.Object.extend({
+const StarMaker = Ember.Object.extend({
 
 	class: 'Object',
 
-	name: 'Asteroid Maker',
+	name: 'Star Maker',
 
 	launchRandomFactor: 0.6,
 	launch: 1,
@@ -28,12 +28,12 @@ const AteroidMaker = Ember.Object.extend({
 
 			var counter = this.get('counter') + 1;
 
-			var asteroid = Asteroid.create({
-				name: 'Asteroid ' + counter,
+			var star = Star.create({
+				name: 'Star ' + counter,
 				game: this.get('game'),
 				stage: this.get('stage'),
 			});
-  			this.get('stage').insert(asteroid);
+  			this.get('stage').insert(star);
 			this.set('counter', counter);
 			this.set('launch', this.get('launchDelay') + this.get('launchRandomFactor') * Math.random());
 		}
@@ -41,4 +41,4 @@ const AteroidMaker = Ember.Object.extend({
 
 });
 
-export default AteroidMaker;
+export default StarMaker;

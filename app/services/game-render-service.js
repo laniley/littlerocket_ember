@@ -7,15 +7,15 @@ export default Ember.Service.extend({
 	canvas: null,
 	context: null,
 
-	assets: [],
-	objects: [],
+	assets: Ember.A([]),
+	objects: Ember.A([]),
 	lists: {},
 	index: {},
-	removeList: [],
+	removeList: Ember.A([]),
 	grid: {},
 	gridW: 400,
 	gridH: 400,
-	collisionLayers: [],
+	collisionLayers: Ember.A([]),
 	sort: false,
 	x: 0,
 	y: 0,
@@ -35,9 +35,9 @@ export default Ember.Service.extend({
     */
     insert(object) {
 
-		console.log('Inserting ' + object.get('name') + ' into stage...');
+		console.log('Inserting ' + object.get('name') + ' into stage...', object.get('class'));
 
-		this.get('objects').push(object);
+		this.get('objects').pushObject(object);
 
 		if(object.get('class') === 'Sprite') {
 
@@ -123,6 +123,10 @@ export default Ember.Service.extend({
 			//   this.regrid(item);
 		});
     },
+
+	removeObject(object) {
+		this.get('objects').removeObject(object);
+	}
 
 	// Add a sprite into the collision detection grid,
 	// Ignore collision layers

@@ -67,18 +67,9 @@ const Rocket = Sprite2DControllable.extend({
 	cannon: null,
 	shield: null,
 	engine: null,
-	/* the relative speed the rocket is flying up
-	 * actually it is not really moving in y direction
-	 * used for calculating the flown distance
-	 */
-	speed: 300,
-	/* the actual speed in x direction
-	 * defines how fast the rocket is moving at the moment
-	 */
-	vx: 35,
-	/* the maximum speed the rocket can move in x direction,
-	 */
-	vx_max: 35,
+
+	speed: 100,
+
 	flownDisanceOfCurrentParsec: 0,
 
 	init() {

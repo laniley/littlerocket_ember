@@ -1,11 +1,12 @@
 import Ember from 'ember';
 import Rocket from './../custom-classes/game-src/rocket';
 import AsteroidMaker from './../custom-classes/game-src/asteroid-maker';
+import StarMaker from './../custom-classes/game-src/star-maker';
 
 export default Ember.Service.extend({
 
 	me: Ember.inject.service('me'),
-	gameCanvas: Ember.inject.service('game-render-service'),
+	gameRenderer: Ember.inject.service('game-render-service'),
 	gameState: Ember.inject.service('game-state-service'),
 
 	gameSceneObserver: Ember.observer('gameState.currentScene', function() {
@@ -28,7 +29,7 @@ export default Ember.Service.extend({
 			this.get('gameState').resetRocketComponents();
 
 			if(Ember.isEmpty(this.get('gameState.rocket'))) {
-				canvas = this.get('gameCanvas');
+				canvas = this.get('gameRenderer');
 
 				rocket = Rocket.create({
 					game: this.get('gameState').get('game'),
@@ -52,7 +53,7 @@ export default Ember.Service.extend({
 			this.get('gameState').set('showHud', true);
 
 			if(Ember.isEmpty(this.get('gameState.rocket'))) {
-				canvas = this.get('gameCanvas');
+				canvas = this.get('gameRenderer');
 
 				rocket = Rocket.create({
 					game: this.get('gameState').get('game'),
@@ -64,18 +65,31 @@ export default Ember.Service.extend({
 				this.get('gameState').set('rocket', rocket);
 			}
 
-			// if(Ember.isEmpty(this.get('gameState.asteroidMaker'))) {
-			// 	canvas = this.get('gameCanvas');
-			//
-			// 	var asteroidMaker = AsteroidMaker.create({
-			// 		game: this.get('gameState').get('game'),
-			// 		canvas: canvas
-			// 	});
-			//
-			// 	canvas.insert(asteroidMaker);
-			//
-			// 	this.get('gameState').set('asteroidMaker', asteroidMaker);
-			// }
+			if(Ember.isEmpty(this.get('gameState.asteroidMaker'))) {
+				canvas = this.get('gameRenderer');
+
+				var asteroidMaker = AsteroidMaker.create({
+					game: this.get('gameState').get('game'),
+					stage: canvas
+				});
+
+				canvas.insert(asteroidMaker);
+
+				this.get('gameState').set('asteroidMaker', asteroidMaker);
+			}
+
+			if(Ember.isEmpty(this.get('gameState.starMaker'))) {
+				canvas = this.get('gameRenderer');
+
+				var starMaker = StarMaker.create({
+					game: this.get('gameState').get('game'),
+					stage: canvas
+				});
+
+				canvas.insert(starMaker);
+
+				this.get('gameState').set('starMaker', starMaker);
+			}
 		}
 		else {
 			if(this.get('gameState.currentScene') !== '') {

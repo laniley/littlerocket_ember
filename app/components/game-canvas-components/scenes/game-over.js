@@ -68,7 +68,7 @@ export default Ember.Component.extend(FacebookLoginMixin, {
     Ember.$(document).on('keyup', { _self: this }, this.reactToKeyUp);
 
     this.set('gameState', this.store.peekRecord('gameState', 1));
-    this.get('gameState').set('speed', 0);
+
     this.set('newStage', this.get('gameState').get('level'));
 
     this.reloadAdBanner();
