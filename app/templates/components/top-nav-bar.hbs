@@ -14,38 +14,49 @@
 <div class="menu-area">
 	{{#if session.isAuthenticated}}
 		{{!-- quests --}}
-			{{!-- {{#link-to 'intern.quests' title='quests'}}
-				<li class="item">
-					<span class="fa-stack">
-		        {{fa-icon "circle-o" stack=2}}
-		        {{fa-icon "exclamation " stack=1}}
-		      </span>
-					{{#if (gt me.user.messages_amount 0)}}
-						<div class="counter">{{me.user.messages_amount}}</div>
-					{{/if}}
-				</li>
-			{{/link-to}} --}}
-			{{!-- messages --}}
-		{{#link-to 'intern.messages' title='messages'}}
+		{{!-- {{#link-to 'intern.quests' title='quests'}}
+			<li class="item">
+				<span class="fa-stack">
+	        {{fa-icon "circle-o" stack=2}}
+	        {{fa-icon "exclamation " stack=1}}
+	      </span>
+				{{#if (gt me.user.messages_amount 0)}}
+					<div class="counter">{{me.user.messages_amount}}</div>
+				{{/if}}
+			</li>
+		{{/link-to}} --}}
+
+		{{!-- messages --}}
+		{{!-- {{#link-to 'intern.messages' title='messages'}}
 			<div class="item">
 					{{fa-icon 'envelope'}}
 					{{#if (gt me.user.messages_amount 0)}}
 						<div class="counter">{{me.user.messages_amount}}</div>
 					{{/if}}
 				</div>
-		{{/link-to}}
+		{{/link-to}} --}}
+
+		{{!-- sound --}}
+		<div>
+			<div class="item" {{action 'invite'}}>
+				{{fa-icon "volume-up" size="lg"}}
+			</div>
+		</div>
+
 		{{!-- invite --}}
 		<div>
-			<div class=" item invite-button">
-					<div class="fb-button" {{action 'invite'}}>
-						{{fa-icon "facebook-square" size="lg"}} Invite friends
-					</div>
+			<div class="item invite-button">
+				<div class="fb-button" {{action 'invite'}}>
+					{{fa-icon "facebook-square" size="lg"}} Invite friends
 				</div>
+			</div>
 		</div>
+
 		<!-- like -->
 		<div class="item like-button">
 				{{lib/fb-like-button}}
 			</div>
+
 		<!-- login / logout -->
         {{#top-nav-bar/dropdown}}
             <div class="dropdown-title item --last">

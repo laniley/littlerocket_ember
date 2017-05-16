@@ -7,7 +7,6 @@ export default Ember.Service.extend({
 	canvas: null,
 	context: null,
 
-	assets: Ember.A([]),
 	objects: Ember.A([]),
 	lists: {},
 	index: {},
@@ -35,7 +34,7 @@ export default Ember.Service.extend({
     */
     insert(object) {
 
-		console.log('Inserting ' + object.get('name') + ' into stage...', object.get('class'));
+		// console.log('Inserting ' + object.get('name') + ' into stage...', object.get('class'));
 
 		this.get('objects').pushObject(object);
 

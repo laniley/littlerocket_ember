@@ -75,7 +75,7 @@ const GameAssetLoader = Ember.Object.extend({
 		this.set('amountOfAssetsTotal', HF.keys(assetObj).length);
   		this.set('amountOfAssetsRemaining', this.get('amountOfAssetsTotal'));
 
-		var loadedAssets = this.get('game').get('assets');
+		var loadedAssets = this.get('game.assets');
 
         /* Now actually load each asset */
         HF.each(assetObj, ( asset , key ) => {
@@ -203,7 +203,7 @@ const GameAssetLoader = Ember.Object.extend({
 		/* Use the web audio loader instead of the regular loader
 		   if it's supported. */
 		var fileType =  this.get('assetTypes')[fileExt];
-		if(fileType === 'Audio' && this.get('game').get('audio').get('type') === "WebAudio") {
+		if(fileType === 'Audio' && this.get('game.audio.type') === "WebAudio") {
 			fileType = 'WebAudio';
 		}
 		/* Lookup the asset in the assetTypes hash, or return other */

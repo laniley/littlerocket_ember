@@ -4,6 +4,7 @@ import Game from './../../custom-classes/game-framework/game';
 
 export default Ember.Component.extend({
 
+	gameAudio: Ember.inject.service('game-audio-service'),
     gameState: Ember.inject.service('game-state-service'),
 	gameScenes: Ember.inject.service('game-scenes-service'),
 	gameCanvas: Ember.inject.service('game-render-service'),
@@ -44,6 +45,7 @@ export default Ember.Component.extend({
 		var game = Game.create({
 			debug: true,
 			debugFill: true,
+			audio: this.get('gameAudio'),
 			gameState: this.get('gameState'),
 			gameLoop: this.get('gameLoop'),
 			gameCanvas: this.get('gameCanvas'),

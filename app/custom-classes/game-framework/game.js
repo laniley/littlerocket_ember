@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import AssetLoader from './game-asset-loader';
 import GameMatrix2D from './game-matrix-2d';
-import GameAudio from './game-audio';
 import GameInputHandler from './game-input-handler';
 
 const Game = Ember.Object.extend({
@@ -67,18 +66,6 @@ const Game = Ember.Object.extend({
 				}
 			},
 			finalCallback: () => {
-				// Q.sheet("rocket", "rocket.png", { tileW: 50, tileH: 140 });
-	            // Q.sheet("cannon", "cannon.png", { tileW: 50, tileH: 140 });
-	            // Q.sheet("shield", "shield.png", { tileW: 50, tileH: 140 });
-	            // Q.sheet("engine", "engine.png", { tileW: 50, tileH: 140 });
-	            // Q.sheet("decoration", "decoration_stars.png", { tileW: 50, tileH: 140 });
-	            // Q.sheet("bullet","bullet.png", { tileW: 20, tileH: 20 });
-	            // Q.sheet("star","star.png", { tileW: 60, tileH: 60 });
-	            // Q.sheet("asteroid","asteroid.png", { tileW: 70, tileH: 70 });
-	            // Q.sheet("bigAsteroid","bigAsteroid.png", { tileW: 100, tileH: 100 });
-	            // Q.sheet("explodingAsteroid","explodingAsteroid.png", { tileW: 200, tileH: 200 });
-	            // Q.sheet("ufo","ufo.png", { tileW: 72, tileH: 40 });
-
 	            // Q.animations('rocket', {
 	            //   explosion: { frames: [1,2,3,4,5], rate: 1/15, loop: false, trigger: "exploded" }
 	            // });
@@ -104,8 +91,6 @@ const Game = Ember.Object.extend({
 	            // });
 			}
 		}));
-
-		this.set('audio', GameAudio.create({}));
 
 		this.set('nullContainer.matrix', this.get('matrix2d'));
 

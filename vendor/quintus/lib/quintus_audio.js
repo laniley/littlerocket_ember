@@ -21,7 +21,6 @@ Quintus.Audio = function(Q) {
   }
 
   Q.enableSound = function() {
-    var hasTouch =  !!('ontouchstart' in window);
 
     if(Q.hasWebAudio) {
       Q.audio.enableWebAudioSound();

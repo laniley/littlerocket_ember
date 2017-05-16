@@ -18,13 +18,13 @@ export default Ember.Service.extend({
 		/************** MAIN MENU **********************/
 		if(this.get('gameState.currentScene') === 'mainMenu') {
 
-			this.get('gameState').get('game').get('audio').stop('rocket.mp3');
-			this.get('gameState').get('game').get('audio').stop('racing.mp3');
+			this.get('gameState.game.audio').stop('rocket.mp3');
+			this.get('gameState.game.audio').stop('racing.mp3');
 
-			this.get('gameState').set('isPaused', true);
-			this.get('gameState').set('showMenu', true);
-			this.get('gameState').set('showPauseMenu', false);
-			this.get('gameState').set('showHud', true);
+			this.set('gameState.isPaused', true);
+			this.set('gameState.showMenu', true);
+			this.set('gameState.showPauseMenu', false);
+			this.set('gameState.showHud', true);
 
 			this.get('gameState').resetRocketComponents();
 
@@ -32,25 +32,25 @@ export default Ember.Service.extend({
 				canvas = this.get('gameRenderer');
 
 				rocket = Rocket.create({
-					game: this.get('gameState').get('game'),
+					game: this.get('gameState.game'),
 					stage: canvas
 				});
 
 				canvas.insert(rocket);
 
-				this.get('gameState').set('rocket', rocket);
+				this.set('gameState.rocket', rocket);
 			}
 		}
 		/************** TRACK ***********************/
 		else if(this.get('gameState.currentScene') === 'track') {
 
-			// this.get('gameState').get('game').get('audio').start('rocket.mp3');
-			// this.get('gameState').get('game').get('audio').start('racing.mp3');
+			this.get('gameState.game.audio').play('rocket.mp3', { loop: true });
+			this.get('gameState.game.audio').play('racing.mp3', { loop: true });
 
-			this.get('gameState').set('isPaused', false);
-			this.get('gameState').set('showMenu', false);
-			this.get('gameState').set('showPauseMenu', true);
-			this.get('gameState').set('showHud', true);
+			this.set('gameState.isPaused', false);
+			this.set('gameState.showMenu', false);
+			this.set('gameState.showPauseMenu', true);
+			this.set('gameState.showHud', true);
 
 			if(Ember.isEmpty(this.get('gameState.rocket'))) {
 				canvas = this.get('gameRenderer');
