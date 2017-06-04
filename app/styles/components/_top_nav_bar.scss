@@ -95,6 +95,14 @@ $topbar-dropdown-option-color: $white;
 			}
 			&.--button {
 				cursor: pointer;
+				&.--audio {
+					text-align: left;
+				    width: 35px;
+					.fa-times {
+						position: relative;
+						left: -7px;
+					}
+				}
 			}
 		}
 

@@ -1,7 +1,6 @@
 import Ember from 'ember';
-import GameObject from './game-object';
 
-const GameInputHandler = GameObject.extend({
+const GameInputHandler = Ember.Object.extend({
 	/**
 	  * Provided key names mapped to key codes - add more names and key codes as necessary
 	  */

@@ -1,8 +1,8 @@
 import Ember from 'ember';
-import GameObject from './game-object';
+import GameStageObject from './game-stage-object';
 import SpriteSheet from './game-sprite-sheet';
 
-const Sprite = GameObject.extend({
+const Sprite = GameStageObject.extend({
 
 	class: 'Sprite',
 

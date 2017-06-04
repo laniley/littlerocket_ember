@@ -19,8 +19,6 @@ export default Ember.Service.extend({
 
     currentScene: '',
 
-	soundEnabled: true,
-
 	speed: 100,
 	max_speed: 300,
 

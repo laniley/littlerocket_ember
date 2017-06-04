@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const GameObject = Ember.Object.extend({
+const GameStageObject = Ember.Object.extend({
 	class: 'GameObject',
 	name: 'GameObject',
 
@@ -9,4 +9,4 @@ const GameObject = Ember.Object.extend({
 	},
 });
 
-export default GameObject;
+export default GameStageObject;

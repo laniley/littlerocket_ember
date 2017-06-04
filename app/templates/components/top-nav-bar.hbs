@@ -38,8 +38,13 @@
 
 		{{!-- sound --}}
 		<div>
-			<div class="item --button" {{action 'toggleSound'}}>
-				{{fa-icon "volume-up" size="lg"}}
+			<div class="item --button --audio" {{action 'toggleAudio'}}>
+				{{#if audio.enabled}}
+					{{fa-icon "volume-up" size="lg"}}
+				{{else}}
+					{{fa-icon "volume-off" size="lg"}}
+					{{fa-icon "times"}}
+				{{/if}}
 			</div>
 		</div>
 
